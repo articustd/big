@@ -1,0 +1,6 @@
+:: store {"position":"875,825","size":"100,100"}
+<h1>Store</h1>
+
+Welcome to the store!
+
+<<link "Go Home" "home">><</link>>

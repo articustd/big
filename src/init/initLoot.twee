@@ -1,0 +1,8 @@
+:: initLoot [widget nobr] {"position":"150,150","size":"100,100"}
+<<widget "initLoot">>
+	<<script>>
+		State.variables.loot = [
+			[{id:0,chnc:25},{id:1,chnc:75},{id:-1,amnt:50}]
+		]
+	<</script>>
+<</widget>>

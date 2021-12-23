@@ -1,0 +1,15 @@
+:: newGame {"position":"150,675","size":"100,100"}
+Name:
+<<textbox "$player.name" "Min">>
+
+Species:
+<label><<radiobutton "$player.species" "Dragon" autocheck>>Dragon</label>
+<label><<radiobutton "$player.species" "Wolf" autocheck>>Wolf</label>
+
+Imperial:
+<label><<radiobutton "$imperial" true autocheck>> Imperial</label>
+<label><<radiobutton "$imperial" false autocheck>> Metric</label>
+
+<<link "Start Game" "home">>
+	<<set $gameStarted to true>>
+<</link>>

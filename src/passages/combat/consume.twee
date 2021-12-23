@@ -1,0 +1,4 @@
+:: consume [noreturn] {"position":"950,150","size":"100,100"}
+You ate them.
+
+<<link "Leave" $return>><</link>>

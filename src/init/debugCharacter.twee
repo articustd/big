@@ -1,0 +1,9 @@
+:: debugCharacter [widget] {"position":"25,275","size":"100,100"}
+<<widget "debugCharacter">>
+	<<set $player.name to "Min">>
+	<<set $player.species to "Dragon">>
+	
+	/*<<set $player.inv to [{id:0,qty:1},{id:1,qty:4}]>>*/
+	
+	<<set $gameStarted to true>>
+<</widget>>

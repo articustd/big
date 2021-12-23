@@ -1,0 +1,21 @@
+:: stats [noreturn] {"position":"150,425","size":"100,100"}
+<<script>>
+	State.variables.statPageText = convertToLargerUnits(State.variables.player.measurements,State.variables.imperial)
+<</script>>
+
+Name: $player.name
+
+Species: $player.species
+
+Health: $player.stats.hlth/$player.stats.maxHlth
+Strength: $player.stats.strg
+Defence: $player.stats.def
+Dexterity: $player.stats.dex
+Accuracy: $player.stats.acc 
+
+$statPageText.heightText
+$statPageText.weightText
+
+Money: $player.money
+
+<<link "Return" $return>><</link>>

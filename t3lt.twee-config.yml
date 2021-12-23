@@ -1,0 +1,14 @@
+sugarcube-2:
+  macros:
+    combatWidget:
+      name: combatWidget
+    initStats:
+      name: initStats
+    initEnemy:
+      name: initEnemy
+    initItems:
+      name: initItems
+    initLoot:
+      name: initLoot
+    debugCharacter:
+      name: debugCharacter

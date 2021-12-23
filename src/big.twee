@@ -1,0 +1,34 @@
+:: StoryTitle
+Bigger is Better
+
+
+:: StoryData
+{
+	"ifid": "8F9B8851-BEB2-4276-8DAD-93D801E54DAC",
+	"format": "SugarCube",
+	"format-version": "2.34.1",
+	"start": "home",
+	"zoom": 1
+}
+
+
+:: Story Stylesheet [stylesheet]
+.script {
+  visibility: hidden;
+}
+
+#story-caption {
+ text-align: left;
+}
+
+:: StoryInit {"position":"25,425","size":"100,100"}
+<<initStats>>
+<<initEnemy>>
+<<initItems>>
+<<initLoot>>
+<<set $debug to true>>
+<<set $combat to false>>
+<<set $foundItems to []>>
+<<if $debug is true>>
+	<<debugCharacter>>
+<</if>>

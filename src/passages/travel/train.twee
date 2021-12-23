@@ -1,0 +1,28 @@
+:: train {"position":"875,425","size":"100,100"}
+<h1>Gym</h1>
+Welcome to the gym!
+
+<<nobr>>
+<<if def $trainText>>
+$trainText
+<</if>>
+<</nobr>>
+
+<<link "Lift Weights">>
+	<<set $player.stats.strg += 1>>
+	<<set $trainText to "You pumped some iron and gain 1 strength!">>		
+	<<script>>state.display(state.active.title, null, "back")<</script>>
+<</link>>
+<<link "Run on Treadmill">>
+	<<set $player.stats.dex += 1>>
+	<<set $trainText to "You hauled butt and gain 1 dexterity!">>
+	<<script>>state.display(state.active.title, null, "back")<</script>>
+<</link>>
+<<link "Use Speed Bag">>
+	<<set $player.stats.acc += 1>>
+	<<set $trainText to "You threw paws and gain 1 accuracy!">>
+	<<script>>state.display(state.active.title, null, "back")<</script>>
+<</link>>
+<<link "Go Home" "home">>
+	<<unset $trainText>>
+<</link>>

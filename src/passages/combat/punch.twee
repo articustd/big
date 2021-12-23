@@ -1,0 +1,18 @@
+:: punch [noreturn combat] {"position":"1200,150","size":"100,100"}
+<<script>>
+	var playerAttack = {hitPer: 80, maxDmg:5, type: "strg"}
+	var enemyAttack = {hitPer: 50, maxDmg:2, type: "strg"}
+	combatRoll(playerAttack, enemyAttack)
+<</script>>
+
+$playerHitText
+You deal <<-$playerHitDmg>> damage
+
+$enemyHitText
+<<nobr>>
+<<if $enemy.stats.hlth gt 1>>
+	Enemy deals $enemyHitDmg damage
+<</if>>
+<</nobr>>
+
+<<combatWidget>>

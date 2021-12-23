@@ -1,0 +1,19 @@
+:: initStats [nobr widget] {"position":"25,25","size":"100,100"}
+<<widget "initStats">>
+	<<set $player to {
+		stats: {
+		  maxHlth: 15,
+		  hlth: 15,
+		  strg: 5,
+		  def: 5,
+		  acc: 5,
+		  dex: 5
+		},
+		measurements: {
+			height: 172, /* default cm */
+			weight: 82 /* default kg */
+		},
+		money: 0,
+		inv: []
+	}>>
+<</widget>>
