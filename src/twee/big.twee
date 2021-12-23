@@ -12,15 +12,6 @@ Bigger is Better
 }
 
 
-:: Story Stylesheet [stylesheet]
-.script {
-  visibility: hidden;
-}
-
-#story-caption {
- text-align: left;
-}
-
 :: StoryInit {"position":"25,425","size":"100,100"}
 <<initStats>>
 <<initEnemy>>

@@ -1,5 +1,5 @@
-var maxHitPer = 85;
-var minDmgMult = 60;
+Config.history.controls = true;
+Config.debug = false;
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {

@@ -99,12 +99,15 @@ var LZString={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
 	<!-- UUID://8F9B8851-BEB2-4276-8DAD-93D801E54DAC// --><tw-storydata name="Bigger is Better" startnode="13" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="8F9B8851-BEB2-4276-8DAD-93D801E54DAC" zoom="1" format="SugarCube" format-version="2.36.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">.script {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 #story-caption {
- text-align: left;
+    text-align: left;
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "Combat.js" */
+var maxHitPer = 85;
+var minDmgMult = 60;
+
 /* Combat calculations */
 window.calcCombatHit = function (defHitPer, type, attacker) {
 	var hitMod = Math.floor(Math.log(attacker.stats[type])/Math.log(2))
@@ -168,8 +171,8 @@ window.reduceHealth = function (defender, dmg) {
 	defender.stats.hlth = Math.clamp(defender.stats.hlth-dmg,0,defender.stats.hlth)	
 }
 /* twine-user-script #2: "Index.js" */
-var maxHitPer = 85;
-var minDmgMult = 60;
+Config.history.controls = true;
+Config.debug = false;
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
@@ -265,10 +268,7 @@ window.convertToLargerUnits = function (measurements,imperial) {
 		weightText += `${ton} tons, ${weight} pounds`
 	}
 	return {heightText,weightText}
-}
-/* twine-user-script #5: "Test.js" */
-Config.history.controls = true;
-window.test = function() {console.log(`Test`)}</script><tw-passagedata pid="1" name="StoryInit" tags="" position="25,425" size="100,100">&lt;&lt;initStats&gt;&gt;
+}</script><tw-passagedata pid="1" name="StoryInit" tags="" position="25,425" size="100,100">&lt;&lt;initStats&gt;&gt;
 &lt;&lt;initEnemy&gt;&gt;
 &lt;&lt;initItems&gt;&gt;
 &lt;&lt;initLoot&gt;&gt;

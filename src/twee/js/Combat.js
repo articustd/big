@@ -1,3 +1,6 @@
+var maxHitPer = 85;
+var minDmgMult = 60;
+
 /* Combat calculations */
 window.calcCombatHit = function (defHitPer, type, attacker) {
 	var hitMod = Math.floor(Math.log(attacker.stats[type])/Math.log(2))
