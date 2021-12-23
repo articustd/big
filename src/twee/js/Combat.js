@@ -2,13 +2,13 @@ var maxHitPer = 85;
 var minDmgMult = 60;
 
 /* Combat calculations */
-window.calcCombatHit = function (defHitPer, type, attacker) {
+function calcCombatHit(defHitPer, type, attacker) {
 	var hitMod = Math.floor(Math.log(attacker.stats[type])/Math.log(2))
 	var hitPer = Math.clamp(defHitPer+hitMod,1,maxHitPer)
 	return (hitPer-Math.floor(Math.random() * 101)) > 0 ? true : false
 }
 
-window.calcCombatDmg = function (maxDmg, type, attacker) {
+function calcCombatDmg(maxDmg, type, attacker) {
 	var dmgMod = Math.floor(Math.log(attacker.stats[type])/Math.log(2))
 	var dmgMulti = Math.clamp(Math.floor(Math.random()*101),minDmgMult,100)/100
 	var dmg = Math.floor(maxDmg*dmgMulti)+dmgMod;

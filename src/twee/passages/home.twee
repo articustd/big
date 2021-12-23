@@ -5,6 +5,6 @@ Home Description
 
 <<link "Fight" "fight">><</link>>
 <<link "Travel" "travel">><</link>>
-<<link "Rest" "start">>
-	<<set $player.hlth to $player.maxHlth>>
+<<link "Rest" "home">>
+	<<set $player.stats.hlth to $player.stats.maxHlth>>
 <</link>>

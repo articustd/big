@@ -1,8 +1,0 @@
-:: initEnemy [nobr widget] {"position":"150,25","size":"100,100"}
-<<widget "initEnemy">>
-	<<script>>
-		State.variables.enemies = [
-			{name: "Test Enemy", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, height:[180,190], weight:[80,90], loot: 0}
-		];
-	<</script>>
-<</widget>>

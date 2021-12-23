@@ -98,24 +98,56 @@ var LZString={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<!-- UUID://8F9B8851-BEB2-4276-8DAD-93D801E54DAC// --><tw-storydata name="Bigger is Better" startnode="13" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="8F9B8851-BEB2-4276-8DAD-93D801E54DAC" zoom="1" format="SugarCube" format-version="2.36.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">.script {
+	<!-- UUID://8F9B8851-BEB2-4276-8DAD-93D801E54DAC// --><tw-storydata name="Bigger is Better" startnode="11" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="8F9B8851-BEB2-4276-8DAD-93D801E54DAC" zoom="1" format="SugarCube" format-version="2.36.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">.script {
     visibility: hidden;
 }
 
 #story-caption {
     text-align: left;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "Combat.js" */
+}
+
+.text-fade-in {
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+  }
+  @keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+  }
+  
+  @-moz-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+  }
+  
+  @-webkit-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+  }
+  
+  @-o-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+  }
+  
+  @-ms-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+  }</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "Combat.js" */
 var maxHitPer = 85;
 var minDmgMult = 60;
 
 /* Combat calculations */
-window.calcCombatHit = function (defHitPer, type, attacker) {
+function calcCombatHit(defHitPer, type, attacker) {
 	var hitMod = Math.floor(Math.log(attacker.stats[type])/Math.log(2))
 	var hitPer = Math.clamp(defHitPer+hitMod,1,maxHitPer)
 	return (hitPer-Math.floor(Math.random() * 101)) > 0 ? true : false
 }
 
-window.calcCombatDmg = function (maxDmg, type, attacker) {
+function calcCombatDmg(maxDmg, type, attacker) {
 	var dmgMod = Math.floor(Math.log(attacker.stats[type])/Math.log(2))
 	var dmgMulti = Math.clamp(Math.floor(Math.random()*101),minDmgMult,100)/100
 	var dmg = Math.floor(maxDmg*dmgMulti)+dmgMod;
@@ -170,9 +202,23 @@ window.checkHealth = function (defender) {
 window.reduceHealth = function (defender, dmg) {
 	defender.stats.hlth = Math.clamp(defender.stats.hlth-dmg,0,defender.stats.hlth)	
 }
-/* twine-user-script #2: "Index.js" */
+/* twine-user-script #2: "Consume.js" */
+/* Consume Functions */
+window.consume = function(enemy) {
+
+}
+
+window.calcGrowthPoints = function(growthPoints) {
+
+}
+
+window.calcCapacity = function() {
+
+}
+
+/* twine-user-script #3: "Index.js" */
 Config.history.controls = true;
-Config.debug = false;
+Config.debug = true;
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
@@ -184,7 +230,14 @@ $(document).on(':passagestart', function (ev) {
 		State.variables.combat = true
 	}
 });
-/* twine-user-script #3: "Item.js" */
+
+$(document).one(':storyready', function(ev) {
+	State.variables.enemies = enemies;
+	State.variables.items = items;
+	State.variables.loot = loot;
+});
+
+/* twine-user-script #4: "Item.js" */
 /* Item Logic */
 window.rollItems = function (tableId) {
 	var items = State.variables.loot[tableId]
@@ -232,7 +285,7 @@ window.addMoney = function (amount) {
 	State.variables.player.money += money
 	return money
 }
-/* twine-user-script #4: "Measurements.js" */
+/* twine-user-script #5: "Measurements.js" */
 /* Measurment Converts */
 window.convertToImperial = function (entity) {
 	var height = Math.floor(entity.height*0.39370) //0.39370CM in 1IN
@@ -268,10 +321,107 @@ window.convertToLargerUnits = function (measurements,imperial) {
 		weightText += `${ton} tons, ${weight} pounds`
 	}
 	return {heightText,weightText}
-}</script><tw-passagedata pid="1" name="StoryInit" tags="" position="25,425" size="100,100">&lt;&lt;initStats&gt;&gt;
-&lt;&lt;initEnemy&gt;&gt;
-&lt;&lt;initItems&gt;&gt;
-&lt;&lt;initLoot&gt;&gt;
+}
+/* twine-user-script #6: "CombatResetMacro.js" */
+Macro.add('combatReset', {
+    skipArgs: true,
+    handler: function () {
+        delete State.variables.enemyHitDmg
+        delete State.variables.enemyHitText
+        delete State.variables.foundItems
+        delete State.variables.playerHitDmg
+        delete State.variables.playerHitText
+
+        State.variables.combat = false;
+        State.variables.win = false;
+    }
+})
+/* twine-user-script #7: "ConsumeMacro.js" */
+Macro.add('consumeEnemy', {
+    skipArgs: false,
+    handler: function () {
+        if (this.args.length < 2) {
+            var errors = [];
+            if (this.args.length < 1) { errors.push('Var 1 Missing') }
+            if (this.args.length < 2) { errors.push('Var 2 Missing') }
+            return this.error(`${errors[0]} ${errors.length == 2 ? "and " + errors[1] : ""}`)
+        }
+
+        let hunter = this.args[0];
+        let prey = this.args[1];
+
+        let method = this.parent.args[0];
+
+        //Calculate stuff
+        let consumeInfo = calcConsume(method, hunter, prey)
+
+        addPoints(consumeInfo.points, hunter);
+        
+        State.variables.consumeHeader = `${method}`
+        State.variables.consumeText = `${consumeInfo.bodyText}`
+
+        delete State.variables.enemy
+
+        state.display("consumeFlavor", this);
+    }
+})
+
+function calcConsume(method, hunter, prey) {
+    let response = {};
+    response.bodyText = consumeBodyText(method);
+
+    response.points = {muscle: randPoints(prey.exp.muscle), fat: randPoints(prey.exp.fat), size: randPoints(prey.exp.size), skill: randPoints(prey.exp.skill)}
+
+    return response;
+}
+
+function randPoints(range) {
+    return random(range[0],range[1]);
+}
+
+function consumeBodyText(method) {
+    switch(method) {
+        case 'Eat':
+            return `You shove the enemy down your gullet.`;
+        case 'Unbirth':
+            return `You shove the enemy up your hole.`
+    }
+}
+
+function addPoints(points, hunter) {
+    for(var point in points) {
+        hunter.exp[point] += points[point];
+    }
+}
+/* twine-user-script #8: "TestMacro.js" */
+Macro.add('testMacro', {
+    skipArgs: false,
+    handler: function () {
+        if (this.args.length < 2) {
+            var errors = [];
+            if (this.args.length < 1) { errors.push('Var 1 Missing') }
+            if (this.args.length < 2) { errors.push('Var 2 Missing') }
+            return this.error(`${errors[0]} ${errors.length == 2 ? "and " + errors[1] : ""}`)
+        }
+
+        jQuery(this.output).text('Test Macro')
+        // jQuery("consumeText").text(`You have eaten your prey`).addClass('text-fade-in');
+    }
+})
+/* twine-user-script #9: "Enemies.js" */
+let enemies = [
+    {name: "Test Enemy", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0},
+    {name: "Test Enemy 2", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0}
+];
+/* twine-user-script #10: "Items.js" */
+let items = [
+    {name: "Test Item", mod: 1, type: "strg"},
+    {name: "Test Item 2", mod: 1, type: "strg"}
+]
+/* twine-user-script #11: "LootTable.js" */
+let loot = [
+    [{id:0,chnc:25},{id:1,chnc:75},{id:-1,amnt:50}]
+]</script><tw-passagedata pid="1" name="StoryInit" tags="" position="25,425" size="100,100">&lt;&lt;initStats&gt;&gt;
 &lt;&lt;set $debug to true&gt;&gt;
 &lt;&lt;set $combat to false&gt;&gt;
 &lt;&lt;set $foundItems to []&gt;&gt;
@@ -284,26 +434,7 @@ window.convertToLargerUnits = function (measurements,imperial) {
 	/*&lt;&lt;set $player.inv to [{id:0,qty:1},{id:1,qty:4}]&gt;&gt;*/
 	
 	&lt;&lt;set $gameStarted to true&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="initEnemy" tags="nobr widget" position="150,25" size="100,100">&lt;&lt;widget &quot;initEnemy&quot;&gt;&gt;
-	&lt;&lt;script&gt;&gt;
-		State.variables.enemies = [
-			{name: &quot;Test Enemy&quot;, species: &quot;Test&quot;, stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, height:[180,190], weight:[80,90], loot: 0}
-		];
-	&lt;&lt;/script&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="initItems" tags="widget nobr" position="25,150" size="100,100">&lt;&lt;widget &quot;initItems&quot;&gt;&gt;
-	&lt;&lt;script&gt;&gt;
-		State.variables.items = [
-			{name: &quot;Test Item&quot;, mod: 1, type: &quot;strg&quot;},
-			{name: &quot;Test Item 2&quot;, mod: 1, type: &quot;strg&quot;}
-		]
-	&lt;&lt;/script&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="initLoot" tags="widget nobr" position="150,150" size="100,100">&lt;&lt;widget &quot;initLoot&quot;&gt;&gt;
-	&lt;&lt;script&gt;&gt;
-		State.variables.loot = [
-			[{id:0,chnc:25},{id:1,chnc:75},{id:-1,amnt:50}]
-		]
-	&lt;&lt;/script&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="initStats" tags="nobr widget" position="25,25" size="100,100">&lt;&lt;widget &quot;initStats&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="initStats" tags="nobr widget" position="25,25" size="100,100">&lt;&lt;widget &quot;initStats&quot;&gt;&gt;
 	&lt;&lt;set $player to {
 		stats: {
 		  maxHlth: 15,
@@ -313,6 +444,12 @@ window.convertToLargerUnits = function (measurements,imperial) {
 		  acc: 5,
 		  dex: 5
 		},
+		exp: {
+			muscle: 0,
+			fat: 0,
+			size: 0,
+			skill: 0
+		},
 		measurements: {
 			height: 172, /* default cm */
 			weight: 82 /* default kg */
@@ -320,9 +457,21 @@ window.convertToLargerUnits = function (measurements,imperial) {
 		money: 0,
 		inv: []
 	}&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="consume" tags="noreturn" position="950,150" size="100,100">You ate them.
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="consume" tags="noreturn" position="950,150" size="100,100">&lt;h1&gt;Consume&lt;/h1&gt;
 
-&lt;&lt;link &quot;Leave&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="kick" tags="noreturn combat" position="1200,275" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="9" name="punch" tags="noreturn combat" position="1200,150" size="100,100">&lt;&lt;script&gt;&gt;
+How do you consume them?
+
+&lt;&lt;link &quot;Eat&quot;&gt;&gt;&lt;&lt;consumeEnemy $player $enemy&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Unbirth&quot;&gt;&gt;&lt;&lt;consumeEnemy $player $enemy&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Anal&quot;&gt;&gt;&lt;&lt;consumeEnemy $player $enemy&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Sounding&quot;&gt;&gt;&lt;&lt;consumeEnemy $player $enemy&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="consumeFlavor" tags="noreturn" position="600,100" size="100,100">&lt;h1&gt;$consumeHeader&lt;/h1&gt;
+
+$consumeText
+
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;
+    &lt;&lt;unset $consumeText&gt;&gt;
+    &lt;&lt;unset $consumeHeader&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="kick" tags="noreturn combat" position="1200,275" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="7" name="punch" tags="noreturn combat" position="1200,150" size="100,100">&lt;&lt;script&gt;&gt;
 	var playerAttack = {hitPer: 80, maxDmg:5, type: &quot;strg&quot;}
 	var enemyAttack = {hitPer: 50, maxDmg:2, type: &quot;strg&quot;}
 	combatRoll(playerAttack, enemyAttack)
@@ -338,8 +487,8 @@ $enemyHitText
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 
-&lt;&lt;combatWidget&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="fight" tags="noreturn combat" position="1075,25" size="100,100">&lt;&lt;set $enemy to $enemies[0]&gt;&gt;
-&lt;&lt;combatWidget&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="newGame" tags="" position="150,675" size="100,100">Name:
+&lt;&lt;combatWidget&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="fight" tags="noreturn combat" position="1075,25" size="100,100">&lt;&lt;set $enemy to $enemies[1]&gt;&gt;
+&lt;&lt;combatWidget&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="newGame" tags="" position="150,675" size="100,100">Name:
 &lt;&lt;textbox &quot;$player.name&quot; &quot;Min&quot;&gt;&gt;
 
 Species:
@@ -352,23 +501,23 @@ Imperial:
 
 &lt;&lt;link &quot;Start Game&quot; &quot;home&quot;&gt;&gt;
 	&lt;&lt;set $gameStarted to true&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="start" tags="" position="150,550" size="100,100">&lt;h1&gt;Bigger is Better&lt;/h1&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="start" tags="" position="150,550" size="100,100">&lt;h1&gt;Bigger is Better&lt;/h1&gt;
 
 Description Text
 
-[[New Game|newGame]]</tw-passagedata><tw-passagedata pid="13" name="home" tags="" position="550,425" size="100,100">&lt;h1&gt;Home&lt;/h1&gt;
+[[New Game|newGame]]</tw-passagedata><tw-passagedata pid="11" name="home" tags="" position="550,425" size="100,100">&lt;h1&gt;Home&lt;/h1&gt;
 
 Home Description
 
 &lt;&lt;link &quot;Fight&quot; &quot;fight&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Travel&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Rest&quot; &quot;start&quot;&gt;&gt;
-	&lt;&lt;set $player.hlth to $player.maxHlth&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="store" tags="" position="875,825" size="100,100">&lt;h1&gt;Store&lt;/h1&gt;
+&lt;&lt;link &quot;Rest&quot; &quot;home&quot;&gt;&gt;
+	&lt;&lt;set $player.stats.hlth to $player.stats.maxHlth&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="store" tags="" position="875,825" size="100,100">&lt;h1&gt;Store&lt;/h1&gt;
 
 Welcome to the store!
 
-&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="train" tags="" position="875,425" size="100,100">&lt;h1&gt;Gym&lt;/h1&gt;
+&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="train" tags="" position="875,425" size="100,100">&lt;h1&gt;Gym&lt;/h1&gt;
 Welcome to the gym!
 
 &lt;&lt;nobr&gt;&gt;
@@ -394,14 +543,14 @@ $trainText
 &lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;
 	&lt;&lt;unset $trainText&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="travel" tags="" position="1075,625" size="100,100">&lt;h1&gt;Travel&lt;/h1&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="travel" tags="" position="1075,625" size="100,100">&lt;h1&gt;Travel&lt;/h1&gt;
 
 Where do you want to go?
 
 &lt;&lt;link &quot;Work&quot; &quot;work&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Store&quot; &quot;store&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="work" tags="" position="1275,425" size="100,100">&lt;h1&gt;Work&lt;/h1&gt;
+&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="work" tags="" position="1275,425" size="100,100">&lt;h1&gt;Work&lt;/h1&gt;
 
 &lt;&lt;nobr&gt;&gt;
 &lt;&lt;if def $workText&gt;&gt;
@@ -416,25 +565,25 @@ $workText
 &lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;
 	&lt;&lt;unset $workText&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="StoryCaption" tags="" position="25,550" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="StoryCaption" tags="" position="25,550" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 Name: $player.name
 Health: $player.stats.hlth/$player.stats.maxHlth
 
 Money: $player.money
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="StoryMenu" tags="" position="25,675" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="StoryMenu" tags="" position="25,675" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 &lt;&lt;link &quot;Inventory&quot; &quot;inv&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Stats&quot; &quot;stats&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Settings&quot; &quot;settings&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;link &quot;Credits&quot; &quot;Credits&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Help&quot; &quot;Help&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
+&lt;&lt;link &quot;Help&quot; &quot;Help&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
 &lt;&lt;for _i, _item range $player.inv&gt;&gt;
 &lt;&lt;link &quot;&lt;&lt;=_i + 1&gt;&gt;. &lt;&lt;=$items[_item.id].name&gt;&gt; - _item.qty&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/for&gt;&gt;
 
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
 &lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; false autocheck&gt;&gt; Metric&lt;/label&gt;
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
 	State.variables.statPageText = convertToLargerUnits(State.variables.player.measurements,State.variables.imperial)
 &lt;&lt;/script&gt;&gt;
 
@@ -453,7 +602,7 @@ $statPageText.weightText
 
 Money: $player.money
 
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
 	Your health: $player.stats.hlth
 	&lt;&lt;-$enemy.name&gt;&gt;&#39;s health: $enemy.stats.hlth
 	
@@ -463,10 +612,8 @@ Money: $player.money
 	&lt;&lt;/if&gt;&gt;
 	&lt;&lt;if $win is true&gt;&gt;
 	&lt;&lt;for _i, _item range $foundItems&gt;&gt;&lt;&lt;=_item&gt;&gt;&lt;br&gt;&lt;&lt;/for&gt;&gt;
-	&lt;&lt;link &quot;Consume&quot; &quot;consume&quot;&gt;&gt;&lt;&lt;set $win to false&gt;&gt;&lt;&lt;/link&gt;&gt;
-	&lt;&lt;link &quot;Leave&quot; $return&gt;&gt;
-	&lt;&lt;set $win to false&gt;&gt;
-	&lt;&lt;/link&gt;&gt;
+	&lt;&lt;link &quot;Consume&quot; &quot;consume&quot;&gt;&gt;&lt;&lt;combatReset&gt;&gt;&lt;&lt;/link&gt;&gt;
+	&lt;&lt;link &quot;Leave&quot; $return&gt;&gt;&lt;&lt;combatReset&gt;&gt;&lt;&lt;/link&gt;&gt;
 	&lt;&lt;/if&gt;&gt;
 	&lt;&lt;if $combat is false &amp;&amp; $win is false&gt;&gt;
 	&lt;&lt;link &quot;Rest&quot; &quot;rest&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;

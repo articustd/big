@@ -12,3 +12,9 @@ sugarcube-2:
       name: initLoot
     debugCharacter:
       name: debugCharacter
+    testMacro:
+      name: testMacro
+    consumeEnemy:
+      name: consumeEnemy
+    combatReset:
+      name: combatReset

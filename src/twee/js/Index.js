@@ -1,5 +1,5 @@
 Config.history.controls = true;
-Config.debug = false;
+Config.debug = true;
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
@@ -11,3 +11,10 @@ $(document).on(':passagestart', function (ev) {
 		State.variables.combat = true
 	}
 });
+
+$(document).one(':storyready', function(ev) {
+	State.variables.enemies = enemies;
+	State.variables.items = items;
+	State.variables.loot = loot;
+});
+

@@ -1,4 +1,9 @@
 :: consume [noreturn] {"position":"950,150","size":"100,100"}
-You ate them.
+<h1>Consume</h1>
 
-<<link "Leave" $return>><</link>>
+How do you consume them?
+
+<<link "Eat">><<consumeEnemy $player $enemy>><</link>>
+<<link "Unbirth">><<consumeEnemy $player $enemy>><</link>>
+<<link "Anal">><<consumeEnemy $player $enemy>><</link>>
+<<link "Sounding">><<consumeEnemy $player $enemy>><</link>>

@@ -14,9 +14,6 @@ Bigger is Better
 
 :: StoryInit {"position":"25,425","size":"100,100"}
 <<initStats>>
-<<initEnemy>>
-<<initItems>>
-<<initLoot>>
 <<set $debug to true>>
 <<set $combat to false>>
 <<set $foundItems to []>>
