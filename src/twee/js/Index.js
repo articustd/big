@@ -1,5 +1,5 @@
-Config.history.controls = true;
-Config.debug = true;
+Config.history.controls = false;
+Config.debug = false;
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
