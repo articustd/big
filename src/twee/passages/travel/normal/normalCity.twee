@@ -1,0 +1,7 @@
+:: normalCity
+<h1>Variable Village Center</h1>
+
+<<link "Look for Trouble" "fight">><</link>>
+<<link "Train" "train">><</link>>
+<<link "Store" "store">><</link>>
+<<link "Go Back to the Station" "travel">><</link>>

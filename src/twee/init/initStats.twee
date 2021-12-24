@@ -19,6 +19,15 @@
 			height: 172, /* default cm */
 			weight: 82 /* default kg */
 		},
+		gender: {
+			type: "futa",
+			genitals: {
+				penis: 10, /* default cm */
+				balls: 10, /* default cm */
+				breast: 10, /* default cm */
+				vagina: true
+			}
+		},
 		money: 0,
 		inv: [],
 		skillPoints: 0

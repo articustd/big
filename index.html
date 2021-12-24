@@ -711,6 +711,15 @@ let testStore = {
 			height: 172, /* default cm */
 			weight: 82 /* default kg */
 		},
+		gender: {
+			type: &quot;futa&quot;,
+			genitals: {
+				penis: 10, /* default cm */
+				balls: 10, /* default cm */
+				breast: 10, /* default cm */
+				vagina: true
+			}
+		},
 		money: 0,
 		inv: [],
 		skillPoints: 0
@@ -773,13 +782,28 @@ Home Description
 &lt;&lt;link &quot;Travel&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Rest&quot;&gt;&gt;
 	&lt;&lt;restMacro true false&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="store" tags="" position="875,825" size="100,100">&lt;h1&gt;Store&lt;/h1&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="macroCity" tags="" position="225,225" size="100,100">&lt;h1&gt;Macro Megacity Center&lt;/h1&gt;
+
+&lt;&lt;link &quot;Look for Trouble&quot; &quot;fight&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Store&quot; &quot;store&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Go Back to the Station&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="microCity" tags="" position="350,225" size="100,100">&lt;h1&gt;Micrometropolis Center&lt;/h1&gt;
+
+&lt;&lt;link &quot;Look for Trouble&quot; &quot;fight&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Store&quot; &quot;store&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Go Back to the Station&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="normalCity" tags="" position="475,225" size="100,100">&lt;h1&gt;Variable Village Center&lt;/h1&gt;
+
+&lt;&lt;link &quot;Look for Trouble&quot; &quot;fight&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Store&quot; &quot;store&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Go Back to the Station&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="store" tags="" position="875,825" size="100,100">&lt;h1&gt;Store&lt;/h1&gt;
 
 Welcome to the store!
 
 &lt;storeText&gt;&lt;/storeText&gt;
 &lt;&lt;storeItem $testStore&gt;&gt;
-&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="train" tags="" position="875,425" size="100,100">&lt;h1&gt;Gym&lt;/h1&gt;
+&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="train" tags="" position="875,425" size="100,100">&lt;h1&gt;Gym&lt;/h1&gt;
 Welcome to the gym!
 
 &lt;&lt;nobr&gt;&gt;
@@ -805,14 +829,14 @@ $trainText
 &lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;
 	&lt;&lt;unset $trainText&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="travel" tags="" position="1075,625" size="100,100">&lt;h1&gt;Travel&lt;/h1&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="travel" tags="" position="1075,625" size="100,100">&lt;h1&gt;Train Station&lt;/h1&gt;
 
 Where do you want to go?
 
 &lt;&lt;link &quot;Work&quot; &quot;work&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Store&quot; &quot;store&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="work" tags="" position="1275,425" size="100,100">&lt;h1&gt;Work&lt;/h1&gt;
+&lt;&lt;link &quot;Micrometropolis&quot; &quot;microCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Variable Village&quot; &quot;normalCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Macro Megacity&quot; &quot;macroCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="work" tags="" position="1275,425" size="100,100">&lt;h1&gt;Work&lt;/h1&gt;
 
 &lt;&lt;nobr&gt;&gt;
 &lt;&lt;if def $workText&gt;&gt;
@@ -827,24 +851,24 @@ $workText
 &lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;
 	&lt;&lt;unset $workText&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="StoryCaption" tags="" position="25,550" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="StoryCaption" tags="" position="25,550" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 Name: $player.name
 Health: $player.stats.hlth/$player.stats.maxHlth
 
 Money: $player.money
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="StoryMenu" tags="" position="25,675" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="StoryMenu" tags="" position="25,675" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 &lt;&lt;link &quot;Inventory&quot; &quot;inv&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Stats&quot; &quot;stats&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Settings&quot; &quot;settings&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;link &quot;Credits&quot; &quot;Credits&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Help&quot; &quot;Help&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
+&lt;&lt;link &quot;Help&quot; &quot;Help&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
 
 &lt;invText&gt;&lt;/invText&gt;
 &lt;&lt;invMacro&gt;&gt;
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
 &lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; false autocheck&gt;&gt; Metric&lt;/label&gt;
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
 	State.variables.statPageText = convertToLargerUnits(State.variables.player.measurements,State.variables.imperial)
 &lt;&lt;/script&gt;&gt;
 
@@ -863,7 +887,7 @@ $statPageText.weightText
 
 Money: $player.money
 
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
 	Your health: $player.stats.hlth
 	&lt;&lt;-$enemy.name&gt;&gt;&#39;s health: $enemy.stats.hlth
 	

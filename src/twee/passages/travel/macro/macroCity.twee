@@ -1,0 +1,7 @@
+:: macroCity
+<h1>Macro Megacity Center</h1>
+
+<<link "Look for Trouble" "fight">><</link>>
+<<link "Train" "train">><</link>>
+<<link "Store" "store">><</link>>
+<<link "Go Back to the Station" "travel">><</link>>
