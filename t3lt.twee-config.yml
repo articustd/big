@@ -18,3 +18,7 @@ sugarcube-2:
       name: consumeEnemy
     combatReset:
       name: combatReset
+    storeItem:
+      name: storeItem
+    storeWidget:
+      name: storeWidget

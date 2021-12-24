@@ -3,4 +3,6 @@
 
 Welcome to the store!
 
+<storeText></storeText>
+<<storeItem $testStore>>
 <<link "Go Home" "home">><</link>>

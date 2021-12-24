@@ -16,5 +16,6 @@ $(document).one(':storyready', function(ev) {
 	State.variables.enemies = enemies;
 	State.variables.items = items;
 	State.variables.loot = loot;
+	State.variables.testStore = testStore;
 });
 

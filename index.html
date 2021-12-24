@@ -235,6 +235,7 @@ $(document).one(':storyready', function(ev) {
 	State.variables.enemies = enemies;
 	State.variables.items = items;
 	State.variables.loot = loot;
+	State.variables.testStore = testStore;
 });
 
 /* twine-user-script #4: "Item.js" */
@@ -273,7 +274,7 @@ window.addToInventory = function (id) {
 		}
 	})
 	if(found > -1) {
-		State.variables.player.inv.qty++
+		State.variables.player.inv[found].qty++
 	} else {
 		State.variables.player.inv.push({id,qty:1})
 	}
@@ -284,6 +285,14 @@ window.addMoney = function (amount) {
 	var money = Math.floor(amount*randomPercent);
 	State.variables.player.money += money
 	return money
+}
+
+function getItemInfoByIndex(index) {
+	return State.variables.items[index]
+}
+
+function decreaseMoney(amt) {
+	State.variables.player.money -= amt;
 }
 /* twine-user-script #5: "Measurements.js" */
 /* Measurment Converts */
@@ -393,7 +402,69 @@ function addPoints(points, hunter) {
         hunter.exp[point] += points[point];
     }
 }
-/* twine-user-script #8: "TestMacro.js" */
+/* twine-user-script #8: "StoreItemMacro.js" */
+Macro.add('storeItem', {
+    skipArgs: false,
+    handler: function () {
+        // if (this.args.length < 1) {
+        //     var errors = [];
+        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
+        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
+        //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
+        // }
+
+        let storeStock = this.args[0].stock;
+        let storeText = ``
+        
+        var stockTable = document.createElement("table");
+        stockTable.id = "storeStockTable";
+        storeStock.forEach(function (item, idx) {
+            var row = stockTable.insertRow(idx);
+
+            var nameCell = row.insertCell(0);
+            var qtyCell = row.insertCell(1);
+            var priceCell = row.insertCell(2);
+            var buyCell = row.insertCell(3);
+
+            nameCell.innerText = getItemInfoByIndex(item.id).name
+            qtyCell.innerText = item.qty
+            priceCell.innerText = item.price
+            $(buyCell).append(`<a>Buy</a>`).ariaClick(function (event) {
+                console.log(isItemInStock(item))
+                console.log(canAfford(item))
+                if(isItemInStock(item)) {
+                    if(canAfford(item)) {
+                        addToInventory(item.id);
+                        decreaseMoney(item.price);
+                        decreaseStock(item);
+                        storeText = `Bought 1 ${getItemInfoByIndex(item.id).name}!`
+                        state.display(state.active.title, null, "back")
+                    } else {
+                        storeText = `Not enough credits for ${getItemInfoByIndex(item.id).name}`
+                    }
+                } else {
+                    storeText = `${getItemInfoByIndex(item.id).name} is not in stock`
+                }
+                jQuery("storeText").text(storeText)
+            })
+        })
+        jQuery("storeText").text(storeText)
+        jQuery(this.output).append(stockTable)
+    }
+})
+
+function isItemInStock(item){
+    return item.qty > 0 ? true : false
+}
+
+function canAfford(item){
+    return State.variables.player.money >= item.price ? true : false
+}
+
+function decreaseStock(item) {
+    item.qty--;
+}
+/* twine-user-script #9: "TestMacro.js" */
 Macro.add('testMacro', {
     skipArgs: false,
     handler: function () {
@@ -408,20 +479,28 @@ Macro.add('testMacro', {
         // jQuery("consumeText").text(`You have eaten your prey`).addClass('text-fade-in');
     }
 })
-/* twine-user-script #9: "Enemies.js" */
+/* twine-user-script #10: "Enemies.js" */
 let enemies = [
     {name: "Test Enemy", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0},
     {name: "Test Enemy 2", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0}
 ];
-/* twine-user-script #10: "Items.js" */
+/* twine-user-script #11: "Items.js" */
 let items = [
     {name: "Test Item", mod: 1, type: "strg"},
     {name: "Test Item 2", mod: 1, type: "strg"}
 ]
-/* twine-user-script #11: "LootTable.js" */
+/* twine-user-script #12: "LootTable.js" */
 let loot = [
     [{id:0,chnc:25},{id:1,chnc:75},{id:-1,amnt:50}]
-]</script><tw-passagedata pid="1" name="StoryInit" tags="" position="25,425" size="100,100">&lt;&lt;initStats&gt;&gt;
+]
+/* twine-user-script #13: "Stores.js" */
+let testStore = {
+    name: "Test Store",
+    stock: [
+        {id: 0, qty: 1, price: 80},
+        {id: 1, qty: 3, price: 90}
+    ]
+}</script><tw-passagedata pid="1" name="StoryInit" tags="" position="25,425" size="100,100">&lt;&lt;initStats&gt;&gt;
 &lt;&lt;set $debug to true&gt;&gt;
 &lt;&lt;set $combat to false&gt;&gt;
 &lt;&lt;set $foundItems to []&gt;&gt;
@@ -430,7 +509,7 @@ let loot = [
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="debugCharacter" tags="widget" position="25,275" size="100,100">&lt;&lt;widget &quot;debugCharacter&quot;&gt;&gt;
 	&lt;&lt;set $player.name to &quot;Min&quot;&gt;&gt;
 	&lt;&lt;set $player.species to &quot;Dragon&quot;&gt;&gt;
-	
+	&lt;&lt;set $player.money to 1000&gt;&gt;
 	/*&lt;&lt;set $player.inv to [{id:0,qty:1},{id:1,qty:4}]&gt;&gt;*/
 	
 	&lt;&lt;set $gameStarted to true&gt;&gt;
@@ -517,6 +596,8 @@ Home Description
 
 Welcome to the store!
 
+&lt;storeText&gt;&lt;/storeText&gt;
+&lt;&lt;storeItem $testStore&gt;&gt;
 &lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="train" tags="" position="875,425" size="100,100">&lt;h1&gt;Gym&lt;/h1&gt;
 Welcome to the gym!
 
