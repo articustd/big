@@ -1,0 +1,11 @@
+:: home {"position":"550,425","size":"100,100"}
+<h1>Home</h1>
+
+Home Description
+
+<levelUpText></levelUpText>
+
+<<link "Travel" "travel">><</link>>
+<<link "Rest">>
+	<<restMacro true false>>
+<</link>>

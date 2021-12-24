@@ -1,0 +1,7 @@
+:: StoryCaption {"position":"25,550","size":"100,100"}
+<<if def $gameStarted>>
+Name: $player.name
+Health: $player.stats.hlth/$player.stats.maxHlth
+
+Money: $player.money
+<</if>>

@@ -1,0 +1,28 @@
+sugarcube-2:
+  macros:
+    combatWidget:
+      name: combatWidget
+    initStats:
+      name: initStats
+    initEnemy:
+      name: initEnemy
+    initItems:
+      name: initItems
+    initLoot:
+      name: initLoot
+    debugCharacter:
+      name: debugCharacter
+    testMacro:
+      name: testMacro
+    consumeEnemy:
+      name: consumeEnemy
+    combatReset:
+      name: combatReset
+    storeItem:
+      name: storeItem
+    storeWidget:
+      name: storeWidget
+    invMacro:
+      name: invMacro
+    restMacro:
+      name: restMacro

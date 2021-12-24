@@ -1,0 +1,9 @@
+:: consumeFlavor [noreturn] 
+<h1>$consumeHeader</h1>
+
+$consumeText
+
+<<link "Return" $return>>
+    <<unset $consumeText>>
+    <<unset $consumeHeader>>
+<</link>>

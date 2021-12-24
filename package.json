@@ -1,0 +1,40 @@
+{
+  "name": "big",
+  "version": "1.0.0",
+  "description": "Bigger is Better Twine Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run serve -and npm run watch:twee",
+    "serve": "webpack serve",
+    "build:twee": "./vendor/tweego --format=sugarcube-2 --output=./index.html ./src/twee/",
+    "clean:twee": "Remove-Item ./index.html",
+    "watch:twee": "./vendor/tweego --format=sugarcube-2 --output=./index.html ./src/twee/ --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/articustd/big.git"
+  },
+  "keywords": [
+    "twine"
+  ],
+  "author": "ArticusTD",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/articustd/big/issues"
+  },
+  "homepage": "https://github.com/articustd/big#readme",
+  "dependencies": {
+    "sugarcube-yaml-properties": "^0.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/runtime": "^7.16.5",
+    "babel-loader": "^8.2.3",
+    "raw-loader": "^4.0.2",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.1"
+  }
+}

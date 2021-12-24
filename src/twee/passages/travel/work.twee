@@ -1,0 +1,17 @@
+:: work {"position":"1275,425","size":"100,100"}
+<h1>Work</h1>
+
+<<nobr>>
+<<if def $workText>>
+$workText
+<</if>>
+<</nobr>>
+
+<<link "Do some work">>
+	<<set $player.money to $player.money+100>>
+	<<set $workText to "You hurt your head thinking, but that's why they pay you the big bucks! +100 credits">>		
+	<<script>>state.display(state.active.title, null, "back")<</script>>
+<</link>>
+<<link "Go Home" "home">>
+	<<unset $workText>>
+<</link>>

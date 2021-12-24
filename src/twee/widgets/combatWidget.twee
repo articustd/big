@@ -1,0 +1,20 @@
+:: combatWidget [widget noreturn combat] {"position":"1075,150","size":"100,100"}
+<<widget "combatWidget">>
+	Your health: $player.stats.hlth
+	<<-$enemy.name>>'s health: $enemy.stats.hlth
+	
+	<<if $combat is true>>
+	<<link "Punch" "punch">><</link>>
+	<<link "Kick" "kick">><</link>>
+	<</if>>
+	<<if $win is true>>
+	<<for _i, _item range $foundItems>><<=_item>><br><</for>>
+	<<link "Consume" "consume">><<combatReset>><</link>>
+	<<link "Leave" $return>><<combatReset>><</link>>
+	<</if>>
+	<<if $combat is false && ndef $win>>
+	<<link "Pass Out" $return>>
+		<<set $player.stats.hlth to 1>>
+	<</link>>
+	<</if>>
+<</widget>>
