@@ -12,7 +12,9 @@
 	<<link "Consume" "consume">><<combatReset>><</link>>
 	<<link "Leave" $return>><<combatReset>><</link>>
 	<</if>>
-	<<if $combat is false && $win is false>>
-	<<link "Rest" "rest">><</link>>
+	<<if $combat is false && ndef $win>>
+	<<link "Pass Out" $return>>
+		<<set $player.stats.hlth to 1>>
+	<</link>>
 	<</if>>
 <</widget>>

@@ -5,7 +5,6 @@ Home Description
 
 <levelUpText></levelUpText>
 
-<<link "Fight" "fight">><</link>>
 <<link "Travel" "travel">><</link>>
 <<link "Rest">>
 	<<restMacro true false>>

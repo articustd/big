@@ -3,7 +3,7 @@
 	<<set $player to {
 		stats: {
 		  maxHlth: 15,
-		  hlth: 15,
+		  hlth: 1,
 		  strg: 5,
 		  def: 5,
 		  acc: 5,

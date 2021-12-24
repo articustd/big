@@ -695,7 +695,7 @@ let testStore = {
 	&lt;&lt;set $player to {
 		stats: {
 		  maxHlth: 15,
-		  hlth: 15,
+		  hlth: 1,
 		  strg: 5,
 		  def: 5,
 		  acc: 5,
@@ -778,7 +778,6 @@ Home Description
 
 &lt;levelUpText&gt;&lt;/levelUpText&gt;
 
-&lt;&lt;link &quot;Fight&quot; &quot;fight&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Travel&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Rest&quot;&gt;&gt;
 	&lt;&lt;restMacro true false&gt;&gt;
@@ -900,8 +899,10 @@ Money: $player.money
 	&lt;&lt;link &quot;Consume&quot; &quot;consume&quot;&gt;&gt;&lt;&lt;combatReset&gt;&gt;&lt;&lt;/link&gt;&gt;
 	&lt;&lt;link &quot;Leave&quot; $return&gt;&gt;&lt;&lt;combatReset&gt;&gt;&lt;&lt;/link&gt;&gt;
 	&lt;&lt;/if&gt;&gt;
-	&lt;&lt;if $combat is false &amp;&amp; $win is false&gt;&gt;
-	&lt;&lt;link &quot;Rest&quot; &quot;rest&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+	&lt;&lt;if $combat is false &amp;&amp; ndef $win&gt;&gt;
+	&lt;&lt;link &quot;Pass Out&quot; $return&gt;&gt;
+		&lt;&lt;set $player.stats.hlth to 1&gt;&gt;
+	&lt;&lt;/link&gt;&gt;
 	&lt;&lt;/if&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata></tw-storydata>
 	<script id="script-sugarcube" type="text/javascript">
