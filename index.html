@@ -464,9 +464,6 @@ function useItem(item) {
 
 function decreaseInventory(item, idx) {
     item.qty -= 1;
-    // if(item.qty < 1) {
-    //     delete State.variables.player.inv[idx]
-    // }
 }
 
 function returnStatName(stat) {
@@ -491,7 +488,99 @@ function returnStatName(stat) {
             return 'Size'
     }
 }
-/* twine-user-script #9: "StoreItemMacro.js" */
+/* twine-user-script #9: "RestMacro.js" */
+Macro.add('restMacro', {
+    skipArgs: false,
+    handler: function () {
+        // if (this.args.length < 1) {
+        //     var errors = [];
+        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
+        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
+        //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
+        // }
+        // Args: LevelUp - Boolean, Visible - Boolean
+
+        let levelUp = this.args[0]
+        let visible = this.args[1]
+        let player = State.variables.player;
+
+        if (!visible) {
+            player.stats.hlth = player.stats.maxHlth;
+
+            if (levelUp) {
+                let leveled = false
+                Object.entries(player.exp).forEach(([stat, value]) => {
+                    if (value > 0) {
+                        let statMap = statMapping(stat)
+                        if (statMap.length == 1) {
+                            player[statMap[0]] += value
+                        }
+                        if (statMap.length == 2) {
+                            player[statMap[0]][statMap[1]] += value
+                        }
+                        player.exp[stat] = 0
+                        
+                        leveled = true
+                    }
+                });
+                
+                if(leveled) {
+                    jQuery("levelUpText").addClass("text-fade-in").text("You feel the effects of your experience")
+                }
+            }
+        }
+
+        // let inventory = State.variables.player.inv;
+        // let invText = ``
+
+        // var invTable = document.createElement("table");
+        // invTable.id = "invTable";
+        // inventory.forEach(function (item, idx) {
+        //     var row = invTable.insertRow(idx);
+        //     let foundItem = getItemInfoByIndex(item.id)
+
+        //     var nameCell = row.insertCell(0);
+        //     var statCell = row.insertCell(1);
+        //     var modCell = row.insertCell(2);
+        //     var qtyCell = row.insertCell(3);
+        //     var useCell = row.insertCell(4);
+
+        //     nameCell.innerText = foundItem.name
+        //     statCell.innerText = returnStatName(foundItem.stat)
+        //     modCell.innerText = foundItem.mod
+        //     qtyCell.innerText = item.qty
+        //     $(useCell).append(`<a>Use</a>`).ariaClick(function (event) {
+        //         if(isItemAvailable(item)) {
+        //                 useItem(item.id);
+        //                 invText = `Buffed ${returnStatName(foundItem.stat)} by ${foundItem.mod}`
+        //                 decreaseInventory(item,idx);
+
+        //                 state.display(state.active.title, null, "back")
+        //         } else {
+        //             invText = `${foundItem.name} is not in  inventory`
+        //             state.display(state.active.title, null, "back")
+        //         }
+        //         jQuery("invText").text(invText)
+        //     })
+        // })
+        // jQuery("invText").text(invText)
+        // jQuery(this.output).append(invTable)
+    }
+})
+
+function statMapping(stat) {
+    switch (stat) {
+        case 'muscle':
+            return ['stats', 'strg']
+        case 'fat':
+            return ['measurements', 'weight']
+        case 'size':
+            return ['measurements', 'height']
+        case 'skill':
+            return ['skillPoints']
+    }
+}
+/* twine-user-script #10: "StoreItemMacro.js" */
 Macro.add('storeItem', {
     skipArgs: false,
     handler: function () {
@@ -553,7 +642,7 @@ function canAfford(item){
 function decreaseStock(item) {
     item.qty--;
 }
-/* twine-user-script #10: "TestMacro.js" */
+/* twine-user-script #11: "TestMacro.js" */
 Macro.add('testMacro', {
     skipArgs: false,
     handler: function () {
@@ -568,21 +657,21 @@ Macro.add('testMacro', {
         // jQuery("consumeText").text(`You have eaten your prey`).addClass('text-fade-in');
     }
 })
-/* twine-user-script #11: "Enemies.js" */
+/* twine-user-script #12: "Enemies.js" */
 let enemies = [
     {name: "Test Enemy", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0},
     {name: "Test Enemy 2", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0}
 ];
-/* twine-user-script #12: "Items.js" */
+/* twine-user-script #13: "Items.js" */
 let items = [
     {name: "Test Item", mod: 1, type: "stats", stat: "strg"},
     {name: "Test Item 2", mod: 1, type: "exp", stat: "size"}
 ]
-/* twine-user-script #13: "LootTable.js" */
+/* twine-user-script #14: "LootTable.js" */
 let loot = [
     [{id:0,chnc:25},{id:1,chnc:75},{id:-1,amnt:50}]
 ]
-/* twine-user-script #14: "Stores.js" */
+/* twine-user-script #15: "Stores.js" */
 let testStore = {
     name: "Test Store",
     stock: [
@@ -613,17 +702,18 @@ let testStore = {
 		  dex: 5
 		},
 		exp: {
-			muscle: 0,
-			fat: 0,
-			size: 0,
-			skill: 0
+			muscle: 1,
+			fat: 1,
+			size: 1,
+			skill: 1
 		},
 		measurements: {
 			height: 172, /* default cm */
 			weight: 82 /* default kg */
 		},
 		money: 0,
-		inv: []
+		inv: [],
+		skillPoints: 0
 	}&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="consume" tags="noreturn" position="950,150" size="100,100">&lt;h1&gt;Consume&lt;/h1&gt;
 
@@ -677,10 +767,12 @@ Description Text
 
 Home Description
 
+&lt;levelUpText&gt;&lt;/levelUpText&gt;
+
 &lt;&lt;link &quot;Fight&quot; &quot;fight&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Travel&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Rest&quot; &quot;home&quot;&gt;&gt;
-	&lt;&lt;set $player.stats.hlth to $player.stats.maxHlth&gt;&gt;
+&lt;&lt;link &quot;Rest&quot;&gt;&gt;
+	&lt;&lt;restMacro true false&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="store" tags="" position="875,825" size="100,100">&lt;h1&gt;Store&lt;/h1&gt;
 
 Welcome to the store!

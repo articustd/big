@@ -59,9 +59,6 @@ function useItem(item) {
 
 function decreaseInventory(item, idx) {
     item.qty -= 1;
-    // if(item.qty < 1) {
-    //     delete State.variables.player.inv[idx]
-    // }
 }
 
 function returnStatName(stat) {

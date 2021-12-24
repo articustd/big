@@ -10,16 +10,17 @@
 		  dex: 5
 		},
 		exp: {
-			muscle: 0,
-			fat: 0,
-			size: 0,
-			skill: 0
+			muscle: 1,
+			fat: 1,
+			size: 1,
+			skill: 1
 		},
 		measurements: {
 			height: 172, /* default cm */
 			weight: 82 /* default kg */
 		},
 		money: 0,
-		inv: []
+		inv: [],
+		skillPoints: 0
 	}>>
 <</widget>>

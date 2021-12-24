@@ -3,8 +3,10 @@
 
 Home Description
 
+<levelUpText></levelUpText>
+
 <<link "Fight" "fight">><</link>>
 <<link "Travel" "travel">><</link>>
-<<link "Rest" "home">>
-	<<set $player.stats.hlth to $player.stats.maxHlth>>
+<<link "Rest">>
+	<<restMacro true false>>
 <</link>>
