@@ -402,7 +402,96 @@ function addPoints(points, hunter) {
         hunter.exp[point] += points[point];
     }
 }
-/* twine-user-script #8: "StoreItemMacro.js" */
+/* twine-user-script #8: "InventoryMacro.js" */
+Macro.add('invMacro', {
+    skipArgs: false,
+    handler: function () {
+        // if (this.args.length < 1) {
+        //     var errors = [];
+        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
+        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
+        //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
+        // }
+
+        let inventory = State.variables.player.inv;
+        let invText = ``
+        
+        var invTable = document.createElement("table");
+        invTable.id = "invTable";
+        inventory.forEach(function (item, idx) {
+            var row = invTable.insertRow(idx);
+            let foundItem = getItemInfoByIndex(item.id)
+
+            var nameCell = row.insertCell(0);
+            var statCell = row.insertCell(1);
+            var modCell = row.insertCell(2);
+            var qtyCell = row.insertCell(3);
+            var useCell = row.insertCell(4);
+
+            nameCell.innerText = foundItem.name
+            statCell.innerText = returnStatName(foundItem.stat)
+            modCell.innerText = foundItem.mod
+            qtyCell.innerText = item.qty
+            $(useCell).append(`<a>Use</a>`).ariaClick(function (event) {
+                if(isItemAvailable(item)) {
+                        useItem(item.id);
+                        invText = `Buffed ${returnStatName(foundItem.stat)} by ${foundItem.mod}`
+                        decreaseInventory(item,idx);
+                        
+                        state.display(state.active.title, null, "back")
+                } else {
+                    invText = `${foundItem.name} is not in  inventory`
+                    state.display(state.active.title, null, "back")
+                }
+                jQuery("invText").text(invText)
+            })
+        })
+        jQuery("invText").text(invText)
+        jQuery(this.output).append(invTable)
+    }
+})
+
+function isItemAvailable(item) {
+    return item.qty > 0 ? true : false
+}
+
+function useItem(item) {
+    console.log(item)
+    let usedItem = getItemInfoByIndex(item);
+    console.log(usedItem)
+    State.variables.player[usedItem.type][usedItem.stat] += usedItem.mod
+}
+
+function decreaseInventory(item, idx) {
+    item.qty -= 1;
+    // if(item.qty < 1) {
+    //     delete State.variables.player.inv[idx]
+    // }
+}
+
+function returnStatName(stat) {
+    switch(stat) {
+        case 'maxHlth':
+            return 'Max Health'
+        case 'hlth':
+            return 'Health'
+        case 'strg':
+            return 'Strength'
+        case 'def':
+            return 'Defense'
+        case 'acc':
+            return 'Accuracy'
+        case 'dex':
+            return 'Dexterity'
+        case 'muscle':
+            return 'Muscle'
+        case 'fat':
+            return 'Fat'
+        case 'size':
+            return 'Size'
+    }
+}
+/* twine-user-script #9: "StoreItemMacro.js" */
 Macro.add('storeItem', {
     skipArgs: false,
     handler: function () {
@@ -464,7 +553,7 @@ function canAfford(item){
 function decreaseStock(item) {
     item.qty--;
 }
-/* twine-user-script #9: "TestMacro.js" */
+/* twine-user-script #10: "TestMacro.js" */
 Macro.add('testMacro', {
     skipArgs: false,
     handler: function () {
@@ -479,21 +568,21 @@ Macro.add('testMacro', {
         // jQuery("consumeText").text(`You have eaten your prey`).addClass('text-fade-in');
     }
 })
-/* twine-user-script #10: "Enemies.js" */
+/* twine-user-script #11: "Enemies.js" */
 let enemies = [
     {name: "Test Enemy", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0},
     {name: "Test Enemy 2", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0}
 ];
-/* twine-user-script #11: "Items.js" */
+/* twine-user-script #12: "Items.js" */
 let items = [
-    {name: "Test Item", mod: 1, type: "strg"},
-    {name: "Test Item 2", mod: 1, type: "strg"}
+    {name: "Test Item", mod: 1, type: "stats", stat: "strg"},
+    {name: "Test Item 2", mod: 1, type: "exp", stat: "size"}
 ]
-/* twine-user-script #12: "LootTable.js" */
+/* twine-user-script #13: "LootTable.js" */
 let loot = [
     [{id:0,chnc:25},{id:1,chnc:75},{id:-1,amnt:50}]
 ]
-/* twine-user-script #13: "Stores.js" */
+/* twine-user-script #14: "Stores.js" */
 let testStore = {
     name: "Test Store",
     stock: [
@@ -658,10 +747,9 @@ Money: $player.money
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;link &quot;Credits&quot; &quot;Credits&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Help&quot; &quot;Help&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
-&lt;&lt;for _i, _item range $player.inv&gt;&gt;
-&lt;&lt;link &quot;&lt;&lt;=_i + 1&gt;&gt;. &lt;&lt;=$items[_item.id].name&gt;&gt; - _item.qty&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;/for&gt;&gt;
 
+&lt;invText&gt;&lt;/invText&gt;
+&lt;&lt;invMacro&gt;&gt;
 &lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
 &lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; false autocheck&gt;&gt; Metric&lt;/label&gt;
 &lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;

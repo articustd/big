@@ -1,7 +1,6 @@
 :: inv [noreturn] {"position":"275,550","size":"100,100"}
 <h1>Inventory</h1>
-<<for _i, _item range $player.inv>>
-<<link "<<=_i + 1>>. <<=$items[_item.id].name>> - _item.qty">><</link>>
-<</for>>
 
+<invText></invText>
+<<invMacro>>
 <<link "Return" $return>><</link>>
