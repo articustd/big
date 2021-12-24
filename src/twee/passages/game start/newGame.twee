@@ -3,8 +3,9 @@ Name:
 <<textbox "$player.name" "Min">>
 
 Species:
-<label><<radiobutton "$player.species" "Dragon" autocheck>>Dragon</label>
-<label><<radiobutton "$player.species" "Wolf" autocheck>>Wolf</label>
+<<for _i, _item range $species>><br><label><<radiobutton "$player.species" _item autocheck>>_item</label><</for>>
+/* <label><<radiobutton "$player.species" "Dragon" autocheck>>Dragon</label>
+<label><<radiobutton "$player.species" "Wolf" autocheck>>Wolf</label> */
 
 Imperial:
 <label><<radiobutton "$imperial" true autocheck>> Imperial</label>

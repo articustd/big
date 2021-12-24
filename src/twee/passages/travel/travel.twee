@@ -7,3 +7,4 @@ Where do you want to go?
 <<link "Micrometropolis" "microCity">><</link>>
 <<link "Variable Village" "normalCity">><</link>>
 <<link "Macro Megacity" "macroCity">><</link>>
+<<link "Go Home" "home">><</link>>

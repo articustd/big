@@ -17,5 +17,6 @@ $(document).one(':storyready', function(ev) {
 	State.variables.items = items;
 	State.variables.loot = loot;
 	State.variables.testStore = testStore;
+	State.variables.species = species;
 });
 

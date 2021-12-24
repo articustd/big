@@ -3,17 +3,17 @@
 	<<set $player to {
 		stats: {
 		  maxHlth: 15,
-		  hlth: 1,
+		  hlth: 15,
 		  strg: 5,
 		  def: 5,
 		  acc: 5,
 		  dex: 5
 		},
 		exp: {
-			muscle: 1,
-			fat: 1,
-			size: 1,
-			skill: 1
+			muscle: 0,
+			fat: 0,
+			size: 0,
+			skill: 0
 		},
 		measurements: {
 			height: 172, /* default cm */

@@ -98,7 +98,7 @@ var LZString={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<!-- UUID://8F9B8851-BEB2-4276-8DAD-93D801E54DAC// --><tw-storydata name="Bigger is Better" startnode="11" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="8F9B8851-BEB2-4276-8DAD-93D801E54DAC" zoom="1" format="SugarCube" format-version="2.36.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">.script {
+	<!-- UUID://8F9B8851-BEB2-4276-8DAD-93D801E54DAC// --><tw-storydata name="Bigger is Better" startnode="10" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="8F9B8851-BEB2-4276-8DAD-93D801E54DAC" zoom="1" format="SugarCube" format-version="2.36.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">.script {
     visibility: hidden;
 }
 
@@ -236,6 +236,7 @@ $(document).one(':storyready', function(ev) {
 	State.variables.items = items;
 	State.variables.loot = loot;
 	State.variables.testStore = testStore;
+	State.variables.species = species;
 });
 
 /* twine-user-script #4: "Item.js" */
@@ -691,7 +692,9 @@ let items = [
 let loot = [
     [{id:0,chnc:25},{id:1,chnc:75},{id:-1,amnt:50}]
 ]
-/* twine-user-script #15: "Stores.js" */
+/* twine-user-script #15: "Species.js" */
+let species = [`Dragon`,`Fox`,`Shark`,`Wolf`]
+/* twine-user-script #16: "Stores.js" */
 let testStore = {
     name: "Test Store",
     stock: [
@@ -699,7 +702,7 @@ let testStore = {
         {id: 1, qty: 3, price: 90}
     ]
 }</script><tw-passagedata pid="1" name="StoryInit" tags="" position="25,425" size="100,100">&lt;&lt;initStats&gt;&gt;
-&lt;&lt;set $debug to true&gt;&gt;
+&lt;&lt;set $debug to false&gt;&gt;
 &lt;&lt;set $combat to false&gt;&gt;
 &lt;&lt;set $foundItems to []&gt;&gt;
 &lt;&lt;if $debug is true&gt;&gt;
@@ -715,17 +718,17 @@ let testStore = {
 	&lt;&lt;set $player to {
 		stats: {
 		  maxHlth: 15,
-		  hlth: 1,
+		  hlth: 15,
 		  strg: 5,
 		  def: 5,
 		  acc: 5,
 		  dex: 5
 		},
 		exp: {
-			muscle: 1,
-			fat: 1,
-			size: 1,
-			skill: 1
+			muscle: 0,
+			fat: 0,
+			size: 0,
+			skill: 0
 		},
 		measurements: {
 			height: 172, /* default cm */
@@ -779,8 +782,9 @@ $enemyHitText
 &lt;&lt;textbox &quot;$player.name&quot; &quot;Min&quot;&gt;&gt;
 
 Species:
-&lt;label&gt;&lt;&lt;radiobutton &quot;$player.species&quot; &quot;Dragon&quot; autocheck&gt;&gt;Dragon&lt;/label&gt;
-&lt;label&gt;&lt;&lt;radiobutton &quot;$player.species&quot; &quot;Wolf&quot; autocheck&gt;&gt;Wolf&lt;/label&gt;
+&lt;&lt;for _i, _item range $species&gt;&gt;&lt;br&gt;&lt;label&gt;&lt;&lt;radiobutton &quot;$player.species&quot; _item autocheck&gt;&gt;_item&lt;/label&gt;&lt;&lt;/for&gt;&gt;
+/* &lt;label&gt;&lt;&lt;radiobutton &quot;$player.species&quot; &quot;Dragon&quot; autocheck&gt;&gt;Dragon&lt;/label&gt;
+&lt;label&gt;&lt;&lt;radiobutton &quot;$player.species&quot; &quot;Wolf&quot; autocheck&gt;&gt;Wolf&lt;/label&gt; */
 
 Imperial:
 &lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
@@ -855,7 +859,8 @@ Where do you want to go?
 &lt;&lt;link &quot;Work&quot; &quot;work&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Micrometropolis&quot; &quot;microCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Variable Village&quot; &quot;normalCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Macro Megacity&quot; &quot;macroCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="work" tags="" position="1275,425" size="100,100">&lt;h1&gt;Work&lt;/h1&gt;
+&lt;&lt;link &quot;Macro Megacity&quot; &quot;macroCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="work" tags="" position="1275,425" size="100,100">&lt;h1&gt;Work&lt;/h1&gt;
 
 &lt;&lt;nobr&gt;&gt;
 &lt;&lt;if def $workText&gt;&gt;
