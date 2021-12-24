@@ -13,8 +13,20 @@ Macro.add('invMacro', {
         
         var invTable = document.createElement("table");
         invTable.id = "invTable";
+
+        var header = invTable.insertRow(0)
+        var nameHeader = header.insertCell(0);
+        var statHeader = header.insertCell(1);
+        var modHeader = header.insertCell(2);
+        var qtyHeader = header.insertCell(3);
+
+        nameHeader.innerText = `Item`
+        statHeader.innerText = `Stat`
+        modHeader.innerText = `Modifier`
+        qtyHeader.innerText = `Quantity`
+
         inventory.forEach(function (item, idx) {
-            var row = invTable.insertRow(idx);
+            var row = invTable.insertRow(idx+1);
             let foundItem = getItemInfoByIndex(item.id)
 
             var nameCell = row.insertCell(0);

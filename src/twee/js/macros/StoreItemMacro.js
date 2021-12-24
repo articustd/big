@@ -13,8 +13,18 @@ Macro.add('storeItem', {
         
         var stockTable = document.createElement("table");
         stockTable.id = "storeStockTable";
+
+        var header = stockTable.insertRow(0)
+        var nameHeader = header.insertCell(0);
+        var qtyHeader = header.insertCell(1);
+        var priceHeader = header.insertCell(2);
+
+        nameHeader.innerText = `Item`
+        qtyHeader.innerText = `Quantity`
+        priceHeader.innerText = `Price`
+
         storeStock.forEach(function (item, idx) {
-            var row = stockTable.insertRow(idx);
+            var row = stockTable.insertRow(idx+1);
 
             var nameCell = row.insertCell(0);
             var qtyCell = row.insertCell(1);
@@ -25,8 +35,6 @@ Macro.add('storeItem', {
             qtyCell.innerText = item.qty
             priceCell.innerText = item.price
             $(buyCell).append(`<a>Buy</a>`).ariaClick(function (event) {
-                console.log(isItemInStock(item))
-                console.log(canAfford(item))
                 if(isItemInStock(item)) {
                     if(canAfford(item)) {
                         addToInventory(item.id);
