@@ -217,8 +217,8 @@ window.calcCapacity = function() {
 }
 
 /* twine-user-script #3: "Index.js" */
-Config.history.controls = true;
-Config.debug = true;
+Config.history.controls = false;
+Config.debug = false;
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
@@ -679,18 +679,35 @@ Macro.add('testMacro', {
     }
 })
 /* twine-user-script #12: "Enemies.js" */
-let enemies = [
+let testEnemies = [
     {name: "Test Enemy", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0},
     {name: "Test Enemy 2", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0}
 ];
+
+let enemies = [
+    [{name: "Muscle Mouse", species: "Mouse", stats:{maxHlth: 10, hlth: 10, strg: 10, def: 5, acc: 5, dex: 5}, exp:{muscle:[1,2],fat:[0,0],size:[0,1],skill:[0,1]}, height:[23,28], weight:[5,8], loot: 0},
+    {name: "Fat Mouse", species: "Mouse", stats:{maxHlth: 10, hlth: 10, strg: 10, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,0],fat:[0,2],size:[0,1],skill:[0,1]}, height:[23,28], weight:[10,13], loot: 0}],
+    [{name: "Muscle Wolf", species: "Wolf", stats:{maxHlth: 20, hlth: 20, strg: 15, def: 5, acc: 5, dex: 5}, exp:{muscle:[1,4],fat:[0,1],size:[0,2],skill:[0,2]}, height:[180,190], weight:[80,90], loot: 0},
+    {name: "Fat Wolf", species: "Wolf", stats:{maxHlth: 20, hlth: 20, strg: 5, def: 15, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[1,4],size:[0,2],skill:[0,2]}, height:[180,190], weight:[100,105], loot: 0}],
+    [{name: "Muscle Dragon", species: "Dragon", stats:{maxHlth: 40, hlth: 40, strg: 15, def: 5, acc: 5, dex: 5}, exp:{muscle:[2,6],fat:[0,2],size:[0,4],skill:[0,3]}, height:[457,914], weight:[227,453], loot: 0},
+    {name: "Fat Dragon", species: "Dragon", stats:{maxHlth: 40, hlth: 40, strg: 5, def: 15, acc: 5, dex: 5}, exp:{muscle:[0,2],fat:[2,6],size:[0,4],skill:[0,3]}, height:[457,914], weight:[317,500], loot: 0}],
+]
 /* twine-user-script #13: "Items.js" */
-let items = [
+let testItems = [
     {name: "Test Item", mod: 1, type: "stats", stat: "strg"},
     {name: "Test Item 2", mod: 1, type: "exp", stat: "size"}
 ]
+
+let items = [
+    {name: "Health Potion", mod: 5, type: "stats", stat: "hlth"},
+    {name: "Protein Powder", mod: 3, type: "stats", stat: "strg"},
+    {name: "Size Elixir", mod: 10, type: "exp", stat: "size"},
+    {name: "Tub of Grease", mod: 3, type: "exp", stat: "fat"}
+]
 /* twine-user-script #14: "LootTable.js" */
 let loot = [
-    [{id:0,chnc:25},{id:1,chnc:75},{id:-1,amnt:50}]
+    [{id:0,chnc:25},{id:1,chnc:10},{id:-1,amnt:50}],//Strength loot
+    [{id:0,chnc:25},{id:3,chnc:10},{id:-1,amnt:50}] //Fat loot
 ]
 /* twine-user-script #15: "Species.js" */
 let species = [`Dragon`,`Fox`,`Shark`,`Wolf`]
@@ -698,8 +715,8 @@ let species = [`Dragon`,`Fox`,`Shark`,`Wolf`]
 let testStore = {
     name: "Test Store",
     stock: [
-        {id: 0, qty: 1, price: 80},
-        {id: 1, qty: 3, price: 90}
+        {id: 0, qty: 10, price: 50},
+        {id: 1, qty: 3, price: 200}
     ]
 }</script><tw-passagedata pid="1" name="StoryInit" tags="" position="25,425" size="100,100">&lt;&lt;initStats&gt;&gt;
 &lt;&lt;set $debug to false&gt;&gt;
@@ -777,7 +794,7 @@ $enemyHitText
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 
-&lt;&lt;combatWidget&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="fight" tags="noreturn combat" position="1075,25" size="100,100">&lt;&lt;set $enemy to $enemies[1]&gt;&gt;
+&lt;&lt;combatWidget&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="fight" tags="noreturn combat" position="1075,25" size="100,100">&lt;&lt;set $enemy to $enemies[$combatTable][random(0,1)]&gt;&gt;
 &lt;&lt;combatWidget&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="newGame" tags="" position="150,675" size="100,100">Name:
 &lt;&lt;textbox &quot;$player.name&quot; &quot;Min&quot;&gt;&gt;
 
@@ -810,17 +827,23 @@ Home Description
 &lt;&lt;link &quot;Look for Trouble&quot; &quot;fight&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Store&quot; &quot;store&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Go Back to the Station&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="microCity" tags="" position="350,225" size="100,100">&lt;h1&gt;Micrometropolis Center&lt;/h1&gt;
+&lt;&lt;link &quot;Go Back to the Station&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+
+&lt;&lt;set $combatTable to 2&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="microCity" tags="" position="350,225" size="100,100">&lt;h1&gt;Micro Metro Center&lt;/h1&gt;
 
 &lt;&lt;link &quot;Look for Trouble&quot; &quot;fight&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Store&quot; &quot;store&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Go Back to the Station&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="normalCity" tags="" position="475,225" size="100,100">&lt;h1&gt;Variable Village Center&lt;/h1&gt;
+&lt;&lt;link &quot;Go Back to the Station&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+
+&lt;&lt;set $combatTable to 0&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="normalCity" tags="" position="475,225" size="100,100">&lt;h1&gt;Variable Village Center&lt;/h1&gt;
 
 &lt;&lt;link &quot;Look for Trouble&quot; &quot;fight&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Store&quot; &quot;store&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Go Back to the Station&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="store" tags="" position="875,825" size="100,100">&lt;h1&gt;Store&lt;/h1&gt;
+&lt;&lt;link &quot;Go Back to the Station&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+
+&lt;&lt;set $combatTable to 1&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="store" tags="" position="875,825" size="100,100">&lt;h1&gt;Store&lt;/h1&gt;
 
 Welcome to the store!
 
@@ -857,7 +880,7 @@ $trainText
 Where do you want to go?
 
 &lt;&lt;link &quot;Work&quot; &quot;work&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Micrometropolis&quot; &quot;microCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Micro Metro&quot; &quot;microCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Variable Village&quot; &quot;normalCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Macro Megacity&quot; &quot;macroCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="work" tags="" position="1275,425" size="100,100">&lt;h1&gt;Work&lt;/h1&gt;

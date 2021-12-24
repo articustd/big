@@ -5,3 +5,5 @@
 <<link "Train" "train">><</link>>
 <<link "Store" "store">><</link>>
 <<link "Go Back to the Station" "travel">><</link>>
+
+<<set $combatTable to 1>>

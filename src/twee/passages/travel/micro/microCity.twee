@@ -1,7 +1,9 @@
 :: microCity
-<h1>Micrometropolis Center</h1>
+<h1>Micro Metro Center</h1>
 
 <<link "Look for Trouble" "fight">><</link>>
 <<link "Train" "train">><</link>>
 <<link "Store" "store">><</link>>
 <<link "Go Back to the Station" "travel">><</link>>
+
+<<set $combatTable to 0>>
