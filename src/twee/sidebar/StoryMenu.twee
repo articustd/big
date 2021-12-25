@@ -6,3 +6,6 @@
 <</if>>
 <<link "Credits" "Credits">><</link>>
 <<link "Help" "Help">><</link>>
+
+:: StorySubtitle
+$version

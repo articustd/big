@@ -1,3 +1,5 @@
+State.variables.version = `v0.2.0`
+
 Config.history.controls = false;
 Config.debug = false;
 

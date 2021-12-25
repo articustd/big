@@ -217,6 +217,8 @@ window.calcCapacity = function() {
 }
 
 /* twine-user-script #3: "Index.js" */
+State.variables.version = `v0.2.0`
+
 Config.history.controls = false;
 Config.debug = false;
 
@@ -778,7 +780,23 @@ $consumeText
 &lt;&lt;link &quot;Return&quot; $return&gt;&gt;
     &lt;&lt;unset $consumeText&gt;&gt;
     &lt;&lt;unset $consumeHeader&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="kick" tags="noreturn combat" position="1200,275" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="7" name="punch" tags="noreturn combat" position="1200,150" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="kick" tags="noreturn combat" position="1200,275" size="100,100">&lt;&lt;script&gt;&gt;
+	var playerAttack = {hitPer: 80, maxDmg:5, type: &quot;dex&quot;}
+	var enemyAttack = {hitPer: 50, maxDmg:2, type: &quot;strg&quot;}
+	combatRoll(playerAttack, enemyAttack)
+&lt;&lt;/script&gt;&gt;
+
+$playerHitText
+You deal &lt;&lt;-$playerHitDmg&gt;&gt; damage
+
+$enemyHitText
+&lt;&lt;nobr&gt;&gt;
+&lt;&lt;if $enemy.stats.hlth gt 1&gt;&gt;
+	Enemy deals $enemyHitDmg damage
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;
+
+&lt;&lt;combatWidget&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="punch" tags="noreturn combat" position="1200,150" size="100,100">&lt;&lt;script&gt;&gt;
 	var playerAttack = {hitPer: 80, maxDmg:5, type: &quot;strg&quot;}
 	var enemyAttack = {hitPer: 50, maxDmg:2, type: &quot;strg&quot;}
 	combatRoll(playerAttack, enemyAttack)
@@ -909,13 +927,13 @@ Money: $player.money
 &lt;&lt;link &quot;Settings&quot; &quot;settings&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;link &quot;Credits&quot; &quot;Credits&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Help&quot; &quot;Help&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
+&lt;&lt;link &quot;Help&quot; &quot;Help&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="StorySubtitle" tags="" position="100,350" size="100,100">$version</tw-passagedata><tw-passagedata pid="22" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
 
 &lt;invText&gt;&lt;/invText&gt;
 &lt;&lt;invMacro&gt;&gt;
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
 &lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; false autocheck&gt;&gt; Metric&lt;/label&gt;
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
 	State.variables.statPageText = convertToLargerUnits(State.variables.player.measurements,State.variables.imperial)
 &lt;&lt;/script&gt;&gt;
 
@@ -934,7 +952,7 @@ $statPageText.weightText
 
 Money: $player.money
 
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
 	Your health: $player.stats.hlth
 	&lt;&lt;-$enemy.name&gt;&gt;&#39;s health: $enemy.stats.hlth
 	
