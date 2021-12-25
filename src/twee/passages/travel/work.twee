@@ -8,7 +8,7 @@ $workText
 <</nobr>>
 
 <<link "Do some work">>
-	<<set $player.money to $player.money+100>>
+	<<set $player.credits to $player.credits+100>>
 	<<set $workText to "You hurt your head thinking, but that's why they pay you the big bucks! +100 credits">>		
 	<<script>>state.display(state.active.title, null, "back")<</script>>
 <</link>>

@@ -28,7 +28,7 @@
 				vagina: true
 			}
 		},
-		money: 0,
+		credits: 0,
 		inv: [],
 		skillPoints: 0
 	}>>

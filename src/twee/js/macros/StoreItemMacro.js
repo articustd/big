@@ -38,7 +38,7 @@ Macro.add('storeItem', {
                 if(isItemInStock(item)) {
                     if(canAfford(item)) {
                         addToInventory(item.id);
-                        decreaseMoney(item.price);
+                        decreaseCredits(item.price);
                         decreaseStock(item);
                         storeText = `Bought 1 ${getItemInfoByIndex(item.id).name}!`
                         state.display(state.active.title, null, "back")
@@ -61,7 +61,7 @@ function isItemInStock(item){
 }
 
 function canAfford(item){
-    return State.variables.player.money >= item.price ? true : false
+    return State.variables.player.credits >= item.price ? true : false
 }
 
 function decreaseStock(item) {

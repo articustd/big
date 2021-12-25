@@ -11,7 +11,7 @@ $version
 Name: $player.name
 Health: $player.stats.hlth/$player.stats.maxHlth
 
-Money: $player.money
+Credits: $player.credits
 <</if>>
 
 :: StoryMenu {"position":"25,675","size":"100,100"}

@@ -7,15 +7,24 @@ Name: $player.name
 
 Species: $player.species
 
+Base Stats:
 Health: $player.stats.hlth/$player.stats.maxHlth
 Strength: $player.stats.strg
 Defence: $player.stats.def
 Dexterity: $player.stats.dex
-Accuracy: $player.stats.acc 
+Accuracy: $player.stats.acc
+Skill Points: $player.skillPoints 
 
+Measurements:
 $statPageText.heightText
 $statPageText.weightText
 
-Money: $player.money
+Experience Points:
+Muscle: $player.exp.muscle
+Fat: $player.exp.fat
+Size: $player.exp.size
+Skill: $player.exp.skill
+
+Credits: $player.credits
 
 <<link "Return" $return>><</link>>

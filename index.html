@@ -273,8 +273,8 @@ window.rollItems = function (tableId) {
 				text.push(`Found 1 ${State.variables.items[item.id].name}`)
 			}
 		} else {
-			var moneyAmt = addMoney(item.amnt)
-			text.push(`Found ${moneyAmt} credits`)
+			var creditsAmt = addCredits(item.amnt)
+			text.push(`Found ${creditsAmt} credits`)
 		} 
 	})
 	
@@ -302,19 +302,19 @@ window.addToInventory = function (id) {
 	}
 }
 
-window.addMoney = function (amount) {
+window.addCredits = function (amount) {
 	var randomPercent = Math.clamp(Math.floor(Math.random() * 101),75,100)/100
-	var money = Math.floor(amount*randomPercent);
-	State.variables.player.money += money
-	return money
+	var credits = Math.floor(amount*randomPercent);
+	State.variables.player.credits += credits
+	return credits
 }
 
 function getItemInfoByIndex(index) {
 	return State.variables.items[index]
 }
 
-function decreaseMoney(amt) {
-	State.variables.player.money -= amt;
+function decreaseCredits(amt) {
+	State.variables.player.credits -= amt;
 }
 /* twine-user-script #5: "Measurements.js" */
 /* Measurment Converts */
@@ -620,7 +620,7 @@ Macro.add('storeItem', {
                 if(isItemInStock(item)) {
                     if(canAfford(item)) {
                         addToInventory(item.id);
-                        decreaseMoney(item.price);
+                        decreaseCredits(item.price);
                         decreaseStock(item);
                         storeText = `Bought 1 ${getItemInfoByIndex(item.id).name}!`
                         state.display(state.active.title, null, "back")
@@ -643,7 +643,7 @@ function isItemInStock(item){
 }
 
 function canAfford(item){
-    return State.variables.player.money >= item.price ? true : false
+    return State.variables.player.credits >= item.price ? true : false
 }
 
 function decreaseStock(item) {
@@ -681,12 +681,12 @@ Macro.add('trainMacro', {
         let cost = this.args[2]
         let modAmt = this.args[3]
 
-        if(cost <= State.variables.player.money) {
+        if(cost <= State.variables.player.credits) {
             State.variables.player.exp[expType] += modAmt
-            State.variables.player.money -= cost
+            State.variables.player.credits -= cost
             State.variables.trainText = trainText
 
-            decreaseMoney(cost)
+            decreaseCredits(cost)
         } else {
             State.variables.trainText = `You don't have enought credits!`
         }
@@ -741,7 +741,7 @@ let testStore = {
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="debugCharacter" tags="widget" position="25,275" size="100,100">&lt;&lt;widget &quot;debugCharacter&quot;&gt;&gt;
 	&lt;&lt;set $player.name to &quot;Min&quot;&gt;&gt;
 	&lt;&lt;set $player.species to &quot;Dragon&quot;&gt;&gt;
-	&lt;&lt;set $player.money to 1000&gt;&gt;
+	&lt;&lt;set $player.credits to 1000&gt;&gt;
 	/*&lt;&lt;set $player.inv to [{id:0,qty:1},{id:1,qty:4}]&gt;&gt;*/
 	
 	&lt;&lt;set $gameStarted to true&gt;&gt;
@@ -774,7 +774,7 @@ let testStore = {
 				vagina: true
 			}
 		},
-		money: 0,
+		credits: 0,
 		inv: [],
 		skillPoints: 0
 	}&gt;&gt;
@@ -925,7 +925,7 @@ $workText
 &lt;&lt;/nobr&gt;&gt;
 
 &lt;&lt;link &quot;Do some work&quot;&gt;&gt;
-	&lt;&lt;set $player.money to $player.money+100&gt;&gt;
+	&lt;&lt;set $player.credits to $player.credits+100&gt;&gt;
 	&lt;&lt;set $workText to &quot;You hurt your head thinking, but that&#39;s why they pay you the big bucks! +100 credits&quot;&gt;&gt;		
 	&lt;&lt;script&gt;&gt;state.display(state.active.title, null, &quot;back&quot;)&lt;&lt;/script&gt;&gt;
 &lt;&lt;/link&gt;&gt;
@@ -935,7 +935,7 @@ $workText
 Name: $player.name
 Health: $player.stats.hlth/$player.stats.maxHlth
 
-Money: $player.money
+Credits: $player.credits
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="StoryMenu" tags="" position="25,675" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 &lt;&lt;link &quot;Inventory&quot; &quot;inv&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Stats&quot; &quot;stats&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
@@ -956,16 +956,25 @@ Name: $player.name
 
 Species: $player.species
 
+Base Stats:
 Health: $player.stats.hlth/$player.stats.maxHlth
 Strength: $player.stats.strg
 Defence: $player.stats.def
 Dexterity: $player.stats.dex
-Accuracy: $player.stats.acc 
+Accuracy: $player.stats.acc
+Skill Points: $player.skillPoints 
 
+Measurements:
 $statPageText.heightText
 $statPageText.weightText
 
-Money: $player.money
+Experience Points:
+Muscle: $player.exp.muscle
+Fat: $player.exp.fat
+Size: $player.exp.size
+Skill: $player.exp.skill
+
+Credits: $player.credits
 
 &lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
 	Your health: $player.stats.hlth

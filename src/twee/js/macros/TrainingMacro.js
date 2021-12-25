@@ -14,12 +14,12 @@ Macro.add('trainMacro', {
         let cost = this.args[2]
         let modAmt = this.args[3]
 
-        if(cost <= State.variables.player.money) {
+        if(cost <= State.variables.player.credits) {
             State.variables.player.exp[expType] += modAmt
-            State.variables.player.money -= cost
+            State.variables.player.credits -= cost
             State.variables.trainText = trainText
 
-            decreaseMoney(cost)
+            decreaseCredits(cost)
         } else {
             State.variables.trainText = `You don't have enought credits!`
         }

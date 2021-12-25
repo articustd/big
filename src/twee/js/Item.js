@@ -10,8 +10,8 @@ window.rollItems = function (tableId) {
 				text.push(`Found 1 ${State.variables.items[item.id].name}`)
 			}
 		} else {
-			var moneyAmt = addMoney(item.amnt)
-			text.push(`Found ${moneyAmt} credits`)
+			var creditsAmt = addCredits(item.amnt)
+			text.push(`Found ${creditsAmt} credits`)
 		} 
 	})
 	
@@ -39,17 +39,17 @@ window.addToInventory = function (id) {
 	}
 }
 
-window.addMoney = function (amount) {
+window.addCredits = function (amount) {
 	var randomPercent = Math.clamp(Math.floor(Math.random() * 101),75,100)/100
-	var money = Math.floor(amount*randomPercent);
-	State.variables.player.money += money
-	return money
+	var credits = Math.floor(amount*randomPercent);
+	State.variables.player.credits += credits
+	return credits
 }
 
 function getItemInfoByIndex(index) {
 	return State.variables.items[index]
 }
 
-function decreaseMoney(amt) {
-	State.variables.player.money -= amt;
+function decreaseCredits(amt) {
+	State.variables.player.credits -= amt;
 }
