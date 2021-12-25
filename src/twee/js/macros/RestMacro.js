@@ -38,42 +38,6 @@ Macro.add('restMacro', {
                 }
             }
         }
-
-        // let inventory = State.variables.player.inv;
-        // let invText = ``
-
-        // var invTable = document.createElement("table");
-        // invTable.id = "invTable";
-        // inventory.forEach(function (item, idx) {
-        //     var row = invTable.insertRow(idx);
-        //     let foundItem = getItemInfoByIndex(item.id)
-
-        //     var nameCell = row.insertCell(0);
-        //     var statCell = row.insertCell(1);
-        //     var modCell = row.insertCell(2);
-        //     var qtyCell = row.insertCell(3);
-        //     var useCell = row.insertCell(4);
-
-        //     nameCell.innerText = foundItem.name
-        //     statCell.innerText = returnStatName(foundItem.stat)
-        //     modCell.innerText = foundItem.mod
-        //     qtyCell.innerText = item.qty
-        //     $(useCell).append(`<a>Use</a>`).ariaClick(function (event) {
-        //         if(isItemAvailable(item)) {
-        //                 useItem(item.id);
-        //                 invText = `Buffed ${returnStatName(foundItem.stat)} by ${foundItem.mod}`
-        //                 decreaseInventory(item,idx);
-
-        //                 state.display(state.active.title, null, "back")
-        //         } else {
-        //             invText = `${foundItem.name} is not in  inventory`
-        //             state.display(state.active.title, null, "back")
-        //         }
-        //         jQuery("invText").text(invText)
-        //     })
-        // })
-        // jQuery("invText").text(invText)
-        // jQuery(this.output).append(invTable)
     }
 })
 

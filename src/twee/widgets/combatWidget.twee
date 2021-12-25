@@ -3,6 +3,7 @@
 	Your health: $player.stats.hlth
 	<<-$enemy.name>>'s health: $enemy.stats.hlth
 	
+	<<if def $combatResults>>$combatResults<</if>>
 	<<if $combat is true>>
 	<<link "Punch" "punch">><</link>>
 	<<link "Kick" "kick">><</link>>
@@ -12,8 +13,9 @@
 	<<link "Consume" "consume">><<combatReset>><</link>>
 	<<link "Leave" $return>><<combatReset>><</link>>
 	<</if>>
-	<<if $combat is false && ndef $win>>
+	<<if $combat is false && (ndef $win || $win is false)>>
 	<<link "Pass Out" $return>>
+		<<combatReset>>
 		<<set $player.stats.hlth to 1>>
 	<</link>>
 	<</if>>

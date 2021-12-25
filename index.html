@@ -136,6 +136,21 @@ var LZString={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
   @-ms-keyframes fadeIn {
     0% {opacity:0;}
     100% {opacity:1;}
+  }
+
+  img#logoImage{ 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+  } 
+
+  .logo { 
+    width:auto; 
+    text-align:center; 
+  } 
+
+  #story-title {
+    display: none;
   }</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "Combat.js" */
 var maxHitPer = 85;
 var minDmgMult = 60;
@@ -181,11 +196,15 @@ window.combatRoll = function (playerAttack, enemyAttack) {
 		enemyHitText = "Enemy has passed out!"
 		State.variables.combat = false
 		State.variables.win = true
-		
+		State.variables.combatResults = `You've knocked out your enemy!`
 		State.variables.foundItems = rollItems(enemy.loot)
 	}
 	
 	if(!checkHealth(player)) {
+		for(var exp in player.exp) {
+			player.exp[exp] = 0;
+		}
+		State.variables.combatResults = `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
 		State.variables.combat = false
 	}
 	
@@ -220,7 +239,7 @@ window.calcCapacity = function() {
 State.variables.version = `v0.2.0`
 
 Config.history.controls = false;
-Config.debug = false;
+Config.debug = true;
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
@@ -343,6 +362,7 @@ Macro.add('combatReset', {
         delete State.variables.foundItems
         delete State.variables.playerHitDmg
         delete State.variables.playerHitText
+        delete State.variables.combatResults
 
         State.variables.combat = false;
         State.variables.win = false;
@@ -544,42 +564,6 @@ Macro.add('restMacro', {
                 }
             }
         }
-
-        // let inventory = State.variables.player.inv;
-        // let invText = ``
-
-        // var invTable = document.createElement("table");
-        // invTable.id = "invTable";
-        // inventory.forEach(function (item, idx) {
-        //     var row = invTable.insertRow(idx);
-        //     let foundItem = getItemInfoByIndex(item.id)
-
-        //     var nameCell = row.insertCell(0);
-        //     var statCell = row.insertCell(1);
-        //     var modCell = row.insertCell(2);
-        //     var qtyCell = row.insertCell(3);
-        //     var useCell = row.insertCell(4);
-
-        //     nameCell.innerText = foundItem.name
-        //     statCell.innerText = returnStatName(foundItem.stat)
-        //     modCell.innerText = foundItem.mod
-        //     qtyCell.innerText = item.qty
-        //     $(useCell).append(`<a>Use</a>`).ariaClick(function (event) {
-        //         if(isItemAvailable(item)) {
-        //                 useItem(item.id);
-        //                 invText = `Buffed ${returnStatName(foundItem.stat)} by ${foundItem.mod}`
-        //                 decreaseInventory(item,idx);
-
-        //                 state.display(state.active.title, null, "back")
-        //         } else {
-        //             invText = `${foundItem.name} is not in  inventory`
-        //             state.display(state.active.title, null, "back")
-        //         }
-        //         jQuery("invText").text(invText)
-        //     })
-        // })
-        // jQuery("invText").text(invText)
-        // jQuery(this.output).append(invTable)
     }
 })
 
@@ -680,7 +664,35 @@ Macro.add('testMacro', {
         // jQuery("consumeText").text(`You have eaten your prey`).addClass('text-fade-in');
     }
 })
-/* twine-user-script #12: "Enemies.js" */
+/* twine-user-script #12: "TrainingMacro.js" */
+Macro.add('trainMacro', {
+    skipArgs: false,
+    handler: function () {
+        // if (this.args.length < 1) {
+        //     var errors = [];
+        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
+        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
+        //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
+        // }
+        // Args: LevelUp - Boolean, Visible - Boolean
+
+        let expType = this.args[0]
+        let trainText = this.args[1]
+        let cost = this.args[2]
+        let modAmt = this.args[3]
+
+        if(cost <= State.variables.player.money) {
+            State.variables.player.exp[expType] += modAmt
+            State.variables.player.money -= cost
+            State.variables.trainText = trainText
+
+            decreaseMoney(cost)
+        } else {
+            State.variables.trainText = `You don't have enought credits!`
+        }
+    }
+})
+/* twine-user-script #13: "Enemies.js" */
 let testEnemies = [
     {name: "Test Enemy", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0},
     {name: "Test Enemy 2", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0}
@@ -694,7 +706,7 @@ let enemies = [
     [{name: "Muscle Dragon", species: "Dragon", stats:{maxHlth: 40, hlth: 40, strg: 15, def: 5, acc: 5, dex: 5}, exp:{muscle:[2,6],fat:[0,2],size:[0,4],skill:[0,3]}, height:[457,914], weight:[227,453], loot: 0},
     {name: "Fat Dragon", species: "Dragon", stats:{maxHlth: 40, hlth: 40, strg: 5, def: 15, acc: 5, dex: 5}, exp:{muscle:[0,2],fat:[2,6],size:[0,4],skill:[0,3]}, height:[457,914], weight:[317,500], loot: 0}],
 ]
-/* twine-user-script #13: "Items.js" */
+/* twine-user-script #14: "Items.js" */
 let testItems = [
     {name: "Test Item", mod: 1, type: "stats", stat: "strg"},
     {name: "Test Item 2", mod: 1, type: "exp", stat: "size"}
@@ -706,14 +718,14 @@ let items = [
     {name: "Size Elixir", mod: 10, type: "exp", stat: "size"},
     {name: "Tub of Grease", mod: 3, type: "exp", stat: "fat"}
 ]
-/* twine-user-script #14: "LootTable.js" */
+/* twine-user-script #15: "LootTable.js" */
 let loot = [
     [{id:0,chnc:25},{id:1,chnc:10},{id:-1,amnt:50}],//Strength loot
     [{id:0,chnc:25},{id:3,chnc:10},{id:-1,amnt:50}] //Fat loot
 ]
-/* twine-user-script #15: "Species.js" */
+/* twine-user-script #16: "Species.js" */
 let species = [`Dragon`,`Fox`,`Shark`,`Wolf`]
-/* twine-user-script #16: "Stores.js" */
+/* twine-user-script #17: "Stores.js" */
 let testStore = {
     name: "Test Store",
     stock: [
@@ -868,7 +880,7 @@ Welcome to the store!
 &lt;storeText&gt;&lt;/storeText&gt;
 &lt;&lt;storeItem $testStore&gt;&gt;
 &lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="train" tags="" position="875,425" size="100,100">&lt;h1&gt;Gym&lt;/h1&gt;
-Welcome to the gym!
+Welcome to the gym! Cost to use the equipment is 100 credits a session.
 
 &lt;&lt;nobr&gt;&gt;
 &lt;&lt;if def $trainText&gt;&gt;
@@ -877,11 +889,14 @@ $trainText
 &lt;&lt;/nobr&gt;&gt;
 
 &lt;&lt;link &quot;Lift Weights&quot;&gt;&gt;
-	&lt;&lt;set $player.stats.strg += 1&gt;&gt;
-	&lt;&lt;set $trainText to &quot;You pumped some iron and gain 1 strength!&quot;&gt;&gt;		
+	&lt;&lt;trainMacro &quot;muscle&quot; &quot;You pumped some iron and gain 1 muscle!&quot; 100 1&gt;&gt;	
 	&lt;&lt;script&gt;&gt;state.display(state.active.title, null, &quot;back&quot;)&lt;&lt;/script&gt;&gt;
 &lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Run on Treadmill&quot;&gt;&gt;
+&lt;&lt;link &quot;Squat Rack&quot;&gt;&gt;
+	&lt;&lt;trainMacro &quot;size&quot; &quot;You went deep with deep squats and gain 1 size!&quot; 100 1&gt;&gt;	
+	&lt;&lt;script&gt;&gt;state.display(state.active.title, null, &quot;back&quot;)&lt;&lt;/script&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+/* &lt;&lt;link &quot;Run on Treadmill&quot;&gt;&gt;
 	&lt;&lt;set $player.stats.dex += 1&gt;&gt;
 	&lt;&lt;set $trainText to &quot;You hauled butt and gain 1 dexterity!&quot;&gt;&gt;
 	&lt;&lt;script&gt;&gt;state.display(state.active.title, null, &quot;back&quot;)&lt;&lt;/script&gt;&gt;
@@ -890,7 +905,7 @@ $trainText
 	&lt;&lt;set $player.stats.acc += 1&gt;&gt;
 	&lt;&lt;set $trainText to &quot;You threw paws and gain 1 accuracy!&quot;&gt;&gt;
 	&lt;&lt;script&gt;&gt;state.display(state.active.title, null, &quot;back&quot;)&lt;&lt;/script&gt;&gt;
-&lt;&lt;/link&gt;&gt;
+&lt;&lt;/link&gt;&gt; */
 &lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;
 	&lt;&lt;unset $trainText&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="travel" tags="" position="1075,625" size="100,100">&lt;h1&gt;Train Station&lt;/h1&gt;
@@ -916,24 +931,24 @@ $workText
 &lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;
 	&lt;&lt;unset $workText&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="StoryCaption" tags="" position="25,550" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="StoryBanner" tags="" position="1100,225" size="100,100">&lt;img class=&quot;logo&quot; id=&quot;logoImage&quot; src=&quot;https://github.com/articustd/big/blob/main/src/assets/bigCard.png?raw=true&quot;&gt;</tw-passagedata><tw-passagedata pid="20" name="StorySubtitle" tags="" position="1225,225" size="100,100">$version</tw-passagedata><tw-passagedata pid="21" name="StoryCaption" tags="" position="25,550" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 Name: $player.name
 Health: $player.stats.hlth/$player.stats.maxHlth
 
 Money: $player.money
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="StoryMenu" tags="" position="25,675" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="StoryMenu" tags="" position="25,675" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 &lt;&lt;link &quot;Inventory&quot; &quot;inv&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Stats&quot; &quot;stats&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Settings&quot; &quot;settings&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;link &quot;Credits&quot; &quot;Credits&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Help&quot; &quot;Help&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="StorySubtitle" tags="" position="100,350" size="100,100">$version</tw-passagedata><tw-passagedata pid="22" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
+&lt;&lt;link &quot;Help&quot; &quot;Help&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
 
 &lt;invText&gt;&lt;/invText&gt;
 &lt;&lt;invMacro&gt;&gt;
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
 &lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; false autocheck&gt;&gt; Metric&lt;/label&gt;
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
 	State.variables.statPageText = convertToLargerUnits(State.variables.player.measurements,State.variables.imperial)
 &lt;&lt;/script&gt;&gt;
 
@@ -952,10 +967,11 @@ $statPageText.weightText
 
 Money: $player.money
 
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
 	Your health: $player.stats.hlth
 	&lt;&lt;-$enemy.name&gt;&gt;&#39;s health: $enemy.stats.hlth
 	
+	&lt;&lt;if def $combatResults&gt;&gt;$combatResults&lt;&lt;/if&gt;&gt;
 	&lt;&lt;if $combat is true&gt;&gt;
 	&lt;&lt;link &quot;Punch&quot; &quot;punch&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 	&lt;&lt;link &quot;Kick&quot; &quot;kick&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
@@ -965,8 +981,9 @@ Money: $player.money
 	&lt;&lt;link &quot;Consume&quot; &quot;consume&quot;&gt;&gt;&lt;&lt;combatReset&gt;&gt;&lt;&lt;/link&gt;&gt;
 	&lt;&lt;link &quot;Leave&quot; $return&gt;&gt;&lt;&lt;combatReset&gt;&gt;&lt;&lt;/link&gt;&gt;
 	&lt;&lt;/if&gt;&gt;
-	&lt;&lt;if $combat is false &amp;&amp; ndef $win&gt;&gt;
+	&lt;&lt;if $combat is false &amp;&amp; (ndef $win || $win is false)&gt;&gt;
 	&lt;&lt;link &quot;Pass Out&quot; $return&gt;&gt;
+		&lt;&lt;combatReset&gt;&gt;
 		&lt;&lt;set $player.stats.hlth to 1&gt;&gt;
 	&lt;&lt;/link&gt;&gt;
 	&lt;&lt;/if&gt;&gt;

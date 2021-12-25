@@ -1,3 +1,19 @@
+:: StoryBanner
+<img class="logo" id="logoImage" src="https://github.com/articustd/big/blob/main/src/assets/bigCard.png?raw=true"> 
+
+
+
+:: StorySubtitle
+$version
+
+:: StoryCaption {"position":"25,550","size":"100,100"}
+<<if def $gameStarted>>
+Name: $player.name
+Health: $player.stats.hlth/$player.stats.maxHlth
+
+Money: $player.money
+<</if>>
+
 :: StoryMenu {"position":"25,675","size":"100,100"}
 <<if def $gameStarted>>
 <<link "Inventory" "inv">><</link>>
@@ -6,6 +22,3 @@
 <</if>>
 <<link "Credits" "Credits">><</link>>
 <<link "Help" "Help">><</link>>
-
-:: StorySubtitle
-$version
