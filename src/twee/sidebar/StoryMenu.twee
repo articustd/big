@@ -20,5 +20,5 @@ Credits: $player.credits
 <<link "Stats" "stats">><</link>>
 <<link "Settings" "settings">><</link>>
 <</if>>
-<<link "Credits" "Credits">><</link>>
-<<link "Help" "Help">><</link>>
+<<link "Credits" "credits">><</link>>
+<<link "Help" "help">><</link>>

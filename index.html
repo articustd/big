@@ -941,14 +941,46 @@ Credits: $player.credits
 &lt;&lt;link &quot;Stats&quot; &quot;stats&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Settings&quot; &quot;settings&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;link &quot;Credits&quot; &quot;Credits&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Help&quot; &quot;Help&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
+&lt;&lt;link &quot;Credits&quot; &quot;credits&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Help&quot; &quot;help&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="help" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Help&lt;/h1&gt;
+!!Stats
+&#39;&#39;__Base Stats__&#39;&#39;
+&#39;&#39;Health&#39;&#39; - Current health out of max total health.
+&#39;&#39;Strength&#39;&#39; - Used to inflict more damage with the Punch attack. Governed by the Muscle Experience.
+&#39;&#39;Defence&#39;&#39; - Current WIP.
+&#39;&#39;Dexterity&#39;&#39; - Used to inflict more damage with the Kick attack.
+&#39;&#39;Accuracy&#39;&#39; - Current WIP.
+&#39;&#39;Skill Points&#39;&#39; - Current WIP. Governed by Skill Experience.
+
+&#39;&#39;__Measurements__&#39;&#39;
+&#39;&#39;Height&#39;&#39; - How large you are. Currently does NOT effect anything. Governed by the Size Experience.
+&#39;&#39;Weight&#39;&#39; - How heavy you are. Currently does NOT effect anything. Governed by the Fat Experience.
+
+&#39;&#39;__Experience Points__&#39;&#39;
+&#39;&#39;Muscle&#39;&#39; - The amount of Muscle Experience you currently have. Effects Strength when resting.
+&#39;&#39;Fat&#39;&#39; - The amount of Fat Experience you currently have. Effects Weight when resting.
+&#39;&#39;Size&#39;&#39; - The amount of Size Experience you currently have. Effects Height when resting.
+&#39;&#39;Skill&#39;&#39; - The amount of Skill Experience you currently have. Effects Skill Points when resting.
+
+&#39;&#39;Credits&#39;&#39; - Current amount of credits you have.
+
+!!Combat
+Currently there are only two types of attacks: Punch and Kick.
+&#39;&#39;Punch&#39;&#39; - Uses the Strength stat.
+&#39;&#39;Kick&#39;&#39; - Uses the Dexterity stat.
+
+&#39;&#39;Winning&#39;&#39; - Will randomly give you items and credits. After winning you can choose to consume the enemy, doing so will grant a random amount of Experience suited for the enemy type.
+&#39;&#39;Losing&#39;&#39; - When you lose a fight you will be knocked out. When knocked out you will lose ALL Experience, be reduced to 1 HP, and sent back to the area you picked the fight in.
+
+!!Items
+Items grant Experience for the stat that it effects.
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
 
 &lt;invText&gt;&lt;/invText&gt;
 &lt;&lt;invMacro&gt;&gt;
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
 &lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; false autocheck&gt;&gt; Metric&lt;/label&gt;
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
 	State.variables.statPageText = convertToLargerUnits(State.variables.player.measurements,State.variables.imperial)
 &lt;&lt;/script&gt;&gt;
 
@@ -976,7 +1008,7 @@ Skill: $player.exp.skill
 
 Credits: $player.credits
 
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
+&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
 	Your health: $player.stats.hlth
 	&lt;&lt;-$enemy.name&gt;&gt;&#39;s health: $enemy.stats.hlth
 	
