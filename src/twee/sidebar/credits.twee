@@ -1,0 +1,8 @@
+:: credits [noreturn] {"position":"275,550","size":"100,100"}
+<h1>Credits</h1>
+
+Thank you to everyone that provided feedback and encouragement!
+
+And thank you to you, the player! I hope you have enjoyed/will enjoy the game!
+
+<<link "Return" $return>><</link>>
