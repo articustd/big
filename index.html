@@ -258,6 +258,7 @@ $(document).one(':storyready', function(ev) {
 	State.variables.loot = loot;
 	State.variables.testStore = testStore;
 	State.variables.species = species;
+	State.variables.genders = genders;
 });
 
 /* twine-user-script #4: "Item.js" */
@@ -706,7 +707,17 @@ let enemies = [
     [{name: "Muscle Dragon", species: "Dragon", stats:{maxHlth: 40, hlth: 40, strg: 15, def: 5, acc: 5, dex: 5}, exp:{muscle:[2,6],fat:[0,2],size:[0,4],skill:[0,3]}, height:[457,914], weight:[227,453], loot: 0},
     {name: "Fat Dragon", species: "Dragon", stats:{maxHlth: 40, hlth: 40, strg: 5, def: 15, acc: 5, dex: 5}, exp:{muscle:[0,2],fat:[2,6],size:[0,4],skill:[0,3]}, height:[457,914], weight:[317,500], loot: 0}],
 ]
-/* twine-user-script #14: "Items.js" */
+/* twine-user-script #14: "Genders.js" */
+let genders = { 
+    "Male": { type: "Male", penis: 10, balls: 10, vagina: false, breasts: false },
+    "Female": { type: "Female", penis: false, balls: false, vagina: true, breasts: 10 },
+    "Futa": { type: "Futa", penis: 10, balls: 10, vagina: true, breasts: 10 },
+    "Futa No Balls": { type: "Futa", penis: 10, balls: false, vagina: true, breasts: true },
+    "Futa No Breasts": { type: "Futa", penis: 10, balls: 10, vagina: true, breasts: false },
+    "Futa No Breasts & No Balls": { type: "Futa", penis: 10, balls: false, vagina: true, breasts: false },
+    "Cuntboi": { type: "Cuntboi", penis: false, balls: false, vagina: true, breasts: false }
+}
+/* twine-user-script #15: "Items.js" */
 let testItems = [
     {name: "Test Item", mod: 1, type: "stats", stat: "strg"},
     {name: "Test Item 2", mod: 1, type: "exp", stat: "size"}
@@ -718,14 +729,14 @@ let items = [
     {name: "Size Elixir", mod: 10, type: "exp", stat: "size"},
     {name: "Tub of Grease", mod: 3, type: "exp", stat: "fat"}
 ]
-/* twine-user-script #15: "LootTable.js" */
+/* twine-user-script #16: "LootTable.js" */
 let loot = [
     [{id:0,chnc:25},{id:1,chnc:10},{id:-1,amnt:50}],//Strength loot
     [{id:0,chnc:25},{id:3,chnc:10},{id:-1,amnt:50}] //Fat loot
 ]
-/* twine-user-script #16: "Species.js" */
+/* twine-user-script #17: "Species.js" */
 let species = [`Dragon`,`Fox`,`Shark`,`Wolf`]
-/* twine-user-script #17: "Stores.js" */
+/* twine-user-script #18: "Stores.js" */
 let testStore = {
     name: "Test Store",
     stock: [
@@ -828,14 +839,14 @@ $enemyHitText
 &lt;&lt;combatWidget&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="newGame" tags="" position="150,675" size="100,100">Name:
 &lt;&lt;textbox &quot;$player.name&quot; &quot;Min&quot;&gt;&gt;
 
-Species:
-&lt;&lt;for _i, _item range $species&gt;&gt;&lt;br&gt;&lt;label&gt;&lt;&lt;radiobutton &quot;$player.species&quot; _item autocheck&gt;&gt;_item&lt;/label&gt;&lt;&lt;/for&gt;&gt;
-/* &lt;label&gt;&lt;&lt;radiobutton &quot;$player.species&quot; &quot;Dragon&quot; autocheck&gt;&gt;Dragon&lt;/label&gt;
-&lt;label&gt;&lt;&lt;radiobutton &quot;$player.species&quot; &quot;Wolf&quot; autocheck&gt;&gt;Wolf&lt;/label&gt; */
+Species: &lt;&lt;listbox &quot;$player.species&quot; autoselect&gt;&gt;&lt;&lt;optionsfrom $species&gt;&gt;&lt;&lt;/listbox&gt;&gt;
 
-Imperial:
-&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
-&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; false autocheck&gt;&gt; Metric&lt;/label&gt;
+Gender: &lt;&lt;listbox &quot;$player.gender&quot; autoselect&gt;&gt;&lt;&lt;optionsfrom $genders&gt;&gt;&lt;&lt;/listbox&gt;&gt;
+
+Imperial: &lt;&lt;listbox &quot;$imperial&quot; autoselect&gt;&gt;
+	&lt;&lt;option &quot;Imperial&quot; true&gt;&gt;
+	&lt;&lt;option &quot;Metric&quot; false&gt;&gt;
+&lt;&lt;/listbox&gt;&gt;
 
 &lt;&lt;link &quot;Start Game&quot; &quot;home&quot;&gt;&gt;
 	&lt;&lt;set $gameStarted to true&gt;&gt;
@@ -990,11 +1001,19 @@ Items grant Experience for the stat that it effects.
 	State.variables.statPageText = convertToLargerUnits(State.variables.player.measurements,State.variables.imperial)
 &lt;&lt;/script&gt;&gt;
 
-Name: $player.name
+&#39;&#39;Name:&#39;&#39; $player.name
+&#39;&#39;Species:&#39;&#39; $player.species
+&#39;&#39;Gender:&#39;&#39; $player.gender.type
 
-Species: $player.species
+&#39;&#39;__Genitalia:__&#39;&#39;
+&lt;&lt;nobr&gt;&gt;
+&lt;&lt;if $player.gender.penis&gt;&gt;Penis: $player.gender.penis&lt;br&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if $player.gender.balls&gt;&gt;Balls: $player.gender.balls&lt;br&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if $player.gender.breasts&gt;&gt;Breasts: $player.gender.breasts&lt;br&gt;&lt;&lt;/if&gt;&gt;
+&lt;&lt;if $player.gender.vagina&gt;&gt;Vagina: Has one&lt;&lt;/if&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;
 
-Base Stats:
+&#39;&#39;__Base Stats:__&#39;&#39;
 Health: $player.stats.hlth/$player.stats.maxHlth
 Strength: $player.stats.strg
 Defence: $player.stats.def
@@ -1002,17 +1021,17 @@ Dexterity: $player.stats.dex
 Accuracy: $player.stats.acc
 Skill Points: $player.skillPoints 
 
-Measurements:
+&#39;&#39;__Measurements:__&#39;&#39;
 $statPageText.heightText
 $statPageText.weightText
 
-Experience Points:
+&#39;&#39;__Experience Points:__&#39;&#39;
 Muscle: $player.exp.muscle
 Fat: $player.exp.fat
 Size: $player.exp.size
 Skill: $player.exp.skill
 
-Credits: $player.credits
+&#39;&#39;Credits:&#39;&#39; $player.credits
 
 &lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
 	Your health: $player.stats.hlth
