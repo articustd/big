@@ -7,3 +7,4 @@
 <<timeAction "Go Back to the Station" "travel" 2 0>><</timeAction>>
 
 <<set $combatTable to 0>>
+<<set $storeId to 0>>

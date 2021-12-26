@@ -18,9 +18,9 @@ $(document).one(':storyready', function(ev) {
 	State.variables.enemies = enemies;
 	State.variables.items = items;
 	State.variables.loot = loot;
-	State.variables.testStore = testStore;
+	State.variables.stores = Object.assign({},stores);
 	State.variables.species = species;
 	State.variables.genders = genders;
-	State.variables.time = {hour: 0, min: 0}
+	State.variables.time = {day: 1, hour: 0, min: 0}
 });
 
