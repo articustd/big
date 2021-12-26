@@ -45,7 +45,11 @@ function consumeBodyText(method) {
         case 'Eat':
             return `You shove the enemy down your gullet.`;
         case 'Unbirth':
-            return `You shove the enemy up your hole.`
+            return `You shove the enemy up your lady bits.`
+        case 'Anal':
+            return `You shove the enemy up your hole`
+        case 'Sounding':
+            return `You shove the enemy in your man bits`
     }
 }
 

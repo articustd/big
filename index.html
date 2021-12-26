@@ -239,7 +239,7 @@ window.calcCapacity = function() {
 State.variables.version = `v0.2.0`
 
 Config.history.controls = false;
-Config.debug = true;
+Config.debug = false;
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
@@ -418,7 +418,11 @@ function consumeBodyText(method) {
         case 'Eat':
             return `You shove the enemy down your gullet.`;
         case 'Unbirth':
-            return `You shove the enemy up your hole.`
+            return `You shove the enemy up your lady bits.`
+        case 'Anal':
+            return `You shove the enemy up your hole`
+        case 'Sounding':
+            return `You shove the enemy in your man bits`
     }
 }
 

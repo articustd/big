@@ -1,7 +1,7 @@
 State.variables.version = `v0.2.0`
 
 Config.history.controls = false;
-Config.debug = true;
+Config.debug = false;
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
