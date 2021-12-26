@@ -236,7 +236,7 @@ window.calcCapacity = function() {
 }
 
 /* twine-user-script #3: "Index.js" */
-State.variables.version = `v0.2.0`
+State.variables.version = `v0.2.1`
 
 Config.history.controls = false;
 Config.debug = false;
@@ -1067,7 +1067,7 @@ Thank you to everyone that provided feedback and encouragement!
 
 And thank you to you, the player! I hope you have enjoyed/will enjoy the game!
 
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="help" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Help&lt;/h1&gt;
+&lt;&lt;back &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="help" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Help&lt;/h1&gt;
 !!Stats
 &#39;&#39;__Base Stats__&#39;&#39;
 &#39;&#39;Health&#39;&#39; - Current health out of max total health.
@@ -1099,13 +1099,13 @@ Currently there are only two types of attacks: Punch and Kick.
 
 !!Items
 Items grant Experience for the stat that it effects.
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
+&lt;&lt;back &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="inv" tags="" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
 
 &lt;invText&gt;&lt;/invText&gt;
 &lt;&lt;invMacro&gt;&gt;
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
+&lt;&lt;back &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
 &lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; false autocheck&gt;&gt; Metric&lt;/label&gt;
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;back &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
 	State.variables.statPageText = convertToLargerUnits(State.variables.player.measurements,State.variables.imperial)
 &lt;&lt;/script&gt;&gt;
 
@@ -1141,7 +1141,7 @@ Skill: $player.exp.skill
 
 &#39;&#39;Credits:&#39;&#39; $player.credits
 
-&lt;&lt;link &quot;Return&quot; $return&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
+&lt;&lt;back &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
 	Your health: $player.stats.hlth
 	&lt;&lt;-$enemy.name&gt;&gt;&#39;s health: $enemy.stats.hlth
 	
