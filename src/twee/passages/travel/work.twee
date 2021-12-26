@@ -12,6 +12,6 @@ $workText
 	<<set $workText to "You hurt your head thinking, but that's why they pay you the big bucks! +100 credits">>
 	<<set _advanceTime to true>>
 <</timeAction>>
-<<link "Go Home" "home">>
+<<link [[Go Back|previous()]]>>
 	<<unset $workText>>
 <</link>>

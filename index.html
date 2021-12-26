@@ -968,7 +968,7 @@ $restText
 &lt;&lt;link &quot;Travel&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;&lt;&lt;unset $restText&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;timeAction &quot;Rest&quot; 8 0&gt;&gt;
 	&lt;&lt;restMacro true false&gt;&gt;
-&lt;&lt;/timeAction&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="macroCity" tags="" position="225,225" size="100,100">&lt;h1&gt;Macro Megacity Center&lt;/h1&gt;
+&lt;&lt;/timeAction&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="macroCity" tags="" position="225,225" size="100,100">&lt;h1&gt;Macro Megacity Downtown&lt;/h1&gt;
 
 &lt;&lt;timeAction &quot;Look for Trouble&quot; &quot;fight&quot; 0 30&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 &lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
@@ -976,7 +976,7 @@ $restText
 &lt;&lt;timeAction &quot;Go Back to the Station&quot; &quot;travel&quot; 2 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 
 &lt;&lt;set $combatTable to 2&gt;&gt;
-&lt;&lt;set $storeId to 2&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="microCity" tags="" position="350,225" size="100,100">&lt;h1&gt;Micro Metro Center&lt;/h1&gt;
+&lt;&lt;set $storeId to 2&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="microCity" tags="" position="350,225" size="100,100">&lt;h1&gt;Micro Metroplex Downtown&lt;/h1&gt;
 
 &lt;&lt;timeAction &quot;Look for Trouble&quot; &quot;fight&quot; 0 30&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 &lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
@@ -984,7 +984,7 @@ $restText
 &lt;&lt;timeAction &quot;Go Back to the Station&quot; &quot;travel&quot; 2 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 
 &lt;&lt;set $combatTable to 0&gt;&gt;
-&lt;&lt;set $storeId to 0&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="normalCity" tags="" position="475,225" size="100,100">&lt;h1&gt;Variable Village Center&lt;/h1&gt;
+&lt;&lt;set $storeId to 0&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="normalCity" tags="" position="475,225" size="100,100">&lt;h1&gt;Variable Village Downtown&lt;/h1&gt;
 
 &lt;&lt;timeAction &quot;Look for Trouble&quot; &quot;fight&quot; 0 30&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 &lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
@@ -998,7 +998,7 @@ Welcome to the $stores[$storeId].name!
 
 &lt;storeText&gt;&lt;/storeText&gt;
 &lt;&lt;storeItem $stores[$storeId]&gt;&gt;
-&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="train" tags="" position="875,425" size="100,100">&lt;h1&gt;Gym&lt;/h1&gt;
+&lt;&lt;link [[Go Back|previous()]]&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="train" tags="" position="875,425" size="100,100">&lt;h1&gt;Gym&lt;/h1&gt;
 Welcome to the gym! Cost to use the equipment is 100 credits a session.
 
 &lt;&lt;nobr&gt;&gt;
@@ -1021,7 +1021,7 @@ $trainText
 	&lt;&lt;set $player.stats.acc += 1&gt;&gt;
 	&lt;&lt;set $trainText to &quot;You threw paws and gain 1 accuracy!&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt; */
-&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;
+&lt;&lt;link [[Go Back|previous()]]&gt;&gt;
 	&lt;&lt;unset $trainText&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="travel" tags="" position="1075,625" size="100,100">&lt;h1&gt;Train Station&lt;/h1&gt;
 
@@ -1044,7 +1044,7 @@ $workText
 	&lt;&lt;set $workText to &quot;You hurt your head thinking, but that&#39;s why they pay you the big bucks! +100 credits&quot;&gt;&gt;
 	&lt;&lt;set _advanceTime to true&gt;&gt;
 &lt;&lt;/timeAction&gt;&gt;
-&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;
+&lt;&lt;link [[Go Back|previous()]]&gt;&gt;
 	&lt;&lt;unset $workText&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="StoryBanner" tags="" position="1100,225" size="100,100">&lt;img class=&quot;logo&quot; id=&quot;logoImage&quot; src=&quot;https://github.com/articustd/big/blob/main/src/assets/bigCard.png?raw=true&quot;&gt;</tw-passagedata><tw-passagedata pid="20" name="StorySubtitle" tags="" position="1225,225" size="100,100">$version</tw-passagedata><tw-passagedata pid="21" name="StoryCaption" tags="" position="25,550" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 Name: $player.name

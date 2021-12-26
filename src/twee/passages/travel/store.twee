@@ -5,4 +5,4 @@ Welcome to the $stores[$storeId].name!
 
 <storeText></storeText>
 <<storeItem $stores[$storeId]>>
-<<link "Go Home" "home">><</link>>
+<<link [[Go Back|previous()]]>><</link>>

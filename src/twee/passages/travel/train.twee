@@ -22,6 +22,6 @@ $trainText
 	<<set $player.stats.acc += 1>>
 	<<set $trainText to "You threw paws and gain 1 accuracy!">>
 <</link>> */
-<<link "Go Home" "home">>
+<<link [[Go Back|previous()]]>>
 	<<unset $trainText>>
 <</link>>

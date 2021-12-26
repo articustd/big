@@ -1,5 +1,5 @@
 :: microCity
-<h1>Micro Metro Center</h1>
+<h1>Micro Metroplex Downtown</h1>
 
 <<timeAction "Look for Trouble" "fight" 0 30>><</timeAction>>
 <<link "Train" "train">><</link>>
