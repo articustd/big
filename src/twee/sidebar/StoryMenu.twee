@@ -10,7 +10,7 @@ $version
 <<if def $gameStarted>>
 Name: $player.name
 Health: $player.stats.hlth/$player.stats.maxHlth
-
+Time: $time.hour:<<if $time.min lt 10>>0<</if>>$time.min
 Credits: $player.credits
 <</if>>
 

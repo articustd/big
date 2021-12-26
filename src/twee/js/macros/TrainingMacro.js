@@ -1,5 +1,6 @@
 Macro.add('trainMacro', {
     skipArgs: false,
+    // tags    : [],
     handler: function () {
         // if (this.args.length < 1) {
         //     var errors = [];
@@ -9,19 +10,20 @@ Macro.add('trainMacro', {
         // }
         // Args: LevelUp - Boolean, Visible - Boolean
 
-        let expType = this.args[0]
-        let trainText = this.args[1]
-        let cost = this.args[2]
-        let modAmt = this.args[3]
+        let expType = this.args[0];
+        let trainText = this.args[1];
+        let cost = this.args[2];
+        let modAmt = this.args[3];
 
         if(cost <= State.variables.player.credits) {
-            State.variables.player.exp[expType] += modAmt
-            State.variables.player.credits -= cost
-            State.variables.trainText = trainText
+            State.variables.player.exp[expType] += modAmt;
+            State.variables.trainText = trainText;
 
-            decreaseCredits(cost)
+            decreaseCredits(cost);
+            advanceTime(true)
         } else {
-            State.variables.trainText = `You don't have enought credits!`
+            State.variables.trainText = `You don't have enought credits!`;
+            advanceTime(false)
         }
     }
-})
+});

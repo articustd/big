@@ -3,9 +3,13 @@
 
 Home Description
 
-<levelUpText></levelUpText>
+<<nobr>>
+<<if def $restText>>
+$restText
+<</if>>
+<</nobr>>
 
-<<link "Travel" "travel">><</link>>
-<<link "Rest">>
+<<link "Travel" "travel">><<<<unset $restText>><</link>>
+<<timeAction "Rest" 8 0>>
 	<<restMacro true false>>
-<</link>>
+<</timeAction>>

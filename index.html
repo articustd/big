@@ -259,6 +259,7 @@ $(document).one(':storyready', function(ev) {
 	State.variables.testStore = testStore;
 	State.variables.species = species;
 	State.variables.genders = genders;
+	State.variables.time = {hour: 0, min: 0}
 });
 
 /* twine-user-script #4: "Item.js" */
@@ -561,9 +562,12 @@ Macro.add('restMacro', {
                 });
                 
                 if(leveled) {
-                    jQuery("levelUpText").addClass("text-fade-in").text("You feel the effects of your experience")
+                    State.variables.restText = "You feel the effects of your experience"
                 }
+                State.variables.restText = `You feel rested and rejuvenated!`
             }
+
+            advanceTime(true)
         }
     }
 })
@@ -665,9 +669,69 @@ Macro.add('testMacro', {
         // jQuery("consumeText").text(`You have eaten your prey`).addClass('text-fade-in');
     }
 })
-/* twine-user-script #12: "TrainingMacro.js" */
+/* twine-user-script #12: "TimeActionMacro.js" */
+Macro.add('timeAction', {
+    skipArgs: false,
+    tags: null,
+    handler: function () {
+        let link = document.createElement("a");
+        
+        if (this.args.length == 3) {
+            jQuery(link).text(`${this.args[0]} - ${this.args[1]}:${(this.args[2] < 10) ? '0' + this.args[2] : this.args[2]}`)
+            jQuery(link).ariaClick(
+                (function (args, passage, content) {
+                    return this.createShadowWrapper(
+                        function () {
+                            $.wiki(content);
+                        },
+                        function () {
+                            if (State.temporary.advanceTime) incrementTime(args[1], args[2])
+                            state.display(state.active.title, null, "back")
+                        }
+                    );
+                }).call(this, this.args, passage, this.payload[0].contents.trim())
+            )
+        } else {
+            jQuery(link).text(`${this.args[0]} - ${this.args[2]}:${(this.args[3] < 10) ? '0' + this.args[3] : this.args[3]}`)
+            jQuery(link).ariaClick(
+                (function (args, passage, content) {
+                    return this.createShadowWrapper(
+                        function () {
+                            $.wiki(content);
+                        },
+                        function () {
+                            incrementTime(args[2], args[3])
+                            Engine.play(args[1])
+                        }
+                    );
+                }).call(this, this.args, passage, this.payload[0].contents.trim())
+            )   
+        }
+        jQuery(this.output).append(link)
+    }
+})
+
+function incrementTime(hour, min) {
+    let checkHour = State.variables.time.hour + hour
+    let checkMin = State.variables.time.min + min
+    if (checkMin / 60 >= 1) {
+        checkHour += Math.floor(checkMin / 60)
+        checkMin = checkMin % 60
+    }
+    if ((checkHour == 24 && checkMin > 0) || checkHour > 24) {
+        checkHour -= 24
+    }
+    State.variables.time = { hour: checkHour, min: checkMin };
+}
+
+function advanceTime(advTime) {
+    State.temporary.advanceTime = advTime
+}
+
+/* twine-user-script #13: "TrainingMacro.js" */
 Macro.add('trainMacro', {
     skipArgs: false,
+    // tags    : [],
     handler: function () {
         // if (this.args.length < 1) {
         //     var errors = [];
@@ -677,23 +741,24 @@ Macro.add('trainMacro', {
         // }
         // Args: LevelUp - Boolean, Visible - Boolean
 
-        let expType = this.args[0]
-        let trainText = this.args[1]
-        let cost = this.args[2]
-        let modAmt = this.args[3]
+        let expType = this.args[0];
+        let trainText = this.args[1];
+        let cost = this.args[2];
+        let modAmt = this.args[3];
 
         if(cost <= State.variables.player.credits) {
-            State.variables.player.exp[expType] += modAmt
-            State.variables.player.credits -= cost
-            State.variables.trainText = trainText
+            State.variables.player.exp[expType] += modAmt;
+            State.variables.trainText = trainText;
 
-            decreaseCredits(cost)
+            decreaseCredits(cost);
+            advanceTime(true)
         } else {
-            State.variables.trainText = `You don't have enought credits!`
+            State.variables.trainText = `You don't have enought credits!`;
+            advanceTime(false)
         }
     }
-})
-/* twine-user-script #13: "Enemies.js" */
+});
+/* twine-user-script #14: "Enemies.js" */
 let testEnemies = [
     {name: "Test Enemy", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0},
     {name: "Test Enemy 2", species: "Test", stats:{maxHlth: 10, hlth: 10, strg: 5, def: 5, acc: 5, dex: 5}, exp:{muscle:[0,1],fat:[0,1],size:[0,1],skill:[0,1]}, height:[180,190], weight:[80,90], loot: 0}
@@ -707,7 +772,7 @@ let enemies = [
     [{name: "Muscle Dragon", species: "Dragon", stats:{maxHlth: 40, hlth: 40, strg: 15, def: 5, acc: 5, dex: 5}, exp:{muscle:[2,6],fat:[0,2],size:[0,4],skill:[0,3]}, height:[457,914], weight:[227,453], loot: 0},
     {name: "Fat Dragon", species: "Dragon", stats:{maxHlth: 40, hlth: 40, strg: 5, def: 15, acc: 5, dex: 5}, exp:{muscle:[0,2],fat:[2,6],size:[0,4],skill:[0,3]}, height:[457,914], weight:[317,500], loot: 0}],
 ]
-/* twine-user-script #14: "Genders.js" */
+/* twine-user-script #15: "Genders.js" */
 let genders = { 
     "Male": { type: "Male", penis: 10, balls: 10, vagina: false, breasts: false },
     "Female": { type: "Female", penis: false, balls: false, vagina: true, breasts: 10 },
@@ -717,7 +782,7 @@ let genders = {
     "Futa No Breasts & No Balls": { type: "Futa", penis: 10, balls: false, vagina: true, breasts: false },
     "Cuntboi": { type: "Cuntboi", penis: false, balls: false, vagina: true, breasts: false }
 }
-/* twine-user-script #15: "Items.js" */
+/* twine-user-script #16: "Items.js" */
 let testItems = [
     {name: "Test Item", mod: 1, type: "stats", stat: "strg"},
     {name: "Test Item 2", mod: 1, type: "exp", stat: "size"}
@@ -729,14 +794,14 @@ let items = [
     {name: "Size Elixir", mod: 10, type: "exp", stat: "size"},
     {name: "Tub of Grease", mod: 3, type: "exp", stat: "fat"}
 ]
-/* twine-user-script #16: "LootTable.js" */
+/* twine-user-script #17: "LootTable.js" */
 let loot = [
     [{id:0,chnc:25},{id:1,chnc:10},{id:-1,amnt:50}],//Strength loot
     [{id:0,chnc:25},{id:3,chnc:10},{id:-1,amnt:50}] //Fat loot
 ]
-/* twine-user-script #17: "Species.js" */
+/* twine-user-script #18: "Species.js" */
 let species = [`Dragon`,`Fox`,`Shark`,`Wolf`]
-/* twine-user-script #18: "Stores.js" */
+/* twine-user-script #19: "Stores.js" */
 let testStore = {
     name: "Test Store",
     stock: [
@@ -858,31 +923,35 @@ Description Text
 
 Home Description
 
-&lt;levelUpText&gt;&lt;/levelUpText&gt;
+&lt;&lt;nobr&gt;&gt;
+&lt;&lt;if def $restText&gt;&gt;
+$restText
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;
 
-&lt;&lt;link &quot;Travel&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Rest&quot;&gt;&gt;
+&lt;&lt;link &quot;Travel&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;&lt;&lt;unset $restText&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;timeAction &quot;Rest&quot; 8 0&gt;&gt;
 	&lt;&lt;restMacro true false&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="macroCity" tags="" position="225,225" size="100,100">&lt;h1&gt;Macro Megacity Center&lt;/h1&gt;
+&lt;&lt;/timeAction&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="macroCity" tags="" position="225,225" size="100,100">&lt;h1&gt;Macro Megacity Center&lt;/h1&gt;
 
-&lt;&lt;link &quot;Look for Trouble&quot; &quot;fight&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;timeAction &quot;Look for Trouble&quot; &quot;fight&quot; 0 30&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 &lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Store&quot; &quot;store&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Go Back to the Station&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;timeAction &quot;Go Back to the Station&quot; &quot;travel&quot; 2 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 
 &lt;&lt;set $combatTable to 2&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="microCity" tags="" position="350,225" size="100,100">&lt;h1&gt;Micro Metro Center&lt;/h1&gt;
 
-&lt;&lt;link &quot;Look for Trouble&quot; &quot;fight&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;timeAction &quot;Look for Trouble&quot; &quot;fight&quot; 0 30&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 &lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Store&quot; &quot;store&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Go Back to the Station&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;timeAction &quot;Go Back to the Station&quot; &quot;travel&quot; 2 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 
 &lt;&lt;set $combatTable to 0&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="normalCity" tags="" position="475,225" size="100,100">&lt;h1&gt;Variable Village Center&lt;/h1&gt;
 
-&lt;&lt;link &quot;Look for Trouble&quot; &quot;fight&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;timeAction &quot;Look for Trouble&quot; &quot;fight&quot; 0 30&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 &lt;&lt;link &quot;Train&quot; &quot;train&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Store&quot; &quot;store&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Go Back to the Station&quot; &quot;travel&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;timeAction &quot;Go Back to the Station&quot; &quot;travel&quot; 2 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 
 &lt;&lt;set $combatTable to 1&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="store" tags="" position="875,825" size="100,100">&lt;h1&gt;Store&lt;/h1&gt;
 
@@ -899,23 +968,19 @@ $trainText
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 
-&lt;&lt;link &quot;Lift Weights&quot;&gt;&gt;
-	&lt;&lt;trainMacro &quot;muscle&quot; &quot;You pumped some iron and gain 1 muscle!&quot; 100 1&gt;&gt;	
-	&lt;&lt;script&gt;&gt;state.display(state.active.title, null, &quot;back&quot;)&lt;&lt;/script&gt;&gt;
-&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Squat Rack&quot;&gt;&gt;
-	&lt;&lt;trainMacro &quot;size&quot; &quot;You went deep with deep squats and gain 1 size!&quot; 100 1&gt;&gt;	
-	&lt;&lt;script&gt;&gt;state.display(state.active.title, null, &quot;back&quot;)&lt;&lt;/script&gt;&gt;
-&lt;&lt;/link&gt;&gt;
+&lt;&lt;timeAction &quot;Lift Weights&quot; 1 0&gt;&gt;
+	&lt;&lt;trainMacro &quot;muscle&quot; &quot;You pumped some iron and gain 1 muscle!&quot; 100 1&gt;&gt;
+&lt;&lt;/timeAction&gt;&gt;
+&lt;&lt;timeAction &quot;Squat Rack&quot; 1 0&gt;&gt;
+	&lt;&lt;trainMacro &quot;size&quot; &quot;You went deep with deep squats and gain 1 size!&quot; 100 1&gt;&gt;
+&lt;&lt;/timeAction&gt;&gt;
 /* &lt;&lt;link &quot;Run on Treadmill&quot;&gt;&gt;
 	&lt;&lt;set $player.stats.dex += 1&gt;&gt;
 	&lt;&lt;set $trainText to &quot;You hauled butt and gain 1 dexterity!&quot;&gt;&gt;
-	&lt;&lt;script&gt;&gt;state.display(state.active.title, null, &quot;back&quot;)&lt;&lt;/script&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Use Speed Bag&quot;&gt;&gt;
 	&lt;&lt;set $player.stats.acc += 1&gt;&gt;
 	&lt;&lt;set $trainText to &quot;You threw paws and gain 1 accuracy!&quot;&gt;&gt;
-	&lt;&lt;script&gt;&gt;state.display(state.active.title, null, &quot;back&quot;)&lt;&lt;/script&gt;&gt;
 &lt;&lt;/link&gt;&gt; */
 &lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;
 	&lt;&lt;unset $trainText&gt;&gt;
@@ -923,10 +988,10 @@ $trainText
 
 Where do you want to go?
 
-&lt;&lt;link &quot;Work&quot; &quot;work&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Micro Metro&quot; &quot;microCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Variable Village&quot; &quot;normalCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Macro Megacity&quot; &quot;macroCity&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;timeAction &quot;Work&quot; &quot;work&quot; 1 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
+&lt;&lt;timeAction &quot;Micro Metro&quot; &quot;microCity&quot; 2 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
+&lt;&lt;timeAction &quot;Variable Village&quot; &quot;normalCity&quot; 2 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
+&lt;&lt;timeAction &quot;Macro Megacity&quot; &quot;macroCity&quot; 2 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 &lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="work" tags="" position="1275,425" size="100,100">&lt;h1&gt;Work&lt;/h1&gt;
 
 &lt;&lt;nobr&gt;&gt;
@@ -935,17 +1000,17 @@ $workText
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;
 
-&lt;&lt;link &quot;Do some work&quot;&gt;&gt;
+&lt;&lt;timeAction &quot;Do some work&quot; 2 0&gt;&gt;
 	&lt;&lt;set $player.credits to $player.credits+100&gt;&gt;
-	&lt;&lt;set $workText to &quot;You hurt your head thinking, but that&#39;s why they pay you the big bucks! +100 credits&quot;&gt;&gt;		
-	&lt;&lt;script&gt;&gt;state.display(state.active.title, null, &quot;back&quot;)&lt;&lt;/script&gt;&gt;
-&lt;&lt;/link&gt;&gt;
+	&lt;&lt;set $workText to &quot;You hurt your head thinking, but that&#39;s why they pay you the big bucks! +100 credits&quot;&gt;&gt;
+	&lt;&lt;set _advanceTime to true&gt;&gt;
+&lt;&lt;/timeAction&gt;&gt;
 &lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;
 	&lt;&lt;unset $workText&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="StoryBanner" tags="" position="1100,225" size="100,100">&lt;img class=&quot;logo&quot; id=&quot;logoImage&quot; src=&quot;https://github.com/articustd/big/blob/main/src/assets/bigCard.png?raw=true&quot;&gt;</tw-passagedata><tw-passagedata pid="20" name="StorySubtitle" tags="" position="1225,225" size="100,100">$version</tw-passagedata><tw-passagedata pid="21" name="StoryCaption" tags="" position="25,550" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 Name: $player.name
 Health: $player.stats.hlth/$player.stats.maxHlth
-
+Time: $time.hour:&lt;&lt;if $time.min lt 10&gt;&gt;0&lt;&lt;/if&gt;&gt;$time.min
 Credits: $player.credits
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="StoryMenu" tags="" position="25,675" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 &lt;&lt;link &quot;Inventory&quot; &quot;inv&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;

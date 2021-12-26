@@ -34,9 +34,12 @@ Macro.add('restMacro', {
                 });
                 
                 if(leveled) {
-                    jQuery("levelUpText").addClass("text-fade-in").text("You feel the effects of your experience")
+                    State.variables.restText = "You feel the effects of your experience"
                 }
+                State.variables.restText = `You feel rested and rejuvenated!`
             }
+
+            advanceTime(true)
         }
     }
 })

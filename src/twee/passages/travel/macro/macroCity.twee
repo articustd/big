@@ -1,9 +1,9 @@
 :: macroCity
 <h1>Macro Megacity Center</h1>
 
-<<link "Look for Trouble" "fight">><</link>>
+<<timeAction "Look for Trouble" "fight" 0 30>><</timeAction>>
 <<link "Train" "train">><</link>>
 <<link "Store" "store">><</link>>
-<<link "Go Back to the Station" "travel">><</link>>
+<<timeAction "Go Back to the Station" "travel" 2 0>><</timeAction>>
 
 <<set $combatTable to 2>>

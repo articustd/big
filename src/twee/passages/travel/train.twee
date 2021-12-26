@@ -8,23 +8,19 @@ $trainText
 <</if>>
 <</nobr>>
 
-<<link "Lift Weights">>
-	<<trainMacro "muscle" "You pumped some iron and gain 1 muscle!" 100 1>>	
-	<<script>>state.display(state.active.title, null, "back")<</script>>
-<</link>>
-<<link "Squat Rack">>
-	<<trainMacro "size" "You went deep with deep squats and gain 1 size!" 100 1>>	
-	<<script>>state.display(state.active.title, null, "back")<</script>>
-<</link>>
+<<timeAction "Lift Weights" 1 0>>
+	<<trainMacro "muscle" "You pumped some iron and gain 1 muscle!" 100 1>>
+<</timeAction>>
+<<timeAction "Squat Rack" 1 0>>
+	<<trainMacro "size" "You went deep with deep squats and gain 1 size!" 100 1>>
+<</timeAction>>
 /* <<link "Run on Treadmill">>
 	<<set $player.stats.dex += 1>>
 	<<set $trainText to "You hauled butt and gain 1 dexterity!">>
-	<<script>>state.display(state.active.title, null, "back")<</script>>
 <</link>>
 <<link "Use Speed Bag">>
 	<<set $player.stats.acc += 1>>
 	<<set $trainText to "You threw paws and gain 1 accuracy!">>
-	<<script>>state.display(state.active.title, null, "back")<</script>>
 <</link>> */
 <<link "Go Home" "home">>
 	<<unset $trainText>>

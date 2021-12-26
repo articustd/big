@@ -21,5 +21,6 @@ $(document).one(':storyready', function(ev) {
 	State.variables.testStore = testStore;
 	State.variables.species = species;
 	State.variables.genders = genders;
+	State.variables.time = {hour: 0, min: 0}
 });
 
