@@ -1,9 +1,9 @@
-name: Build
+name: Build & Deploy Twine HTML
 
 on:
   push:
     branches:
-      - v0.2.0
+      - main
 
 jobs:
   build:
