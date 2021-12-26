@@ -1,6 +1,6 @@
-:: inv [noreturn] {"position":"275,550","size":"100,100"}
+:: inv {"position":"275,550","size":"100,100"}
 <h1>Inventory</h1>
 
 <invText></invText>
 <<invMacro>>
-<<link "Return" $return>><</link>>
+<<back "Return">>
