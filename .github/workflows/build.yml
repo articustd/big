@@ -16,9 +16,6 @@ jobs:
         with:
           go-version: 1.13.x
 
-      - name: Change wrapper permissions
-        run: 
-
       - name: build game
         run: |
           chmod +x vendor/tweego
