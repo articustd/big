@@ -1,5 +1,5 @@
 :: StoryBanner
-<img class="logo" id="logoImage" src="https://github.com/articustd/big/blob/main/src/assets/bigCard.png?raw=true"> 
+<img class="logo" id="logoImage" @src="setup.ImagePath+'bigCard.png'"> 
 
 
 
