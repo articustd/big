@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image:  cirrusci/flutter:v1.7.8-hotfix.4
-      options: --user root
     steps:
       - uses: actions/checkout@v1
 
@@ -19,10 +16,12 @@ jobs:
         with:
           go-version: 1.13.x
 
+      - name: Change wrapper permissions
+        run: 
+
       - name: build game
         run: |
-          sudo /home/cirrus/sdks/flutter/bin/flutter
-          go get github.com/tmedwards/tweego
+          chmod +x vendor/tweego
           export PATH=$PATH:$(go env GOPATH)/bin
           vendor/tweego --format=sugarcube-2 src/twee/ -o dist/index.html
 
