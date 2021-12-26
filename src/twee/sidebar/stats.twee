@@ -35,4 +35,4 @@ Skill: $player.exp.skill
 
 ''Credits:'' $player.credits
 
-<<link "Return" $return>><</link>>
+<<back "Return">>
