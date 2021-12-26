@@ -1,5 +1,9 @@
+State.variables.version = `v0.2.0`
+
 Config.history.controls = false;
 Config.debug = false;
+
+setup.ImagePath = "assets/";
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
@@ -16,7 +20,9 @@ $(document).one(':storyready', function(ev) {
 	State.variables.enemies = enemies;
 	State.variables.items = items;
 	State.variables.loot = loot;
-	State.variables.testStore = testStore;
+	State.variables.stores = Object.assign({},stores);
 	State.variables.species = species;
+	State.variables.genders = genders;
+	State.variables.time = {day: 1, hour: 0, min: 0}
 });
 

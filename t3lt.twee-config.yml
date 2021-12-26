@@ -26,3 +26,8 @@ sugarcube-2:
       name: invMacro
     restMacro:
       name: restMacro
+    trainMacro:
+      name: trainMacro
+    timeAction:
+      name: timeAction
+      container: true

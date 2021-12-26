@@ -7,9 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm run serve -and npm run watch:twee",
     "serve": "webpack serve",
-    "build:twee": "./vendor/tweego --format=sugarcube-2 --output=./index.html ./src/twee/",
+    "build:twee": "./vendor/tweego --format=sugarcube-2 --output=./dist/index.html ./src/twee/",
     "clean:twee": "Remove-Item ./index.html",
-    "watch:twee": "./vendor/tweego --format=sugarcube-2 --output=./index.html ./src/twee/ --watch"
+    "watch:twee": "./vendor/tweego --format=sugarcube-2 --output=./dist/index.html ./src/twee/ --watch"
   },
   "repository": {
     "type": "git",

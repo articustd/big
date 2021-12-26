@@ -37,3 +37,18 @@
     0% {opacity:0;}
     100% {opacity:1;}
   }
+
+  img#logoImage{ 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+  } 
+
+  .logo { 
+    width:auto; 
+    text-align:center; 
+  } 
+
+  #story-title {
+    display: none;
+  }

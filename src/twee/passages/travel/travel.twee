@@ -3,8 +3,8 @@
 
 Where do you want to go?
 
-<<link "Work" "work">><</link>>
-<<link "Micro Metro" "microCity">><</link>>
-<<link "Variable Village" "normalCity">><</link>>
-<<link "Macro Megacity" "macroCity">><</link>>
+<<timeAction "Work" "work" 1 0>><</timeAction>>
+<<timeAction "Micro Metro" "microCity" 2 0>><</timeAction>>
+<<timeAction "Variable Village" "normalCity" 2 0>><</timeAction>>
+<<timeAction "Macro Megacity" "macroCity" 2 0>><</timeAction>>
 <<link "Go Home" "home">><</link>>

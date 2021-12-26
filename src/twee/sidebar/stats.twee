@@ -3,19 +3,36 @@
 	State.variables.statPageText = convertToLargerUnits(State.variables.player.measurements,State.variables.imperial)
 <</script>>
 
-Name: $player.name
+''Name:'' $player.name
+''Species:'' $player.species
+''Gender:'' $player.gender.type
 
-Species: $player.species
+''__Genitalia:__''
+<<nobr>>
+<<if $player.gender.penis>>Penis: $player.gender.penis<br><</if>>
+<<if $player.gender.balls>>Balls: $player.gender.balls<br><</if>>
+<<if $player.gender.breasts>>Breasts: $player.gender.breasts<br><</if>>
+<<if $player.gender.vagina>>Vagina: Has one<</if>>
+<</nobr>>
 
+''__Base Stats:__''
 Health: $player.stats.hlth/$player.stats.maxHlth
 Strength: $player.stats.strg
 Defence: $player.stats.def
 Dexterity: $player.stats.dex
-Accuracy: $player.stats.acc 
+Accuracy: $player.stats.acc
+Skill Points: $player.skillPoints 
 
+''__Measurements:__''
 $statPageText.heightText
 $statPageText.weightText
 
-Money: $player.money
+''__Experience Points:__''
+Muscle: $player.exp.muscle
+Fat: $player.exp.fat
+Size: $player.exp.size
+Skill: $player.exp.skill
+
+''Credits:'' $player.credits
 
 <<link "Return" $return>><</link>>

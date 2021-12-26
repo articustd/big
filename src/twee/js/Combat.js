@@ -42,11 +42,15 @@ window.combatRoll = function (playerAttack, enemyAttack) {
 		enemyHitText = "Enemy has passed out!"
 		State.variables.combat = false
 		State.variables.win = true
-		
+		State.variables.combatResults = `You've knocked out your enemy!`
 		State.variables.foundItems = rollItems(enemy.loot)
 	}
 	
 	if(!checkHealth(player)) {
+		for(var exp in player.exp) {
+			player.exp[exp] = 0;
+		}
+		State.variables.combatResults = `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
 		State.variables.combat = false
 	}
 	
