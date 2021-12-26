@@ -241,6 +241,8 @@ State.variables.version = `v0.2.0`
 Config.history.controls = false;
 Config.debug = false;
 
+setup.ImagePath = "assets/";
+
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
 	if (!ev.passage.tags.includes('noreturn')) {
@@ -1046,7 +1048,7 @@ $workText
 &lt;&lt;/timeAction&gt;&gt;
 &lt;&lt;link [[Go Back|previous()]]&gt;&gt;
 	&lt;&lt;unset $workText&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="StoryBanner" tags="" position="1100,225" size="100,100">&lt;img class=&quot;logo&quot; id=&quot;logoImage&quot; src=&quot;https://github.com/articustd/big/blob/main/src/assets/bigCard.png?raw=true&quot;&gt;</tw-passagedata><tw-passagedata pid="20" name="StorySubtitle" tags="" position="1225,225" size="100,100">$version</tw-passagedata><tw-passagedata pid="21" name="StoryCaption" tags="" position="25,550" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="StoryBanner" tags="" position="1100,225" size="100,100">&lt;img class=&quot;logo&quot; id=&quot;logoImage&quot; @src=&quot;setup.ImagePath+&#39;bigCard.png&#39;&quot;&gt;</tw-passagedata><tw-passagedata pid="20" name="StorySubtitle" tags="" position="1225,225" size="100,100">$version</tw-passagedata><tw-passagedata pid="21" name="StoryCaption" tags="" position="25,550" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 Name: $player.name
 Health: $player.stats.hlth/$player.stats.maxHlth
 Day: $time.day
