@@ -18,14 +18,14 @@ let stores = [
         name: "Standard Shopping Center",
         stock: [
             { id: 0, qty: 10, price: 50 },
-            { id: 1, qty: 3, price: 200 }
+            { id: 3, qty: 3, price: 200 }
         ]
     },
     {
         name: "Macro Megamart",
         stock: [
             { id: 0, qty: 10, price: 50 },
-            { id: 1, qty: 3, price: 200 }
+            { id: 2, qty: 2, price: 200 }
         ]
     }
 ]
