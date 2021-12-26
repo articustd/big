@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image:  cirrusci/flutter:v1.7.8-hotfix.4
-      options: --user root
     steps:
       - uses: actions/checkout@v1
 
@@ -21,6 +18,7 @@ jobs:
 
       - name: build game
         run: |
+          sudo /home/cirrus/sdks/flutter/bin/flutter pub get
           go get github.com/tmedwards/tweego
           export PATH=$PATH:$(go env GOPATH)/bin
           vendor/tweego --format=sugarcube-2 src/twee/ -o dist/index.html
