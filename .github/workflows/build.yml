@@ -21,7 +21,7 @@ jobs:
 
       - name: build game
         run: |
-          sudo /home/cirrus/sdks/flutter/bin/flutter pub get
+          sudo /home/cirrus/sdks/flutter/bin/flutter
           go get github.com/tmedwards/tweego
           export PATH=$PATH:$(go env GOPATH)/bin
           vendor/tweego --format=sugarcube-2 src/twee/ -o dist/index.html
