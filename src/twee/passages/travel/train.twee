@@ -1,4 +1,4 @@
-:: train {"position":"875,425","size":"100,100"}
+:: train [noreturn] {"position":"875,425","size":"100,100"}
 <h1>Gym</h1>
 Welcome to the gym! Cost to use the equipment is 100 credits a session.
 
@@ -22,6 +22,6 @@ $trainText
 	<<set $player.stats.acc += 1>>
 	<<set $trainText to "You threw paws and gain 1 accuracy!">>
 <</link>> */
-<<link [[Go Back|previous()]]>>
+<<link [[Go Back|$return]]>>
 	<<unset $trainText>>
 <</link>>

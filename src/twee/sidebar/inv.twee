@@ -1,6 +1,6 @@
-:: inv {"position":"275,550","size":"100,100"}
+:: inv [noreturn] {"position":"275,550","size":"100,100"}
 <h1>Inventory</h1>
 
 <invText></invText>
 <<invMacro>>
-<<back "Return">>
+<<return "Return">>
