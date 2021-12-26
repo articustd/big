@@ -19,7 +19,7 @@ jobs:
       - name: build game
         run: |
           export PATH=$PATH:$(go env GOPATH)/bin
-          ./vendor/tweego --format=sugarcube-2 tweego ./src/twee/ -o dist/index.html
+          /vendor/tweego --format=sugarcube-2 tweego ./src/twee/ -o dist/index.html
 
       - name: Deploy to Pages
         uses: peaceiris/actions-gh-pages@v3
