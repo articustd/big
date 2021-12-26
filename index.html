@@ -236,7 +236,7 @@ window.calcCapacity = function() {
 }
 
 /* twine-user-script #3: "Index.js" */
-State.variables.version = `v0.2.1`
+State.variables.version = `v0.2.2`
 
 Config.history.controls = false;
 Config.debug = false;
@@ -995,13 +995,13 @@ $restText
 &lt;&lt;timeAction &quot;Go Back to the Station&quot; &quot;travel&quot; 2 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 
 &lt;&lt;set $combatTable to 1&gt;&gt;
-&lt;&lt;set $storeId to 1&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="store" tags="" position="875,825" size="100,100">&lt;h1&gt;$stores[$storeId].name&lt;/h1&gt;
+&lt;&lt;set $storeId to 1&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="store" tags="noreturn" position="875,825" size="100,100">&lt;h1&gt;$stores[$storeId].name&lt;/h1&gt;
 
 Welcome to the $stores[$storeId].name!
 
 &lt;storeText&gt;&lt;/storeText&gt;
 &lt;&lt;storeItem $stores[$storeId]&gt;&gt;
-&lt;&lt;link [[Go Back|previous()]]&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="train" tags="" position="875,425" size="100,100">&lt;h1&gt;Gym&lt;/h1&gt;
+&lt;&lt;link [[Go Back|$return]]&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="train" tags="noreturn" position="875,425" size="100,100">&lt;h1&gt;Gym&lt;/h1&gt;
 Welcome to the gym! Cost to use the equipment is 100 credits a session.
 
 &lt;&lt;nobr&gt;&gt;
@@ -1024,7 +1024,7 @@ $trainText
 	&lt;&lt;set $player.stats.acc += 1&gt;&gt;
 	&lt;&lt;set $trainText to &quot;You threw paws and gain 1 accuracy!&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt; */
-&lt;&lt;link [[Go Back|previous()]]&gt;&gt;
+&lt;&lt;link [[Go Back|$return]]&gt;&gt;
 	&lt;&lt;unset $trainText&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="travel" tags="" position="1075,625" size="100,100">&lt;h1&gt;Train Station&lt;/h1&gt;
 
@@ -1034,7 +1034,7 @@ Where do you want to go?
 &lt;&lt;timeAction &quot;Micro Metro&quot; &quot;microCity&quot; 2 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 &lt;&lt;timeAction &quot;Variable Village&quot; &quot;normalCity&quot; 2 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
 &lt;&lt;timeAction &quot;Macro Megacity&quot; &quot;macroCity&quot; 2 0&gt;&gt;&lt;&lt;/timeAction&gt;&gt;
-&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="work" tags="" position="1275,425" size="100,100">&lt;h1&gt;Work&lt;/h1&gt;
+&lt;&lt;link &quot;Go Home&quot; &quot;home&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="work" tags="noreturn" position="1275,425" size="100,100">&lt;h1&gt;Work&lt;/h1&gt;
 
 &lt;&lt;nobr&gt;&gt;
 &lt;&lt;if def $workText&gt;&gt;
@@ -1047,7 +1047,7 @@ $workText
 	&lt;&lt;set $workText to &quot;You hurt your head thinking, but that&#39;s why they pay you the big bucks! +100 credits&quot;&gt;&gt;
 	&lt;&lt;set _advanceTime to true&gt;&gt;
 &lt;&lt;/timeAction&gt;&gt;
-&lt;&lt;link [[Go Back|previous()]]&gt;&gt;
+&lt;&lt;link [[Go Back|$return]]&gt;&gt;
 	&lt;&lt;unset $workText&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="StoryBanner" tags="" position="1100,225" size="100,100">&lt;img class=&quot;logo&quot; id=&quot;logoImage&quot; @src=&quot;setup.ImagePath+&#39;bigCard.png&#39;&quot;&gt;</tw-passagedata><tw-passagedata pid="20" name="StorySubtitle" tags="" position="1225,225" size="100,100">$version</tw-passagedata><tw-passagedata pid="21" name="StoryCaption" tags="" position="25,550" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 Name: $player.name
@@ -1067,7 +1067,7 @@ Thank you to everyone that provided feedback and encouragement!
 
 And thank you to you, the player! I hope you have enjoyed/will enjoy the game!
 
-&lt;&lt;back &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="help" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Help&lt;/h1&gt;
+&lt;&lt;return &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="help" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Help&lt;/h1&gt;
 !!Stats
 &#39;&#39;__Base Stats__&#39;&#39;
 &#39;&#39;Health&#39;&#39; - Current health out of max total health.
@@ -1099,13 +1099,13 @@ Currently there are only two types of attacks: Punch and Kick.
 
 !!Items
 Items grant Experience for the stat that it effects.
-&lt;&lt;back &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="inv" tags="" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
+&lt;&lt;return &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
 
 &lt;invText&gt;&lt;/invText&gt;
 &lt;&lt;invMacro&gt;&gt;
-&lt;&lt;back &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
+&lt;&lt;return &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; true autocheck&gt;&gt; Imperial&lt;/label&gt;
 &lt;label&gt;&lt;&lt;radiobutton &quot;$imperial&quot; false autocheck&gt;&gt; Metric&lt;/label&gt;
-&lt;&lt;back &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
+&lt;&lt;return &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="stats" tags="noreturn" position="150,425" size="100,100">&lt;&lt;script&gt;&gt;
 	State.variables.statPageText = convertToLargerUnits(State.variables.player.measurements,State.variables.imperial)
 &lt;&lt;/script&gt;&gt;
 
@@ -1141,7 +1141,7 @@ Skill: $player.exp.skill
 
 &#39;&#39;Credits:&#39;&#39; $player.credits
 
-&lt;&lt;back &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
+&lt;&lt;return &quot;Return&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="combatWidget" tags="widget noreturn combat" position="1075,150" size="100,100">&lt;&lt;widget &quot;combatWidget&quot;&gt;&gt;
 	Your health: $player.stats.hlth
 	&lt;&lt;-$enemy.name&gt;&gt;&#39;s health: $enemy.stats.hlth
 	
