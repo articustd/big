@@ -1,8 +1,8 @@
-:: store {"position":"875,825","size":"100,100"}
+:: store [noreturn] {"position":"875,825","size":"100,100"}
 <h1>$stores[$storeId].name</h1>
 
 Welcome to the $stores[$storeId].name!
 
 <storeText></storeText>
 <<storeItem $stores[$storeId]>>
-<<link [[Go Back|previous()]]>><</link>>
+<<link [[Go Back|$return]]>><</link>>
