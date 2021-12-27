@@ -1,56 +1,59 @@
 Macro.add('consumeEnemy', {
     skipArgs: false,
     handler: function () {
-        if (this.args.length < 2) {
-            var errors = [];
-            if (this.args.length < 1) { errors.push('Var 1 Missing') }
-            if (this.args.length < 2) { errors.push('Var 2 Missing') }
-            return this.error(`${errors[0]} ${errors.length == 2 ? "and " + errors[1] : ""}`)
-        }
+        // if (this.args.length < 2) {
+        //     var errors = [];
+        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
+        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
+        //     return this.error(`${errors[0]} ${errors.length == 2 ? "and " + errors[1] : ""}`)
+        // }
 
-        let hunter = this.args[0];
-        let prey = this.args[1];
+        let $wrapper = $('<span/>')
+        let prey = this.args[0];
 
-        let method = this.parent.args[0];
+        let consume = [
+            {method:'Eat',gen: '',desc:`You shove the enemy down your gullet.`},
+            {method:'Anal',gen: '',desc:`You shove the enemy up your hole`},
+            {method:'Unbirth',gen: 'vagina',desc:`You shove the enemy up your lady bits.`},
+            {method:'Sound',gen: 'penis',desc:`You shove the enemy in your man bits`}
+        ]
 
-        //Calculate stuff
-        let consumeInfo = calcConsume(method, hunter, prey)
+        consume.forEach(function(con) {
+            if(con.gen == '' || State.variables.player.gender[con.gen]) {
+                $wrapper.append(
+                    $('<a/>')
+                        .wiki(con.method)
+                        .append('<br>')
+                        .ariaClick(function(ev) {
+                            State.variables.consumeText = con.desc
+                            State.variables.consumeHeader = `${con.method}ing ${prey.name}`
 
-        addPoints(consumeInfo.points, hunter);
+                            addPoints(calcConsume(prey),State.variables.player) 
+
+                            delete State.variables.enemy
+                            Engine.play("consume")
+                        })
+                )
+            }
+        })
         
-        State.variables.consumeHeader = `${method}`
-        State.variables.consumeText = `${consumeInfo.bodyText}`
-
-        delete State.variables.enemy
-
-        state.display("consumeFlavor", this);
+        $wrapper
+            .attr('id', `macro-${this.name}`)
+            .addClass('consumes')
+            .appendTo(this.output);
     }
 })
 
-function calcConsume(method, hunter, prey) {
+function calcConsume(prey) {
     let response = {};
-    response.bodyText = consumeBodyText(method);
-
-    response.points = {muscle: randPoints(prey.exp.muscle), fat: randPoints(prey.exp.fat), size: randPoints(prey.exp.size), skill: randPoints(prey.exp.skill)}
-
+    for(let points in prey.exp)
+        response[points] = randPoints(prey.exp[points])
+    
     return response;
 }
 
 function randPoints(range) {
     return random(range[0],range[1]);
-}
-
-function consumeBodyText(method) {
-    switch(method) {
-        case 'Eat':
-            return `You shove the enemy down your gullet.`;
-        case 'Unbirth':
-            return `You shove the enemy up your lady bits.`
-        case 'Anal':
-            return `You shove the enemy up your hole`
-        case 'Sounding':
-            return `You shove the enemy in your man bits`
-    }
 }
 
 function addPoints(points, hunter) {

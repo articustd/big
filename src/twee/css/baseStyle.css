@@ -2,6 +2,14 @@
     visibility: hidden;
 }
 
+table, th, td {
+  border: 1px solid white;
+}
+
+table, td > button{
+  width: 100%;
+}
+
 #story-caption {
     text-align: left;
 }
