@@ -63,9 +63,8 @@ function isItemAvailable(item) {
 }
 
 function useItem(item) {
-    console.log(item)
     let usedItem = getItemInfoByIndex(item);
-    console.log(usedItem)
+    
     State.variables.player[usedItem.type][usedItem.stat] += usedItem.mod
 }
 

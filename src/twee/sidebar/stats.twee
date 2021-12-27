@@ -31,7 +31,14 @@ $statPageText.weightText
 Muscle: $player.exp.muscle
 Fat: $player.exp.fat
 Size: $player.exp.size
+Agility: $player.exp.agility
+Paw-Eye Coordination: $player.exp.pawEye
 Skill: $player.exp.skill
+
+''__Skills:__''
+<<for _i, _skillId range $player.skills>>
+''<<=$skills[_skillId].name>> -'' <<=$skills[_skillId].desc>>
+<</for>>
 
 ''Credits:'' $player.credits
 

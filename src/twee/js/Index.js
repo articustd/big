@@ -20,10 +20,15 @@ $(document).one(':storyready', function(ev) {
 	State.variables.enemies = enemies;
 	State.variables.items = items;
 	State.variables.loot = loot;
-	State.variables.stores = Object.assign({},stores);
+	State.variables.stores = cloneObj(stores);
 	State.variables.species = species;
 	State.variables.genders = genders;
 	State.variables.time = {day: 1, hour: 0, min: 0}
 	State.variables.attacks = attacks;
+	State.variables.skills = skills;
 });
+
+function cloneObj(obj) {
+	return Object.assign({},obj)
+}
 

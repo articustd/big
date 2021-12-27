@@ -8,7 +8,7 @@ $playerHitText
 
 $enemyHitText
 <<nobr>>
-<<if $enemy.stats.hlth gt 1 && $enemyHitDmg>>
+<<if $enemy.stats.hlth gte 1 && $enemyHitDmg>>
 	Enemy deals $enemyHitDmg damage
 <</if>>
 <</nobr>>

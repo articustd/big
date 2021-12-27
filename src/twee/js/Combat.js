@@ -76,7 +76,13 @@ function calcHitChance(attack, attacker) {
 
 
 	// Skill
-	
+	if(attacker.skills) {
+		for(let skill in attacker.skills) {
+			if(skills[skill].type == 'hit') {
+				hitMod = checkSkillMod(skills[skill].mod, hitMod)
+			}
+		}
+	}
 
 	return Math.clamp(Math.floor(((4 * Math.log2(hitMod)) + attack.baseHitChnc)), 1, 100);
 }
@@ -95,6 +101,24 @@ function calcDmgRange(attack, attacker) {
 	// Status Effect
 
 	// Skill
+	if(attacker.skills) {
+		for(let skill in attacker.skills) {
+			if(skills[skill].type == 'dmg') {
+				switch(skills[skill].bound) {
+					case 'max':
+						maxDmg = checkSkillMod(skills[skill].mod, maxDmg);
+						break
+					case 'min':
+						minDmg = checkSkillMod(skills[skill].mod, minDmg);
+						break
+					case 'min/max':
+						maxDmg = checkSkillMod(skills[skill].mod, maxDmg);
+						minDmg = checkSkillMod(skills[skill].mod, minDmg);;
+						break
+				}
+			}
+		}
+	}
 
 	return {minDmg, maxDmg}
 }
@@ -105,4 +129,10 @@ function checkHealth(defender) {
 
 function reduceHealth(defender, dmg) {
 	defender.stats.hlth = Math.clamp(defender.stats.hlth - dmg, 0, defender.stats.hlth)
+}
+
+function checkSkillMod(mod, value) {
+	if(mod%1!=0) // Check for a decimal
+		return Math.floor(value * mod)
+	return value + mod
 }

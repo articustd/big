@@ -54,5 +54,9 @@ function statMapping(stat) {
             return ['measurements', 'height']
         case 'skill':
             return ['skillPoints']
+        case 'pawEye':
+            return ['stats', 'acc']
+        case 'agility':
+            return ['stats', 'dex']
     }
 }
