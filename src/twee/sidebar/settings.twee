@@ -1,4 +1,4 @@
 :: settings [noreturn] {"position":"275,425","size":"100,100"}
 <label><<radiobutton "$imperial" true autocheck>> Imperial</label>
 <label><<radiobutton "$imperial" false autocheck>> Metric</label>
-<<return "Return">>
+<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

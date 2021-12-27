@@ -2,68 +2,107 @@ var maxHitPer = 85;
 var minDmgMult = 60;
 
 /* Combat calculations */
-function calcCombatHit(defHitPer, type, attacker) {
-	var hitMod = Math.floor(Math.log(attacker.stats[type])/Math.log(2))
-	var hitPer = Math.clamp(defHitPer+hitMod,1,maxHitPer)
-	return (hitPer-Math.floor(Math.random() * 101)) > 0 ? true : false
-}
+function combatRoll(playerAttack) {
+	// Pull in player & enemy into local vars for easy access
+	let enemy = State.variables.enemy
+	let player = State.variables.player
 
-function calcCombatDmg(maxDmg, type, attacker) {
-	var dmgMod = Math.floor(Math.log(attacker.stats[type])/Math.log(2))
-	var dmgMulti = Math.clamp(Math.floor(Math.random()*101),minDmgMult,100)/100
-	var dmg = Math.floor(maxDmg*dmgMulti)+dmgMod;
-	return dmg;
-}
+	// Ready storage for enemy and player text
+	let playerHitText, enemyHitText;
 
-window.combatRoll = function (playerAttack, enemyAttack) {
-	var enemy = State.variables.enemy
-	var player = State.variables.player
-	var playerHitText, enemyHitText = ""
-	var playerHitDmg = 0
-	var	enemyHitDmg = 0
-	//{hitPer: 0, maxDmg:0, type: "strg"}
-	if(calcCombatHit(playerAttack.hitPer, playerAttack.type, player)) {
-		playerHitDmg = calcCombatDmg(playerAttack.maxDmg, playerAttack.type, player)
-		reduceHealth(enemy, playerHitDmg)
+	// Ready storage for damage done
+	let playerDmg, enemyDmg;
+
+	// Check if player hits
+	let hitChance = calcCombatHit(playerAttack, player)
+	if (hitChance.hit) {
+		playerDmg = calcCombatDmg(playerAttack, player, hitChance.crit)
+		reduceHealth(enemy, playerDmg)
 		playerHitText = "You pummled the enemy!"
 	} else {
 		playerHitText = "You swung wide and missed!"
 	}
-	
-	if(checkHealth(enemy)) {
-		if(calcCombatHit(enemyAttack.hitPer, enemyAttack.type, enemy)) {
-			enemyHitDmg = calcCombatDmg(enemyAttack.maxDmg, enemyAttack.type, enemy)
-			reduceHealth(player, enemyHitDmg)
+
+	// Random enemy attack and roll for enemy hit
+	// let enemyAttack = randomEnemyAttack(enemy.attackSet);
+	let enemyAttack = playerAttack;
+	if (checkHealth(enemy)) { // Check to see if enemy is alive first
+		hitChance = calcCombatHit(enemyAttack, enemy)
+		if (hitChance.hit) {
+			enemyDmg = calcCombatDmg(enemyAttack, enemy, false)
+			reduceHealth(player, enemyDmg)
 			enemyHitText = "They pummled you!"
 		} else {
 			enemyHitText = "They swung wide and missed!"
 		}
-	}	else {
+	} else { // Enemy is knocked out
 		enemyHitText = "Enemy has passed out!"
 		State.variables.combat = false
 		State.variables.win = true
 		State.variables.combatResults = `You've knocked out your enemy!`
 		State.variables.foundItems = rollItems(enemy.loot)
 	}
-	
-	if(!checkHealth(player)) {
-		for(var exp in player.exp) {
+
+	if (!checkHealth(player)) {
+		for (let exp in player.exp) {
 			player.exp[exp] = 0;
 		}
 		State.variables.combatResults = `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
 		State.variables.combat = false
 	}
-	
+
 	State.variables.playerHitText = playerHitText
-	State.variables.playerHitDmg = playerHitDmg
+	State.variables.playerHitDmg = playerDmg
 	State.variables.enemyHitText = enemyHitText
-	State.variables.enemyHitDmg = enemyHitDmg
+	State.variables.enemyHitDmg = enemyDmg
 }
 
-window.checkHealth = function (defender) {
+function calcCombatHit(attack, attacker) {
+	let hitChance = 100 - calcHitChance(attack, attacker);
+	let hitRoll = random(1, 100)
+	if (hitRoll > hitChance) {
+		if (hitRoll >= 100)
+			return { hit: true, crit: true }
+		return { hit: true, crit: false }
+	}
+	return { hit: false, crit: false }
+}
+
+function calcHitChance(attack, attacker) {
+	// Base Stats
+	let hitMod = attacker.stats.acc;
+	
+	// Status Effect
+
+
+	// Skill
+	
+
+	return Math.clamp(Math.floor(((4 * Math.log2(hitMod)) + attack.baseHitChnc)), 1, 100);
+}
+
+function calcCombatDmg(attack, attacker, crit) {
+	let dmg = calcDmgRange(attack, attacker)
+	if(crit)
+		return Math.floor(random(dmg.minDmg,dmg.maxDmg)*attack.critMulti)
+	return random(dmg.minDmg,dmg.maxDmg)
+}
+
+function calcDmgRange(attack, attacker) {
+	// Base Stats
+	let maxDmg = Math.floor(Math.pow(attacker.stats[attack.type], attack.maxMod))
+	let minDmg = Math.floor(Math.pow(attacker.stats[attack.type], attack.minMod))
+	// Status Effect
+
+	// Skill
+
+	return {minDmg, maxDmg}
+}
+
+function checkHealth(defender) {
 	return (defender.stats.hlth > 0) ? true : false
 }
 
-window.reduceHealth = function (defender, dmg) {
-	defender.stats.hlth = Math.clamp(defender.stats.hlth-dmg,0,defender.stats.hlth)	
+function reduceHealth(defender, dmg) {
+	defender.stats.hlth = Math.clamp(defender.stats.hlth - dmg, 0, defender.stats.hlth)
 }

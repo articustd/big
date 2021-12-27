@@ -1,10 +1,11 @@
 :: macroCity
 <h1>Macro Megacity Downtown</h1>
 
-<<timeAction "Look for Trouble" "fight" 0 30>><</timeAction>>
+<<timeAction "Look for Trouble" "fight" 0 30>><<set $enemy to $enemies[$combatTable][$combatRand]>><<set $combat to true>><</timeAction>>
 <<link "Train" "train">><</link>>
 <<link "Store" "store">><</link>>
 <<timeAction "Go Back to the Station" "travel" 2 0>><</timeAction>>
 
 <<set $combatTable to 2>>
+<<set $combatRand to $enemies[$combatTable].length-1>>
 <<set $storeId to 2>>

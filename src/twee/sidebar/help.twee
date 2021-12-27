@@ -31,4 +31,4 @@ Currently there are only two types of attacks: Punch and Kick.
 
 !!Items
 Items grant Experience for the stat that it effects.
-<<return "Return">>
+<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

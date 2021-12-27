@@ -3,4 +3,4 @@
 
 <invText></invText>
 <<invMacro>>
-<<return "Return">>
+<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

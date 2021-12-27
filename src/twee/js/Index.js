@@ -1,7 +1,7 @@
-State.variables.version = `v0.2.2`
+State.variables.version = `v0.3.0`
 
-Config.history.controls = false;
-Config.debug = false;
+Config.history.controls = true;
+Config.debug = true;
 
 setup.ImagePath = "assets/";
 
@@ -11,8 +11,8 @@ $(document).on(':passagestart', function (ev) {
 		State.variables.return = ev.passage.title;
 	}
 	if (ev.passage.tags.includes('combat') && State.variables.combat == false) {
-		State.variables.enemy = $.extend(true,{},State.variables.enemies[0])
-		State.variables.combat = true
+		// State.variables.enemy = $.extend(true,{},State.variables.enemies[0])
+		// State.variables.combat = true
 	}
 });
 
@@ -24,5 +24,6 @@ $(document).one(':storyready', function(ev) {
 	State.variables.species = species;
 	State.variables.genders = genders;
 	State.variables.time = {day: 1, hour: 0, min: 0}
+	State.variables.attacks = attacks;
 });
 
