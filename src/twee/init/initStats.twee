@@ -32,7 +32,7 @@
 		},
 		credits: 0,
 		inv: [],
-		skillPoints: 0,
-		skills: [0,1]
+		skillPoints: 100,
+		skills: []
 	}>>
 <</widget>>

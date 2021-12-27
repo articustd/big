@@ -14,14 +14,12 @@
 <<if $player.gender.breasts>>Breasts: $player.gender.breasts<br><</if>>
 <<if $player.gender.vagina>>Vagina: Has one<</if>>
 <</nobr>>
-
 ''__Base Stats:__''
 Health: $player.stats.hlth/$player.stats.maxHlth
 Strength: $player.stats.strg
 Defence: $player.stats.def
 Dexterity: $player.stats.dex
 Accuracy: $player.stats.acc
-Skill Points: $player.skillPoints 
 
 ''__Measurements:__''
 $statPageText.heightText
@@ -34,11 +32,6 @@ Size: $player.exp.size
 Agility: $player.exp.agility
 Paw-Eye Coordination: $player.exp.pawEye
 Skill: $player.exp.skill
-
-''__Skills:__''
-<<for _i, _skillId range $player.skills>>
-''<<=$skills[_skillId].name>> -'' <<=$skills[_skillId].desc>>
-<</for>>
 
 ''Credits:'' $player.credits
 

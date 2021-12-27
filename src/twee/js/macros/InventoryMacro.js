@@ -9,67 +9,58 @@ Macro.add('invMacro', {
         // }
 
         let inventory = State.variables.player.inv;
-        let invText = ``
         
-        var invTable = document.createElement("table");
-        invTable.id = "invTable";
-
-        var header = invTable.insertRow(0)
-        var nameHeader = header.insertCell(0);
-        var statHeader = header.insertCell(1);
-        var modHeader = header.insertCell(2);
-        var qtyHeader = header.insertCell(3);
-
-        nameHeader.innerText = `Item`
-        statHeader.innerText = `Stat`
-        modHeader.innerText = `Modifier`
-        qtyHeader.innerText = `Quantity`
-
+        let $table = $('<table/>');
+        let $wrapper = $('<span/>')
+        let tableData = [['Item','Stat','Modifier','Quantity']]
         inventory.forEach(function (item, idx) {
-            var row = invTable.insertRow(idx+1);
-            let foundItem = getItemInfoByIndex(item.id)
-
-            var nameCell = row.insertCell(0);
-            var statCell = row.insertCell(1);
-            var modCell = row.insertCell(2);
-            var qtyCell = row.insertCell(3);
-            var useCell = row.insertCell(4);
-
-            nameCell.innerText = foundItem.name
-            statCell.innerText = returnStatName(foundItem.stat)
-            modCell.innerText = foundItem.mod
-            qtyCell.innerText = item.qty
-            $(useCell).append(`<a>Use</a>`).ariaClick(function (event) {
-                if(isItemAvailable(item)) {
-                        useItem(item.id);
-                        invText = `Buffed ${returnStatName(foundItem.stat)} by ${foundItem.mod}`
-                        decreaseInventory(item,idx);
-                        
-                        state.display(state.active.title, null, "back")
-                } else {
-                    invText = `${foundItem.name} is not in  inventory`
-                    state.display(state.active.title, null, "back")
-                }
-                jQuery("invText").text(invText)
-            })
+            tableData.push([getItemInfoByIndex(item.id), item.qty, idx])
         })
-        jQuery("invText").text(invText)
-        jQuery(this.output).append(invTable)
+
+        $.each(tableData, function(rowIndex,r) {
+            var $row = $('<tr/>')
+            if (rowIndex > 0) {
+                $row.append($('<td/>').wiki(r[0].name))
+                $row.append($('<td/>').wiki(returnStatName(r[0].stat)))
+                $row.append($('<td/>').wiki(r[0].mod))
+                $row.append($('<td/>').wiki(r[1]))
+                var $button = $(document.createElement('button')).wiki(`Use`).ariaClick(function (ev) {
+                    let invText = ``
+                    if(r[1] > 0) { // If the item is in inventory
+                        useItem(r[0])
+                        decreaseInventory(r[2],inventory)
+                        invText = `Buffed ${returnStatName(r[0].stat)} by ${r[0].mod}`
+                    } else {
+                        invText = `${r[0].name} is not in  inventory`
+                    }
+                    State.variables.invText = invText
+                    Engine.play(passage(), true)
+                })
+                $row.append($(`<td/>`).append($button))
+            } else {
+                $.each(r, function(colIndex, c) {
+                    $row.append($(`<th/>`).wiki(c))
+                })
+            }
+            $table.append($row)
+        })
+
+        $wrapper
+            .attr('id', `macro-${this.name}`)
+            .addClass('item-table')
+            .append($table)
+            .appendTo(this.output);
     }
 })
 
-function isItemAvailable(item) {
-    return item.qty > 0 ? true : false
-}
-
-function useItem(item) {
-    let usedItem = getItemInfoByIndex(item);
-    
+function useItem(usedItem) {
     State.variables.player[usedItem.type][usedItem.stat] += usedItem.mod
 }
 
-function decreaseInventory(item, idx) {
-    item.qty -= 1;
+function decreaseInventory(idx,inv) {
+    inv[idx].qty -= 1
+    if(inv[idx].qty == 0)
+        inv.splice(idx, 1)
 }
 
 function returnStatName(stat) {
@@ -92,5 +83,11 @@ function returnStatName(stat) {
             return 'Fat'
         case 'size':
             return 'Size'
+        case 'agility':
+            return 'Agility'
+        case 'pawEye':
+            return 'Paw-Eye Coordination'
+        case 'skill':
+            return 'Skill'
     }
 }

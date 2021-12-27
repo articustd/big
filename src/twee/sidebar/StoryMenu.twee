@@ -19,6 +19,7 @@ Credits: $player.credits
 <<if def $gameStarted>>
 <<link "Inventory" "inv">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
 <<link "Stats" "stats">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+<<link "Skills" "skills">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
 <<link "Settings" "settings">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
 <</if>>
 <<link "Credits" "credits">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>

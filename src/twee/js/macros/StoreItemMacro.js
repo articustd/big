@@ -8,62 +8,55 @@ Macro.add('storeItem', {
         //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
         // }
 
-        let storeStock = this.args[0].stock;
-        let storeText = ``
+        var storeStock = this.args[0].stock;
         
-        var stockTable = document.createElement("table");
-        stockTable.id = "storeStockTable";
-
-        var header = stockTable.insertRow(0)
-        var nameHeader = header.insertCell(0);
-        var qtyHeader = header.insertCell(1);
-        var priceHeader = header.insertCell(2);
-
-        nameHeader.innerText = `Item`
-        qtyHeader.innerText = `Quantity`
-        priceHeader.innerText = `Price`
-
+        let $table = $('<table/>');
+        let $wrapper = $('<span/>')
+        let tableData = [['Item','Quantity','Price']]
         storeStock.forEach(function (item, idx) {
-            var row = stockTable.insertRow(idx+1);
-
-            var nameCell = row.insertCell(0);
-            var qtyCell = row.insertCell(1);
-            var priceCell = row.insertCell(2);
-            var buyCell = row.insertCell(3);
-
-            nameCell.innerText = getItemInfoByIndex(item.id).name
-            qtyCell.innerText = item.qty
-            priceCell.innerText = item.price
-            $(buyCell).append(`<a>Buy</a>`).ariaClick(function (event) {
-                if(isItemInStock(item)) {
-                    if(canAfford(item)) {
-                        addToInventory(item.id);
-                        decreaseCredits(item.price);
-                        decreaseStock(item);
-                        storeText = `Bought 1 ${getItemInfoByIndex(item.id).name}!`
-                        state.display(state.active.title, null, "back")
-                    } else {
-                        storeText = `Not enough credits for ${getItemInfoByIndex(item.id).name}`
-                    }
-                } else {
-                    storeText = `${getItemInfoByIndex(item.id).name} is not in stock`
-                }
-                jQuery("storeText").text(storeText)
-            })
+            tableData.push([item.id,item.qty,item.price, idx])
         })
-        jQuery("storeText").text(storeText)
-        jQuery(this.output).append(stockTable)
+
+        $.each(tableData, function(rowIndex,r) {
+            var $row = $('<tr/>')
+            if (rowIndex > 0) {
+                $row.append($('<td/>').wiki(getItemInfoByIndex(r[0]).name))
+                $row.append($('<td/>').wiki(r[1]))
+                $row.append($('<td/>').wiki(r[2]))
+                var $button = $(document.createElement('button')).wiki(`Buy`).ariaClick(function (ev) {
+                    let storeText = ``
+                    if(r[1] > 0) { // If the item is in stock
+                        if(State.variables.player.credits >= r[2]) { // Can the player afford it
+                            addToInventory(r[3])
+                            decreaseCredits(r[2])
+                            decreaseStock(r[3],storeStock)
+                            storeText = `Bought 1 ${getItemInfoByIndex(r[0]).name}!`
+                        } else
+                            storeText = `Not enough credits for ${getItemInfoByIndex(r[0]).name}`
+                        
+                    } else
+                        storeText = `${getItemInfoByIndex(r[0]).name} is not in stock`
+                    
+                    State.variables.storeText = storeText
+                    Engine.play(passage(), true)
+                })
+                $row.append($(`<td/>`).append($button))
+            } else {
+                $.each(r, function(colIndex, c) {
+                    $row.append($(`<th/>`).wiki(c))
+                })
+            }
+            $table.append($row)
+        })
+
+        $wrapper
+            .attr('id', `macro-${this.name}`)
+            .addClass('store-table')
+            .append($table)
+            .appendTo(this.output);
     }
 })
 
-function isItemInStock(item){
-    return item.qty > 0 ? true : false
-}
-
-function canAfford(item){
-    return State.variables.player.credits >= item.price ? true : false
-}
-
-function decreaseStock(item) {
-    item.qty--;
+function decreaseStock(id,storeStock) {
+    storeStock[id].qty -= 1
 }

@@ -11,7 +11,7 @@ Macro.add('attackAction', {
             .wiki(attackText)
             .ariaClick(function (ev) {
                 combatRoll(attack);
-                state.display(state.active.title, null, "back")
+                Engine.play(passage(), true)
             })
 
         $wrapper
