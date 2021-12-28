@@ -35,3 +35,7 @@ sugarcube-2:
       name: attackAction
     skillsMacro:
       name: skillsMacro
+    genderDropdownMacro:
+      name: genderDropdownMacro
+    startGameRoutine:
+      name: startGameRoutine

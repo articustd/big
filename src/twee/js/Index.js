@@ -22,14 +22,12 @@ $(document).one(':storyready', function(ev) {
 	State.variables.loot = loot;
 	State.variables.stores = cloneObj(stores);
 	State.variables.species = species;
-	State.variables.sizes = sizes;
+	State.variables.sizes = sizeArray();
 	State.variables.bodyTypes = bodyTypes;
-	State.variables.genders = genders;
+	State.variables.genders = genderArray();
 	State.variables.time = {day: 1, hour: 0, min: 0}
 	State.variables.attacks = attacks;
 	State.variables.skills = skills;
-
-	generateCharacter(50,7,5,0,0)
 });
 
 function cloneObj(obj) {

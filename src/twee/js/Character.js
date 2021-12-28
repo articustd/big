@@ -1,5 +1,5 @@
-function generateCharacter(statPoints, speciesId, sizeRange, bodyTypeRange, gender, name) {
-    let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: { gentials: {} } };
+function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, gender, name) {
+    let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[gender] };
 
     let size = sizes[randomSize(sizeRange)]
     let sizeKey = Object.keys(size)[0]
@@ -14,24 +14,35 @@ function generateCharacter(statPoints, speciesId, sizeRange, bodyTypeRange, gend
     character.measurements.height = random(size[sizeKey].range[0], size[sizeKey].range[1])
     character.measurements.weight = calcWeight(character.measurements.height, bodyType[bodyTypeKey].weightMod, size[sizeKey].sizeMulti)
 
+    let hyper = false
+
+    character.species = species[speciesId]
+
     // Calculate Exp, Stats, and Name (This was not fun)
     if (!name) {
         character.name = `${sizeKey} ${bodyTypeKey} ${species[speciesId]}`
         let statPointMod = Math.floor(statPoints / 4)
         statPoints = random(statPoints - statPointMod, statPoints + statPointMod)
         calcStats(character, statMods, statPoints)
+
         for (let exp in expMods)
             character.exp[exp] = getExpCalc(character,exp,expMods[exp],statPoints)
     } else {
         character.name = name
         character.exp = blankExp()
+        character.credits = 0
+        character.skills = []
+        character.skillPoints = 0
+        character.inv = []
         calcStats(character, statMods, statPoints)
     }
 
     // Calculate Genitals... Oh boy
+    character.gender = calcGenitals(hyper,character.measurements.height,character.gender)
 
+    // Calculate Max Health and Current Health
+    calcMaxHealth(character)
 
-    console.log(character)
     return character;
 }
 
@@ -57,6 +68,25 @@ function calcStats(character, statMods, statPoints) {
     }
 }
 
+function calcGenitals(hyper,height,gender) {
+    let hyperMod = hyper ? 2 : 1
+    let genderKey = Object.keys(gender)[0]
+    let response = {
+        type:gender[genderKey].type, 
+        genitals: {
+            penis: Math.floor((height/random(8,11))*hyperMod), 
+            balls: Math.floor((height/random(8,11))*hyperMod), 
+            breasts: Math.floor((height/random(6,8))*hyperMod),
+            vagina: true 
+        }
+    }
+    for(let gen in gender[genderKey]) {
+        if(!gender[genderKey][gen])
+            response.genitals[gen] = false
+    }
+    return response
+}
+
 function blankExp() {
     return { muscle: 0, fat: 0, pawEye: 0, agility: 0, size: 0, skill: 0 }
 }
@@ -78,6 +108,11 @@ function getExpCalc(character,exp,expMod,statPoints) {
     }
 }
 
+function calcMaxHealth(character) {
+    character.stats.hlth = character.stats.con * 2
+    character.stats.maxHlth = character.stats.con * 2
+}
+
 let sizes = [
     { "Micro": { range: [3, 7], sizeMulti: 4 } },
     { "Tiny": { range: [8, 30], sizeMulti: 66 } },
@@ -89,6 +124,16 @@ let sizes = [
     { "Massive": { range: [458, 915], sizeMulti: 700 } },
     { "Macro": { range: [915, 3048], sizeMulti: 900 } }
 ];
+
+window.sizeArray = function (range) {
+    let sizeArr = []
+    sizes.forEach(function (size, idx) {
+        if(!range || range.includes(idx))
+            sizeArr.push(Object.keys(size)[0])
+    })
+    return sizeArr
+}
+
 let bodyTypes = [
     { "Thin": { weightMod: 0.75, statMods: { strg: 0.5, dex: 1.5, acc: 1.5, con: 0.5 }, expMods: { pawEye: 2, size: 1, skill: 1 } } },
     { "Normal": { weightMod: 1, statMods: { strg: 1, dex: 1, acc: 1, con: 1 }, expMods: { size: 1, skill: 1 } } },

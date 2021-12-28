@@ -1,37 +1,9 @@
 :: initStats [nobr widget] {"position":"25,25","size":"100,100"}
 <<widget "initStats">>
 	<<set $player to {
-		stats: {
-		  maxHlth: 15,
-		  hlth: 15,
-		  strg: 5,
-		  acc: 5,
-		  dex: 5
-		},
-		exp: {
-			muscle: 0,
-			fat: 0,
-			size: 0,
-			skill: 0,
-			pawEye: 0,
-			agility: 0
-		},
-		measurements: {
-			height: 172, /* default cm */
-			weight: 82 /* default kg */
-		},
-		gender: {
-			type: "futa",
-			genitals: {
-				penis: 10, /* default cm */
-				balls: 10, /* default cm */
-				breast: 10, /* default cm */
-				vagina: true
-			}
-		},
-		credits: 0,
-		inv: [],
-		skillPoints: 100,
-		skills: []
+		name: "Min",
+		species: "Dragon",
+		gender: "Futa",
+		size: "Average"
 	}>>
 <</widget>>

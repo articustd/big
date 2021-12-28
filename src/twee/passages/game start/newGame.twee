@@ -1,4 +1,11 @@
 :: newGame {"position":"150,675","size":"100,100"}
+<h1>Create Character</h1><<script>>State.variables.playerSizes = sizeArray([2,3,4])<</script>>
+Welcome to the character creater! 
+
+Here you can pick your name, starting species, gender, size, and how you want measurements displayed.
+
+Size effects your starting stats, smaller characters will have a harder time starting out. So choose wisely!
+
 Name:
 <<textbox "$player.name" "Min">>
 
@@ -6,11 +13,12 @@ Species: <<listbox "$player.species" autoselect>><<optionsfrom $species>><</list
 
 Gender: <<listbox "$player.gender" autoselect>><<optionsfrom $genders>><</listbox>>
 
-Imperial: <<listbox "$imperial" autoselect>>
+Size: <<listbox "$player.size" autoselect>><<optionsfrom $playerSizes>><</listbox>>
+
+Units of Measure: <<listbox "$imperial" autoselect>>
 	<<option "Imperial" true>>
 	<<option "Metric" false>>
 <</listbox>>
 
-<<link "Start Game" "home">>
-	<<set $gameStarted to true>>
-<</link>>
+<<button "Next" "welcome">><</button>>
+

@@ -9,15 +9,15 @@
 
 ''__Genitalia:__''
 <<nobr>>
-<<if $player.gender.penis>>Penis: $player.gender.penis<br><</if>>
-<<if $player.gender.balls>>Balls: $player.gender.balls<br><</if>>
-<<if $player.gender.breasts>>Breasts: $player.gender.breasts<br><</if>>
-<<if $player.gender.vagina>>Vagina: Has one<</if>>
+<<if $player.gender.genitals.penis>>Penis: $player.gender.genitals.penis<br><</if>>
+<<if $player.gender.genitals.balls>>Balls: $player.gender.genitals.balls<br><</if>>
+<<if $player.gender.genitals.breasts>>Breasts: $player.gender.genitals.breasts<br><</if>>
+<<if $player.gender.genitals.vagina>>Vagina: Has one<br><</if>>
 <</nobr>>
 ''__Base Stats:__''
 Health: $player.stats.hlth/$player.stats.maxHlth
 Strength: $player.stats.strg
-Defence: $player.stats.def
+Constitution: $player.stats.con
 Dexterity: $player.stats.dex
 Accuracy: $player.stats.acc
 
