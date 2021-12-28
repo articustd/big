@@ -5,7 +5,6 @@
 		  maxHlth: 15,
 		  hlth: 15,
 		  strg: 5,
-		  def: 5,
 		  acc: 5,
 		  dex: 5
 		},

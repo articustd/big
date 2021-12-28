@@ -9,6 +9,7 @@ $restText
 <</if>>
 <</nobr>>
 
+<<consumeEnemy $enemies[0][0]>>
 <<link "Travel" "travel">><<<<unset $restText>><</link>>
 <<timeAction "Rest" 8 0>>
 	<<restMacro true false>>

@@ -53,7 +53,9 @@ function calcConsume(prey) {
 }
 
 function randPoints(range) {
-    return random(range[0],range[1]);
+    if(Array.isArray(range))
+        return random(range[0],range[1]);
+    return range
 }
 
 function addPoints(points, hunter) {

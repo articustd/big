@@ -1,1 +1,1 @@
-let species = [`Dragon`,`Fox`,`Shark`,`Wolf`]
+let species = [`Dragon`,`Fox`,`Wolf`,`Snake`,`Rabbit`,`Dog`,`Badger`,`Tiger`,`Bear`,`Mouse`].sort()

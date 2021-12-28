@@ -1,10 +1,7 @@
 :: normalCity
 <h1>Variable Village Downtown</h1>
 
-<<timeAction "Look for Trouble" "fight" 0 30>>
-<<set $enemy to $enemies[$combatTable][$combatRand]>>
-<<set $combat to true>>
-<</timeAction>>
+<<timeAction "Look for Trouble" "fight" 0 30>><<set $enemy to $enemies[$combatTable][$combatRand]>><<set $enemy.stats.hlth to $enemy.stats.maxHlth>><<set $combat to true>><</timeAction>>
 <<link "Train" "train">><</link>>
 <<link "Store" "store">><</link>>
 <<timeAction "Go Back to the Station" "travel" 2 0>><</timeAction>>
