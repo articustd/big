@@ -39,3 +39,5 @@ sugarcube-2:
       name: genderDropdownMacro
     startGameRoutine:
       name: startGameRoutine
+    enemyMacro:
+      name: enemyMacro

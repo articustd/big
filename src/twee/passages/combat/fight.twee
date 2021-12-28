@@ -18,6 +18,7 @@ $enemyHitText
 <<if $combat is true>>
 <<attackAction $attacks[0]>>
 <<attackAction $attacks[1]>>
+<<link "Run away!" $return>><<combatReset>><</link>>
 <</if>>
 <<if $win is true>>
 <<for _i, _item range $foundItems>><<=_item>><br><</for>>

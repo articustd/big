@@ -71,14 +71,14 @@ function calcCombatHit(attack, attacker) {
 function calcHitChance(attack, attacker) {
 	// Base Stats
 	let hitMod = attacker.stats.acc;
-	
+
 	// Status Effect
 
 
 	// Skill
-	if(attacker.skills) {
-		for(let skill in attacker.skills) {
-			if(skills[skill].type == 'hit') {
+	if (attacker.skills) {
+		for (let skill in attacker.skills) {
+			if (skills[skill].type == 'hit') {
 				hitMod = checkSkillMod(skills[skill].mod, hitMod)
 			}
 		}
@@ -89,9 +89,9 @@ function calcHitChance(attack, attacker) {
 
 function calcCombatDmg(attack, attacker, crit) {
 	let dmg = calcDmgRange(attack, attacker)
-	if(crit)
-		return Math.floor(random(dmg.minDmg,dmg.maxDmg)*attack.critMulti)
-	return random(dmg.minDmg,dmg.maxDmg)
+	if (crit)
+		return Math.floor(random(dmg.minDmg, dmg.maxDmg) * attack.critMulti)
+	return random(dmg.minDmg, dmg.maxDmg)
 }
 
 function calcDmgRange(attack, attacker) {
@@ -101,10 +101,10 @@ function calcDmgRange(attack, attacker) {
 	// Status Effect
 
 	// Skill
-	if(attacker.skills) {
-		for(let skill in attacker.skills) {
-			if(skills[skill].type == 'dmg') {
-				switch(skills[skill].bound) {
+	if (attacker.skills) {
+		for (let skill in attacker.skills) {
+			if (skills[skill].type == 'dmg') {
+				switch (skills[skill].bound) {
 					case 'max':
 						maxDmg = checkSkillMod(skills[skill].mod, maxDmg);
 						break
@@ -120,7 +120,7 @@ function calcDmgRange(attack, attacker) {
 		}
 	}
 
-	return {minDmg, maxDmg}
+	return { minDmg, maxDmg }
 }
 
 function checkHealth(defender) {
@@ -132,7 +132,7 @@ function reduceHealth(defender, dmg) {
 }
 
 function checkSkillMod(mod, value) {
-	if(mod%1!=0) // Check for a decimal
+	if (mod % 1 != 0) // Check for a decimal
 		return Math.floor(value * mod)
 	return value + mod
 }
