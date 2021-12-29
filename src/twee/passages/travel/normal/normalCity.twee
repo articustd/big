@@ -1,10 +1,7 @@
 :: normalCity
 <h1>Variable Village Downtown</h1>
 
-<<timeAction "Look for Trouble" "fight" 0 30>><</timeAction>>
+<<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 3 5>><</timeAction>>
 <<link "Train" "train">><</link>>
-<<link "Store" "store">><</link>>
+<<link "Store" "store">><<set $storeId to 1>><</link>>
 <<timeAction "Go Back to the Station" "travel" 2 0>><</timeAction>>
-
-<<set $combatTable to 1>>
-<<set $storeId to 1>>

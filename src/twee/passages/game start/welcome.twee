@@ -1,0 +1,8 @@
+:: welcome
+<h1>Welcome!</h1><<startGameRoutine>>
+
+Welcome to the world! This page is still a WIP, but please proceed with the game!
+
+<<link "Start Game" "home">>
+	<<set $gameStarted to true>>
+<</link>>

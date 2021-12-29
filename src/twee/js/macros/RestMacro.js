@@ -1,21 +1,11 @@
 Macro.add('restMacro', {
     skipArgs: false,
     handler: function () {
-        // if (this.args.length < 1) {
-        //     var errors = [];
-        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
-        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
-        //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
-        // }
-        // Args: LevelUp - Boolean, Visible - Boolean
-
         let levelUp = this.args[0]
         let visible = this.args[1]
         let player = State.variables.player;
 
         if (!visible) {
-            player.stats.hlth = player.stats.maxHlth;
-
             if (levelUp) {
                 let leveled = false
                 Object.entries(player.exp).forEach(([stat, value]) => {
@@ -32,13 +22,16 @@ Macro.add('restMacro', {
                         leveled = true
                     }
                 });
-                
                 if(leveled) {
-                    State.variables.restText = "You feel the effects of your experience"
+                    State.variables.restText = "You feel the effects of your experience" 
+                    
                 }
-                State.variables.restText = `You feel rested and rejuvenated!`
+                else 
+                    State.variables.restText = `You feel rested and rejuvenated!`
             }
-
+            if(getMaxHealth(player)>player.stats.maxHlth)
+                        player.stats.maxHlth = getMaxHealth(player)
+            player.stats.hlth = player.stats.maxHlth;
             advanceTime(true)
         }
     }
@@ -54,5 +47,9 @@ function statMapping(stat) {
             return ['measurements', 'height']
         case 'skill':
             return ['skillPoints']
+        case 'pawEye':
+            return ['stats', 'acc']
+        case 'agility':
+            return ['stats', 'dex']
     }
 }

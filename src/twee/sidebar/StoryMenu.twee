@@ -17,9 +17,10 @@ Credits: $player.credits
 
 :: StoryMenu {"position":"25,675","size":"100,100"}
 <<if def $gameStarted>>
-<<link "Inventory" "inv">><</link>>
-<<link "Stats" "stats">><</link>>
-<<link "Settings" "settings">><</link>>
+<<link "Inventory" "inv">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+<<link "Stats" "stats">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+<<link "Skills" "skills">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+<<link "Settings" "settings">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
 <</if>>
-<<link "Credits" "credits">><</link>>
-<<link "Help" "help">><</link>>
+<<link "Credits" "credits">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+<<link "Help" "help">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>

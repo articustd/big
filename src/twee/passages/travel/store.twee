@@ -3,6 +3,6 @@
 
 Welcome to the $stores[$storeId].name!
 
-<storeText></storeText>
+<<nobr>><<if def $storeText>>$storeText<</if>><</nobr>>
 <<storeItem $stores[$storeId]>>
-<<link [[Go Back|$return]]>><</link>>
+<<link [[Go Back|$return]]>><<unset $storeText>><</link>>

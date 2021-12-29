@@ -31,3 +31,13 @@ sugarcube-2:
     timeAction:
       name: timeAction
       container: true
+    attackAction:
+      name: attackAction
+    skillsMacro:
+      name: skillsMacro
+    genderDropdownMacro:
+      name: genderDropdownMacro
+    startGameRoutine:
+      name: startGameRoutine
+    enemyMacro:
+      name: enemyMacro

@@ -3,11 +3,11 @@
 !!Stats
 ''__Base Stats__''
 ''Health'' - Current health out of max total health.
-''Strength'' - Used to inflict more damage with the Punch attack. Governed by the Muscle Experience.
-''Defence'' - Current WIP.
-''Dexterity'' - Used to inflict more damage with the Kick attack.
-''Accuracy'' - Current WIP.
-''Skill Points'' - Current WIP. Governed by Skill Experience.
+''Strength'' - Used to inflict more damage with the Punch attack. Governed by Muscle Experience.
+''Constitution'' - Used to figure out max health.
+''Dexterity'' - Used to inflict more damage with the Kick attack. Governed by Agility Experience.
+''Accuracy'' - Is used to calculate hit chance. Governed by Paw-Eye Coordination Experience.
+''Skill Points'' - Used to purchase skills from the Skills Page. Governed by Skill Experience.
 
 ''__Measurements__''
 ''Height'' - How large you are. Currently does NOT effect anything. Governed by the Size Experience.
@@ -17,6 +17,8 @@
 ''Muscle'' - The amount of Muscle Experience you currently have. Effects Strength when resting.
 ''Fat'' - The amount of Fat Experience you currently have. Effects Weight when resting.
 ''Size'' - The amount of Size Experience you currently have. Effects Height when resting.
+''Agility'' - The amount of Agility Experience you currently have. Effects Dexterity when resting.
+''Paw-Eye Coordination'' - The amount of Paw-Eye Coordination Experience you currently have. Effects Accuracy when resting.
 ''Skill'' - The amount of Skill Experience you currently have. Effects Skill Points when resting.
 
 ''Credits'' - Current amount of credits you have.
@@ -31,4 +33,4 @@ Currently there are only two types of attacks: Punch and Kick.
 
 !!Items
 Items grant Experience for the stat that it effects.
-<<return "Return">>
+<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

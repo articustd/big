@@ -1,4 +1,8 @@
 :: settings [noreturn] {"position":"275,425","size":"100,100"}
-<label><<radiobutton "$imperial" true autocheck>> Imperial</label>
-<label><<radiobutton "$imperial" false autocheck>> Metric</label>
-<<return "Return">>
+<h1>Settings</h1>
+Units of Measure: <<listbox "$imperial" autoselect>>
+	<<option "Imperial" true>>
+	<<option "Metric" false>>
+<</listbox>>
+
+<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

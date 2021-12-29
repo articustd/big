@@ -12,16 +12,14 @@
 <<if $player.gender.penis>>Penis: $player.gender.penis<br><</if>>
 <<if $player.gender.balls>>Balls: $player.gender.balls<br><</if>>
 <<if $player.gender.breasts>>Breasts: $player.gender.breasts<br><</if>>
-<<if $player.gender.vagina>>Vagina: Has one<</if>>
+<<if $player.gender.vagina>>Vagina: Has one<br><</if>>
 <</nobr>>
-
 ''__Base Stats:__''
 Health: $player.stats.hlth/$player.stats.maxHlth
 Strength: $player.stats.strg
-Defence: $player.stats.def
+Constitution: $player.stats.con
 Dexterity: $player.stats.dex
 Accuracy: $player.stats.acc
-Skill Points: $player.skillPoints 
 
 ''__Measurements:__''
 $statPageText.heightText
@@ -31,8 +29,10 @@ $statPageText.weightText
 Muscle: $player.exp.muscle
 Fat: $player.exp.fat
 Size: $player.exp.size
+Agility: $player.exp.agility
+Paw-Eye Coordination: $player.exp.pawEye
 Skill: $player.exp.skill
 
 ''Credits:'' $player.credits
 
-<<return "Return">>
+<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

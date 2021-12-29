@@ -1,8 +1,7 @@
 /* Item Logic */
-window.rollItems = function (tableId) {
+ function rollItems(tableId) {
 	var items = State.variables.loot[tableId]
 	var text = []
-	
 	items.forEach(function(item){
 		if(item.id >= 0) {
 			if(itemChance(item.chnc)) {
@@ -18,14 +17,14 @@ window.rollItems = function (tableId) {
 	return text
 }
 
-window.itemChance = function (chance) {
+function itemChance(chance) {
 	if(Math.floor(Math.random() * 101) <= chance) {
 		return true	
 	}
 	return false
 }
 
-window.addToInventory = function (id) {
+function addToInventory(id) {
 	var found = -1
 	State.variables.player.inv.forEach(function(item,idx){
 		if(item.id == id) {
@@ -39,7 +38,7 @@ window.addToInventory = function (id) {
 	}
 }
 
-window.addCredits = function (amount) {
+function addCredits(amount) {
 	var randomPercent = Math.clamp(Math.floor(Math.random() * 101),75,100)/100
 	var credits = Math.floor(amount*randomPercent);
 	State.variables.player.credits += credits

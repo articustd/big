@@ -1,9 +1,9 @@
-:: consume [noreturn] {"position":"950,150","size":"100,100"}
-<h1>Consume</h1>
+:: consume [noreturn] 
+<h1>$consumeHeader</h1>
 
-How do you consume them?
+$consumeText
 
-<<link "Eat">><<consumeEnemy $player $enemy>><</link>>
-<<link "Unbirth">><<consumeEnemy $player $enemy>><</link>>
-<<link "Anal">><<consumeEnemy $player $enemy>><</link>>
-<<link "Sounding">><<consumeEnemy $player $enemy>><</link>>
+<<link "Return" $return>>
+    <<unset $consumeText>>
+    <<unset $consumeHeader>>
+<</link>>
