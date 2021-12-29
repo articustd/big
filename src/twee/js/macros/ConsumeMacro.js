@@ -29,7 +29,7 @@ Macro.add('consumeEnemy', {
                             State.variables.consumeHeader = `${con.method}ing ${prey.name}`
 
                             addPoints(calcConsume(prey),State.variables.player) 
-
+                            combatReset()
                             delete State.variables.enemy
                             Engine.play("consume")
                         })
