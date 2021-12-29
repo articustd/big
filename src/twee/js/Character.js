@@ -109,12 +109,16 @@ function getExpCalc(character, exp, expMod, statPoints) {
 }
 
 function calcMaxHealth(character) {
-    character.stats.hlth = character.stats.con * 2
-    character.stats.maxHlth = character.stats.con * 2
+    character.stats.hlth = getMaxHealth(character)
+    character.stats.maxHlth = getMaxHealth(character)
 }
 
 function getMaxHealth(character) {
-    return character.stats.con * 2
+    let hW = character.measurements.height+character.measurements.weight
+    let con = character.stats.con
+    let logConHW = Math.log2(con*hW)
+    let sqLogConHW = logConHW**2
+    return Math.floor((((0.01*(2*sqLogConHW*logConHW))+10)/2)+5)
 }
 
 let sizes = [
@@ -125,7 +129,7 @@ let sizes = [
     { "Average": { range: [153, 180], sizeMulti: 470 } },
     { "Tall": { range: [181, 244], sizeMulti: 600 } },
     { "Huge": { range: [245, 457], sizeMulti: 700 } },
-    { "Massive": { range: [458, 915], sizeMulti: 700 } },
+    { "Massive": { range: [458, 915], sizeMulti: 800 } },
     { "Macro": { range: [915, 3048], sizeMulti: 900 } }
 ];
 
