@@ -11,7 +11,8 @@ let stores = [
         name: "Micro Marketplace",
         stock: [
             { id: 0, qty: 10, price: 50 },
-            { id: 1, qty: 3, price: 200 }
+            { id: 1, qty: 3, price: 200 },
+            { id: 4, qty: 1, price: 500 }
         ]
     },
     {

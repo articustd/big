@@ -54,6 +54,12 @@ Macro.add('invMacro', {
 })
 
 function useItem(usedItem) {
+    if(usedItem.stat === 'hlth') { // This is a stop gap until I can put in prop health checking
+        if(usedItem.mod + State.variables.player.stats.hlth > State.variables.player.stats.maxHlth) {
+            State.variables.player.stats.hlth = State.variables.player.stats.maxHlth
+            return
+        }
+    }
     State.variables.player[usedItem.type][usedItem.stat] += usedItem.mod
 }
 
@@ -65,8 +71,8 @@ function decreaseInventory(idx,inv) {
 
 function returnStatName(stat) {
     switch(stat) {
-        case 'maxHlth':
-            return 'Max Health'
+        case 'con':
+            return 'Constitution'
         case 'hlth':
             return 'Health'
         case 'strg':

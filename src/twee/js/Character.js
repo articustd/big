@@ -113,6 +113,10 @@ function calcMaxHealth(character) {
     character.stats.maxHlth = character.stats.con * 2
 }
 
+function getMaxHealth(character) {
+    return character.stats.con * 2
+}
+
 let sizes = [
     { "Micro": { range: [3, 7], sizeMulti: 4 } },
     { "Tiny": { range: [8, 30], sizeMulti: 66 } },

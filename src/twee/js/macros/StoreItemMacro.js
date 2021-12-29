@@ -27,7 +27,7 @@ Macro.add('storeItem', {
                     let storeText = ``
                     if(r[1] > 0) { // If the item is in stock
                         if(State.variables.player.credits >= r[2]) { // Can the player afford it
-                            addToInventory(r[3])
+                            addToInventory(r[0])
                             decreaseCredits(r[2])
                             decreaseStock(r[3],storeStock)
                             storeText = `Bought 1 ${getItemInfoByIndex(r[0]).name}!`

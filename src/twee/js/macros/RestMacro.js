@@ -6,8 +6,6 @@ Macro.add('restMacro', {
         let player = State.variables.player;
 
         if (!visible) {
-            player.stats.hlth = player.stats.maxHlth;
-
             if (levelUp) {
                 let leveled = false
                 Object.entries(player.exp).forEach(([stat, value]) => {
@@ -24,13 +22,16 @@ Macro.add('restMacro', {
                         leveled = true
                     }
                 });
-                
                 if(leveled) {
-                    State.variables.restText = "You feel the effects of your experience"
+                    State.variables.restText = "You feel the effects of your experience" 
+                    
                 }
-                State.variables.restText = `You feel rested and rejuvenated!`
+                else 
+                    State.variables.restText = `You feel rested and rejuvenated!`
             }
-
+            if(getMaxHealth(player)>player.stats.maxHlth)
+                        player.stats.maxHlth = getMaxHealth(player)
+            player.stats.hlth = player.stats.maxHlth;
             advanceTime(true)
         }
     }
