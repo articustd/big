@@ -448,7 +448,7 @@ function checkSkillMod(mod, value) {
 	return value + mod
 }
 /* twine-user-script #3: "Index.js" */
-State.variables.version = `v0.3.0`
+State.variables.version = `v0.3.1`
 
 Config.history.controls = false;
 Config.debug = false;
@@ -584,17 +584,21 @@ window.convertToLargerUnits = function (measurements,imperial) {
 Macro.add('combatReset', {
     skipArgs: true,
     handler: function () {
-        delete State.variables.enemyHitDmg
-        delete State.variables.enemyHitText
-        delete State.variables.foundItems
-        delete State.variables.playerHitDmg
-        delete State.variables.playerHitText
-        delete State.variables.combatResults
-
-        State.variables.combat = false;
-        State.variables.win = false;
+        combatReset()
     }
 })
+
+function combatReset() {
+    delete State.variables.enemyHitDmg
+    delete State.variables.enemyHitText
+    delete State.variables.foundItems
+    delete State.variables.playerHitDmg
+    delete State.variables.playerHitText
+    delete State.variables.combatResults
+
+    State.variables.combat = false;
+    State.variables.win = false;
+}
 /* twine-user-script #7: "ConsumeMacro.js" */
 Macro.add('consumeEnemy', {
     skipArgs: false,
@@ -627,7 +631,7 @@ Macro.add('consumeEnemy', {
                             State.variables.consumeHeader = `${con.method}ing ${prey.name}`
 
                             addPoints(calcConsume(prey),State.variables.player) 
-
+                            combatReset()
                             delete State.variables.enemy
                             Engine.play("consume")
                         })
