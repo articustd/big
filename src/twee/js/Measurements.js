@@ -31,7 +31,6 @@ window.convertToLargerUnits = function (measurements,imperial) {
 		heightText += `${mile} miles, ${foot} feet, ${height} inches`
 		
 		var weight = converted.weight
-		console.log(weight)
 		var ton = Math.floor(weight/35840)
 		weight -= ton*35840
 		var pounds = Math.floor(weight/16)
