@@ -1,7 +1,7 @@
 State.variables.version = `v0.3.0`
 
-Config.history.controls = true;
-Config.debug = true;
+Config.history.controls = false;
+Config.debug = false;
 
 setup.ImagePath = "assets/";
 
