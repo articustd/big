@@ -15,7 +15,7 @@ $trainText
 	<<trainMacro "size" "You went deep with deep squats and gain 1 size!" 100 1>>
 <</timeAction>>
 <<timeAction "Run on Treadmill" 1 0>>
-	<<trainMacro "flex" "You hauled butt and gain 1 agility!" 100 1>>
+	<<trainMacro "agility" "You hauled butt and gain 1 agility!" 100 1>>
 <</timeAction>>
 <<timeAction "Use Speed Bag" 1 0>>
 	<<trainMacro "pawEye" "You threw paws and gain 1 paw-eye coordination!" 100 1>>

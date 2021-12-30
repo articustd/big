@@ -1,4 +1,4 @@
-State.variables.version = `v0.3.1`
+State.variables.version = `v0.3.2`
 
 Config.history.controls = false;
 Config.debug = false;
