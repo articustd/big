@@ -12,8 +12,6 @@ $(document).on(':passagestart', function (ev) {
 });
 
 $(document).one(':storyready', function(ev) {
-	
-
 	State.variables.items = items;
 	State.variables.loot = loot;
 	State.variables.stores = cloneObj(stores);
@@ -24,6 +22,7 @@ $(document).one(':storyready', function(ev) {
 	State.variables.time = {day: 1, hour: 0, min: 0}
 	State.variables.attacks = attacks;
 	State.variables.skills = skills;
+	State.variables.pronouns = pronounArray()
 });
 
 function cloneObj(obj) {

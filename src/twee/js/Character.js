@@ -1,4 +1,4 @@
-function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name) {
+function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
     let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId] };
 
     let size = sizes[randomSize(sizeRange)]
@@ -40,7 +40,7 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
     }
 
     // Calculate Genitals... Oh boy
-    character.gender = calcGenitals(hyper, character.measurements.height, character.gender)
+    character.gender = calcGenitals(hyper, character.measurements.height, character.gender, pronounKey)
 
     // Calculate Max Health and Current Health
     calcMaxHealth(character)
@@ -70,7 +70,7 @@ function calcStats(character, statMods, statPoints) {
     }
 }
 
-function calcGenitals(hyper, height, gender) {
+function calcGenitals(hyper, height, gender, pronounKey) {
     let hyperMod = hyper ? 2 : 1
     let genderKey = Object.keys(gender)[0]
     let response = {
@@ -84,6 +84,9 @@ function calcGenitals(hyper, height, gender) {
             response[gen] = false
     }
     response.type = gender[genderKey].type
+    console.log(pronounKey)
+    response.pronouns = (pronounKey) ? pronounKey : gender[genderKey].pronouns
+    console.log(response.pronouns)
     return response
 }
 
