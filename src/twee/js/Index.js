@@ -1,4 +1,4 @@
-State.variables.version = `v0.3.1`
+State.variables.version = `v0.4.0`
 
 Config.history.controls = false;
 Config.debug = false;
@@ -32,4 +32,3 @@ $(document).one(':storyready', function(ev) {
 function cloneObj(obj) {
 	return Object.assign({},obj)
 }
-
