@@ -1,17 +1,21 @@
 :: work [noreturn] {"position":"1275,425","size":"100,100"}
 <h1>Work</h1>
 
+Working hours are from 8:00 to 16:00
 <<nobr>>
 <<if def $workText>>
 $workText
 <</if>>
 <</nobr>>
-
+<<if $time.hour gte 8 && $time.hour lt 16>>
 <<timeAction "Do some work" 2 0>>
 	<<set $player.credits to $player.credits+100>>
 	<<set $workText to "You hurt your head thinking, but that's why they pay you the big bucks! +100 credits">>
 	<<set _advanceTime to true>>
 <</timeAction>>
+<<else>>
+Cannot work outside of work hours
+<</if>>
 <<link [[Go Back|$return]]>>
 	<<unset $workText>>
 <</link>>

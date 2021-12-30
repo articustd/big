@@ -9,7 +9,7 @@ $version
 :: StoryCaption {"position":"25,550","size":"100,100"}
 <<if def $gameStarted>>
 Name: $player.name
-Health: $player.stats.hlth/$player.stats.maxHlth
+Health: <<healthBarMacro $player>>
 Day: $time.day
 Time: $time.hour:<<if $time.min lt 10>>0<</if>>$time.min
 Credits: $player.credits

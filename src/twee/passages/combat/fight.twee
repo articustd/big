@@ -1,6 +1,6 @@
 :: fight [noreturn combat] {"position":"1075,25","size":"100,100"}
-Your health: $player.stats.hlth
-<<-$enemy.name>>'s health: $enemy.stats.hlth
+Your health: <<healthBarMacro $player>>
+<<-$enemy.name>>'s health: <<healthBarMacro $enemy>>
 
 <<if def $playerHitText>>
 $playerHitText

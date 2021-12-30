@@ -1,13 +1,6 @@
 Macro.add('invMacro', {
     skipArgs: false,
     handler: function () {
-        // if (this.args.length < 1) {
-        //     var errors = [];
-        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
-        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
-        //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
-        // }
-
         let inventory = State.variables.player.inv;
         
         let $table = $('<table/>');
@@ -27,9 +20,11 @@ Macro.add('invMacro', {
                 var $button = $(document.createElement('button')).wiki(`Use`).ariaClick(function (ev) {
                     let invText = ``
                     if(r[1] > 0) { // If the item is in inventory
-                        useItem(r[0])
-                        decreaseInventory(r[2],inventory)
-                        invText = `Buffed ${returnStatName(r[0].stat)} by ${r[0].mod}`
+                        if(useItem(r[0])) {
+                            decreaseInventory(r[2],inventory)
+                            invText = `Buffed ${returnStatName(r[0].stat)} by ${r[0].mod}`
+                        } else
+                            invText = `Health is already full`                        
                     } else {
                         invText = `${r[0].name} is not in  inventory`
                     }
@@ -57,10 +52,12 @@ function useItem(usedItem) {
     if(usedItem.stat === 'hlth') { // This is a stop gap until I can put in prop health checking
         if(usedItem.mod + State.variables.player.stats.hlth > State.variables.player.stats.maxHlth) {
             State.variables.player.stats.hlth = State.variables.player.stats.maxHlth
-            return
+            return false
         }
     }
     State.variables.player[usedItem.type][usedItem.stat] += usedItem.mod
+    State.variables.player.stats.maxHlth = getMaxHealth(State.variables.player)
+    return true
 }
 
 function decreaseInventory(idx,inv) {
