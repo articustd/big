@@ -9,11 +9,12 @@ window.convertToLargerUnits = function (measurements,imperial) {
 	var weightText = "Weight: "
 	var heightText = "Height: "
 	if(!imperial) {
+		let weight = measurements.weight
 		var ton = Math.floor(measurements.weight/1000000)
-		measurements.weight -= ton*1000000
+		weight -= ton*1000000
 		var kg = Math.floor(measurements.weight/1000)
-		measurements.weight -= kg*1000
-		weightText += `${ton} tons, ${kg} kg, ${measurements.weight} g`
+		weight -= kg*1000
+		weightText += `${ton} tons, ${kg} kg, ${weight} g`
 		
 		var height = measurements.height
 		var meter = Math.floor(height/100)

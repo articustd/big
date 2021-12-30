@@ -29,8 +29,8 @@ Macro.add('restMacro', {
                 else 
                     State.variables.restText = `You feel rested and rejuvenated!`
             }
-            if(getMaxHealth(player)>player.stats.maxHlth)
-                        player.stats.maxHlth = getMaxHealth(player)
+            player.stats.maxHlth = getMaxHealth(player)
+            
             player.stats.hlth = player.stats.maxHlth;
             advanceTime(true)
         }
