@@ -40,7 +40,7 @@ function combatRoll(playerAttack) {
 		State.variables.combat = false
 		State.variables.win = true
 		State.variables.combatResults = `You've knocked out your enemy!`
-		State.variables.foundItems = rollItems(enemy.loot)
+		State.variables.foundItems = rollItems(enemy.loot, enemy.credits)
 	}
 
 	if (!checkHealth(player)) {

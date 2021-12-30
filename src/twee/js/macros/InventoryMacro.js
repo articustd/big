@@ -92,5 +92,11 @@ function returnStatName(stat) {
             return 'Paw-Eye Coordination'
         case 'skill':
             return 'Skill'
+        case 'penis':
+            return 'Penis'
+        case 'balls':
+            return 'Balls'
+        case 'breasts':
+            return 'Breasts'
     }
 }
