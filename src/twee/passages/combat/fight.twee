@@ -3,7 +3,7 @@
 <<nobr>>
 <div id="PlayerContainer" class="CombatContainer">$player.name
 <<healthBarMacro $player>><br>
-<div class="CombatLog">
+<div id="PlayerCombatLog" class="CombatLog">
 <<if def $playerCombatLog>><<for _log range $playerCombatLog>>
     _log <br>
 <</for>><</if>>
@@ -12,7 +12,7 @@
 
 <div id="EnemyContainer" class="CombatContainer">$enemy.name<br>
 <<healthBarMacro $enemy "right">><br><br>
-<div class="CombatLog">
+<div id="EnemyCombatLog" class="CombatLog">
 <<if def $enemyCombatLog>><<for _log range $enemyCombatLog>>
     _log <br>
 <</for>><</if>>

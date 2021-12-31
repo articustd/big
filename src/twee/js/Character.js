@@ -26,7 +26,7 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
         availableLoot.push({id:loot[item].id, qty: 1, chnc: loot[item].chnc})
     }
     // Roll for credits
-    var randomPercent = Math.clamp(Math.floor(Math.random() * 101),75,100)/100
+    var randomPercent = Math.clamp(random(1,100),75,100)/100
 	var credits = Math.floor(50*randomPercent);
 
     // Calculate Measurements
