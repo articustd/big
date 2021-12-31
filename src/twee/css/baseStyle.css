@@ -100,15 +100,25 @@ img#logoImage {
   text-align: right;
 }
 
-#CombatWrapper {
-  width: 500px;
-  /* border: 1px solid black; */
-  overflow: hidden;
-  /* will contain if #first is longer than #second */
-}
-
 .CombatLog {
+  border-radius: 7px;
   padding: 5px;
   border: solid;
   height: 400px;
 }
+
+.CombatActionContainer {
+  padding: 1px;
+  float:left;
+  width: 32%;
+  /* border: solid; */
+  height: 100px;
+}
+
+.CombatActionHeader {
+  text-align: center;
+  width: 100%;
+  display: block;
+  font-size: x-large;
+}
+

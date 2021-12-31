@@ -7,8 +7,14 @@ function combatRoll(playerAttack) {
 	let enemy = State.variables.enemy
 	let player = State.variables.player
 
-	// Ready storage for enemy and player text
-	let playerHitText, enemyHitText;
+	// Pull in State Variables for Logs
+	if(!State.variables.playerCombatLog)
+		State.variables.playerCombatLog = []
+	if(!State.variables.enemyCombatLog)
+		State.variables.enemyCombatLog = []
+
+	let playerCombatLog = State.variables.playerCombatLog
+	let enemyCombatLog = State.variables.enemyCombatLog
 
 	// Ready storage for damage done
 	let playerDmg, enemyDmg;
@@ -18,9 +24,11 @@ function combatRoll(playerAttack) {
 	if (hitChance.hit) {
 		playerDmg = calcCombatDmg(playerAttack, player, hitChance.crit)
 		reduceHealth(enemy, playerDmg)
-		playerHitText = "You pummled the enemy!"
+		playerCombatLog.push(getHitHTML("Pummled the enemy!"))
+		enemyCombatLog.push(getDmgHTML(`Took the hit on the jaw for ${playerDmg} damage`))
 	} else {
-		playerHitText = "You swung wide and missed!"
+		playerCombatLog.push(getMissHTML("Swung wide and missed!"))
+		enemyCombatLog.push(getDodgeHTML(`Jumped to the side`))
 	}
 
 	// Random enemy attack and roll for enemy hit
@@ -31,12 +39,14 @@ function combatRoll(playerAttack) {
 		if (hitChance.hit) {
 			enemyDmg = calcCombatDmg(enemyAttack, enemy, false)
 			reduceHealth(player, enemyDmg)
-			enemyHitText = "They pummled you!"
+			enemyCombatLog.push(getHitHTML(`Pummeled you`))
+			playerCombatLog.push(getDmgHTML(`You took the hit on the jaw for ${playerDmg} damage`))
 		} else {
-			enemyHitText = "They swung wide and missed!"
+			enemyCombatLog.push(getDodgeHTML(`Swung wide and missed!`))
+			playerCombatLog.push(getMissHTML("Jumped to the side"))
 		}
 	} else { // Enemy is knocked out
-		enemyHitText = "Enemy has passed out!"
+		// enemyHitText = "Enemy has passed out!"
 		State.variables.combat = false
 		State.variables.win = true
 		State.variables.combatResults = `You've knocked out your enemy!`
@@ -50,11 +60,22 @@ function combatRoll(playerAttack) {
 		State.variables.combatResults = `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
 		State.variables.combat = false
 	}
+}
 
-	State.variables.playerHitText = playerHitText
-	State.variables.playerHitDmg = playerDmg
-	State.variables.enemyHitText = enemyHitText
-	State.variables.enemyHitDmg = enemyDmg
+function getHitHTML(text) {
+	return `<span style="color:green">${text}</span>`
+}
+
+function getDmgHTML(text) {
+	return `<span style="color:red">${text}</span>`
+}
+
+function getMissHTML(text) {
+	return `<span style="color:white">${text}</span>`
+}
+
+function getDodgeHTML(text) {
+	return `<span style="color:white">${text}</span>`
 }
 
 function calcCombatHit(attack, attacker) {
@@ -136,3 +157,10 @@ function checkSkillMod(mod, value) {
 		return Math.floor(value * mod)
 	return value + mod
 }
+
+let hitText = [
+	{give:"You wolloped them good!", take: "You were hit square in the face!"}
+]
+let missText = [
+	{give:"You swung wide!", take: "You dodged out of the way!"}
+]

@@ -1,35 +1,43 @@
 :: fight [noreturn combat] {"position":"1075,25","size":"100,100"}
 <h1>Found some trouble!</h1>
 <<nobr>>
-/* <span id="CombatWrapper"> */
-
 <div id="PlayerContainer" class="CombatContainer">$player.name
 <<healthBarMacro $player>><br>
 <div class="CombatLog">
-$playerHitText
+<<if def $playerCombatLog>><<for _log range $playerCombatLog>>
+    _log <br>
+<</for>><</if>>
 </div>
 </div>
 
 <div id="EnemyContainer" class="CombatContainer">$enemy.name<br>
 <<healthBarMacro $enemy "right">><br><br>
 <div class="CombatLog">
-$enemyHitText
+<<if def $enemyCombatLog>><<for _log range $enemyCombatLog>>
+    _log <br>
+<</for>><</if>>
 </div>
 </div>
-/* </span> */
 <</nobr>>
-
+/* Combat Actions */
 <<if def $combatResults>>$combatResults<</if>>
 <<if $combat is true>>
+<div class="CombatActionContainer"><u><span class="CombatActionHeader">Attack</span></u>
 <<attackAction $attacks[0]>>
-<<attackAction $attacks[1]>>
-<<link "Run away!" $return>><<combatReset>><</link>>
+<<attackAction $attacks[1]>></div>
+<div class="CombatActionContainer"><u><span class="CombatActionHeader">Skill</span></u>
+<<attackAction $attacks[0]>><br></div>
+<div class="CombatActionContainer"><<button "Run away!" $return>><<combatReset>><</button>></div>
+
+
 <</if>>
+/* Combat Win Actions */
 <<if $win is true>>
 <<for _i, _item range $foundItems>><<=_item>><br><</for>>
 <<consumeEnemy $enemy>>
 <<link "Leave" $return>><<combatReset>><</link>>
 <</if>>
+/* Combat Lose Actions */
 <<if $combat is false && (ndef $win || $win is false)>>
 <<link "Pass Out" $return>>
     <<combatReset>>
