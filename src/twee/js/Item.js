@@ -13,17 +13,15 @@ function rollItems(enemyLoot, credits) {
 }
 
 function itemChance(chance) {
-	console.log('random chance')
-	if (Math.floor(Math.random() * 101) <= chance) {
+	if (Math.floor(Math.random() * 101) <= chance)
 		return true
-	}
+	
 	return false
 }
 
 function addToInventory(lootItem) {
 	var found = -1
 	let qty = random(1,lootItem.qty)
-	console.log('here')
 	State.variables.player.inv.forEach(function (item, idx) {
 		if (item.id == lootItem.id) {
 			found = idx

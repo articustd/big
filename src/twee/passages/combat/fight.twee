@@ -1,18 +1,23 @@
 :: fight [noreturn combat] {"position":"1075,25","size":"100,100"}
-Your health: <<healthBarMacro $player>>
-<<-$enemy.name>>'s health: <<healthBarMacro $enemy>>
-
-<<if def $playerHitText>>
-$playerHitText
-<<if $playerHitDmg>>You deal <<-$playerHitDmg>> damage<</if>>
-
-$enemyHitText
+<h1>Found some trouble!</h1>
 <<nobr>>
-<<if $enemy.stats.hlth gte 1 && $enemyHitDmg>>
-	Enemy deals $enemyHitDmg damage
-<</if>>
+/* <span id="CombatWrapper"> */
+
+<div id="PlayerContainer" class="CombatContainer">$player.name
+<<healthBarMacro $player>><br>
+<div class="CombatLog">
+$playerHitText
+</div>
+</div>
+
+<div id="EnemyContainer" class="CombatContainer">$enemy.name<br>
+<<healthBarMacro $enemy "right">><br><br>
+<div class="CombatLog">
+$enemyHitText
+</div>
+</div>
+/* </span> */
 <</nobr>>
-<</if>>
 
 <<if def $combatResults>>$combatResults<</if>>
 <<if $combat is true>>

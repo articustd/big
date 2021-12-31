@@ -11,6 +11,9 @@ Macro.add('healthBarMacro', {
         let $currentHealthText = $('<div/>')
                     .addClass('currentHealthText')
                     .text(`${character.stats.hlth}/${character.stats.maxHlth}`)
+        
+        if(this.args[1])
+            $healthBar.css('float', this.args[1])
 
         $healthBar
             .attr('id', `macro-${this.name}`)
