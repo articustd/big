@@ -8,7 +8,7 @@ Macro.add('consumeEnemy', {
         //     return this.error(`${errors[0]} ${errors.length == 2 ? "and " + errors[1] : ""}`)
         // }
 
-        let $wrapper = $('<span/>')
+        let $wrapper = $('<span/>').css('display','block').css('text-align','center')
         let prey = this.args[0];
 
         let consume = [
@@ -21,9 +21,8 @@ Macro.add('consumeEnemy', {
         consume.forEach(function(con) {
             if(con.gen == '' || State.variables.player.gender[con.gen]) {
                 $wrapper.append(
-                    $('<a/>')
+                    $('<button/>')
                         .wiki(con.method)
-                        .append('<br>')
                         .ariaClick(function(ev) {
                             State.variables.consumeText = con.desc
                             State.variables.consumeHeader = `${con.method}ing ${prey.name}`
@@ -33,6 +32,8 @@ Macro.add('consumeEnemy', {
                             delete State.variables.enemy
                             Engine.play("consume")
                         })
+                        .css('width','90%')
+                        .css('margin-bottom', '10px')
                 )
             }
         })

@@ -20,22 +20,27 @@
 </div>
 <</nobr>>
 /* Combat Actions */
-<<if def $combatResults>>$combatResults<</if>>
 <<if $combat is true>>
+<<nobr>>
 <div class="CombatActionContainer"><u><span class="CombatActionHeader">Attack</span></u>
 <<attackAction $attacks[0]>>
 <<attackAction $attacks[1]>></div>
 <div class="CombatActionContainer"><u><span class="CombatActionHeader">Skill</span></u>
 <<attackAction $attacks[0]>><br></div>
 <div class="CombatActionContainer"><<button "Run away!" $return>><<combatReset>><</button>></div>
-
+<</nobr>>
 
 <</if>>
 /* Combat Win Actions */
 <<if $win is true>>
+<<nobr>>
+<div class="CombatActionContainer"><u><span class="CombatActionHeader">Consume</span></u>
+<<consumeEnemy $enemy>></div>
+<div class="CombatActionContainer"><u><span class="CombatActionHeader">Loot</span></u>
 <<for _i, _item range $foundItems>><<=_item>><br><</for>>
-<<consumeEnemy $enemy>>
-<<link "Leave" $return>><<combatReset>><</link>>
+</div>
+<div class="CombatActionContainer"><<button "Leave" $return>><<combatReset>><</button>></div>
+<</nobr>>
 <</if>>
 /* Combat Lose Actions */
 <<if $combat is false && (ndef $win || $win is false)>>

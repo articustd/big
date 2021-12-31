@@ -14,6 +14,7 @@ Macro.add('attackAction', {
                 Engine.play(passage(), true)
             })
             .css('width','90%')
+            .css('margin-bottom', '10px')
 
         $wrapper
             .attr('id',`macro-${this.name}-${this.args.join('').replace(/[^A-Za-z0-9]/g, '')}`)
