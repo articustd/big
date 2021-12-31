@@ -24,10 +24,10 @@ function combatRoll(playerAttack) {
 	if (hitChance.hit) {
 		playerDmg = calcCombatDmg(playerAttack, player, hitChance.crit)
 		reduceHealth(enemy, playerDmg)
-		playerCombatLog.push(getHitHTML("Pummled the enemy!"))
+		playerCombatLog.push(getHitHTML("Pummled the enemy"))
 		enemyCombatLog.push(getDmgHTML(`Took the hit on the jaw for ${playerDmg} damage`))
 	} else {
-		playerCombatLog.push(getMissHTML("Swung wide and missed!"))
+		playerCombatLog.push(getMissHTML("Swung wide and missed"))
 		enemyCombatLog.push(getDodgeHTML(`Jumped to the side`))
 	}
 
@@ -42,7 +42,7 @@ function combatRoll(playerAttack) {
 			enemyCombatLog.push(getHitHTML(`Pummeled you`))
 			playerCombatLog.push(getDmgHTML(`You took the hit on the jaw for ${playerDmg} damage`))
 		} else {
-			enemyCombatLog.push(getDodgeHTML(`Swung wide and missed!`))
+			enemyCombatLog.push(getDodgeHTML(`Swung wide and missed`))
 			playerCombatLog.push(getMissHTML("Jumped to the side"))
 		}
 	} else { // Enemy is knocked out

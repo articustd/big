@@ -43,3 +43,6 @@ sugarcube-2:
       name: enemyMacro
     healthBarMacro:
       name: healthBarMacro
+    leaveButtonMacro:
+      name: leaveButtonMacro
+      container: true

@@ -127,6 +127,17 @@ img#logoImage {
   font-size: x-large;
 }
 
+#LeaveContainer {
+  display: block;
+  text-align: center;
+  padding-top: 35px;
+}
+
+.lootText {
+  display: block;
+  text-align: center;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -147,3 +158,4 @@ img#logoImage {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+

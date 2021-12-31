@@ -14,7 +14,7 @@ $(document).on(':passagestart', function (ev) {
 $(document).on(":passagedisplay", function(ev) {
 	let syncPlayerScroll = false;
 	let syncEnemyScroll = false;
-	
+	$("#PlayerCombatLog").scrollTop($(document).height());
 	$("#PlayerCombatLog").on("scroll", function () {
 		if(!syncPlayerScroll) {
 			syncEnemyScroll = true

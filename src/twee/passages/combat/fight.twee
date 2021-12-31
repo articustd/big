@@ -26,8 +26,8 @@
 <<attackAction $attacks[0]>>
 <<attackAction $attacks[1]>></div>
 <div class="CombatActionContainer"><u><span class="CombatActionHeader">Skill</span></u>
-<<attackAction $attacks[0]>><br></div>
-<div class="CombatActionContainer"><<button "Run away!" $return>><<combatReset>><</button>></div>
+/* <<attackAction $attacks[0]>><br> */</div>
+<div id="LeaveContainer" class="CombatActionContainer"><<leaveButtonMacro "Run Away!" $return>><<combatReset>><</leaveButtonMacro>></div>
 <</nobr>>
 
 <</if>>
@@ -37,9 +37,9 @@
 <div class="CombatActionContainer"><u><span class="CombatActionHeader">Consume</span></u>
 <<consumeEnemy $enemy>></div>
 <div class="CombatActionContainer"><u><span class="CombatActionHeader">Loot</span></u>
-<<for _i, _item range $foundItems>><<=_item>><br><</for>>
+<<for _i, _item range $foundItems>><span class="lootText"><<=_item>></span><</for>>
 </div>
-<div class="CombatActionContainer"><<button "Leave" $return>><<combatReset>><</button>></div>
+<div id="LeaveContainer" class="CombatActionContainer"><<leaveButtonMacro "Leave" $return>><<combatReset>><</leaveButtonMacro>></div>
 <</nobr>>
 <</if>>
 /* Combat Lose Actions */
