@@ -54,7 +54,7 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
         character.exp = blankExp()
         character.credits = 0
         character.skills = []
-        character.skillPoints = 0
+        character.skillPoints = 100
         character.inv = []
         calcStats(character, statMods, statPoints)
     }

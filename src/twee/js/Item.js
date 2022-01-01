@@ -20,7 +20,6 @@ function itemChance(chance) {
 }
 
 function addToInventory(lootItem) {
-	console.log(lootItem)
 	var found = -1
 	let qty = random(1,lootItem.qty)
 	State.variables.player.inv.forEach(function (item, idx) {

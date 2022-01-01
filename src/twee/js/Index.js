@@ -11,6 +11,7 @@ $(document).on(':passagestart', function (ev) {
 		State.variables.return = ev.passage.title;
 });
 
+// Refresh Combat Log Scroll
 $(document).on(":passagedisplay", function(ev) {
 	let syncPlayerScroll = false;
 	let syncEnemyScroll = false;
@@ -43,9 +44,6 @@ $(document).one(':storyready', function (ev) {
 	State.variables.attacks = attacks;
 	State.variables.skills = skills;
 	State.variables.pronouns = pronounArray()
-
-
-
 });
 
 function cloneObj(obj) {

@@ -8,9 +8,9 @@ function combatRoll(playerAttack) {
 	let player = State.variables.player
 
 	// Pull in State Variables for Logs
-	if(!State.variables.playerCombatLog)
+	if (!State.variables.playerCombatLog)
 		State.variables.playerCombatLog = []
-	if(!State.variables.enemyCombatLog)
+	if (!State.variables.enemyCombatLog)
 		State.variables.enemyCombatLog = []
 
 	let playerCombatLog = State.variables.playerCombatLog
@@ -97,13 +97,8 @@ function calcHitChance(attack, attacker) {
 
 
 	// Skill
-	if (attacker.skills) {
-		for (let skill in attacker.skills) {
-			if (skills[skill].type == 'hit') {
-				hitMod = checkSkillMod(skills[skill].mod, hitMod)
-			}
-		}
-	}
+	if (attacker.skills)
+		hitMod = getSkillMods('hit', attacker, hitMod)
 
 	return Math.clamp(Math.floor(((4 * Math.log2(hitMod)) + attack.baseHitChnc)), 1, 100);
 }
@@ -111,37 +106,20 @@ function calcHitChance(attack, attacker) {
 function calcCombatDmg(attack, attacker, crit) {
 	let dmg = calcDmgRange(attack, attacker)
 	if (crit)
-		return Math.floor(random(dmg.minDmg, dmg.maxDmg) * attack.critMulti)
-	return random(dmg.minDmg, dmg.maxDmg)
+		return Math.floor(random(dmg.min, dmg.max) * attack.critMulti)
+	return random(dmg.min, dmg.max)
 }
 
 function calcDmgRange(attack, attacker) {
 	// Base Stats
-	let maxDmg = Math.floor(Math.pow(attacker.stats[attack.type], attack.maxMod))
-	let minDmg = Math.floor(Math.pow(attacker.stats[attack.type], attack.minMod))
+	let dmgRange = { min: Math.floor(Math.pow(attacker.stats[attack.type], attack.minMod)), max: Math.floor(Math.pow(attacker.stats[attack.type], attack.maxMod)) }
 	// Status Effect
 
 	// Skill
-	if (attacker.skills) {
-		for (let skill in attacker.skills) {
-			if (skills[skill].type == 'dmg') {
-				switch (skills[skill].bound) {
-					case 'max':
-						maxDmg = checkSkillMod(skills[skill].mod, maxDmg);
-						break
-					case 'min':
-						minDmg = checkSkillMod(skills[skill].mod, minDmg);
-						break
-					case 'min/max':
-						maxDmg = checkSkillMod(skills[skill].mod, maxDmg);
-						minDmg = checkSkillMod(skills[skill].mod, minDmg);;
-						break
-				}
-			}
-		}
-	}
+	if (attacker.skills)
+		dmgRange = getSkillMods('dmg', attacker, dmgRange)
 
-	return { minDmg, maxDmg }
+	return dmgRange
 }
 
 function checkHealth(defender) {
@@ -152,15 +130,41 @@ function reduceHealth(defender, dmg) {
 	defender.stats.hlth = Math.clamp(defender.stats.hlth - dmg, 0, defender.stats.hlth)
 }
 
-function checkSkillMod(mod, value) {
-	if (mod % 1 != 0) // Check for a decimal
-		return Math.floor(value * mod)
-	return value + mod
+function getSkillMods(type, character, value) {
+	let multi = []
+	for (let skillId of character.skills) {
+		let skill = skills[skillId]
+		if (skill.type === type) {
+			if (skill.multi) {
+				multi.push({ mod: skill.mod, min: skill.min, max: skill.max })
+			} else {
+				if (typeof value === Number)
+					value += skill.mod
+				else {
+					if (skill.min)
+						value.min += skill.mod
+					if (skill.max)
+						value.max += skill.mod
+				}
+			}
+		}
+	}
+
+	for (let multiMod of multi) {
+		if (multiMod.min)
+			value.min = value.min * multiMod.mod
+		if (multiMod.max)
+			value.max = value.max * multiMod.mod
+		else
+			value = value * multiMod.mod
+	}
+	
+	return value
 }
 
 let hitText = [
-	{give:"You wolloped them good!", take: "You were hit square in the face!"}
+	{ give: "You wolloped them good!", take: "You were hit square in the face!" }
 ]
 let missText = [
-	{give:"You swung wide!", take: "You dodged out of the way!"}
+	{ give: "You swung wide!", take: "You dodged out of the way!" }
 ]

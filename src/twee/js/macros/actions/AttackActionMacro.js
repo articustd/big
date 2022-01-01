@@ -5,7 +5,7 @@ Macro.add('attackAction', {
         let $wrapper = $('<span/>').css('display','block').css('text-align','center')
         let $link = $(document.createElement('button'))
         let dmgRange = calcDmgRange(this.args[0],State.variables.player)
-        let attackText = `${this.args[0].name } [${dmgRange.minDmg}-${dmgRange.maxDmg}] ${calcHitChance(this.args[0],State.variables.player)}%`
+        let attackText = `${this.args[0].name } [${dmgRange.min}-${dmgRange.max}] ${calcHitChance(this.args[0],State.variables.player)}%`
 
         $link
             .wiki(attackText)
