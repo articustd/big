@@ -26,8 +26,9 @@ Macro.add('consumeEnemy', {
                         .ariaClick(function(ev) {
                             State.variables.consumeText = con.desc
                             State.variables.consumeHeader = `${con.method}ing ${prey.name}`
-
-                            addPoints(calcConsume(prey),State.variables.player) 
+                            let consumePoints = calcConsume(prey)
+                            addPoints(consumePoints,State.variables.player)
+                            getExpText(consumePoints) 
                             combatReset()
                             delete State.variables.enemy
                             Engine.play("consume")
@@ -47,9 +48,8 @@ Macro.add('consumeEnemy', {
 
 function calcConsume(prey) {
     let response = {};
-    for(let points in prey.exp)
+    for(let points in prey.exp) 
         response[points] = randPoints(prey.exp[points])
-    
     return response;
 }
 
@@ -62,5 +62,13 @@ function randPoints(range) {
 function addPoints(points, hunter) {
     for(var point in points) {
         hunter.exp[point] += points[point];
+    }
+}
+
+function getExpText(consumePoints) {
+    console.log(consumePoints)
+    State.variables.consumeExp = []
+    for(let cp in consumePoints) {
+        State.variables.consumeExp.push(`Gained +${consumePoints[cp]} ${returnStatName(cp)} to Experience`)
     }
 }
