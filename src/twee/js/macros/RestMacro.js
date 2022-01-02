@@ -15,7 +15,10 @@ Macro.add('restMacro', {
                             player[statMap[0]] += value
                         }
                         if (statMap.length == 2) {
-                            player[statMap[0]][statMap[1]] += value
+                            let mod = 1
+                            if(stat === 'fat')
+                                mod = 1000
+                            player[statMap[0]][statMap[1]] += (value * mod)
                         }
                         player.exp[stat] = 0
                         
