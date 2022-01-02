@@ -35,6 +35,9 @@ Macro.add('restMacro', {
             player.stats.maxHlth = getMaxHealth(player)
             
             player.stats.hlth = player.stats.maxHlth;
+            player.capacity.stomach = 0
+            if(player.capacity.balls)
+                player.capacity.balls = 0
             advanceTime(true)
         }
     }

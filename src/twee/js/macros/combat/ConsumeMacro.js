@@ -12,10 +12,10 @@ Macro.add('consumeEnemy', {
         let prey = this.args[0];
 
         let consume = [
-            {method:'Eat',gen: '',desc:`You shove the enemy down your gullet.`},
-            {method:'Anal',gen: '',desc:`You shove the enemy up your hole`},
-            {method:'Unbirth',gen: 'vagina',desc:`You shove the enemy up your lady bits.`},
-            {method:'Sound',gen: 'penis',desc:`You shove the enemy in your man bits`}
+            {method:'Eat',gen: '',desc:`You shove the enemy down your gullet.`,capacity:'stomach'},
+            {method:'Anal',gen: '',desc:`You shove the enemy up your hole`,capacity:'stomach'},
+            {method:'Unbirth',gen: 'vagina',desc:`You shove the enemy up your lady bits.`,capacity:'stomach'},
+            {method:'Sound',gen: 'penis',desc:`You shove the enemy in your man bits`,capacity:'balls'}
         ]
 
         consume.forEach(function(con) {
@@ -28,6 +28,7 @@ Macro.add('consumeEnemy', {
                             State.variables.consumeHeader = `${con.method}ing ${prey.name}`
                             let consumePoints = calcConsume(prey)
                             addPoints(consumePoints,State.variables.player)
+                            addCapacity(State.variables.player,prey.measurements.weight,con.capacity)
                             getExpText(consumePoints) 
                             combatReset()
                             delete State.variables.enemy
@@ -63,6 +64,10 @@ function addPoints(points, hunter) {
     for(var point in points) {
         hunter.exp[point] += points[point];
     }
+}
+
+function addCapacity(hunter,preyWeight,capType) {
+    hunter.capacity[capType] += preyWeight
 }
 
 function getExpText(consumePoints) {

@@ -1,5 +1,5 @@
 function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
-    let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId] };
+    let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {} };
 
     let size = sizes[randomSize(sizeRange)]
     let sizeKey = Object.keys(size)[0]
@@ -11,23 +11,23 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
     let expMods = bodyType[bodyTypeKey].expMods
 
     // Collect All Potential Loot
-    let rawLoot = [...bodyType[bodyTypeKey].loot,...size[sizeKey].loot,...character.gender[Object.keys(character.gender)[0]].loot]
+    let rawLoot = [...bodyType[bodyTypeKey].loot, ...size[sizeKey].loot, ...character.gender[Object.keys(character.gender)[0]].loot]
     // Loop through and count items
     let availableLoot = []
-    for(let item of rawLoot) {
+    for (let item of rawLoot) {
         let found = false
         availableLoot.forEach(function (foundLoot, idx) {
-            if(loot[item].id === foundLoot.id) {
+            if (loot[item].id === foundLoot.id) {
                 found = true
                 availableLoot[idx].qty += 1
             }
         })
-        if(!found)
-        availableLoot.push({id:loot[item].id, qty: 1, chnc: loot[item].chnc})
+        if (!found)
+            availableLoot.push({ id: loot[item].id, qty: 1, chnc: loot[item].chnc })
     }
     // Roll for credits
-    var randomPercent = Math.clamp(random(1,100),75,100)/100
-	var credits = Math.floor(50*randomPercent);
+    var randomPercent = Math.clamp(random(1, 100), 75, 100) / 100
+    var credits = Math.floor(50 * randomPercent);
 
     // Calculate Measurements
     character.measurements.height = random(size[sizeKey].range[0], size[sizeKey].range[1])
@@ -65,6 +65,9 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
     // Calculate Max Health and Current Health
     calcMaxHealth(character)
 
+    // Calculate Capacity
+    calcCapacity(character, bodyType[bodyTypeKey].weightMod)
+
     return character;
 }
 
@@ -94,9 +97,9 @@ function calcGenitals(hyper, height, gender, pronounKey) {
     let hyperMod = hyper ? 2 : 1
     let genderKey = Object.keys(gender)[0]
     let response = {
-        penis: Math.floor((height / random(8, 11)) * hyperMod),
-        balls: Math.floor((height / random(8, 11)) * hyperMod),
-        breasts: Math.floor((height / random(6, 8)) * hyperMod),
+        penis: Math.floor(((height / random(8, 11)) + 1) * hyperMod),
+        balls: Math.floor(((height / random(8, 11)) + 1) * hyperMod),
+        breasts: Math.floor(((height / random(6, 8)) + 1) * hyperMod),
         vagina: true
     }
     for (let gen in gender[genderKey]) {
@@ -135,11 +138,20 @@ function calcMaxHealth(character) {
 }
 
 function getMaxHealth(character) {
-    let hW = character.measurements.height+character.measurements.weight
+    let hW = character.measurements.height + character.measurements.weight
     let con = character.stats.con
-    let logConHW = Math.log2(con*hW)
-    let sqLogConHW = logConHW**2
-    return Math.floor((((0.01*(2*sqLogConHW*logConHW))+10)/2)+5)
+    let logConHW = Math.log2(con * hW)
+    let sqLogConHW = logConHW ** 2
+    return Math.floor((((0.01 * (2 * sqLogConHW * logConHW)) + 10) / 2) + 5)
+}
+
+function calcCapacity(character, weightMod) {
+    character.capacity.stomachMax = Math.ceil(character.measurements.weight / (4/weightMod))
+    character.capacity.stomach = 0
+    if(character.gender.balls) {
+        character.capacity.ballsMax = Math.ceil(character.gender.balls * 100)
+        character.capacity.balls = 0
+    }
 }
 
 let sizes = [
