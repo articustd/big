@@ -1,0 +1,14 @@
+:: mirror [noreturn]
+<h1>Mirror</h1><<playerFluffMacro>>
+
+You look at yourself in the mirror...
+/* General Description */
+Your $playerSize $playerHeightText frame is supporting a weak amount of muscles and an average amount body fat.
+/* Upper Body */
+Your chest sports small A cup breasts and no pectoral muscles. Looking at your arms, they aren't much to look at. With your weak amount of muscles your arms are slightly better than twigs. Looking down at your stomach you have a little bit of pudge, but not a noticable amount from underneath your shirt.
+/* Lower Body */
+Below your waist the only equipment you find are your weak looking legs and a vagina.
+
+All around you are an average looking $playerGender $playerSpecies.
+
+<<link "Return" $return>><</link>>
