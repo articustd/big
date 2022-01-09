@@ -74,7 +74,7 @@ function findSize(height) {
 function findMuscle(muscle) {
 	for (let ma of muscleAmount) {
 		let maKey = Object.keys(ma)[0]
-		if (muscle >= ma[maKey].range[0] && muscle <= ma[maKey].range[1])
+		if (muscle >= ma[maKey].range[0] && muscle < ma[maKey].range[1])
 			return ma
 	}
 }
@@ -83,7 +83,7 @@ function findFat(weight, height) {
 	for (let fa of fatAmount) {
 		let faKey = Object.keys(fa)[0]
 		let fatPer = (height * 100) / weight
-		if (fatPer >= fa[faKey].range[0] && fatPer <= fa[faKey].range[1])
+		if (fatPer >= fa[faKey].range[0] && fatPer < fa[faKey].range[1])
 			return fa
 	}
 }
@@ -92,7 +92,7 @@ function findBreastSize(character) {
 	let ratio = character.gender.breasts / character.measurements.height
 	for (let breast of breastSize) {
 		let breastKey = Object.keys(breast)[0]
-		if (ratio >= breast[breastKey].range[0] && ratio <= breast[breastKey].range[1])
+		if (ratio >= breast[breastKey].range[0] && ratio < breast[breastKey].range[1])
 			return breastKey
 	}
 	return ``
@@ -112,7 +112,7 @@ function findBallSize(character) {
 	let ratio = character.gender.balls / character.measurements.height
 	for (let ball of ballSize) {
 		let ballKey = Object.keys(ball)[0]
-		if (ratio >= ball[ballKey].range[0] && ratio <= ball[ballKey].range[1])
+		if (ratio >= ball[ballKey].range[0] && ratio < ball[ballKey].range[1])
 			return ballKey
 	}
 	return ``

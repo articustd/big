@@ -23,11 +23,37 @@ let muscleAmount = [
 ]
 
 let fatAmount = [
-    {"Fair": {range:[0.207,0.234], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}}
+    {"Fair": {range:[0.207,0.234], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
 ]
 
-let breastSize = [
-    {"A": {range:[0.1,0.9]}}
+let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm is the average height
+    {"AA": {range:[0.001,0.01]}}, // < 1"
+    {"A": {range:[0.01,0.02]}}, // 1"
+    {"B": {range:[0.02,0.03]}},
+    {"C": {range:[0.03,0.04]}},
+    {"D": {range:[0.04,0.055]}},
+    {"E": {range:[0.055,0.07]}},
+    {"F": {range:[0.07,0.085]}},
+    {"G": {range:[0.085,0.1]}},
+    {"H": {range:[0.1,0.12]}},
+    {"I": {range:[0.12,0.13]}},
+    {"J": {range:[0.13,0.14]}},
+    {"K": {range:[0.14,0.154]}},
+    {"L": {range:[0.154,0.168]}},
+    {"M": {range:[0.168,0.182]}},
+    {"N": {range:[0.182,0.196]}},
+    {"O": {range:[0.196,0.21]}}, // 15"
+    {"P": {range:[0.21,0.223]}},
+    {"Q": {range:[0.223,0.238]}},
+    {"R": {range:[0.238,0.252]}},
+    {"S": {range:[0.252,0.265]}},
+    {"T": {range:[0.265,0.28]}},
+    {"U": {range:[0.28,0.293]}},
+    {"V": {range:[0.293,0.31]}},
+    {"W": {range:[0.31,0.321]}},
+    {"X": {range:[0.321,0.335]}},
+    {"Y": {range:[0.335,0.35]}},
+    {"Z": {range:[0.35,10]}}, // 26" Set this to 1 so there is no issues for large characters. Programatically set this up later. Should be 0.363 for normal ratio
 ]
 
 let penisSize = [
@@ -36,8 +62,8 @@ let penisSize = [
 
 let ballSize = [
     {"Walnut": {range:[0.01,0.02]}},
-    {"Orange": {range:[0.03,0.06]}},
-    {"Cantaloupe": {range:[0.07,0.18]}},
-    {"Watermelon": {range:[0.19,0.23]}},
-    {"Beach ball": {range:[0.24,0.30]}},
+    {"Orange": {range:[0.02,0.06]}},
+    {"Cantaloupe": {range:[0.06,0.18]}},
+    {"Watermelon": {range:[0.18,0.23]}},
+    {"Beach ball": {range:[0.23,0.30]}},
 ]
