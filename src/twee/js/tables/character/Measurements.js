@@ -19,5 +19,25 @@ let bodyTypes = [
 ]
 
 let muscleAmount = [
-    {"Weak": [0,20]},
+    {"Weak": {range:[0,20], pecs:'no', arms: 'not much to look at', armsSecond: 'slightly better than twigs'}},
+]
+
+let fatAmount = [
+    {"Fair": {range:[0.207,0.234], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}}
+]
+
+let breastSize = [
+    {"A": {range:[0.1,0.9]}}
+]
+
+let penisSize = [
+    {"Bratwurst": {range:[0.10,0.13]}}
+]
+
+let ballSize = [
+    {"Walnut": {range:[0.01,0.02]}},
+    {"Orange": {range:[0.03,0.06]}},
+    {"Cantaloupe": {range:[0.07,0.18]}},
+    {"Watermelon": {range:[0.19,0.23]}},
+    {"Beach ball": {range:[0.24,0.30]}},
 ]

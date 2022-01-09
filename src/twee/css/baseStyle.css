@@ -112,6 +112,11 @@ img#logoImage {
   overflow: hidden;
 }
 
+/* On Hover */
+.CombatLog:hover {
+  overflow-y: scroll;
+}
+
 .CombatActionContainer {
   padding: 1px;
   float:left;
@@ -157,9 +162,4 @@ img#logoImage {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
-}
-
-/* On Hover */
-.CombatLog:hover {
-  overflow-y: scroll;
 }
