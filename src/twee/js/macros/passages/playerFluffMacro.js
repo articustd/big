@@ -7,9 +7,6 @@ Macro.add('playerFluffMacro', {
         let $upperBody = $('<span/>')
         let $lowerBody = $('<span/>')
         let $allAround = $('<span/>')
-
-        // console.log(player)
-        // console.log(convertToLargerUnits(player.measurements,true))
         
         let playerSize = lowercaseFirstLetter(findSize(player.measurements.height))
         let playerHeightText = convertToLargerUnits(player.measurements,State.variables.imperial).heightText

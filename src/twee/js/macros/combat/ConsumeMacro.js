@@ -71,7 +71,6 @@ function addCapacity(hunter,preyWeight,capType) {
 }
 
 function getExpText(consumePoints) {
-    console.log(consumePoints)
     State.variables.consumeExp = []
     for(let cp in consumePoints) {
         State.variables.consumeExp.push(`Gained +${consumePoints[cp]} ${returnStatName(cp)} to Experience`)
