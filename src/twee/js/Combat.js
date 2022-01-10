@@ -40,7 +40,7 @@ function combatRoll(playerAttack) {
 			enemyDmg = calcCombatDmg(enemyAttack, enemy, false)
 			reduceHealth(player, enemyDmg)
 			enemyCombatLog.push(getHitHTML(`Pummeled you`))
-			playerCombatLog.push(getDmgHTML(`You took the hit on the jaw for ${playerDmg} damage`))
+			playerCombatLog.push(getDmgHTML(`You took the hit on the jaw for ${enemyDmg} damage`))
 		} else {
 			enemyCombatLog.push(getDodgeHTML(`Swung wide and missed`))
 			playerCombatLog.push(getMissHTML("Jumped to the side"))
