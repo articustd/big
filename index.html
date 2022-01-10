@@ -497,7 +497,7 @@ function combatRoll(playerAttack) {
 			enemyDmg = calcCombatDmg(enemyAttack, enemy, false)
 			reduceHealth(player, enemyDmg)
 			enemyCombatLog.push(getHitHTML(`Pummeled you`))
-			playerCombatLog.push(getDmgHTML(`You took the hit on the jaw for ${playerDmg} damage`))
+			playerCombatLog.push(getDmgHTML(`You took the hit on the jaw for ${enemyDmg} damage`))
 		} else {
 			enemyCombatLog.push(getDodgeHTML(`Swung wide and missed`))
 			playerCombatLog.push(getMissHTML("Jumped to the side"))
@@ -626,7 +626,7 @@ let missText = [
 	{ give: "You swung wide!", take: "You dodged out of the way!" }
 ]
 /* twine-user-script #3: "Index.js" */
-State.variables.version = `v0.4.0`
+State.variables.version = `v0.4.1`
 
 Config.history.controls = false;
 Config.debug = false;
@@ -704,9 +704,8 @@ function addToInventory(lootItem) {
 	var found = -1
 	let qty = random(1,lootItem.qty)
 	State.variables.player.inv.forEach(function (item, idx) {
-		if (item.id == lootItem.id) {
+		if (item.id === lootItem.id)
 			found = idx
-		}
 	})
 	if (found > -1) {
 		State.variables.player.inv[found].qty += qty
@@ -1403,9 +1402,7 @@ Macro.add('storeItem', {
                     let storeText = ``
                     if(r[1] > 0) { // If the item is in stock
                         if(State.variables.player.credits >= r[2]) { // Can the player afford it
-                            let item = getItemInfoByIndex(r[0])
-                            item.qty = 1
-                            addToInventory(item)
+                            addToInventory({id:r[0],qty:1})
                             decreaseCredits(r[2])
                             decreaseStock(r[3],storeStock)
                             storeText = `Bought 1 ${getItemInfoByIndex(r[0]).name}!`
@@ -1652,11 +1649,13 @@ let bodyTypes = [
 ]
 
 let muscleAmount = [
-    {"Weak": {range:[0,20], pecs:'no', arms: 'not much to look at', armsSecond: 'slightly better than twigs'}},
+    // {"Weak": {range:[0,20], pecs:'no', arms: 'not much to look at', armsSecond: 'slightly better than twigs'}},
+    {"Weak": {range:[0,2000000], pecs:'no', arms: 'not much to look at', armsSecond: 'slightly better than twigs'}},
 ]
 
 let fatAmount = [
-    {"Fair": {range:[0.207,0.234], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    // {"Fair": {range:[0.207,0.234], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    {"Fair": {range:[0.01,30], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
 ]
 
 let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm is the average height
