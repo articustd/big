@@ -1,7 +1,7 @@
 State.variables.version = `v0.4.0`
 
 Config.history.controls = false;
-Config.debug = true;
+Config.debug = false;
 
 setup.ImagePath = "assets/";
 
@@ -44,6 +44,7 @@ $(document).one(':storyready', function (ev) {
 	State.variables.attacks = attacks;
 	State.variables.skills = skills;
 	State.variables.pronouns = pronounArray()
+	State.variables.debug = Config.debug
 });
 
 function cloneObj(obj) {

@@ -1,0 +1,18 @@
+:: debugPassage [noreturn] 
+
+Max Health: <<textbox "$player.stats.maxHlth" $player.stats.maxHlth>>
+Strength: <<textbox "$player.stats.strg" $player.stats.strg>>
+Constitution: <<textbox "$player.stats.con" $player.stats.con>>
+Dexterity: <<textbox "$player.stats.dex" $player.stats.dex>>
+Accuracy: <<textbox "$player.stats.acc" $player.stats.acc>>
+Penis: <<textbox "$player.gender.penis" $player.gender.penis>>
+Balls: <<textbox "$player.gender.balls" $player.gender.balls>>
+Breasts: <<textbox "$player.gender.breasts" $player.gender.breasts>>
+Height: <<textbox "$player.measurements.height" $player.measurements.height>>
+Weight: <<textbox "$player.measurements.weight" $player.measurements.weight>>
+Credits: <<textbox "$player.credits" $player.credits>>
+Skill Points: <<textbox "$player.skillPoints" $player.skillPoints>>
+
+<<script>>console.log(convertToLargerUnits(State.variables.player.measurements, State.variables.imperial))<</script>>
+
+<<link "Return" $menuReturn>><<unset $menuReturn $skillText>><</link>>

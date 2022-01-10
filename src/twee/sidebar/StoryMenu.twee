@@ -17,6 +17,7 @@ Credits: $player.credits
 <<link $player.name "character">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
 <<link "Inventory" "inv">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
 <<link "Settings" "settings">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+<<if $debug>><<link "Dev" "debugPassage">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>><</if>>
 <</if>>
 <<link "Credits" "credits">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
 <<link "Help" "help">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>

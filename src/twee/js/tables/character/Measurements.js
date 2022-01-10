@@ -57,7 +57,14 @@ let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm 
 ]
 
 let penisSize = [
-    {"Bratwurst": {range:[0.10,0.13]}}
+    {"Peanut": {range:[0.01,0.05]}},
+    {"Cucumber": {range:[0.05,0.09]}},
+    {"Bratwurst": {range:[0.09,0.11]}},
+    {"Cucumber": {range:[0.11,0.16]}},
+    {"Baton": {range:[0.16,0.30]}},
+    {"Baseball bat": {range:[0.30,0.50]}},
+    {"Concrete barrier": {range:[0.50,0.70]}},
+    {"Telephone pole": {range:[0.70,10]}},
 ]
 
 let ballSize = [
@@ -66,4 +73,6 @@ let ballSize = [
     {"Cantaloupe": {range:[0.06,0.18]}},
     {"Watermelon": {range:[0.18,0.23]}},
     {"Beach ball": {range:[0.23,0.30]}},
+    {"Yoga ball": {range:[0.30,0.40]}},
+    {"Wrecking ball": {range:[0.40,10]}},
 ]
