@@ -1,62 +1,165 @@
 .script {
-    visibility: hidden;
+  visibility: hidden;
 }
 
-table, th, td {
+table,
+th,
+td {
   border: 1px solid white;
 }
 
-table, td > button{
+table,
+td>button {
   width: 100%;
 }
 
 #story-caption {
-    text-align: left;
+  text-align: left;
 }
 
 .text-fade-in {
-    animation: fadeIn 1s;
-    -webkit-animation: fadeIn 1s;
-    -moz-animation: fadeIn 1s;
-    -o-animation: fadeIn 1s;
-    -ms-animation: fadeIn 1s;
-  }
-  @keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
-  }
-  
-  @-moz-keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
-  }
-  
-  @-webkit-keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
-  }
-  
-  @-o-keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
-  }
-  
-  @-ms-keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
+  animation: fadeIn 1s;
+  -webkit-animation: fadeIn 1s;
+  -moz-animation: fadeIn 1s;
+  -o-animation: fadeIn 1s;
+  -ms-animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
   }
 
-  img#logoImage{ 
-    width: 100%; 
-    height: 100%; 
-    object-fit: contain; 
-  } 
-
-  .logo { 
-    width:auto; 
-    text-align:center; 
-  } 
-
-  #story-title {
-    display: none;
+  100% {
+    opacity: 1;
   }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+img#logoImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.logo {
+  width: auto;
+  text-align: center;
+}
+
+#story-title {
+  display: none;
+}
+
+.CombatContainer {
+  padding: 5px;
+  width: 48%;
+  float: left;
+}
+
+#EnemyContainer {
+  text-align: right;
+}
+
+#EnemyCombatLog {
+  direction: rtl;
+}
+
+.CombatLog {
+  border-radius: 7px;
+  padding: 5px;
+  border: solid;
+  height: 400px;
+  overflow: hidden;
+}
+
+/* On Hover */
+.CombatLog:hover {
+  overflow-y: scroll;
+}
+
+.CombatActionContainer {
+  padding: 1px;
+  float:left;
+  width: 32%;
+  /* border: solid; */
+  height: 100px;
+}
+
+.CombatActionHeader {
+  text-align: center;
+  width: 100%;
+  display: block;
+  font-size: x-large;
+}
+
+#LeaveContainer {
+  display: block;
+  text-align: center;
+  padding-top: 35px;
+}
+
+.lootText {
+  display: block;
+  text-align: center;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

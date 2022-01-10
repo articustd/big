@@ -1,7 +1,7 @@
 :: home {"position":"550,425","size":"100,100"}
 <h1>Home</h1>
 
-Home Description
+You're home. Nothing here except you, a bed, and the mirror.
 
 <<nobr>>
 <<if def $restText>>
@@ -10,6 +10,7 @@ $restText
 <</nobr>>
 
 <<link "Travel" "travel">><<<<unset $restText>><</link>>
+<<link "Look in the Mirror" "mirror">><</link>>
 <<timeAction "Rest" 8 0>>
 	<<restMacro true false>>
 <</timeAction>>

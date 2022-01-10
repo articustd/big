@@ -2,10 +2,10 @@ Macro.add('attackAction', {
     skipArgs: false,
     handler: function () {
         let attack = this.args[0];
-        let $wrapper = $(document.createElement('span'))
-        let $link = $(document.createElement('a'))
+        let $wrapper = $('<span/>').css('display','block').css('text-align','center')
+        let $link = $(document.createElement('button'))
         let dmgRange = calcDmgRange(this.args[0],State.variables.player)
-        let attackText = `${this.args[0].name } [${dmgRange.minDmg}-${dmgRange.maxDmg}] ${calcHitChance(this.args[0],State.variables.player)}%`
+        let attackText = `${this.args[0].name } [${dmgRange.min}-${dmgRange.max}] ${calcHitChance(this.args[0],State.variables.player)}%`
 
         $link
             .wiki(attackText)
@@ -13,6 +13,8 @@ Macro.add('attackAction', {
                 combatRoll(attack);
                 Engine.play(passage(), true)
             })
+            .css('width','90%')
+            .css('margin-bottom', '10px')
 
         $wrapper
             .attr('id',`macro-${this.name}-${this.args.join('').replace(/[^A-Za-z0-9]/g, '')}`)

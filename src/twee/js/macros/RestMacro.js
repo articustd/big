@@ -15,7 +15,10 @@ Macro.add('restMacro', {
                             player[statMap[0]] += value
                         }
                         if (statMap.length == 2) {
-                            player[statMap[0]][statMap[1]] += value
+                            let mod = 1
+                            if(stat === 'fat')
+                                mod = 1000
+                            player[statMap[0]][statMap[1]] += (value * mod)
                         }
                         player.exp[stat] = 0
                         
@@ -29,9 +32,12 @@ Macro.add('restMacro', {
                 else 
                     State.variables.restText = `You feel rested and rejuvenated!`
             }
-            if(getMaxHealth(player)>player.stats.maxHlth)
-                        player.stats.maxHlth = getMaxHealth(player)
+            player.stats.maxHlth = getMaxHealth(player)
+            
             player.stats.hlth = player.stats.maxHlth;
+            player.capacity.stomach = 0
+            if(player.capacity.balls)
+                player.capacity.balls = 0
             advanceTime(true)
         }
     }

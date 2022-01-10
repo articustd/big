@@ -5,9 +5,10 @@ Macro.add('startGameRoutine', {
         let speciesKey = species.indexOf(player.species)
         let sizeKey = findObjIdx(player.size, sizes)
         let bodyTypeKey = findObjIdx("Normal", bodyTypes)
+        let pronounKey = getPronounId(player.pronouns)
         let genderKey = findObjIdx(player.gender, genders)
         
-        State.variables.player = genChar(10,speciesKey,sizeKey,bodyTypeKey,genderKey,player.name)
+        State.variables.player = genChar(10,speciesKey,sizeKey,bodyTypeKey,genderKey,player.name,pronounKey)
     }
 })
 

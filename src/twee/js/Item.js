@@ -1,46 +1,41 @@
 /* Item Logic */
- function rollItems(tableId) {
-	var items = State.variables.loot[tableId]
+function rollItems(enemyLoot, credits) {
 	var text = []
-	items.forEach(function(item){
-		if(item.id >= 0) {
-			if(itemChance(item.chnc)) {
-				addToInventory(item.id)
-				text.push(`Found 1 ${State.variables.items[item.id].name}`)
-			}
-		} else {
-			var creditsAmt = addCredits(item.amnt)
-			text.push(`Found ${creditsAmt} credits`)
-		} 
+	enemyLoot.forEach(function (item) {
+		if (itemChance(item.chnc)) {
+			let qty = addToInventory(item)
+			text.push(`Found ${qty} ${State.variables.items[item.id].name}`)
+		}
 	})
-	
+	addCredits(credits)
+	text.push(`Found ${credits} credits`)
 	return text
 }
 
 function itemChance(chance) {
-	if(Math.floor(Math.random() * 101) <= chance) {
-		return true	
-	}
+	if (Math.floor(random(1,100)) <= chance)
+		return true
+	
 	return false
 }
 
-function addToInventory(id) {
+function addToInventory(lootItem) {
 	var found = -1
-	State.variables.player.inv.forEach(function(item,idx){
-		if(item.id == id) {
+	let qty = random(1,lootItem.qty)
+	State.variables.player.inv.forEach(function (item, idx) {
+		if (item.id == lootItem.id) {
 			found = idx
 		}
 	})
-	if(found > -1) {
-		State.variables.player.inv[found].qty++
+	if (found > -1) {
+		State.variables.player.inv[found].qty += qty
 	} else {
-		State.variables.player.inv.push({id,qty:1})
+		State.variables.player.inv.push({ id: lootItem.id, qty })
 	}
+	return qty
 }
 
-function addCredits(amount) {
-	var randomPercent = Math.clamp(Math.floor(Math.random() * 101),75,100)/100
-	var credits = Math.floor(amount*randomPercent);
+function addCredits(credits) {
 	State.variables.player.credits += credits
 	return credits
 }

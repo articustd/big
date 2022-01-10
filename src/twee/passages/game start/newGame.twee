@@ -13,6 +13,8 @@ Species: <<listbox "$player.species" autoselect>><<optionsfrom $species>><</list
 
 Gender: <<listbox "$player.gender" autoselect>><<optionsfrom $genders>><</listbox>>
 
+Pronouns: <<listbox "$player.pronouns" autoselect>><<optionsfrom $pronouns>><</listbox>>
+
 Size: <<listbox "$player.size" autoselect>><<optionsfrom $playerSizes>><</listbox>>
 
 Units of Measure: <<listbox "$imperial" autoselect>>

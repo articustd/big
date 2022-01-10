@@ -1,15 +1,12 @@
 :: StoryBanner
 <img class="logo" id="logoImage" @src="setup.ImagePath+'bigCard.png'"> 
 
-
-
 :: StorySubtitle
 $version
 
 :: StoryCaption {"position":"25,550","size":"100,100"}
 <<if def $gameStarted>>
-Name: $player.name
-Health: $player.stats.hlth/$player.stats.maxHlth
+Health: <<healthBarMacro $player>>
 Day: $time.day
 Time: $time.hour:<<if $time.min lt 10>>0<</if>>$time.min
 Credits: $player.credits
@@ -17,10 +14,10 @@ Credits: $player.credits
 
 :: StoryMenu {"position":"25,675","size":"100,100"}
 <<if def $gameStarted>>
+<<link $player.name "character">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
 <<link "Inventory" "inv">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
-<<link "Stats" "stats">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
-<<link "Skills" "skills">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
 <<link "Settings" "settings">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+<<if $debug>><<link "Dev" "debugPassage">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>><</if>>
 <</if>>
 <<link "Credits" "credits">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
 <<link "Help" "help">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>

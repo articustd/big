@@ -3,7 +3,9 @@
 
 $consumeText
 
+<<if def $consumeExp>><<for _i range $consumeExp>>_i<br><</for>><</if>>
 <<link "Return" $return>>
     <<unset $consumeText>>
+    <<unset $consumeExp>>
     <<unset $consumeHeader>>
 <</link>>

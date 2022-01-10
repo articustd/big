@@ -13,3 +13,14 @@ let items = [
     {name: "Magnisium Pills", mod: 2, type: "gender", stat: "balls"},
     {name: "Injection", mod: 4, type: "gender", stat: "breasts"}
 ]
+
+let loot = [
+    {id:1,chnc:30}, //Muscle loot
+    {id:3,chnc:30}, //Fat loot
+    {id:2,chnc:30}, //Size loot
+    {id:5,chnc:30}, //Penis loot
+    {id:6,chnc:30}, //Balls loot
+    {id:7,chnc:30}, //Breasts loot
+    {id:4,chnc:30}, //Con loot
+    {id:0,chnc:30}, //Just Health
+]

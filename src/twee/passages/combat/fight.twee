@@ -1,33 +1,48 @@
 :: fight [noreturn combat] {"position":"1075,25","size":"100,100"}
-Your health: $player.stats.hlth
-<<-$enemy.name>>'s health: $enemy.stats.hlth
-
-<<if def $playerHitText>>
-$playerHitText
-<<if $playerHitDmg>>You deal <<-$playerHitDmg>> damage<</if>>
-
-$enemyHitText
+<h1>Found some trouble!</h1>
 <<nobr>>
-<<if $enemy.stats.hlth gte 1 && $enemyHitDmg>>
-	Enemy deals $enemyHitDmg damage
+<div id="PlayerContainer" class="CombatContainer">$player.name
+<<healthBarMacro $player>><br>
+<div id="PlayerCombatLog" class="CombatLog">
+<<if def $playerCombatLog>><<for _log range $playerCombatLog>>
+    _log <br>
+<</for>><</if>>
+</div>
+</div>
+
+<div id="EnemyContainer" class="CombatContainer">$enemy.name<br>
+<<healthBarMacro $enemy "right">><br><br>
+<div id="EnemyCombatLog" class="CombatLog">
+<<if def $enemyCombatLog>><<for _log range $enemyCombatLog>>
+    _log <br>
+<</for>><</if>>
+</div>
+</div>
+<</nobr>>
+/* Combat Actions */
+<<if $combat is true>>
+<<nobr>>
+<div class="CombatActionContainer"><u><span class="CombatActionHeader">Attack</span></u>
+<<attackAction $attacks[0]>>
+<<attackAction $attacks[1]>></div>
+<div class="CombatActionContainer"><u><span class="CombatActionHeader">Skill</span></u>
+/* <<attackAction $attacks[0]>><br> */</div>
+<div id="LeaveContainer" class="CombatActionContainer"><<leaveButtonMacro "Run Away!" $return>><<combatReset>><</leaveButtonMacro>></div>
+<</nobr>>
+
 <</if>>
+/* Combat Win Actions */
+<<if $win is true>>
+<<nobr>>
+<div class="CombatActionContainer"><u><span class="CombatActionHeader">Consume</span></u>
+<<consumeEnemy $enemy>></div>
+<div class="CombatActionContainer"><u><span class="CombatActionHeader">Loot</span></u>
+<<for _i, _item range $foundItems>><span class="lootText"><<=_item>></span><</for>>
+</div>
+<div id="LeaveContainer" class="CombatActionContainer"><<leaveButtonMacro "Leave" $return>><<combatReset>><</leaveButtonMacro>></div>
 <</nobr>>
 <</if>>
-
-<<if def $combatResults>>$combatResults<</if>>
-<<if $combat is true>>
-<<attackAction $attacks[0]>>
-<<attackAction $attacks[1]>>
-<<link "Run away!" $return>><<combatReset>><</link>>
-<</if>>
-<<if $win is true>>
-<<for _i, _item range $foundItems>><<=_item>><br><</for>>
-<<consumeEnemy $enemy>>
-<<link "Leave" $return>><<combatReset>><</link>>
-<</if>>
+/* Combat Lose Actions */
 <<if $combat is false && (ndef $win || $win is false)>>
-<<link "Pass Out" $return>>
-    <<combatReset>>
-    <<set $player.stats.hlth to 1>>
-<</link>>
+<div id="LeaveContainer" class="CombatActionContainer" style="width:100%"><<leaveButtonMacro "Pass Out" $return>><<combatReset>><<set $player.stats.hlth to 1>><</leaveButtonMacro>></div>
 <</if>>

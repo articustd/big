@@ -8,31 +8,34 @@ Macro.add('consumeEnemy', {
         //     return this.error(`${errors[0]} ${errors.length == 2 ? "and " + errors[1] : ""}`)
         // }
 
-        let $wrapper = $('<span/>')
+        let $wrapper = $('<span/>').css('display','block').css('text-align','center')
         let prey = this.args[0];
 
         let consume = [
-            {method:'Eat',gen: '',desc:`You shove the enemy down your gullet.`},
-            {method:'Anal',gen: '',desc:`You shove the enemy up your hole`},
-            {method:'Unbirth',gen: 'vagina',desc:`You shove the enemy up your lady bits.`},
-            {method:'Sound',gen: 'penis',desc:`You shove the enemy in your man bits`}
+            {method:'Eat',gen: '',desc:`You shove the enemy down your gullet.`,capacity:'stomach'},
+            {method:'Anal',gen: '',desc:`You shove the enemy up your hole`,capacity:'stomach'},
+            {method:'Unbirth',gen: 'vagina',desc:`You shove the enemy up your lady bits.`,capacity:'stomach'},
+            {method:'Sound',gen: 'penis',desc:`You shove the enemy in your man bits`,capacity:'balls'}
         ]
 
         consume.forEach(function(con) {
             if(con.gen == '' || State.variables.player.gender[con.gen]) {
                 $wrapper.append(
-                    $('<a/>')
+                    $('<button/>')
                         .wiki(con.method)
-                        .append('<br>')
                         .ariaClick(function(ev) {
                             State.variables.consumeText = con.desc
                             State.variables.consumeHeader = `${con.method}ing ${prey.name}`
-
-                            addPoints(calcConsume(prey),State.variables.player) 
+                            let consumePoints = calcConsume(prey)
+                            addPoints(consumePoints,State.variables.player)
+                            addCapacity(State.variables.player,prey.measurements.weight,con.capacity)
+                            getExpText(consumePoints) 
                             combatReset()
                             delete State.variables.enemy
                             Engine.play("consume")
                         })
+                        .css('width','90%')
+                        .css('margin-bottom', '10px')
                 )
             }
         })
@@ -46,9 +49,8 @@ Macro.add('consumeEnemy', {
 
 function calcConsume(prey) {
     let response = {};
-    for(let points in prey.exp)
+    for(let points in prey.exp) 
         response[points] = randPoints(prey.exp[points])
-    
     return response;
 }
 
@@ -61,5 +63,16 @@ function randPoints(range) {
 function addPoints(points, hunter) {
     for(var point in points) {
         hunter.exp[point] += points[point];
+    }
+}
+
+function addCapacity(hunter,preyWeight,capType) {
+    hunter.capacity[capType] += preyWeight
+}
+
+function getExpText(consumePoints) {
+    State.variables.consumeExp = []
+    for(let cp in consumePoints) {
+        State.variables.consumeExp.push(`Gained +${consumePoints[cp]} ${returnStatName(cp)} to Experience`)
     }
 }
