@@ -19,11 +19,13 @@ let bodyTypes = [
 ]
 
 let muscleAmount = [
-    {"Weak": {range:[0,20], pecs:'no', arms: 'not much to look at', armsSecond: 'slightly better than twigs'}},
+    // {"Weak": {range:[0,20], pecs:'no', arms: 'not much to look at', armsSecond: 'slightly better than twigs'}},
+    {"Weak": {range:[0,2000000], pecs:'no', arms: 'not much to look at', armsSecond: 'slightly better than twigs'}},
 ]
 
 let fatAmount = [
-    {"Fair": {range:[0.207,0.234], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    // {"Fair": {range:[0.207,0.234], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    {"Fair": {range:[0.01,30], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
 ]
 
 let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm is the average height

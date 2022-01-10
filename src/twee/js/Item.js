@@ -23,9 +23,8 @@ function addToInventory(lootItem) {
 	var found = -1
 	let qty = random(1,lootItem.qty)
 	State.variables.player.inv.forEach(function (item, idx) {
-		if (item.id == lootItem.id) {
+		if (item.id === lootItem.id)
 			found = idx
-		}
 	})
 	if (found > -1) {
 		State.variables.player.inv[found].qty += qty
