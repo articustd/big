@@ -9,9 +9,9 @@ let items = [
     {name: "Size Elixir", mod: 10, type: "exp", stat: "size"},
     {name: "Tub of Grease", mod: 3, type: "exp", stat: "fat"},
     {name: "Vitamins", mod: 1, type: "stats", stat: "con"},
-    {name: "Blue Pill", mod: 5, type: "gender", stat: "penis"},
-    {name: "Magnisium Pills", mod: 2, type: "gender", stat: "balls"},
-    {name: "Injection", mod: 4, type: "gender", stat: "breasts"}
+    {name: "Blue Pill", mod: 0.02, type: "gender", stat: "penis"},
+    {name: "Magnisium Pills", mod: 0.01, type: "gender", stat: "balls"},
+    {name: "Injection", mod: 0.01, type: "gender", stat: "breasts"}
 ]
 
 let loot = [

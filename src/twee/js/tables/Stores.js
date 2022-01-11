@@ -26,7 +26,10 @@ let stores = [
         name: "Macro Megamart",
         stock: [
             { id: 0, qty: 10, price: 50 },
-            { id: 2, qty: 2, price: 200 }
+            { id: 2, qty: 2, price: 200 },
+            { id: 5, qty: 2, price: 200 },
+            { id: 6, qty: 2, price: 200 },
+            { id: 7, qty: 2, price: 200 },
         ]
     }
 ]

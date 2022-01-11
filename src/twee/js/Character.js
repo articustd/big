@@ -97,9 +97,9 @@ function calcGenitals(hyper, height, gender, pronounKey) {
     let hyperMod = hyper ? 2 : 1
     let genderKey = Object.keys(gender)[0]
     let response = {
-        penis: Math.floor(((height / random(8, 11)) + 1) * hyperMod),
-        balls: Math.floor(((height / random(8, 11)) + 1) * hyperMod),
-        breasts: Math.floor(((height / random(6, 8)) + 1) * hyperMod),
+        penis: Math.floor(((height / random(height-20, height+20)) + 1) * hyperMod)/100,
+        balls: Math.floor(((height / random(height-5, height+20)) + 1) * hyperMod)/100,
+        breasts: Math.floor(((height / random(100, height+20)) + 1) * hyperMod)/100,
         vagina: true
     }
     for (let gen in gender[genderKey]) {

@@ -89,7 +89,7 @@ function findFat(weight, height) {
 }
 
 function findBreastSize(character) {
-	let ratio = character.gender.breasts / character.measurements.height
+	let ratio = character.gender.breasts // / character.measurements.height
 	for (let breast of breastSize) {
 		let breastKey = Object.keys(breast)[0]
 		if (ratio >= breast[breastKey].range[0] && ratio < breast[breastKey].range[1])
@@ -99,7 +99,7 @@ function findBreastSize(character) {
 }
 
 function findPenisSize(character) {
-	let ratio = character.gender.penis / character.measurements.height
+	let ratio = character.gender.penis // / character.measurements.height
 	for (let pen of penisSize) {
 		let penKey = Object.keys(pen)[0]
 		if (ratio >= pen[penKey].range[0] && ratio <= pen[penKey].range[1])
@@ -109,7 +109,7 @@ function findPenisSize(character) {
 }
 
 function findBallSize(character) {
-	let ratio = character.gender.balls / character.measurements.height
+	let ratio = character.gender.balls // / character.measurements.height
 	for (let ball of ballSize) {
 		let ballKey = Object.keys(ball)[0]
 		if (ratio >= ball[ballKey].range[0] && ratio < ball[ballKey].range[1])
