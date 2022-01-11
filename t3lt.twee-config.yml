@@ -48,3 +48,5 @@ sugarcube-2:
       container: true
     playerFluffMacro:
       name: playerFluffMacro
+    capacityBarMacro:
+      name: capacityBarMacro

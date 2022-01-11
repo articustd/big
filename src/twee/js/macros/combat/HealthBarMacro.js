@@ -4,19 +4,19 @@ Macro.add('healthBarMacro', {
         let character = this.args[0]
         
         let $healthBar = $('<div/>')
-                            .addClass(`healthBar`)
+                            .addClass(`statusBar`)
         let $currentHealthBar = $('<div/>')
                     .addClass('currentHealthBar')
                     .css('width', `${Math.floor((character.stats.hlth/character.stats.maxHlth)*100)}%`)
         let $currentHealthText = $('<div/>')
-                    .addClass('currentHealthText')
+                    .addClass('currentStatusText')
                     .text(`${character.stats.hlth}/${character.stats.maxHlth}`)
         
         if(this.args[1])
             $healthBar.css('float', this.args[1])
 
         $healthBar
-            .attr('id', `macro-${this.name}`)
+            .attr('id', `macro-${this.name}-${character.name}`)
             .append($currentHealthBar)
             .append($currentHealthText)
             .appendTo(this.output)
