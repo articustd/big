@@ -44,6 +44,7 @@ $(document).one(':storyready', function (ev) {
 	State.variables.attacks = attacks;
 	State.variables.skills = skills;
 	State.variables.pronouns = pronounArray()
+	State.variables.twelveHour = false
 	State.variables.debug = Config.debug
 });
 

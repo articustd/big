@@ -10,7 +10,7 @@ Health: <<healthBarMacro $player>>
 Stomach Capacity: <<capacityBarMacro $player "stomach">>
 <<if def $player.capacity.balls>>Testicle Capacity: <<capacityBarMacro $player "balls">><</if>>
 Day: $time.day
-Time: $time.hour:<<if $time.min lt 10>>0<</if>>$time.min
+Time: <<clockMacro>>
 Credits: $player.credits
 <</if>>
 
