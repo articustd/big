@@ -162,3 +162,7 @@ window.sizeArray = function (range) {
     })
     return sizeArr
 }
+
+function statPoints(player) {
+    return (player.stats.strg + player.stats.con + player.stats.dex + player.stats.acc)/4
+}

@@ -32,6 +32,7 @@ Macro.add('consumeEnemy', {
                             getExpText(consumePoints) 
                             combatReset()
                             delete State.variables.enemy
+                            delete State.variables.willing
                             Engine.play("consume")
                         })
                         .css('width','90%')
