@@ -1,9 +1,4 @@
-State.variables.version = `v0.4.1`
-
-Config.history.controls = false;
-Config.debug = true;
-
-setup.ImagePath = "assets/";
+State.variables.version = `v0.5.0`
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
