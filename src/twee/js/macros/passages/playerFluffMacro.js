@@ -15,13 +15,13 @@ Macro.add('playerFluffMacro', {
         let playerFat = findFat(player.measurements.weight,player.measurements.height)
         let playerFatKey = Object.keys(playerFat)[0]
         $general
-            .text(`Your ${playerSize} ${playerHeightText} frame is supporting a ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles and an ${lowercaseFirstLetter(playerFatKey)} amount of body fat.`)
+            .text(`Your ${playerSize} ${playerHeightText} frame is supporting ${playerMuscle[playerMuscleKey].singular} ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles and an ${lowercaseFirstLetter(playerFatKey)} amount of body fat.`)
             .append('<br><br>')
 
         $upperBody // Fix breasts
             .text(`Your chest sports ${getBreastText(player)}${playerMuscle[playerMuscleKey].pecs} pectoral muscles. 
-                    Looking at your arms, they're ${playerMuscle[playerMuscleKey].arms}. 
-                    With your ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles your arms are ${playerMuscle[playerMuscleKey].armsSecond}. 
+                    Looking at your arms, ${playerMuscle[playerMuscleKey].arms}. 
+                    With your ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles, your arms ${playerMuscle[playerMuscleKey].armsSecond}. 
                     Looking down at your stomach you have ${playerFat[playerFatKey].stomach}.`)
             .append('<br><br>')
 

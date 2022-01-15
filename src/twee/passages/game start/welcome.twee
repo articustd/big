@@ -3,6 +3,12 @@
 
 Welcome to the world! This page is still a WIP, but please proceed with the game!
 
+/* New lands, new life. 
+
+Having just moved to the area you're unsure what you may find. Are the residents friendly? What are they like?
+
+As you arrive at the station,  */
+
 <<link "Start Game" "home">>
 	<<set $gameStarted to true>>
 <</link>>

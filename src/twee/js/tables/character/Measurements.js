@@ -19,13 +19,19 @@ let bodyTypes = [
 ]
 
 let muscleAmount = [
-    // {"Weak": {range:[0,20], pecs:'no', arms: 'not much to look at', armsSecond: 'slightly better than twigs'}},
-    {"Weak": {range:[0,2000000], pecs:'no', arms: 'not much to look at', armsSecond: 'slightly better than twigs'}},
+    {"Frail": {range:[0,9], singular: 'a', pecs:'no', arms: 'not much to look at', armsSecond: 'are slightly better than twigs'}},
+    {"Weak": {range:[10,29], singular: 'a', pecs:'no', arms: `they're not much to look at`, armsSecond: 'are slightly better than twigs'}},
+    {"Average": {range:[30,49], singular: 'an', pecs:'a little amount of', arms: `they're about what you would expect`, armsSecond: `have a a bit of meat on them`}},
+    {"Healthy": {range:[50,79], singular: 'a', pecs:'a decent amount of', arms: `they've put on some heft`, armsSecond: `are starting to show more definition`}},
+    {"Modest": {range:[80,99], singular: 'a', pecs:'a modest amount of', arms: `they've become bulkier`, armsSecond: `are defined and showing growth`}},
+    {"Large": {range:[100,129], singular: 'a', pecs:'a generous amount of', arms: `they're more muscle than anything else`, armsSecond: `have become the size of coconuts`}},
+    {"Herculean": {range:[130,199], singular: 'a', pecs:'near demi-god like', arms: `they've become near perfect`, armsSecond: `have become as large as a soccer ball`}},
+    {"Colossal": {range:[200,200000], singular: 'a', pecs:'mountain', arms: `even the gods would be jealous`, armsSecond: `look like boulders shaped by time and erosion`}},
 ]
 
 let fatAmount = [
     // {"Fair": {range:[0.207,0.234], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
-    {"Fair": {range:[0.01,30], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    {"Fair": {range:[0.01,30], stomach: `a little bit of pudge, but not a noticable amount from underneath your shirt`}},
 ]
 
 let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm is the average height
