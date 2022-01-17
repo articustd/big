@@ -28,7 +28,7 @@ Macro.add('consumeEnemy', {
                             State.variables.consumeHeader = `${con.method}ing ${prey.name}`
                             let consumePoints = calcConsume(prey)
                             addPoints(consumePoints,State.variables.player)
-                            addCapacity(State.variables.player,prey.measurements.weight,con.capacity)
+                            addCapacity(State.variables.player,calcWeight(prey.measurements),con.capacity)
                             getExpText(consumePoints) 
                             combatReset()
                             delete State.variables.enemy
@@ -67,8 +67,8 @@ function addPoints(points, hunter) {
     }
 }
 
-function addCapacity(hunter,preyWeight,capType) {
-    hunter.capacity[capType] += preyWeight
+function addCapacity(hunter,prey,capType) {
+    hunter.capacity[capType] += Math.floor(prey)
 }
 
 function getExpText(consumePoints) {

@@ -31,7 +31,7 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
 
     // Calculate Measurements
     character.measurements.height = random(size[sizeKey].range[0], size[sizeKey].range[1])
-    character.measurements.weight = calcWeight(character.measurements.height, bodyType[bodyTypeKey].weightMod, size[sizeKey].sizeMulti)
+    character.measurements.bodyFat = bodyType[bodyTypeKey].bodyFat //HACK Rudimentary, need to change to ranges
 
     let hyper = false
 
@@ -66,13 +66,9 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
     calcMaxHealth(character)
 
     // Calculate Capacity
-    calcCapacity(character, bodyType[bodyTypeKey].weightMod)
+    calcCapacity(character)
 
     return character;
-}
-
-function calcWeight(height, weightMod, sizeMulti) {
-    return (height * sizeMulti) * weightMod
 }
 
 function randomSize(range) {
@@ -137,19 +133,22 @@ function calcMaxHealth(character) {
     character.stats.maxHlth = getMaxHealth(character)
 }
 
+//HACK Changed to BodyFat % temporarily to see how it effects health
 function getMaxHealth(character) {
-    let hW = character.measurements.height + character.measurements.weight
+    let hW = character.measurements.height / character.measurements.bodyFat
     let con = character.stats.con
     let logConHW = Math.log2(con * hW)
     let sqLogConHW = logConHW ** 2
     return Math.floor((((0.01 * (2 * sqLogConHW * logConHW)) + 10) / 2) + 5)
 }
 
-function calcCapacity(character, weightMod) {
-    character.capacity.stomachMax = Math.ceil(character.measurements.weight / (4/weightMod))
+//HACK need to finalize stomach capacity calcs
+function calcCapacity(character) {
+    character.capacity.stomachMax = Math.ceil(character.measurements.height/character.measurements.bodyFat)
     character.capacity.stomach = 0
     if(character.gender.balls) {
-        character.capacity.ballsMax = Math.ceil(character.gender.balls * 100)
+        let ballSize = character.measurements.height * character.gender.balls
+        character.capacity.ballsMax = Math.floor((4/3)*Math.PI*(ballSize**3))*2
         character.capacity.balls = 0
     }
 }

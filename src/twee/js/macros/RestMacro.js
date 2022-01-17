@@ -35,9 +35,10 @@ Macro.add('restMacro', {
             player.stats.maxHlth = getMaxHealth(player)
             
             player.stats.hlth = player.stats.maxHlth;
-            player.capacity.stomach = 0
-            if(player.capacity.balls)
-                player.capacity.balls = 0
+            calcCapacity(player)
+            // player.capacity.stomach = 0
+            // if(player.capacity.balls)
+            //     player.capacity.balls = 0
             advanceTime(true)
         }
     }
@@ -48,7 +49,7 @@ function statMapping(stat) {
         case 'muscle':
             return ['stats', 'strg']
         case 'fat':
-            return ['measurements', 'weight']
+            return ['measurements', 'bodyFat']
         case 'size':
             return ['measurements', 'height']
         case 'skill':

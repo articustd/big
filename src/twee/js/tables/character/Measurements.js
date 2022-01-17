@@ -11,11 +11,11 @@ let sizes = [
 ];
 
 let bodyTypes = [
-    { "Thin": { weightMod: 0.75, statMods: { strg: 0.5, dex: 1.5, acc: 1.5, con: 0.5 }, expMods: { pawEye: 2, size: 1, skill: 1 }, loot: [7] } },
-    { "Normal": { weightMod: 1, statMods: { strg: 1, dex: 1, acc: 1, con: 1 }, expMods: { size: 1, skill: 1 }, loot: [7] } },
-    { "Fit": { weightMod: 1.1, statMods: { strg: 1.2, dex: 1.2, acc: 1.2, con: 1.2 }, expMods: { agility: 2, size: 1, skill: 1 }, loot: [6] } },
-    { "Muscle": { weightMod: 1.3, statMods: { strg: 2, dex: 0.8, acc: 0.5, con: 1.5 }, expMods: { muscle: 2, size: 1, skill: 1 }, loot: [0] } },
-    { "Fat": { weightMod: 2, statMods: { strg: 1.5, dex: 0.6, acc: 0.5, con: 2 }, expMods: { fat: 2, size: 1, skill: 1 }, loot: [6] } }
+    { "Thin": { bodyFat: 0.02, statMods: { strg: 0.5, dex: 1.5, acc: 1.5, con: 0.5 }, expMods: { pawEye: 2, size: 1, skill: 1 }, loot: [7] } },
+    { "Normal": { bodyFat: 0.2, statMods: { strg: 1, dex: 1, acc: 1, con: 1 }, expMods: { size: 1, skill: 1 }, loot: [7] } },
+    { "Fit": { bodyFat: 0.1, statMods: { strg: 1.2, dex: 1.2, acc: 1.2, con: 1.2 }, expMods: { agility: 2, size: 1, skill: 1 }, loot: [6] } },
+    { "Muscle": { bodyFat: 0.05, statMods: { strg: 2, dex: 0.8, acc: 0.5, con: 1.5 }, expMods: { muscle: 2, size: 1, skill: 1 }, loot: [0] } },
+    { "Fat": { bodyFat: 0.45, statMods: { strg: 1.5, dex: 0.6, acc: 0.5, con: 2 }, expMods: { fat: 2, size: 1, skill: 1 }, loot: [6] } }
 ]
 
 let muscleAmount = [
@@ -30,8 +30,15 @@ let muscleAmount = [
 ]
 
 let fatAmount = [
-    // {"Fair": {range:[0.207,0.234], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
-    {"Fair": {range:[0.01,30], stomach: `a little bit of pudge, but not a noticable amount from underneath your shirt`}},
+    {"Non-existant": {range:[0.01,0.05], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    {"Fair": {range:[0.05,0.10], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    {"Fair": {range:[0.10,0.15], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    {"Lean": {range:[0.15,0.20], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    {"Fair": {range:[0.20,0.25], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    {"Pudgey": {range:[0.25,0.30], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    {"Fair": {range:[0.30,0.35], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    {"Fair": {range:[0.35,1000], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
+    // {"Fair": {range:[0.01,30], stomach: `a little bit of pudge, but not a noticable amount from underneath your shirt`}},
 ]
 
 let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm is the average height
