@@ -19,26 +19,25 @@ let bodyTypes = [
 ]
 
 let muscleAmount = [
-    {"Frail": {range:[0,9], singular: 'a', pecs:'no', arms: 'not much to look at', armsSecond: 'are slightly better than twigs'}},
-    {"Weak": {range:[10,29], singular: 'a', pecs:'no', arms: `they're not much to look at`, armsSecond: 'are slightly better than twigs'}},
-    {"Average": {range:[30,49], singular: 'an', pecs:'a little amount of', arms: `they're about what you would expect`, armsSecond: `have a a bit of meat on them`}},
-    {"Healthy": {range:[50,79], singular: 'a', pecs:'a decent amount of', arms: `they've put on some heft`, armsSecond: `are starting to show more definition`}},
-    {"Modest": {range:[80,99], singular: 'a', pecs:'a modest amount of', arms: `they've become bulkier`, armsSecond: `are defined and showing growth`}},
-    {"Large": {range:[100,129], singular: 'a', pecs:'a generous amount of', arms: `they're more muscle than anything else`, armsSecond: `have become the size of coconuts`}},
-    {"Herculean": {range:[130,199], singular: 'a', pecs:'near demi-god like', arms: `they've become near perfect`, armsSecond: `have become as large as a soccer ball`}},
-    {"Colossal": {range:[200,200000], singular: 'a', pecs:'mountain', arms: `even the gods would be jealous`, armsSecond: `look like boulders shaped by time and erosion`}},
+    {"Frail": {range:[0,9], singular: 'a', pecs:'no', abs: `your imaginary abs`, arms: 'not much to look at', muscleGut: false, armsSecond: 'are slightly better than twigs'}},
+    {"Weak": {range:[10,29], singular: 'a', pecs:'no', abs: `your flat stomach`, arms: `they're not much to look at`, muscleGut: false, armsSecond: 'are slightly better than twigs'}},
+    {"Average": {range:[30,49], singular: 'an', pecs:'a little amount of', abs: `your singular muscle that is your abs`, muscleGut: false, arms: `they're about what you would expect`, armsSecond: `have a a bit of meat on them`}},
+    {"Healthy": {range:[50,79], singular: 'a', pecs:'a decent amount of', abs: `the start of your soon to be six-pack abs`, muscleGut: false, arms: `they've put on some heft`, armsSecond: `are starting to show more definition`}},
+    {"Modest": {range:[80,99], singular: 'a', pecs:'a modest amount of', abs: `your firm six-pack abs`, muscleGut: true, arms: `they've become bulkier`, armsSecond: `are defined and showing growth`}},
+    {"Large": {range:[100,129], singular: 'a', pecs:'a generous amount of', abs: `your washboard abs`, muscleGut: true, arms: `they're more muscle than anything else`, armsSecond: `have become the size of coconuts`}},
+    {"Herculean": {range:[130,199], singular: 'a', pecs:'near demi-god like', abs: `your mythical abs`, muscleGut: true, arms: `they've become near perfect`, armsSecond: `have become as large as a soccer ball`}},
+    {"Colossal": {range:[200,200000], singular: 'a', pecs:'mountain', abs: `your absolute cheese grater abs`, arms: `even the gods would be jealous`, muscleGut: true, armsSecond: `look like boulders shaped by time and erosion`}},
 ]
 
 let fatAmount = [
-    {"Non-existant": {range:[0.01,0.05], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
-    {"Fair": {range:[0.05,0.10], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
-    {"Fair": {range:[0.10,0.15], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
-    {"Lean": {range:[0.15,0.20], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
-    {"Fair": {range:[0.20,0.25], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
-    {"Pudgey": {range:[0.25,0.30], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
-    {"Fair": {range:[0.30,0.35], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
-    {"Fair": {range:[0.35,1000], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
-    // {"Fair": {range:[0.01,30], stomach: `a little bit of pudge, but not a noticable amount from underneath your shirt`}},
+    {"Non-existant": {range:[0.0,0.05], singular: `a`, stomach: 'there is nothing there other than', showAbs: true}},
+    {"Thin": {range:[0.05,0.10], singular: `a`, stomach: 'there is a thin layer of fat on top of', showAbs: true}},
+    {"Lean": {range:[0.10,0.15], singular: `a`, stomach: 'there is some fat on', showAbs: true}},
+    {"Healthy": {range:[0.15,0.20], singular: `a`, stomach: 'you see a small bit of fat on', showAbs: true}},
+    {"Fair": {range:[0.20,0.25], singular: `a`, stomach: 'you see a little bump sticking out from underneath your shirt', showAbs: false}},
+    {"Pudgey": {range:[0.25,0.30], singular: `a`, stomach: 'there is some flab starting to form', showAbs: false}},
+    {"Large": {range:[0.30,0.35], singular: `a`, stomach: 'a gut has formed slightly lifting your shirt', showAbs: false}},
+    {"Huge": {range:[0.35,1000], singular: `a`, stomach: 'a mound of flesh encompases the area, eating any abs that may be underneath', showAbs: false}},
 ]
 
 let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm is the average height

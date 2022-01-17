@@ -15,15 +15,17 @@ Macro.add('playerFluffMacro', {
         let playerFat = findFat(player.measurements.bodyFat)
         let playerFatKey = Object.keys(playerFat)[0]
         $general
-            .text(`Your ${playerSize} ${playerHeightText} frame is supporting ${playerMuscle[playerMuscleKey].singular} ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles and an ${lowercaseFirstLetter(playerFatKey)} amount of body fat.`)
+            .text(`Your ${playerSize} ${playerHeightText} frame is supporting ${playerMuscle[playerMuscleKey].singular} ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles and ${playerMuscle[playerMuscleKey].singular} ${lowercaseFirstLetter(playerFatKey)} amount of body fat.`)
             .append('<br><br>')
 
         $upperBody
             .text(`Your chest sports ${getBreastText(player)}${playerMuscle[playerMuscleKey].pecs} pectoral muscles. 
                     Looking at your arms, ${playerMuscle[playerMuscleKey].arms}. 
                     With your ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles, your arms ${playerMuscle[playerMuscleKey].armsSecond}. 
-                    Looking down at your stomach you have ${playerFat[playerFatKey].stomach}.`)
+                    Looking down at your stomach ${checkAbs(playerFat[playerFatKey],playerFatKey,playerMuscle[playerMuscleKey],playerMuscleKey)}.`)
             .append('<br><br>')
+
+        // logger(playerMuscle)
 
         $lowerBody // Ok, kinda done
             .text(`Your eyes and paws work their way down to explore below your waist. ${collectGenitals(player)}`)//the only equipment you find are your weak looking legs and a vagina.`)
@@ -70,4 +72,13 @@ function collectGenitals(character) {
     }
 
     return `${penis ? penis : ''}${balls ? balls : ''}${vagina ? vagina : ''}`
+}
+
+function checkAbs(fat,fatKey,muscle,muscleKey) {
+    console.log(fat)
+    if(fat.showAbs)
+        return `${fat.stomach} ${muscle.abs}`
+    if(!fat.showAbs && muscle.muscleGut)
+        return `you see a ${lowercaseFirstLetter(fatKey)} muscle gut`
+    return `${fat.stomach}`
 }
