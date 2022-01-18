@@ -1,17 +1,17 @@
 let sizes = [
-    { "Micro": { range: [3, 7], sizeMulti: 4, loot: [7] } },
-    { "Tiny": { range: [8, 30], sizeMulti: 66, loot: [7] } },
-    { "Mini": { range: [31, 60], sizeMulti: 150, loot: [7] } },
-    { "Small": { range: [61, 152], sizeMulti: 387, loot: [7] } },
-    { "Average": { range: [153, 180], sizeMulti: 470, loot: [7] } },
-    { "Tall": { range: [181, 244], sizeMulti: 600, loot: [2] } },
-    { "Huge": { range: [245, 457], sizeMulti: 700, loot: [2] } },
-    { "Massive": { range: [458, 915], sizeMulti: 800, loot: [2] } },
-    { "Macro": { range: [915, 3048], sizeMulti: 900, loot: [2] } }
+    { "Micro": { range: [3, 7], sizeMulti: 4, statBase: 2, loot: [7] } },
+    { "Tiny": { range: [8, 30], sizeMulti: 66, statBase: 5, loot: [7] } },
+    { "Mini": { range: [31, 60], sizeMulti: 150, statBase: 7, loot: [7] } },
+    { "Small": { range: [61, 152], sizeMulti: 387, statBase: 10, loot: [7] } },
+    { "Average": { range: [153, 180], sizeMulti: 470, statBase: 15, loot: [7] } },
+    { "Tall": { range: [181, 244], sizeMulti: 600, statBase: 20, loot: [2] } },
+    { "Huge": { range: [245, 457], sizeMulti: 700, statBase: 40, loot: [2] } },
+    { "Massive": { range: [458, 915], sizeMulti: 800, statBase: 60, loot: [2] } },
+    { "Macro": { range: [915, 3048], sizeMulti: 900, statBase: 80, loot: [2] } }
 ];
 
 let bodyTypes = [
-    { "Thin": { bodyFat: 0.02, statMods: { strg: 0.5, dex: 1.5, acc: 1.5, con: 0.5 }, expMods: { pawEye: 2, size: 1, skill: 1 }, loot: [7] } },
+    { "Thin": { bodyFat: 0.05, statMods: { strg: 0.5, dex: 1.5, acc: 1.5, con: 0.5 }, expMods: { pawEye: 2, size: 1, skill: 1 }, loot: [7] } },
     { "Normal": { bodyFat: 0.2, statMods: { strg: 1, dex: 1, acc: 1, con: 1 }, expMods: { size: 1, skill: 1 }, loot: [7] } },
     { "Fit": { bodyFat: 0.1, statMods: { strg: 1.2, dex: 1.2, acc: 1.2, con: 1.2 }, expMods: { agility: 2, size: 1, skill: 1 }, loot: [6] } },
     { "Muscle": { bodyFat: 0.05, statMods: { strg: 2, dex: 0.8, acc: 0.5, con: 1.5 }, expMods: { muscle: 2, size: 1, skill: 1 }, loot: [0] } },
