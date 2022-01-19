@@ -75,7 +75,6 @@ function collectGenitals(character) {
 }
 
 function checkAbs(fat,fatKey,muscle,muscleKey) {
-    console.log(fat)
     if(fat.showAbs)
         return `${fat.stomach} ${muscle.abs}`
     if(!fat.showAbs && muscle.muscleGut)
