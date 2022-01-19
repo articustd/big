@@ -264,32 +264,42 @@ img#logoImage {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
-/* twine-user-stylesheet #2: "healthBar.css" */
-.healthBar {
-    width: 210px;
-    height: 25px;
-    background: transparent;
-    border-radius: 5px;
-    border: white;
-    border-style: solid;
-    border-width: 1px; 
-    overflow: hidden;
-    position: relative;
+/* twine-user-stylesheet #2: "statusBar.css" */
+.currentHealthBar, .currentVisCapBar, .currentNotVisCapBar {
+  height: 100%;
+  -webkit-transition: all 1s;
+  transition: all 1s;
 }
 
-.currentHealthBar {
-    height: 100%;
-    background: red;
-    transition: all 1s;
+.statusBar {
+  width: 210px;
+  height: 25px;
+  background: transparent;
+  text-align: center;
+  border-radius: 5px;
+  border: white;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+  position: relative;
 }
 
-.currentHealthText {
-    position:absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 40%;
-    font-weight: bold;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "Character.js" */
+.currentHealthBar, .currentVisCapBar {
+  background: red;
+}
+
+.currentNotVisCapBar {
+  background-color: green;
+}
+
+.currentStatusText {
+  position: relative;
+  top: -45%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  font-weight: bold;
+}
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "Character.js" */
 function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
     let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {} };
 
@@ -323,18 +333,21 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
 
     // Calculate Measurements
     character.measurements.height = random(size[sizeKey].range[0], size[sizeKey].range[1])
-    character.measurements.weight = calcWeight(character.measurements.height, bodyType[bodyTypeKey].weightMod, size[sizeKey].sizeMulti)
+    character.measurements.bodyFat = bodyType[bodyTypeKey].bodyFat //HACK Rudimentary, need to change to ranges
 
+    // Default Hyper to no
     let hyper = false
 
+    // Species
     character.species = species[speciesId]
 
-    // Calculate Exp, Stats, and Name (This was not fun)
+    // Calculate Stats
+    statPoints = size[sizeKey].statBase
+    calcStats(character, statMods, statPoints)
+
+    // Calculate Exp and Name (This was not fun)
     if (!name) {
         character.name = `${sizeKey} ${bodyTypeKey} ${species[speciesId]}`
-        let statPointMod = Math.floor(statPoints / 4)
-        statPoints = random(statPoints - statPointMod, statPoints + statPointMod)
-        calcStats(character, statMods, statPoints)
 
         for (let exp in expMods)
             character.exp[exp] = getExpCalc(character, exp, expMods[exp], statPoints)
@@ -348,7 +361,6 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
         character.skills = []
         character.skillPoints = 0
         character.inv = []
-        calcStats(character, statMods, statPoints)
     }
 
     // Calculate Genitals... Oh boy
@@ -358,13 +370,9 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
     calcMaxHealth(character)
 
     // Calculate Capacity
-    calcCapacity(character, bodyType[bodyTypeKey].weightMod)
+    calcCapacity(character)
 
     return character;
-}
-
-function calcWeight(height, weightMod, sizeMulti) {
-    return (height * sizeMulti) * weightMod
 }
 
 function randomSize(range) {
@@ -381,7 +389,7 @@ function randomBodyType(range) {
 
 function calcStats(character, statMods, statPoints) {
     for (let statMod in statMods) {
-        character.stats[statMod] = Math.floor(statPoints * statMods[statMod])
+        character.stats[statMod] = Math.ceil(statPoints * statMods[statMod])
     }
 }
 
@@ -389,9 +397,9 @@ function calcGenitals(hyper, height, gender, pronounKey) {
     let hyperMod = hyper ? 2 : 1
     let genderKey = Object.keys(gender)[0]
     let response = {
-        penis: Math.floor(((height / random(8, 11)) + 1) * hyperMod),
-        balls: Math.floor(((height / random(8, 11)) + 1) * hyperMod),
-        breasts: Math.floor(((height / random(6, 8)) + 1) * hyperMod),
+        penis: Math.floor(((height / random(height - 20, height + 20)) + 1) * hyperMod) / 100,
+        balls: Math.floor(((height / random(height - 5, height + 20)) + 1) * hyperMod) / 100,
+        breasts: Math.floor(((height / random(100, height + 20)) + 1) * hyperMod) / 100,
         vagina: true
     }
     for (let gen in gender[genderKey]) {
@@ -429,19 +437,20 @@ function calcMaxHealth(character) {
     character.stats.maxHlth = getMaxHealth(character)
 }
 
+//HACK Changed to BodyFat % temporarily to see how it effects health
 function getMaxHealth(character) {
-    let hW = character.measurements.height + character.measurements.weight
+    let hB = Math.ceil(character.measurements.height * character.measurements.bodyFat)
     let con = character.stats.con
-    let logConHW = Math.log2(con * hW)
-    let sqLogConHW = logConHW ** 2
-    return Math.floor((((0.01 * (2 * sqLogConHW * logConHW)) + 10) / 2) + 5)
+    return Math.ceil((con*Math.log(hB))+5)
 }
 
-function calcCapacity(character, weightMod) {
-    character.capacity.stomachMax = Math.ceil(character.measurements.weight / (4/weightMod))
+//HACK need to finalize stomach capacity calcs
+function calcCapacity(character) {
+    character.capacity.stomachMax = Math.ceil(character.measurements.height / character.measurements.bodyFat)
     character.capacity.stomach = 0
-    if(character.gender.balls) {
-        character.capacity.ballsMax = Math.ceil(character.gender.balls * 100)
+    if (character.gender.balls) {
+        let ballSize = character.measurements.height * character.gender.balls
+        character.capacity.ballsMax = Math.floor((4 / 3) * Math.PI * (ballSize ** 3)) * 2
         character.capacity.balls = 0
     }
 }
@@ -454,7 +463,1081 @@ window.sizeArray = function (range) {
     })
     return sizeArr
 }
-/* twine-user-script #2: "Combat.js" */
+
+function statPoints(player) {
+    return (player.stats.strg + player.stats.con + player.stats.dex + player.stats.acc) / 4
+}
+/* twine-user-script #2: "Index.js" */
+State.variables.version = `v0.5.0`
+
+/* Passage Tag Triggers */
+$(document).on(':passagestart', function (ev) {
+	if (!ev.passage.tags.includes('noreturn'))
+		State.variables.return = ev.passage.title;
+});
+
+// Refresh Combat Log Scroll
+$(document).on(":passagedisplay", function(ev) {
+	let syncPlayerScroll = false;
+	let syncEnemyScroll = false;
+	$("#PlayerCombatLog").scrollTop($(document).height());
+	$("#PlayerCombatLog").on("scroll", function () {
+		if(!syncPlayerScroll) {
+			syncEnemyScroll = true
+			$("#EnemyCombatLog").scrollTop($(this).scrollTop())
+		}
+		syncPlayerScroll = false
+	})
+	$("#EnemyCombatLog").on("scroll", function () {
+		if(!syncEnemyScroll) {
+			syncPlayerScroll = true
+			$("#PlayerCombatLog").scrollTop($(this).scrollTop())
+		}
+		syncEnemyScroll = false
+	})
+})
+
+$(document).one(':storyready', function (ev) {
+	State.variables.items = items;
+	State.variables.loot = loot;
+	State.variables.stores = cloneObj(stores);
+	State.variables.species = species;
+	State.variables.sizes = sizeArray();
+	State.variables.bodyTypes = bodyTypes;
+	State.variables.genders = genderArray();
+	State.variables.time = { day: 1, hour: 0, min: 0 }
+	State.variables.attacks = attacks;
+	State.variables.skills = skills;
+	State.variables.pronouns = pronounArray()
+	State.variables.twelveHour = false
+	State.variables.debug = Config.debug
+});
+
+function cloneObj(obj) {
+	return Object.assign({}, obj)
+}
+/* twine-user-script #3: "Item.js" */
+/* Item Logic */
+function rollItems(enemyLoot, credits) {
+	var text = []
+	enemyLoot.forEach(function (item) {
+		if (itemChance(item.chnc)) {
+			let qty = addToInventory(item)
+			text.push(`Found ${qty} ${State.variables.items[item.id].name}`)
+		}
+	})
+	addCredits(credits)
+	text.push(`Found ${credits} credits`)
+	return text
+}
+
+function itemChance(chance) {
+	if (Math.floor(random(1,100)) <= chance)
+		return true
+	
+	return false
+}
+
+function addToInventory(lootItem) {
+	var found = -1
+	let qty = random(1,lootItem.qty)
+	State.variables.player.inv.forEach(function (item, idx) {
+		if (item.id === lootItem.id)
+			found = idx
+	})
+	if (found > -1) {
+		State.variables.player.inv[found].qty += qty
+	} else {
+		State.variables.player.inv.push({ id: lootItem.id, qty })
+	}
+	return qty
+}
+
+function addCredits(credits) {
+	State.variables.player.credits += credits
+	return credits
+}
+
+function getItemInfoByIndex(index) {
+	return State.variables.items[index]
+}
+
+function decreaseCredits(amt) {
+	State.variables.player.credits -= amt;
+}
+/* twine-user-script #4: "config.js" */
+Config.history.controls = false;
+Config.debug = false;
+var logging = false;
+
+setup.ImagePath = "assets/"; 
+/* twine-user-script #5: "CapacityBarMacro.js" */
+Macro.add('capacityBarMacro', {
+    skipArgs: false,
+    handler: function () {
+        let character = this.args[0]
+        let capType = this.args[1]
+
+        let statusPercent = Math.floor((character.capacity[capType]/character.capacity[`${capType}Max`])*100)
+        
+        let $capBar = $('<div/>')
+                            .addClass(`statusBar`)
+        let $currentCap = $('<div/>')
+                    .addClass(`${statusPercent<100?'currentNotVisCapBar':'currentVisCapBar'}`)
+                    .css('width', `${statusPercent}%`)
+        let $currentCapText = $('<div/>')
+                    .addClass('currentStatusText')
+                    .text(`${checkVisible(character, capType)}`)
+        
+        $capBar
+            .attr('id', `macro-${this.name}`)
+            .append($currentCap)
+            .append($currentCapText)
+            .appendTo(this.output)
+    }
+})
+
+function checkVisible(character, capType) {
+    if(character.capacity[capType]>character.capacity[`${capType}Max`])
+        return `Visible`
+    return `Not Visible`
+}
+/* twine-user-script #6: "ClockMacro.js" */
+Macro.add('clockMacro', {
+    skipArgs: false,
+    handler: function () {
+        let $clock = $('<span/>').text(returnTime(State.variables.twelveHour))
+
+        $clock
+            .attr('id', `macro-${this.name}`)
+            .appendTo(this.output)
+    }
+})
+/* twine-user-script #7: "RestMacro.js" */
+Macro.add('restMacro', {
+    skipArgs: false,
+    handler: function () {
+        let levelUp = this.args[0]
+        let visible = this.args[1]
+        let player = State.variables.player;
+
+        if (!visible) {
+            if (levelUp) {
+                let leveled = false
+                Object.entries(player.exp).forEach(([stat, value]) => {
+                    if (value > 0) {
+                        let statMap = statMapping(stat)
+                        if (statMap.length == 1) {
+                            player[statMap[0]] += value
+                        }
+                        if (statMap.length == 2) {
+                            let mod = 1
+                            if(stat === 'fat')
+                                mod = 1000
+                            player[statMap[0]][statMap[1]] += (value * mod)
+                        }
+                        player.exp[stat] = 0
+                        
+                        leveled = true
+                    }
+                });
+                if(leveled) {
+                    State.variables.restText = "You feel the effects of your experience" 
+                    
+                }
+                else 
+                    State.variables.restText = `You feel rested and rejuvenated!`
+            }
+            player.stats.maxHlth = getMaxHealth(player)
+            
+            player.stats.hlth = player.stats.maxHlth;
+            calcCapacity(player)
+            // player.capacity.stomach = 0
+            // if(player.capacity.balls)
+            //     player.capacity.balls = 0
+            advanceTime(true)
+        }
+    }
+})
+
+function statMapping(stat) {
+    switch (stat) {
+        case 'muscle':
+            return ['stats', 'strg']
+        case 'fat':
+            return ['measurements', 'bodyFat']
+        case 'size':
+            return ['measurements', 'height']
+        case 'skill':
+            return ['skillPoints']
+        case 'pawEye':
+            return ['stats', 'acc']
+        case 'agility':
+            return ['stats', 'dex']
+    }
+}
+/* twine-user-script #8: "StartGameMacro.js" */
+Macro.add('startGameRoutine', {
+    skipArgs: true,
+    handler: function () {
+        let player = State.variables.player;
+        let speciesKey = species.indexOf(player.species)
+        let sizeKey = findObjIdx(player.size, sizes)
+        let bodyTypeKey = findObjIdx("Normal", bodyTypes)
+        let pronounKey = getPronounId(player.pronouns)
+        let genderKey = findObjIdx(player.gender, genders)
+        
+        State.variables.player = genChar(15,speciesKey,sizeKey,bodyTypeKey,genderKey,player.name,pronounKey)
+    }
+})
+
+function findObjIdx(item, arr) {
+    let response;
+    arr.forEach(function(el, idx) {
+        if(Object.keys(el)[0] === item)
+            response = idx
+    })
+    return response
+}
+/* twine-user-script #9: "TrainingMacro.js" */
+Macro.add('trainMacro', {
+    skipArgs: false,
+    // tags    : [],
+    handler: function () {
+        // if (this.args.length < 1) {
+        //     var errors = [];
+        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
+        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
+        //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
+        // }wwwwwwwwwwwwwww
+        // Args: LevelUp - Boolean, Visible - Boolean
+
+        let expType = this.args[0];
+        let trainText = this.args[1];
+        let cost = this.args[2];
+        let modAmt = this.args[3];
+
+        if(cost <= State.variables.player.credits) {
+            State.variables.player.exp[expType] += modAmt;
+            State.variables.trainText = trainText;
+
+            decreaseCredits(cost);
+            advanceTime(true)
+        } else {
+            State.variables.trainText = `You don't have enought credits!`;
+            advanceTime(false)
+        }
+    }
+});
+/* twine-user-script #10: "AttackActionMacro.js" */
+Macro.add('attackAction', {
+    skipArgs: false,
+    handler: function () {
+        let attack = this.args[0];
+        let $wrapper = $('<span/>').css('display','block').css('text-align','center')
+        let $link = $(document.createElement('button'))
+        let dmgRange = calcDmgRange(this.args[0],State.variables.player)
+        let attackText = `${this.args[0].name } [${dmgRange.min}-${dmgRange.max}] ${calcHitChance(this.args[0],State.variables.player)}%`
+
+        $link
+            .wiki(attackText)
+            .ariaClick(function (ev) {
+                combatRoll(attack);
+                Engine.play(passage(), true)
+            })
+            .css('width','90%')
+            .css('margin-bottom', '10px')
+
+        $wrapper
+            .attr('id',`macro-${this.name}-${this.args.join('').replace(/[^A-Za-z0-9]/g, '')}`)
+            .addClass('message-text')
+            .append($link)
+            .appendTo(this.output);
+    }
+})
+/* twine-user-script #11: "TimeActionMacro.js" */
+Macro.add('timeAction', {
+    skipArgs: false,
+    tags: null,
+    handler: function () {
+        let link = document.createElement("a");
+        
+        if (this.args.length == 3) {
+            jQuery(link).text(`${this.args[0]} - ${this.args[1]}:${(this.args[2] < 10) ? '0' + this.args[2] : this.args[2]}`)
+            jQuery(link).ariaClick(
+                (function (args, passage, content) {
+                    return this.createShadowWrapper(
+                        function () {
+                            $.wiki(content);
+                        },
+                        function () {
+                            if (State.temporary.advanceTime) incrementTime(args[1], args[2])
+                            state.display(state.active.title, null, "back")
+                        }
+                    );
+                }).call(this, this.args, passage, this.payload[0].contents.trim())
+            )
+        } else {
+            jQuery(link).text(`${this.args[0]} - ${this.args[2]}:${(this.args[3] < 10) ? '0' + this.args[3] : this.args[3]}`)
+            jQuery(link).ariaClick(
+                (function (args, passage, content) {
+                    return this.createShadowWrapper(
+                        function () {
+                            $.wiki(content);
+                        },
+                        function () {
+                            incrementTime(args[2], args[3])
+                            Engine.play(args[1])
+                        }
+                    );
+                }).call(this, this.args, passage, this.payload[0].contents.trim())
+            )   
+        }
+        jQuery(this.output).append(link)
+    }
+})
+
+
+
+
+
+/* twine-user-script #12: "CombatResetMacro.js" */
+Macro.add('combatReset', {
+    skipArgs: false,
+    handler: function () {
+        combatReset()
+        if(this.args[0]) {
+            loseExp()
+            State.variables.player.stats.hlth = 1
+        }
+    }
+})
+
+function combatReset() {
+    delete State.variables.enemyHitDmg
+    delete State.variables.enemyCombatLog
+    delete State.variables.foundItems
+    delete State.variables.playerHitDmg
+    delete State.variables.combatResults
+    delete State.variables.playerCombatLog
+
+    State.variables.combat = false;
+    State.variables.win = false;
+}
+
+function loseExp() {
+    for(let exp in State.variables.player.exp)
+        State.variables.player.exp[exp] = 0
+
+    for(let cap in State.variables.player.capacity)
+        if(!cap.contains('Max'))
+            State.variables.player.capacity[cap] = 0
+    
+}
+/* twine-user-script #13: "ConsumeMacro.js" */
+Macro.add('consumeEnemy', {
+    skipArgs: false,
+    handler: function () {
+        // if (this.args.length < 2) {
+        //     var errors = [];
+        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
+        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
+        //     return this.error(`${errors[0]} ${errors.length == 2 ? "and " + errors[1] : ""}`)
+        // }
+
+        let $wrapper = $('<span/>').css('display','block').css('text-align','center')
+        let prey = this.args[0];
+
+        let consume = [
+            {method:'Eat',gen: '',desc:`You shove the enemy down your gullet.`,capacity:'stomach'},
+            {method:'Anal',gen: '',desc:`You shove the enemy up your hole`,capacity:'stomach'},
+            {method:'Unbirth',gen: 'vagina',desc:`You shove the enemy up your lady bits.`,capacity:'stomach'},
+            {method:'Sound',gen: 'penis',desc:`You shove the enemy in your man bits`,capacity:'balls'}
+        ]
+
+        consume.forEach(function(con) {
+            if(con.gen == '' || State.variables.player.gender[con.gen]) {
+                $wrapper.append(
+                    $('<button/>')
+                        .wiki(con.method)
+                        .ariaClick(function(ev) {
+                            State.variables.consumeText = con.desc
+                            State.variables.consumeHeader = `${con.method}ing ${prey.name}`
+                            let consumePoints = calcConsume(prey)
+                            addPoints(consumePoints,State.variables.player)
+                            addCapacity(State.variables.player,calcWeight(prey.measurements),con.capacity)
+                            getExpText(consumePoints) 
+                            combatReset()
+                            delete State.variables.enemy
+                            delete State.variables.willing
+                            Engine.play("consume")
+                        })
+                        .css('width','90%')
+                        .css('margin-bottom', '10px')
+                )
+            }
+        })
+        
+        $wrapper
+            .attr('id', `macro-${this.name}`)
+            .addClass('consumes')
+            .appendTo(this.output);
+    }
+})
+
+function calcConsume(prey) {
+    let response = {};
+    for(let points in prey.exp) 
+        response[points] = randPoints(prey.exp[points])
+    return response;
+}
+
+function randPoints(range) {
+    if(Array.isArray(range))
+        return random(range[0],range[1]);
+    return range
+}
+
+function addPoints(points, hunter) {
+    for(var point in points) {
+        hunter.exp[point] += points[point];
+    }
+}
+
+function addCapacity(hunter,prey,capType) {
+    hunter.capacity[capType] += Math.floor(prey)
+}
+
+function getExpText(consumePoints) {
+    State.variables.consumeExp = []
+    for(let cp in consumePoints) {
+        State.variables.consumeExp.push(`Gained +${consumePoints[cp]} ${returnStatName(cp)} to Experience`)
+    }
+}
+/* twine-user-script #14: "EnemyMacro.js" */
+Macro.add('enemyMacro', {
+    skipArgs: false,
+    handler: function () {
+        let minSize = this.args[0]
+        let maxSize = this.args[1]
+        let player = State.variables.player;
+        State.variables.enemy = genChar(statPoints(player), random(0, species.length - 1), [minSize, maxSize], [0, 4], random(0, 6));
+        State.variables.combat = true
+
+        checkWilling(player.skills)
+    }
+})
+
+function checkWilling(playerSkills) {
+    let willing = 1
+    for (let skillId of playerSkills) {
+        let skill = skills[skillId]
+        if (skill.type === 'ability') 
+            if (skill.subType === 'willing')
+                willing += skill.mod
+    }
+    let rand = random(1, 100)
+    if (rand <= willing) {
+        State.variables.win = true
+        State.variables.combat = false
+        State.variables.foundItems = rollItems(State.variables.enemy.loot, State.variables.enemy.credits)
+        State.variables.enemyCombatLog = [`${State.variables.enemy.name} has submitted and is willing`]
+        State.variables.willing = true
+    }
+}
+/* twine-user-script #15: "HealthBarMacro.js" */
+Macro.add('healthBarMacro', {
+    skipArgs: false,
+    handler: function () {
+        let character = this.args[0]
+        
+        let $healthBar = $('<div/>')
+                            .addClass(`statusBar`)
+        let $currentHealthBar = $('<div/>')
+                    .addClass('currentHealthBar')
+                    .css('width', `${Math.floor((character.stats.hlth/character.stats.maxHlth)*100)}%`)
+        let $currentHealthText = $('<div/>')
+                    .addClass('currentStatusText')
+                    .text(`${character.stats.hlth}/${character.stats.maxHlth}`)
+        
+        if(this.args[1])
+            $healthBar.css('float', this.args[1])
+
+        $healthBar
+            .attr('id', `macro-${this.name}-${character.name}`)
+            .append($currentHealthBar)
+            .append($currentHealthText)
+            .appendTo(this.output)
+    }
+})
+/* twine-user-script #16: "LeaveButtonMacro.js" */
+Macro.add('leaveButtonMacro', {
+    skipArgs: false,
+    tags: null,
+    handler: function () {
+        let buttonText = this.args[0]
+        let passage = this.args[1]
+        let styles = {
+            "background-color": "red",
+            "border-color": "#560000",
+            "width": "90%",
+            "height": "50px"
+        }
+        let $button = $('<button/>').text(buttonText).css(styles)
+
+        $button.ariaClick((function (args, passage, content) {
+            return this.createShadowWrapper(
+                function () {
+                    $.wiki(content);
+                },
+                function () {
+                    Engine.play(args[1])
+                }
+            );
+        }).call(this, this.args, passage, this.payload[0].contents.trim())).appendTo(this.output)
+    }
+})
+/* twine-user-script #17: "InventoryMacro.js" */
+Macro.add('invMacro', {
+    skipArgs: false,
+    handler: function () {
+        let inventory = State.variables.player.inv;
+        
+        let $table = $('<table/>');
+        let $wrapper = $('<span/>')
+        let tableData = [['Item','Stat','Modifier','Quantity']]
+        inventory.forEach(function (item, idx) {
+            tableData.push([getItemInfoByIndex(item.id), item.qty, idx])
+        })
+
+        $.each(tableData, function(rowIndex,r) {
+            var $row = $('<tr/>')
+            if (rowIndex > 0) {
+                $row.append($('<td/>').wiki(r[0].name))
+                $row.append($('<td/>').wiki(returnStatName(r[0].stat)))
+                $row.append($('<td/>').wiki(r[0].mod))
+                $row.append($('<td/>').wiki(r[1]))
+                var $button = $(document.createElement('button')).wiki(`Use`).ariaClick(function (ev) {
+                    let invText = ``
+                    if(r[1] > 0) { // If the item is in inventory
+                        if(useItem(r[0])) {
+                            decreaseInventory(r[2],inventory)
+                            invText = `Buffed ${returnStatName(r[0].stat)} by ${r[0].mod}`
+                        } else
+                            invText = `Health is already full`                        
+                    } else {
+                        invText = `${r[0].name} is not in  inventory`
+                    }
+                    State.variables.invText = invText
+                    Engine.play(passage(), true)
+                })
+                $row.append($(`<td/>`).append($button))
+            } else {
+                $.each(r, function(colIndex, c) {
+                    $row.append($(`<th/>`).wiki(c))
+                })
+            }
+            $table.append($row)
+        })
+
+        $wrapper
+            .attr('id', `macro-${this.name}`)
+            .addClass('item-table')
+            .append($table)
+            .appendTo(this.output);
+    }
+})
+
+function useItem(usedItem) {
+    if(usedItem.stat === 'hlth') { // This is a stop gap until I can put in prop health checking
+        if(usedItem.mod + State.variables.player.stats.hlth > State.variables.player.stats.maxHlth) {
+            State.variables.player.stats.hlth = State.variables.player.stats.maxHlth
+            return false
+        }
+    }
+    State.variables.player[usedItem.type][usedItem.stat] += usedItem.mod
+    State.variables.player.stats.maxHlth = getMaxHealth(State.variables.player)
+    return true
+}
+
+function decreaseInventory(idx,inv) {
+    inv[idx].qty -= 1
+    if(inv[idx].qty == 0)
+        inv.splice(idx, 1)
+}
+
+function returnStatName(stat) {
+    switch(stat) {
+        case 'con':
+            return 'Constitution'
+        case 'hlth':
+            return 'Health'
+        case 'strg':
+            return 'Strength'
+        case 'def':
+            return 'Defense'
+        case 'acc':
+            return 'Accuracy'
+        case 'dex':
+            return 'Dexterity'
+        case 'muscle':
+            return 'Muscle'
+        case 'fat':
+            return 'Fat'
+        case 'size':
+            return 'Size'
+        case 'agility':
+            return 'Agility'
+        case 'pawEye':
+            return 'Paw-Eye Coordination'
+        case 'skill':
+            return 'Skill'
+        case 'penis':
+            return 'Penis'
+        case 'balls':
+            return 'Balls'
+        case 'breasts':
+            return 'Breasts'
+    }
+}
+/* twine-user-script #18: "SkillsMacro.js" */
+Macro.add('skillsMacro', {
+    skipArgs: false,
+    handler: function () {
+        // if (this.args.length < 1) {
+        //     var errors = [];
+        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
+        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
+        //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
+        // }
+        let $table = $('<table/>');
+        let $wrapper = $(document.createElement('span'));
+        let tableData = [['Skill', 'Description', 'Points']];
+        skills.forEach(function (skill, idx) {
+            if(!State.variables.player.skills.includes(idx))
+                tableData.push([skill.name, skill.desc, skill.cost, idx])
+        })
+
+        $.each(tableData, function (rowIndex, r) {
+            var $row = $('<tr/>')
+            if (rowIndex > 0) {
+                $row.append($(`<td/>`).wiki(r[0]))
+                $row.append($(`<td/>`).wiki(r[1]))
+                var $button = $(document.createElement('button')).wiki(r[2]).ariaClick(function (ev) {
+                    if(State.variables.player.skillPoints >= r[2]) {
+                        State.variables.player.skills.push(r[3])
+                        State.variables.player.skillPoints -= r[2]
+                        delete State.variables.skillText
+                    } else
+                        State.variables.skillText = `You don't have enought Skill Points!`
+                    
+                    Engine.play(passage(), true)
+                })
+                $row.append($(`<td/>`).append($button))
+            } else {
+                $.each(r, function(colIndex, c) {
+                    $row.append($(`<th/>`).wiki(c))
+                })
+            }
+            $table.append($row)
+        });
+
+        $wrapper
+            .attr('id', `macro-${this.name}`)
+            .addClass('skills-table')
+            .append($table)
+            .appendTo(this.output);
+    }
+})
+/* twine-user-script #19: "StoreItemMacro.js" */
+Macro.add('storeItem', {
+    skipArgs: false,
+    handler: function () {
+        // if (this.args.length < 1) {
+        //     var errors = [];
+        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
+        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
+        //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
+        // }
+
+        var storeStock = this.args[0].stock;
+        
+        let $table = $('<table/>');
+        let $wrapper = $('<span/>')
+        let tableData = [['Item','Quantity','Price']]
+        storeStock.forEach(function (item, idx) {
+            tableData.push([item.id,item.qty,item.price, idx])
+        })
+
+        $.each(tableData, function(rowIndex,r) {
+            var $row = $('<tr/>')
+            if (rowIndex > 0) {
+                $row.append($('<td/>').wiki(getItemInfoByIndex(r[0]).name))
+                $row.append($('<td/>').wiki(r[1]))
+                $row.append($('<td/>').wiki(r[2]))
+                var $button = $(document.createElement('button')).wiki(`Buy`).ariaClick(function (ev) {
+                    let storeText = ``
+                    if(r[1] > 0) { // If the item is in stock
+                        if(State.variables.player.credits >= r[2]) { // Can the player afford it
+                            addToInventory({id:r[0],qty:1})
+                            decreaseCredits(r[2])
+                            decreaseStock(r[3],storeStock)
+                            storeText = `Bought 1 ${getItemInfoByIndex(r[0]).name}!`
+                        } else
+                            storeText = `Not enough credits for ${getItemInfoByIndex(r[0]).name}`
+                        
+                    } else
+                        storeText = `${getItemInfoByIndex(r[0]).name} is not in stock`
+                    
+                    State.variables.storeText = storeText
+                    Engine.play(passage(), true)
+                })
+                $row.append($(`<td/>`).append($button))
+            } else {
+                $.each(r, function(colIndex, c) {
+                    $row.append($(`<th/>`).wiki(c))
+                })
+            }
+            $table.append($row)
+        })
+
+        $wrapper
+            .attr('id', `macro-${this.name}`)
+            .addClass('store-table')
+            .append($table)
+            .appendTo(this.output);
+    }
+})
+
+function decreaseStock(id,storeStock) {
+    storeStock[id].qty -= 1
+}
+/* twine-user-script #20: "playerFluffMacro.js" */
+Macro.add('playerFluffMacro', {
+    skipArgs: false,
+    handler: function () {
+        let player = State.variables.player
+        let $wrapper = $('<span/>')
+        let $general = $('<span/>')
+        let $upperBody = $('<span/>')
+        let $lowerBody = $('<span/>')
+        let $allAround = $('<span/>')
+
+        let playerSize = lowercaseFirstLetter(findSize(player.measurements.height))
+        let playerHeightText = convertToLargerUnits(player.measurements, State.variables.imperial).heightText
+        let playerMuscle = findMuscle(player.stats.strg)
+        let playerMuscleKey = Object.keys(playerMuscle)[0]
+        let playerFat = findFat(player.measurements.bodyFat)
+        let playerFatKey = Object.keys(playerFat)[0]
+        $general
+            .text(`Your ${playerSize} ${playerHeightText} frame is supporting ${playerMuscle[playerMuscleKey].singular} ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles and ${playerMuscle[playerMuscleKey].singular} ${lowercaseFirstLetter(playerFatKey)} amount of body fat.`)
+            .append('<br><br>')
+
+        $upperBody
+            .text(`Your chest sports ${getBreastText(player)}${playerMuscle[playerMuscleKey].pecs} pectoral muscles. 
+                    Looking at your arms, ${playerMuscle[playerMuscleKey].arms}. 
+                    With your ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles, your arms ${playerMuscle[playerMuscleKey].armsSecond}. 
+                    Looking down at your stomach ${checkAbs(playerFat[playerFatKey],playerFatKey,playerMuscle[playerMuscleKey],playerMuscleKey)}.`)
+            .append('<br><br>')
+
+        // logger(playerMuscle)
+
+        $lowerBody // Ok, kinda done
+            .text(`Your eyes and paws work their way down to explore below your waist. ${collectGenitals(player)}`)//the only equipment you find are your weak looking legs and a vagina.`)
+            .append('<br><br>')
+
+        $allAround
+            .text(`All around you are a ${playerSize} looking ${lowercaseFirstLetter(player.gender.type)} ${lowercaseFirstLetter(player.species)}.`)
+
+        $wrapper
+            .append($general)
+            .append($upperBody)
+            .append($lowerBody)
+            .append($allAround)
+            .appendTo(this.output)
+    }
+})
+
+function lowercaseFirstLetter(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+function getBreastText(character) {
+    if (character.gender.breasts)
+        return `${findBreastSize(character)} cup breasts and `
+    return ``
+}
+
+function collectGenitals(character) {
+    let penis = character.gender.penis, balls = character.gender.balls, vagina = character.gender.vagina;
+
+    if (penis)
+        penis = `You take your ${lowercaseFirstLetter(findPenisSize(character))} sized member in your paw. `
+    if (balls) {
+        balls = `Slowly moving your paws down to your ${lowercaseFirstLetter(findBallSize(character))} sized orbs you roll them around and emit a small purr of approval. `
+        if (penis)
+            balls = `Underneath your ${lowercaseFirstLetter(findPenisSize(character))} member you roll your ${lowercaseFirstLetter(findBallSize(character))} sized testicles in your paws. `
+    }
+    if (vagina) {
+        vagina = `You find a pert vagina. Taking your fingers you spread your wet lips and slip one in. A moan escapes your muzzle and you snap back to reality as you pull your paw away.`
+        if (penis)
+            vagina = `Lifting up your ${lowercaseFirstLetter(findPenisSize(character))} sized member you find a pert vagina. `
+        if (balls)
+            vagina = `Lifting up your ${lowercaseFirstLetter(findBallSize(character))} sized orbs you find a pert vagina. `
+    }
+
+    return `${penis ? penis : ''}${balls ? balls : ''}${vagina ? vagina : ''}`
+}
+
+function checkAbs(fat,fatKey,muscle,muscleKey) {
+    if(fat.showAbs)
+        return `${fat.stomach} ${muscle.abs}`
+    if(!fat.showAbs && muscle.muscleGut)
+        return `you see a ${lowercaseFirstLetter(fatKey)} muscle gut`
+    return `${fat.stomach}`
+}
+/* twine-user-script #21: "Items.js" */
+let testItems = [
+    {name: "Test Item", mod: 1, type: "stats", stat: "strg"},
+    {name: "Test Item 2", mod: 1, type: "exp", stat: "size"}
+]
+
+let items = [
+    {name: "Health Potion", mod: 5, type: "stats", stat: "hlth"},
+    {name: "Protein Powder", mod: 3, type: "exp", stat: "muscle"},
+    {name: "Size Elixir", mod: 10, type: "exp", stat: "size"},
+    {name: "Tub of Grease", mod: 3, type: "exp", stat: "fat"},
+    {name: "Vitamins", mod: 1, type: "stats", stat: "con"},
+    {name: "Blue Pill", mod: 0.02, type: "gender", stat: "penis"},
+    {name: "Magnisium Pills", mod: 0.01, type: "gender", stat: "balls"},
+    {name: "Injection", mod: 0.01, type: "gender", stat: "breasts"}
+]
+
+let loot = [
+    {id:1,chnc:30}, //Muscle loot
+    {id:3,chnc:30}, //Fat loot
+    {id:2,chnc:30}, //Size loot
+    {id:5,chnc:30}, //Penis loot
+    {id:6,chnc:30}, //Balls loot
+    {id:7,chnc:30}, //Breasts loot
+    {id:4,chnc:30}, //Con loot
+    {id:0,chnc:30}, //Just Health
+]
+/* twine-user-script #22: "Stores.js" */
+let testStore = {
+    name: "Test Store",
+    stock: [
+        { id: 0, qty: 10, price: 50 },
+        { id: 1, qty: 3, price: 200 }
+    ]
+}
+
+let stores = [
+    {
+        name: "Micro Marketplace",
+        stock: [
+            { id: 0, qty: 10, price: 50 },
+            { id: 1, qty: 3, price: 200 },
+            { id: 4, qty: 1, price: 500 }
+        ]
+    },
+    {
+        name: "Standard Shopping Center",
+        stock: [
+            { id: 0, qty: 10, price: 50 },
+            { id: 3, qty: 3, price: 200 }
+        ]
+    },
+    {
+        name: "Macro Megamart",
+        stock: [
+            { id: 0, qty: 10, price: 50 },
+            { id: 2, qty: 2, price: 200 },
+            { id: 5, qty: 2, price: 200 },
+            { id: 6, qty: 2, price: 200 },
+            { id: 7, qty: 2, price: 200 },
+        ]
+    }
+]
+/* twine-user-script #23: "Genders.js" */
+let genders = [
+    {"Male": { type: "Male", penis: true, balls: true, vagina: false, breasts: false, pronouns: 0, loot: [3,4] }},
+    {"Female": { type: "Female", penis: false, balls: false, vagina: true, breasts: true, pronouns: 1, loot: [5] }},
+    {"Futa": { type: "Futa", penis: true, balls: true, vagina: true, breasts: true, pronouns: 3, loot: [3,4,5] }},
+    {"Futa No Balls": { type: "Futa", penis: true, balls: false, vagina: true, breasts: true, pronouns: 3, loot: [3,5] }},
+    {"Futa No Breasts": { type: "Futa", penis: true, balls: true, vagina: true, breasts: false, pronouns: 3, loot: [3,4] }},
+    {"Futa No Breasts & No Balls": { type: "Futa", penis: true, balls: false, vagina: true, breasts: false, pronouns: 3, loot: [3] }},
+    {"Cuntboi": { type: "Cuntboi", penis: false, balls: false, vagina: true, breasts: false, pronouns: 2, loot: [7] }}
+]
+
+let pronouns = [
+    {subjective:"he",objective:"him",possessive:"his",reflexive:"himself"},
+    {subjective:"she",objective:"her",possessive:"hers",reflexive:"herself"},
+    {subjective:"they",objective:"them",possessive:"theirs",reflexive:"themself"},
+    {subjective:"shi",objective:"hir",possessive:"hirs",reflexive:"hirself"}
+]
+
+function genderArray() {
+    let genderArr = []
+    genders.forEach(function (gender) {
+        genderArr.push(Object.keys(gender)[0])
+    })
+    return genderArr
+}
+
+function pronounArray() {
+    let pronounArr = []
+    for(let pro of pronouns) 
+        pronounArr.push(`${pro.subjective} / ${pro.objective} / ${pro.possessive} / ${pro.reflexive}`)
+    
+    return pronounArr
+}
+
+function getPronounId(pronouns) {
+    let response = 0
+    pronounArray().forEach(function (pro, idx) {
+        if(pronouns === pro)
+            response = idx
+    })
+    return response
+}
+
+function getSubPronoun(character) {
+    return pronouns[character.pronouns].subjective
+}
+
+function getObjPronoun(character) {
+    return pronouns[character.pronouns].objective
+}
+
+function getPosPronoun(character) {
+    return pronouns[character.pronouns].possessive
+}
+
+function getRefPronoun(character) {
+    return pronouns[character.pronouns].reflexive
+}
+/* twine-user-script #24: "Measurements.js" */
+let sizes = [
+    { "Micro": { range: [3, 7], sizeMulti: 4, statBase: 2, loot: [7] } },
+    { "Tiny": { range: [8, 30], sizeMulti: 66, statBase: 5, loot: [7] } },
+    { "Mini": { range: [31, 60], sizeMulti: 150, statBase: 7, loot: [7] } },
+    { "Small": { range: [61, 152], sizeMulti: 387, statBase: 10, loot: [7] } },
+    { "Average": { range: [153, 180], sizeMulti: 470, statBase: 15, loot: [7] } },
+    { "Tall": { range: [181, 244], sizeMulti: 600, statBase: 20, loot: [2] } },
+    { "Huge": { range: [245, 457], sizeMulti: 700, statBase: 40, loot: [2] } },
+    { "Massive": { range: [458, 915], sizeMulti: 800, statBase: 60, loot: [2] } },
+    { "Macro": { range: [915, 3048], sizeMulti: 900, statBase: 80, loot: [2] } }
+];
+
+let bodyTypes = [
+    { "Thin": { bodyFat: 0.05, statMods: { strg: 0.5, dex: 1.5, acc: 1.5, con: 0.5 }, expMods: { pawEye: 2, size: 1, skill: 1 }, loot: [7] } },
+    { "Normal": { bodyFat: 0.2, statMods: { strg: 1, dex: 1, acc: 1, con: 1 }, expMods: { size: 1, skill: 1 }, loot: [7] } },
+    { "Fit": { bodyFat: 0.1, statMods: { strg: 1.2, dex: 1.2, acc: 1.2, con: 1.2 }, expMods: { agility: 2, size: 1, skill: 1 }, loot: [6] } },
+    { "Muscle": { bodyFat: 0.05, statMods: { strg: 2, dex: 0.8, acc: 0.5, con: 1.5 }, expMods: { muscle: 2, size: 1, skill: 1 }, loot: [0] } },
+    { "Fat": { bodyFat: 0.45, statMods: { strg: 1.5, dex: 0.6, acc: 0.5, con: 2 }, expMods: { fat: 2, size: 1, skill: 1 }, loot: [6] } }
+]
+
+let muscleAmount = [
+    {"Frail": {range:[0,9], singular: 'a', pecs:'no', abs: `your imaginary abs`, arms: 'not much to look at', muscleGut: false, armsSecond: 'are slightly better than twigs'}},
+    {"Weak": {range:[10,29], singular: 'a', pecs:'no', abs: `your flat stomach`, arms: `they're not much to look at`, muscleGut: false, armsSecond: 'are slightly better than twigs'}},
+    {"Average": {range:[30,49], singular: 'an', pecs:'a little amount of', abs: `your singular muscle that is your abs`, muscleGut: false, arms: `they're about what you would expect`, armsSecond: `have a a bit of meat on them`}},
+    {"Healthy": {range:[50,79], singular: 'a', pecs:'a decent amount of', abs: `the start of your soon to be six-pack abs`, muscleGut: false, arms: `they've put on some heft`, armsSecond: `are starting to show more definition`}},
+    {"Modest": {range:[80,99], singular: 'a', pecs:'a modest amount of', abs: `your firm six-pack abs`, muscleGut: true, arms: `they've become bulkier`, armsSecond: `are defined and showing growth`}},
+    {"Large": {range:[100,129], singular: 'a', pecs:'a generous amount of', abs: `your washboard abs`, muscleGut: true, arms: `they're more muscle than anything else`, armsSecond: `have become the size of coconuts`}},
+    {"Herculean": {range:[130,199], singular: 'a', pecs:'near demi-god like', abs: `your mythical abs`, muscleGut: true, arms: `they've become near perfect`, armsSecond: `have become as large as a soccer ball`}},
+    {"Colossal": {range:[200,200000], singular: 'a', pecs:'mountain', abs: `your absolute cheese grater abs`, arms: `even the gods would be jealous`, muscleGut: true, armsSecond: `look like boulders shaped by time and erosion`}},
+]
+
+let fatAmount = [
+    {"Non-existant": {range:[0.0,0.05], singular: `a`, stomach: 'there is nothing there other than', showAbs: true}},
+    {"Thin": {range:[0.05,0.10], singular: `a`, stomach: 'there is a thin layer of fat on top of', showAbs: true}},
+    {"Lean": {range:[0.10,0.15], singular: `a`, stomach: 'there is some fat on', showAbs: true}},
+    {"Healthy": {range:[0.15,0.20], singular: `a`, stomach: 'you see a small bit of fat on', showAbs: true}},
+    {"Fair": {range:[0.20,0.25], singular: `a`, stomach: 'you see a little bump sticking out from underneath your shirt', showAbs: false}},
+    {"Pudgey": {range:[0.25,0.30], singular: `a`, stomach: 'there is some flab starting to form', showAbs: false}},
+    {"Large": {range:[0.30,0.35], singular: `a`, stomach: 'a gut has formed slightly lifting your shirt', showAbs: false}},
+    {"Huge": {range:[0.35,1000], singular: `a`, stomach: 'a mound of flesh encompases the area, eating any abs that may be underneath', showAbs: false}},
+]
+
+let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm is the average height
+    {"AA": {range:[0.001,0.01]}}, // < 1"
+    {"A": {range:[0.01,0.02]}}, // 1"
+    {"B": {range:[0.02,0.03]}},
+    {"C": {range:[0.03,0.04]}},
+    {"D": {range:[0.04,0.055]}},
+    {"E": {range:[0.055,0.07]}},
+    {"F": {range:[0.07,0.085]}},
+    {"G": {range:[0.085,0.1]}},
+    {"H": {range:[0.1,0.12]}},
+    {"I": {range:[0.12,0.13]}},
+    {"J": {range:[0.13,0.14]}},
+    {"K": {range:[0.14,0.154]}},
+    {"L": {range:[0.154,0.168]}},
+    {"M": {range:[0.168,0.182]}},
+    {"N": {range:[0.182,0.196]}},
+    {"O": {range:[0.196,0.21]}}, // 15"
+    {"P": {range:[0.21,0.223]}},
+    {"Q": {range:[0.223,0.238]}},
+    {"R": {range:[0.238,0.252]}},
+    {"S": {range:[0.252,0.265]}},
+    {"T": {range:[0.265,0.28]}},
+    {"U": {range:[0.28,0.293]}},
+    {"V": {range:[0.293,0.31]}},
+    {"W": {range:[0.31,0.321]}},
+    {"X": {range:[0.321,0.335]}},
+    {"Y": {range:[0.335,0.35]}},
+    {"Z": {range:[0.35,10]}}, // 26" Set this to 1 so there is no issues for large characters. Programatically set this up later. Should be 0.363 for normal ratio
+]
+
+let penisSize = [
+    {"Peanut": {range:[0.01,0.05]}},
+    {"Cucumber": {range:[0.05,0.09]}},
+    {"Bratwurst": {range:[0.09,0.11]}},
+    {"Cucumber": {range:[0.11,0.16]}},
+    {"Baton": {range:[0.16,0.30]}},
+    {"Baseball bat": {range:[0.30,0.50]}},
+    {"Concrete barrier": {range:[0.50,0.70]}},
+    {"Telephone pole": {range:[0.70,10]}},
+]
+
+let ballSize = [
+    {"Walnut": {range:[0.01,0.02]}},
+    {"Orange": {range:[0.02,0.06]}},
+    {"Cantaloupe": {range:[0.06,0.18]}},
+    {"Watermelon": {range:[0.18,0.23]}},
+    {"Beach ball": {range:[0.23,0.30]}},
+    {"Yoga ball": {range:[0.30,0.40]}},
+    {"Wrecking ball": {range:[0.40,10]}},
+]
+/* twine-user-script #25: "Species.js" */
+let species = [`Dragon`,`Fox`,`Wolf`,`Snake`,`Rabbit`,`Dog`,`Badger`,`Tiger`,`Bear`,`Mouse`].sort()
+
+let speciesDesc = {
+    'Dragon' : {
+
+    }
+}
+/* twine-user-script #26: "Attacks.js" */
+let attacks = [
+    {name: "Punch", type: "strg", baseHitChnc: 50, critMulti: 1.5, maxMod: 0.9, minMod: 0.6},
+    {name: "Kick", type: "dex", baseHitChnc: 50, critMulti: 1.5, maxMod: 0.9, minMod: 0.6}
+]
+/* twine-user-script #27: "Skills.js" */
+/**
+ * Skills
+ * 
+ * Mod can be a decimal for percentage based skill buff.
+ * Mod can be a whole number for whole number addition
+ * 
+ * Dmg can have a bound from "min","max","min/max"
+ */
+let skills = [
+    {name: 'Improved Paw-Eye', desc: 'Adds 20% to hit accuracy', mod: 1.2, type: 'hit', multi: true, cost: 100},
+    {name: 'Power Attacks', desc: 'Adds 2 damage to all attacks', mod: 2, type: 'dmg', min: true, max: true, multi: false, cost: 100},
+    {name: 'Willing Prey', desc: 'Enemies have a % chance of instantly submitting', mod: 20, type: 'ability', subType: 'willing', cost: 200},
+]
+/* twine-user-script #28: "CombatHelper.js" */
 var maxHitPer = 85;
 var minDmgMult = 60;
 
@@ -625,109 +1708,12 @@ let hitText = [
 let missText = [
 	{ give: "You swung wide!", take: "You dodged out of the way!" }
 ]
-/* twine-user-script #3: "Index.js" */
-State.variables.version = `v0.4.1`
-
-Config.history.controls = false;
-Config.debug = false;
-
-setup.ImagePath = "assets/";
-
-/* Passage Tag Triggers */
-$(document).on(':passagestart', function (ev) {
-	if (!ev.passage.tags.includes('noreturn'))
-		State.variables.return = ev.passage.title;
-});
-
-// Refresh Combat Log Scroll
-$(document).on(":passagedisplay", function(ev) {
-	let syncPlayerScroll = false;
-	let syncEnemyScroll = false;
-	$("#PlayerCombatLog").scrollTop($(document).height());
-	$("#PlayerCombatLog").on("scroll", function () {
-		if(!syncPlayerScroll) {
-			syncEnemyScroll = true
-			$("#EnemyCombatLog").scrollTop($(this).scrollTop())
-		}
-		syncPlayerScroll = false
-	})
-	$("#EnemyCombatLog").on("scroll", function () {
-		if(!syncEnemyScroll) {
-			syncPlayerScroll = true
-			$("#PlayerCombatLog").scrollTop($(this).scrollTop())
-		}
-		syncEnemyScroll = false
-	})
-})
-
-$(document).one(':storyready', function (ev) {
-	State.variables.items = items;
-	State.variables.loot = loot;
-	State.variables.stores = cloneObj(stores);
-	State.variables.species = species;
-	State.variables.sizes = sizeArray();
-	State.variables.bodyTypes = bodyTypes;
-	State.variables.genders = genderArray();
-	State.variables.time = { day: 1, hour: 0, min: 0 }
-	State.variables.attacks = attacks;
-	State.variables.skills = skills;
-	State.variables.pronouns = pronounArray()
-	State.variables.debug = Config.debug
-});
-
-function cloneObj(obj) {
-	return Object.assign({}, obj)
+/* twine-user-script #29: "Logging.js" */
+function logger(message) {
+    if(logging)
+        console.log(message)
 }
-/* twine-user-script #4: "Item.js" */
-/* Item Logic */
-function rollItems(enemyLoot, credits) {
-	var text = []
-	enemyLoot.forEach(function (item) {
-		if (itemChance(item.chnc)) {
-			let qty = addToInventory(item)
-			text.push(`Found ${qty} ${State.variables.items[item.id].name}`)
-		}
-	})
-	addCredits(credits)
-	text.push(`Found ${credits} credits`)
-	return text
-}
-
-function itemChance(chance) {
-	if (Math.floor(random(1,100)) <= chance)
-		return true
-	
-	return false
-}
-
-function addToInventory(lootItem) {
-	var found = -1
-	let qty = random(1,lootItem.qty)
-	State.variables.player.inv.forEach(function (item, idx) {
-		if (item.id === lootItem.id)
-			found = idx
-	})
-	if (found > -1) {
-		State.variables.player.inv[found].qty += qty
-	} else {
-		State.variables.player.inv.push({ id: lootItem.id, qty })
-	}
-	return qty
-}
-
-function addCredits(credits) {
-	State.variables.player.credits += credits
-	return credits
-}
-
-function getItemInfoByIndex(index) {
-	return State.variables.items[index]
-}
-
-function decreaseCredits(amt) {
-	State.variables.player.credits -= amt;
-}
-/* twine-user-script #5: "MeasurementsHelper.js" */
+/* twine-user-script #30: "MeasurementsHelper.js" */
 /* Measurment Converts */
 function convertToImperial(entity, weight) {
 	if (weight)
@@ -736,23 +1722,19 @@ function convertToImperial(entity, weight) {
 }
 
 window.convertToLargerUnits = function (measurements, imperial) {
-	let weightText = '', heightText = ''
-
-	let weight = measurements.weight
-	weight = weightMeasurements(weight, imperial)
+	let heightText = ''
 
 	let height = measurements.height
 	height = heightMeasurements(height, imperial)
-	if (!imperial) {
-		weightText += `${weight[0] > 0 ? weight[0] + 't ' : ''}${weight[1] > 0 ? weight[1] + "kg " : ''}${weight[2]}g`
+	if (!imperial)
 		heightText += `${height[0] > 0 ? height[0] + 'km ' : ''}${height[1] > 0 ? height[1] + "m " : ''}${height[2]}cm`
-	} else {
-		weightText += `${weight[0] > 0 ? weight[0] + 't ' : ''}${weight[1] > 0 ? weight[1] + "lbs " : ''}${weight[2]}oz`
+	else 
 		heightText += `${height[0] > 0 ? height[0] + 'mi ' : ''}${height[1] > 0 ? height[1] + "' " : ''}${height[2]}"`
-	}
-	return { heightText, weightText }
+	
+	return { heightText }
 }
 
+//DEPRICATED Weight measurments from the original system before Body Fat
 function weightMeasurements(weight, imperial) {
 	let weights = [];
 	let m1, m2;
@@ -809,17 +1791,16 @@ function findMuscle(muscle) {
 	}
 }
 
-function findFat(weight, height) {
+function findFat(bodyFat) {
 	for (let fa of fatAmount) {
 		let faKey = Object.keys(fa)[0]
-		let fatPer = (height * 100) / weight
-		if (fatPer >= fa[faKey].range[0] && fatPer < fa[faKey].range[1])
+		if (bodyFat >= fa[faKey].range[0] && bodyFat < fa[faKey].range[1])
 			return fa
 	}
 }
 
 function findBreastSize(character) {
-	let ratio = character.gender.breasts / character.measurements.height
+	let ratio = character.gender.breasts // / character.measurements.height
 	for (let breast of breastSize) {
 		let breastKey = Object.keys(breast)[0]
 		if (ratio >= breast[breastKey].range[0] && ratio < breast[breastKey].range[1])
@@ -829,7 +1810,7 @@ function findBreastSize(character) {
 }
 
 function findPenisSize(character) {
-	let ratio = character.gender.penis / character.measurements.height
+	let ratio = character.gender.penis // / character.measurements.height
 	for (let pen of penisSize) {
 		let penKey = Object.keys(pen)[0]
 		if (ratio >= pen[penKey].range[0] && ratio <= pen[penKey].range[1])
@@ -839,7 +1820,7 @@ function findPenisSize(character) {
 }
 
 function findBallSize(character) {
-	let ratio = character.gender.balls / character.measurements.height
+	let ratio = character.gender.balls // / character.measurements.height
 	for (let ball of ballSize) {
 		let ballKey = Object.keys(ball)[0]
 		if (ratio >= ball[ballKey].range[0] && ratio < ball[ballKey].range[1])
@@ -847,189 +1828,21 @@ function findBallSize(character) {
 	}
 	return ``
 }
-/* twine-user-script #6: "RestMacro.js" */
-Macro.add('restMacro', {
-    skipArgs: false,
-    handler: function () {
-        let levelUp = this.args[0]
-        let visible = this.args[1]
-        let player = State.variables.player;
 
-        if (!visible) {
-            if (levelUp) {
-                let leveled = false
-                Object.entries(player.exp).forEach(([stat, value]) => {
-                    if (value > 0) {
-                        let statMap = statMapping(stat)
-                        if (statMap.length == 1) {
-                            player[statMap[0]] += value
-                        }
-                        if (statMap.length == 2) {
-                            let mod = 1
-                            if(stat === 'fat')
-                                mod = 1000
-                            player[statMap[0]][statMap[1]] += (value * mod)
-                        }
-                        player.exp[stat] = 0
-                        
-                        leveled = true
-                    }
-                });
-                if(leveled) {
-                    State.variables.restText = "You feel the effects of your experience" 
-                    
-                }
-                else 
-                    State.variables.restText = `You feel rested and rejuvenated!`
-            }
-            player.stats.maxHlth = getMaxHealth(player)
-            
-            player.stats.hlth = player.stats.maxHlth;
-            player.capacity.stomach = 0
-            if(player.capacity.balls)
-                player.capacity.balls = 0
-            advanceTime(true)
-        }
-    }
-})
-
-function statMapping(stat) {
-    switch (stat) {
-        case 'muscle':
-            return ['stats', 'strg']
-        case 'fat':
-            return ['measurements', 'weight']
-        case 'size':
-            return ['measurements', 'height']
-        case 'skill':
-            return ['skillPoints']
-        case 'pawEye':
-            return ['stats', 'acc']
-        case 'agility':
-            return ['stats', 'dex']
-    }
+function calcWeight(measurements) {
+	let hSrqd = (measurements.height/100)**2
+	let bmi = calcBMI(measurements.bodyFat)
+	logger(`Height Squared: ${hSrqd}`)
+	logger(`BMI: ${bmi}`)
+	logger(`Kg: ${bmi*hSrqd}`)
+	return (bmi*hSrqd)*1000
 }
-/* twine-user-script #7: "StartGameMacro.js" */
-Macro.add('startGameRoutine', {
-    skipArgs: true,
-    handler: function () {
-        let player = State.variables.player;
-        let speciesKey = species.indexOf(player.species)
-        let sizeKey = findObjIdx(player.size, sizes)
-        let bodyTypeKey = findObjIdx("Normal", bodyTypes)
-        let pronounKey = getPronounId(player.pronouns)
-        let genderKey = findObjIdx(player.gender, genders)
-        
-        State.variables.player = genChar(10,speciesKey,sizeKey,bodyTypeKey,genderKey,player.name,pronounKey)
-    }
-})
 
-function findObjIdx(item, arr) {
-    let response;
-    arr.forEach(function(el, idx) {
-        if(Object.keys(el)[0] === item)
-            response = idx
-    })
-    return response
+function calcBMI(bodyFat) {
+	bodyFat = Number(bodyFat)
+	return ((bodyFat*100)+5.4+(10.8*1)-(0.23*25))/1.2 // ((bodyFat %)+5.4+(10.8*GENDER)-(0.23*AGE))/1.2 GENDER= MALE:1 FEMALE:0 AGE= 25
 }
-/* twine-user-script #8: "TrainingMacro.js" */
-Macro.add('trainMacro', {
-    skipArgs: false,
-    // tags    : [],
-    handler: function () {
-        // if (this.args.length < 1) {
-        //     var errors = [];
-        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
-        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
-        //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
-        // }
-        // Args: LevelUp - Boolean, Visible - Boolean
-
-        let expType = this.args[0];
-        let trainText = this.args[1];
-        let cost = this.args[2];
-        let modAmt = this.args[3];
-
-        if(cost <= State.variables.player.credits) {
-            State.variables.player.exp[expType] += modAmt;
-            State.variables.trainText = trainText;
-
-            decreaseCredits(cost);
-            advanceTime(true)
-        } else {
-            State.variables.trainText = `You don't have enought credits!`;
-            advanceTime(false)
-        }
-    }
-});
-/* twine-user-script #9: "AttackActionMacro.js" */
-Macro.add('attackAction', {
-    skipArgs: false,
-    handler: function () {
-        let attack = this.args[0];
-        let $wrapper = $('<span/>').css('display','block').css('text-align','center')
-        let $link = $(document.createElement('button'))
-        let dmgRange = calcDmgRange(this.args[0],State.variables.player)
-        let attackText = `${this.args[0].name } [${dmgRange.min}-${dmgRange.max}] ${calcHitChance(this.args[0],State.variables.player)}%`
-
-        $link
-            .wiki(attackText)
-            .ariaClick(function (ev) {
-                combatRoll(attack);
-                Engine.play(passage(), true)
-            })
-            .css('width','90%')
-            .css('margin-bottom', '10px')
-
-        $wrapper
-            .attr('id',`macro-${this.name}-${this.args.join('').replace(/[^A-Za-z0-9]/g, '')}`)
-            .addClass('message-text')
-            .append($link)
-            .appendTo(this.output);
-    }
-})
-/* twine-user-script #10: "TimeActionMacro.js" */
-Macro.add('timeAction', {
-    skipArgs: false,
-    tags: null,
-    handler: function () {
-        let link = document.createElement("a");
-        
-        if (this.args.length == 3) {
-            jQuery(link).text(`${this.args[0]} - ${this.args[1]}:${(this.args[2] < 10) ? '0' + this.args[2] : this.args[2]}`)
-            jQuery(link).ariaClick(
-                (function (args, passage, content) {
-                    return this.createShadowWrapper(
-                        function () {
-                            $.wiki(content);
-                        },
-                        function () {
-                            if (State.temporary.advanceTime) incrementTime(args[1], args[2])
-                            state.display(state.active.title, null, "back")
-                        }
-                    );
-                }).call(this, this.args, passage, this.payload[0].contents.trim())
-            )
-        } else {
-            jQuery(link).text(`${this.args[0]} - ${this.args[2]}:${(this.args[3] < 10) ? '0' + this.args[3] : this.args[3]}`)
-            jQuery(link).ariaClick(
-                (function (args, passage, content) {
-                    return this.createShadowWrapper(
-                        function () {
-                            $.wiki(content);
-                        },
-                        function () {
-                            incrementTime(args[2], args[3])
-                            Engine.play(args[1])
-                        }
-                    );
-                }).call(this, this.args, passage, this.payload[0].contents.trim())
-            )   
-        }
-        jQuery(this.output).append(link)
-    }
-})
-
+/* twine-user-script #31: "TimeHelper.js" */
 function incrementTime(hour, min) {
     let checkHour = State.variables.time.hour + hour
     let checkMin = State.variables.time.min + min
@@ -1046,6 +1859,20 @@ function incrementTime(hour, min) {
     State.variables.time = {day: checkDay, hour: checkHour, min: checkMin };
 }
 
+function convertTwelveHour() {
+    let checkHour = (State.variables.time.hour % 12) || 12
+    let checkMin = State.variables.time.min
+    let amPM = State.variables.time.hour>11?'pm':'am'
+    
+    return `${checkHour}:${checkMin>9?checkMin:'0'+checkMin}${amPM}`
+}
+
+function returnTime(twelveHour) {
+    if(twelveHour)
+        return convertTwelveHour()
+    return `${State.variables.time.hour}:${State.variables.time.min>9?State.variables.time.min:'0'+State.variables.time.min}`
+}
+
 function advanceTime(advTime) {
     State.temporary.advanceTime = advTime
 }
@@ -1054,686 +1881,7 @@ function restockStore(day) {
     if(day%7 == 0) {
         State.variables.stores = Object.assign({},stores)
     }
-}
-/* twine-user-script #11: "CombatResetMacro.js" */
-Macro.add('combatReset', {
-    skipArgs: true,
-    handler: function () {
-        combatReset()
-    }
-})
-
-function combatReset() {
-    delete State.variables.enemyHitDmg
-    delete State.variables.enemyCombatLog
-    delete State.variables.foundItems
-    delete State.variables.playerHitDmg
-    delete State.variables.combatResults
-    delete State.variables.playerCombatLog
-
-    State.variables.combat = false;
-    State.variables.win = false;
-}
-/* twine-user-script #12: "ConsumeMacro.js" */
-Macro.add('consumeEnemy', {
-    skipArgs: false,
-    handler: function () {
-        // if (this.args.length < 2) {
-        //     var errors = [];
-        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
-        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
-        //     return this.error(`${errors[0]} ${errors.length == 2 ? "and " + errors[1] : ""}`)
-        // }
-
-        let $wrapper = $('<span/>').css('display','block').css('text-align','center')
-        let prey = this.args[0];
-
-        let consume = [
-            {method:'Eat',gen: '',desc:`You shove the enemy down your gullet.`,capacity:'stomach'},
-            {method:'Anal',gen: '',desc:`You shove the enemy up your hole`,capacity:'stomach'},
-            {method:'Unbirth',gen: 'vagina',desc:`You shove the enemy up your lady bits.`,capacity:'stomach'},
-            {method:'Sound',gen: 'penis',desc:`You shove the enemy in your man bits`,capacity:'balls'}
-        ]
-
-        consume.forEach(function(con) {
-            if(con.gen == '' || State.variables.player.gender[con.gen]) {
-                $wrapper.append(
-                    $('<button/>')
-                        .wiki(con.method)
-                        .ariaClick(function(ev) {
-                            State.variables.consumeText = con.desc
-                            State.variables.consumeHeader = `${con.method}ing ${prey.name}`
-                            let consumePoints = calcConsume(prey)
-                            addPoints(consumePoints,State.variables.player)
-                            addCapacity(State.variables.player,prey.measurements.weight,con.capacity)
-                            getExpText(consumePoints) 
-                            combatReset()
-                            delete State.variables.enemy
-                            Engine.play("consume")
-                        })
-                        .css('width','90%')
-                        .css('margin-bottom', '10px')
-                )
-            }
-        })
-        
-        $wrapper
-            .attr('id', `macro-${this.name}`)
-            .addClass('consumes')
-            .appendTo(this.output);
-    }
-})
-
-function calcConsume(prey) {
-    let response = {};
-    for(let points in prey.exp) 
-        response[points] = randPoints(prey.exp[points])
-    return response;
-}
-
-function randPoints(range) {
-    if(Array.isArray(range))
-        return random(range[0],range[1]);
-    return range
-}
-
-function addPoints(points, hunter) {
-    for(var point in points) {
-        hunter.exp[point] += points[point];
-    }
-}
-
-function addCapacity(hunter,preyWeight,capType) {
-    hunter.capacity[capType] += preyWeight
-}
-
-function getExpText(consumePoints) {
-    State.variables.consumeExp = []
-    for(let cp in consumePoints) {
-        State.variables.consumeExp.push(`Gained +${consumePoints[cp]} ${returnStatName(cp)} to Experience`)
-    }
-}
-/* twine-user-script #13: "EnemyMacro.js" */
-Macro.add('enemyMacro', {
-    skipArgs: false,
-    handler: function () {
-        let minSize = this.args[0]
-        let maxSize = this.args[1]
-        let player = State.variables.player;
-        State.variables.enemy = genChar(statPoints(player),random(0,species.length-1),[minSize,maxSize],[0,4],random(0,6));
-        State.variables.combat = true
-    }
-})
-
-function statPoints(player) {
-    return (player.stats.strg + player.stats.con + player.stats.dex + player.stats.acc)/4
-}
-/* twine-user-script #14: "HealthBarMacro.js" */
-Macro.add('healthBarMacro', {
-    skipArgs: false,
-    handler: function () {
-        let character = this.args[0]
-        
-        let $healthBar = $('<div/>')
-                            .addClass(`healthBar`)
-        let $currentHealthBar = $('<div/>')
-                    .addClass('currentHealthBar')
-                    .css('width', `${Math.floor((character.stats.hlth/character.stats.maxHlth)*100)}%`)
-        let $currentHealthText = $('<div/>')
-                    .addClass('currentHealthText')
-                    .text(`${character.stats.hlth}/${character.stats.maxHlth}`)
-        
-        if(this.args[1])
-            $healthBar.css('float', this.args[1])
-
-        $healthBar
-            .attr('id', `macro-${this.name}`)
-            .append($currentHealthBar)
-            .append($currentHealthText)
-            .appendTo(this.output)
-    }
-})
-/* twine-user-script #15: "LeaveButtonMacro.js" */
-Macro.add('leaveButtonMacro', {
-    skipArgs: false,
-    tags: null,
-    handler: function () {
-        let buttonText = this.args[0]
-        let passage = this.args[1]
-        let styles = {
-            "background-color": "red",
-            "border-color": "#560000",
-            "width": "90%",
-            "height": "50px"
-        }
-        let $button = $('<button/>').text(buttonText).css(styles)
-
-        $button.ariaClick((function (args, passage, content) {
-            return this.createShadowWrapper(
-                function () {
-                    $.wiki(content);
-                },
-                function () {
-                    Engine.play(args[1])
-                }
-            );
-        }).call(this, this.args, passage, this.payload[0].contents.trim())).appendTo(this.output)
-    }
-})
-/* twine-user-script #16: "InventoryMacro.js" */
-Macro.add('invMacro', {
-    skipArgs: false,
-    handler: function () {
-        let inventory = State.variables.player.inv;
-        
-        let $table = $('<table/>');
-        let $wrapper = $('<span/>')
-        let tableData = [['Item','Stat','Modifier','Quantity']]
-        inventory.forEach(function (item, idx) {
-            tableData.push([getItemInfoByIndex(item.id), item.qty, idx])
-        })
-
-        $.each(tableData, function(rowIndex,r) {
-            var $row = $('<tr/>')
-            if (rowIndex > 0) {
-                $row.append($('<td/>').wiki(r[0].name))
-                $row.append($('<td/>').wiki(returnStatName(r[0].stat)))
-                $row.append($('<td/>').wiki(r[0].mod))
-                $row.append($('<td/>').wiki(r[1]))
-                var $button = $(document.createElement('button')).wiki(`Use`).ariaClick(function (ev) {
-                    let invText = ``
-                    if(r[1] > 0) { // If the item is in inventory
-                        if(useItem(r[0])) {
-                            decreaseInventory(r[2],inventory)
-                            invText = `Buffed ${returnStatName(r[0].stat)} by ${r[0].mod}`
-                        } else
-                            invText = `Health is already full`                        
-                    } else {
-                        invText = `${r[0].name} is not in  inventory`
-                    }
-                    State.variables.invText = invText
-                    Engine.play(passage(), true)
-                })
-                $row.append($(`<td/>`).append($button))
-            } else {
-                $.each(r, function(colIndex, c) {
-                    $row.append($(`<th/>`).wiki(c))
-                })
-            }
-            $table.append($row)
-        })
-
-        $wrapper
-            .attr('id', `macro-${this.name}`)
-            .addClass('item-table')
-            .append($table)
-            .appendTo(this.output);
-    }
-})
-
-function useItem(usedItem) {
-    if(usedItem.stat === 'hlth') { // This is a stop gap until I can put in prop health checking
-        if(usedItem.mod + State.variables.player.stats.hlth > State.variables.player.stats.maxHlth) {
-            State.variables.player.stats.hlth = State.variables.player.stats.maxHlth
-            return false
-        }
-    }
-    State.variables.player[usedItem.type][usedItem.stat] += usedItem.mod
-    State.variables.player.stats.maxHlth = getMaxHealth(State.variables.player)
-    return true
-}
-
-function decreaseInventory(idx,inv) {
-    inv[idx].qty -= 1
-    if(inv[idx].qty == 0)
-        inv.splice(idx, 1)
-}
-
-function returnStatName(stat) {
-    switch(stat) {
-        case 'con':
-            return 'Constitution'
-        case 'hlth':
-            return 'Health'
-        case 'strg':
-            return 'Strength'
-        case 'def':
-            return 'Defense'
-        case 'acc':
-            return 'Accuracy'
-        case 'dex':
-            return 'Dexterity'
-        case 'muscle':
-            return 'Muscle'
-        case 'fat':
-            return 'Fat'
-        case 'size':
-            return 'Size'
-        case 'agility':
-            return 'Agility'
-        case 'pawEye':
-            return 'Paw-Eye Coordination'
-        case 'skill':
-            return 'Skill'
-        case 'penis':
-            return 'Penis'
-        case 'balls':
-            return 'Balls'
-        case 'breasts':
-            return 'Breasts'
-    }
-}
-/* twine-user-script #17: "SkillsMacro.js" */
-Macro.add('skillsMacro', {
-    skipArgs: false,
-    handler: function () {
-        // if (this.args.length < 1) {
-        //     var errors = [];
-        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
-        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
-        //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
-        // }
-        let $table = $('<table/>');
-        let $wrapper = $(document.createElement('span'));
-        let tableData = [['Skill', 'Description', 'Points']];
-        skills.forEach(function (skill, idx) {
-            if(!State.variables.player.skills.includes(idx))
-                tableData.push([skill.name, skill.desc, skill.cost, idx])
-        })
-
-        $.each(tableData, function (rowIndex, r) {
-            var $row = $('<tr/>')
-            if (rowIndex > 0) {
-                $row.append($(`<td/>`).wiki(r[0]))
-                $row.append($(`<td/>`).wiki(r[1]))
-                var $button = $(document.createElement('button')).wiki(r[2]).ariaClick(function (ev) {
-                    if(State.variables.player.skillPoints >= r[2]) {
-                        State.variables.player.skills.push(r[3])
-                        State.variables.player.skillPoints -= r[2]
-                        delete State.variables.skillText
-                    } else
-                        State.variables.skillText = `You don't have enought Skill Points!`
-                    
-                    Engine.play(passage(), true)
-                })
-                $row.append($(`<td/>`).append($button))
-            } else {
-                $.each(r, function(colIndex, c) {
-                    $row.append($(`<th/>`).wiki(c))
-                })
-            }
-            $table.append($row)
-        });
-
-        $wrapper
-            .attr('id', `macro-${this.name}`)
-            .addClass('skills-table')
-            .append($table)
-            .appendTo(this.output);
-    }
-})
-/* twine-user-script #18: "StoreItemMacro.js" */
-Macro.add('storeItem', {
-    skipArgs: false,
-    handler: function () {
-        // if (this.args.length < 1) {
-        //     var errors = [];
-        //     if (this.args.length < 1) { errors.push('Var 1 Missing') }
-        //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
-        //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
-        // }
-
-        var storeStock = this.args[0].stock;
-        
-        let $table = $('<table/>');
-        let $wrapper = $('<span/>')
-        let tableData = [['Item','Quantity','Price']]
-        storeStock.forEach(function (item, idx) {
-            tableData.push([item.id,item.qty,item.price, idx])
-        })
-
-        $.each(tableData, function(rowIndex,r) {
-            var $row = $('<tr/>')
-            if (rowIndex > 0) {
-                $row.append($('<td/>').wiki(getItemInfoByIndex(r[0]).name))
-                $row.append($('<td/>').wiki(r[1]))
-                $row.append($('<td/>').wiki(r[2]))
-                var $button = $(document.createElement('button')).wiki(`Buy`).ariaClick(function (ev) {
-                    let storeText = ``
-                    if(r[1] > 0) { // If the item is in stock
-                        if(State.variables.player.credits >= r[2]) { // Can the player afford it
-                            addToInventory({id:r[0],qty:1})
-                            decreaseCredits(r[2])
-                            decreaseStock(r[3],storeStock)
-                            storeText = `Bought 1 ${getItemInfoByIndex(r[0]).name}!`
-                        } else
-                            storeText = `Not enough credits for ${getItemInfoByIndex(r[0]).name}`
-                        
-                    } else
-                        storeText = `${getItemInfoByIndex(r[0]).name} is not in stock`
-                    
-                    State.variables.storeText = storeText
-                    Engine.play(passage(), true)
-                })
-                $row.append($(`<td/>`).append($button))
-            } else {
-                $.each(r, function(colIndex, c) {
-                    $row.append($(`<th/>`).wiki(c))
-                })
-            }
-            $table.append($row)
-        })
-
-        $wrapper
-            .attr('id', `macro-${this.name}`)
-            .addClass('store-table')
-            .append($table)
-            .appendTo(this.output);
-    }
-})
-
-function decreaseStock(id,storeStock) {
-    storeStock[id].qty -= 1
-}
-/* twine-user-script #19: "playerFluffMacro.js" */
-Macro.add('playerFluffMacro', {
-    skipArgs: false,
-    handler: function () {
-        let player = State.variables.player
-        let $wrapper = $('<span/>')
-        let $general = $('<span/>')
-        let $upperBody = $('<span/>')
-        let $lowerBody = $('<span/>')
-        let $allAround = $('<span/>')
-        
-        let playerSize = lowercaseFirstLetter(findSize(player.measurements.height))
-        let playerHeightText = convertToLargerUnits(player.measurements,State.variables.imperial).heightText
-        let playerMuscle = findMuscle(player.stats.strg)
-        let playerMuscleKey = Object.keys(playerMuscle)[0]
-        let playerFat = findFat(player.measurements.weight,player.measurements.height)
-        let playerFatKey = Object.keys(playerFat)[0]
-        $general
-            .text(`Your ${playerSize} ${playerHeightText} frame is supporting a ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles and an ${lowercaseFirstLetter(playerFatKey)} amount of body fat.`)
-            .append('<br><br>')
-
-        $upperBody // Fix breasts
-            .text(`Your chest sports ${getBreastText(player)}${playerMuscle[playerMuscleKey].pecs} pectoral muscles. 
-                    Looking at your arms, they're ${playerMuscle[playerMuscleKey].arms}. 
-                    With your ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles your arms are ${playerMuscle[playerMuscleKey].armsSecond}. 
-                    Looking down at your stomach you have ${playerFat[playerFatKey].stomach}.`)
-            .append('<br><br>')
-
-        $lowerBody // Not at all done
-            .text(`Your eyes and paws work their way down to explore below your waist. ${collectGenitals(player)}`)//the only equipment you find are your weak looking legs and a vagina.`)
-            .append('<br><br>')
-
-        $allAround // All around you are an average looking $playerGender $playerSpecies.
-            .text(`All around you are a ${playerSize} looking ${lowercaseFirstLetter(player.gender.type)} ${lowercaseFirstLetter(player.species)}.`)
-
-        $wrapper
-            .append($general)
-            .append($upperBody)
-            .append($lowerBody)
-            .append($allAround)
-            .appendTo(this.output)
-    }
-})
-
-function lowercaseFirstLetter(string) {
-    return string.charAt(0).toLowerCase() + string.slice(1);
-}
-
-function getBreastText(character) {
-    if(character.gender.breasts) 
-        return `${findBreastSize(character)} cup breasts and `
-    return ``
-}
-
-function collectGenitals(character) {
-    let penis = character.gender.penis,balls = character.gender.balls,vagina = character.gender.vagina;
-
-    if(penis)
-        penis = `You take your ${lowercaseFirstLetter(findPenisSize(character))} sized member in your paw. `
-    if(balls) {
-        balls = `Slowly moving your paws down to your ${lowercaseFirstLetter(findBallSize(character))} sized orbs you roll them around and emit a small purr of approval. `
-        if(penis)
-            balls = `Underneath your ${lowercaseFirstLetter(findPenisSize(character))} member you roll your ${lowercaseFirstLetter(findBallSize(character))} sized testicles in your paws. `            
-    }
-    if(vagina){
-        vagina = `You find a pert vagina. Taking your fingers you spread your wet lips and slip one in. A moan escapes your muzzle and you snap back to reality as you pull your paw away.`
-        if(penis)
-            vagina = `Lifting up your ${lowercaseFirstLetter(findPenisSize(character))} sized member you find a pert vagina. `
-        if(balls) 
-            vagina = `Lifting up your ${lowercaseFirstLetter(findBallSize(character))} sized orbs you find a pert vagina. `
-    }
-
-    return `${penis?penis:''}${balls?balls:''}${vagina?vagina:''}`
-}
-/* twine-user-script #20: "Items.js" */
-let testItems = [
-    {name: "Test Item", mod: 1, type: "stats", stat: "strg"},
-    {name: "Test Item 2", mod: 1, type: "exp", stat: "size"}
-]
-
-let items = [
-    {name: "Health Potion", mod: 5, type: "stats", stat: "hlth"},
-    {name: "Protein Powder", mod: 3, type: "exp", stat: "muscle"},
-    {name: "Size Elixir", mod: 10, type: "exp", stat: "size"},
-    {name: "Tub of Grease", mod: 3, type: "exp", stat: "fat"},
-    {name: "Vitamins", mod: 1, type: "stats", stat: "con"},
-    {name: "Blue Pill", mod: 5, type: "gender", stat: "penis"},
-    {name: "Magnisium Pills", mod: 2, type: "gender", stat: "balls"},
-    {name: "Injection", mod: 4, type: "gender", stat: "breasts"}
-]
-
-let loot = [
-    {id:1,chnc:30}, //Muscle loot
-    {id:3,chnc:30}, //Fat loot
-    {id:2,chnc:30}, //Size loot
-    {id:5,chnc:30}, //Penis loot
-    {id:6,chnc:30}, //Balls loot
-    {id:7,chnc:30}, //Breasts loot
-    {id:4,chnc:30}, //Con loot
-    {id:0,chnc:30}, //Just Health
-]
-/* twine-user-script #21: "Stores.js" */
-let testStore = {
-    name: "Test Store",
-    stock: [
-        { id: 0, qty: 10, price: 50 },
-        { id: 1, qty: 3, price: 200 }
-    ]
-}
-
-let stores = [
-    {
-        name: "Micro Marketplace",
-        stock: [
-            { id: 0, qty: 10, price: 50 },
-            { id: 1, qty: 3, price: 200 },
-            { id: 4, qty: 1, price: 500 }
-        ]
-    },
-    {
-        name: "Standard Shopping Center",
-        stock: [
-            { id: 0, qty: 10, price: 50 },
-            { id: 3, qty: 3, price: 200 }
-        ]
-    },
-    {
-        name: "Macro Megamart",
-        stock: [
-            { id: 0, qty: 10, price: 50 },
-            { id: 2, qty: 2, price: 200 }
-        ]
-    }
-]
-/* twine-user-script #22: "Genders.js" */
-let genders = [
-    {"Male": { type: "Male", penis: true, balls: true, vagina: false, breasts: false, pronouns: 0, loot: [3,4] }},
-    {"Female": { type: "Female", penis: false, balls: false, vagina: true, breasts: true, pronouns: 1, loot: [5] }},
-    {"Futa": { type: "Futa", penis: true, balls: true, vagina: true, breasts: true, pronouns: 3, loot: [3,4,5] }},
-    {"Futa No Balls": { type: "Futa", penis: true, balls: false, vagina: true, breasts: true, pronouns: 3, loot: [3,5] }},
-    {"Futa No Breasts": { type: "Futa", penis: true, balls: true, vagina: true, breasts: false, pronouns: 3, loot: [3,4] }},
-    {"Futa No Breasts & No Balls": { type: "Futa", penis: true, balls: false, vagina: true, breasts: false, pronouns: 3, loot: [3] }},
-    {"Cuntboi": { type: "Cuntboi", penis: false, balls: false, vagina: true, breasts: false, pronouns: 2, loot: [7] }}
-]
-
-let pronouns = [
-    {subjective:"he",objective:"him",possessive:"his",reflexive:"himself"},
-    {subjective:"she",objective:"her",possessive:"hers",reflexive:"herself"},
-    {subjective:"they",objective:"them",possessive:"theirs",reflexive:"themself"},
-    {subjective:"shi",objective:"hir",possessive:"hirs",reflexive:"hirself"}
-]
-
-function genderArray() {
-    let genderArr = []
-    genders.forEach(function (gender) {
-        genderArr.push(Object.keys(gender)[0])
-    })
-    return genderArr
-}
-
-function pronounArray() {
-    let pronounArr = []
-    for(let pro of pronouns) 
-        pronounArr.push(`${pro.subjective} / ${pro.objective} / ${pro.possessive} / ${pro.reflexive}`)
-    
-    return pronounArr
-}
-
-function getPronounId(pronouns) {
-    let response = 0
-    pronounArray().forEach(function (pro, idx) {
-        if(pronouns === pro)
-            response = idx
-    })
-    return response
-}
-
-function getSubPronoun(character) {
-    return pronouns[character.pronouns].subjective
-}
-
-function getObjPronoun(character) {
-    return pronouns[character.pronouns].objective
-}
-
-function getPosPronoun(character) {
-    return pronouns[character.pronouns].possessive
-}
-
-function getRefPronoun(character) {
-    return pronouns[character.pronouns].reflexive
-}
-/* twine-user-script #23: "Measurements.js" */
-let sizes = [
-    { "Micro": { range: [3, 7], sizeMulti: 4, loot: [7] } },
-    { "Tiny": { range: [8, 30], sizeMulti: 66, loot: [7] } },
-    { "Mini": { range: [31, 60], sizeMulti: 150, loot: [7] } },
-    { "Small": { range: [61, 152], sizeMulti: 387, loot: [7] } },
-    { "Average": { range: [153, 180], sizeMulti: 470, loot: [7] } },
-    { "Tall": { range: [181, 244], sizeMulti: 600, loot: [2] } },
-    { "Huge": { range: [245, 457], sizeMulti: 700, loot: [2] } },
-    { "Massive": { range: [458, 915], sizeMulti: 800, loot: [2] } },
-    { "Macro": { range: [915, 3048], sizeMulti: 900, loot: [2] } }
-];
-
-let bodyTypes = [
-    { "Thin": { weightMod: 0.75, statMods: { strg: 0.5, dex: 1.5, acc: 1.5, con: 0.5 }, expMods: { pawEye: 2, size: 1, skill: 1 }, loot: [7] } },
-    { "Normal": { weightMod: 1, statMods: { strg: 1, dex: 1, acc: 1, con: 1 }, expMods: { size: 1, skill: 1 }, loot: [7] } },
-    { "Fit": { weightMod: 1.1, statMods: { strg: 1.2, dex: 1.2, acc: 1.2, con: 1.2 }, expMods: { agility: 2, size: 1, skill: 1 }, loot: [6] } },
-    { "Muscle": { weightMod: 1.3, statMods: { strg: 2, dex: 0.8, acc: 0.5, con: 1.5 }, expMods: { muscle: 2, size: 1, skill: 1 }, loot: [0] } },
-    { "Fat": { weightMod: 2, statMods: { strg: 1.5, dex: 0.6, acc: 0.5, con: 2 }, expMods: { fat: 2, size: 1, skill: 1 }, loot: [6] } }
-]
-
-let muscleAmount = [
-    // {"Weak": {range:[0,20], pecs:'no', arms: 'not much to look at', armsSecond: 'slightly better than twigs'}},
-    {"Weak": {range:[0,2000000], pecs:'no', arms: 'not much to look at', armsSecond: 'slightly better than twigs'}},
-]
-
-let fatAmount = [
-    // {"Fair": {range:[0.207,0.234], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
-    {"Fair": {range:[0.01,30], stomach: 'a little bit of pudge, but not a noticable amount from underneath your shirt'}},
-]
-
-let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm is the average height
-    {"AA": {range:[0.001,0.01]}}, // < 1"
-    {"A": {range:[0.01,0.02]}}, // 1"
-    {"B": {range:[0.02,0.03]}},
-    {"C": {range:[0.03,0.04]}},
-    {"D": {range:[0.04,0.055]}},
-    {"E": {range:[0.055,0.07]}},
-    {"F": {range:[0.07,0.085]}},
-    {"G": {range:[0.085,0.1]}},
-    {"H": {range:[0.1,0.12]}},
-    {"I": {range:[0.12,0.13]}},
-    {"J": {range:[0.13,0.14]}},
-    {"K": {range:[0.14,0.154]}},
-    {"L": {range:[0.154,0.168]}},
-    {"M": {range:[0.168,0.182]}},
-    {"N": {range:[0.182,0.196]}},
-    {"O": {range:[0.196,0.21]}}, // 15"
-    {"P": {range:[0.21,0.223]}},
-    {"Q": {range:[0.223,0.238]}},
-    {"R": {range:[0.238,0.252]}},
-    {"S": {range:[0.252,0.265]}},
-    {"T": {range:[0.265,0.28]}},
-    {"U": {range:[0.28,0.293]}},
-    {"V": {range:[0.293,0.31]}},
-    {"W": {range:[0.31,0.321]}},
-    {"X": {range:[0.321,0.335]}},
-    {"Y": {range:[0.335,0.35]}},
-    {"Z": {range:[0.35,10]}}, // 26" Set this to 1 so there is no issues for large characters. Programatically set this up later. Should be 0.363 for normal ratio
-]
-
-let penisSize = [
-    {"Peanut": {range:[0.01,0.05]}},
-    {"Cucumber": {range:[0.05,0.09]}},
-    {"Bratwurst": {range:[0.09,0.11]}},
-    {"Cucumber": {range:[0.11,0.16]}},
-    {"Baton": {range:[0.16,0.30]}},
-    {"Baseball bat": {range:[0.30,0.50]}},
-    {"Concrete barrier": {range:[0.50,0.70]}},
-    {"Telephone pole": {range:[0.70,10]}},
-]
-
-let ballSize = [
-    {"Walnut": {range:[0.01,0.02]}},
-    {"Orange": {range:[0.02,0.06]}},
-    {"Cantaloupe": {range:[0.06,0.18]}},
-    {"Watermelon": {range:[0.18,0.23]}},
-    {"Beach ball": {range:[0.23,0.30]}},
-    {"Yoga ball": {range:[0.30,0.40]}},
-    {"Wrecking ball": {range:[0.40,10]}},
-]
-/* twine-user-script #24: "Species.js" */
-let species = [`Dragon`,`Fox`,`Wolf`,`Snake`,`Rabbit`,`Dog`,`Badger`,`Tiger`,`Bear`,`Mouse`].sort()
-
-let speciesDesc = {
-    'Dragon' : {
-
-    }
-}
-/* twine-user-script #25: "Attacks.js" */
-let attacks = [
-    {name: "Punch", type: "strg", baseHitChnc: 50, critMulti: 1.5, maxMod: 0.9, minMod: 0.6},
-    {name: "Kick", type: "dex", baseHitChnc: 50, critMulti: 1.5, maxMod: 0.9, minMod: 0.6}
-]
-/* twine-user-script #26: "Skills.js" */
-/**
- * Skills
- * 
- * Mod can be a decimal for percentage based skill buff.
- * Mod can be a whole number for whole number addition
- * 
- * Dmg can have a bound from "min","max","min/max"
- */
-let skills = [
-    {name: 'Improved Paw-Eye', desc: 'Adds 20% to hit accuracy', mod: 1.2, type: 'hit', multi: true, cost: 100},
-    {name: 'Power Attacks', desc: 'Adds 2 damage to all attacks', mod: 2, type: 'dmg', min: true, max: true, multi: false, cost: 100},
-]</script><tw-passagedata pid="1" name="StoryInit" tags="" position="25,425" size="100,100">&lt;&lt;initStats&gt;&gt;
+}</script><tw-passagedata pid="1" name="StoryInit" tags="" position="25,425" size="100,100">&lt;&lt;initStats&gt;&gt;
 &lt;&lt;set $debug to false&gt;&gt;
 &lt;&lt;set $combat to false&gt;&gt;
 &lt;&lt;set $foundItems to []&gt;&gt;
@@ -1808,7 +1956,7 @@ $consumeText
 &lt;&lt;/if&gt;&gt;
 /* Combat Lose Actions */
 &lt;&lt;if $combat is false &amp;&amp; (ndef $win || $win is false)&gt;&gt;
-&lt;div id=&quot;LeaveContainer&quot; class=&quot;CombatActionContainer&quot; style=&quot;width:100%&quot;&gt;&lt;&lt;leaveButtonMacro &quot;Pass Out&quot; $return&gt;&gt;&lt;&lt;combatReset&gt;&gt;&lt;&lt;set $player.stats.hlth to 1&gt;&gt;&lt;&lt;/leaveButtonMacro&gt;&gt;&lt;/div&gt;
+&lt;div id=&quot;LeaveContainer&quot; class=&quot;CombatActionContainer&quot; style=&quot;width:100%&quot;&gt;&lt;&lt;leaveButtonMacro &quot;Pass Out&quot; $return&gt;&gt;&lt;&lt;combatReset true&gt;&gt;&lt;&lt;/leaveButtonMacro&gt;&gt;&lt;/div&gt;
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="newGame" tags="" position="150,675" size="100,100">&lt;h1&gt;Create Character&lt;/h1&gt;&lt;&lt;script&gt;&gt;State.variables.playerSizes = sizeArray([2,3,4])&lt;&lt;/script&gt;&gt;
 Welcome to the character creater! 
 
@@ -1832,13 +1980,30 @@ Units of Measure: &lt;&lt;listbox &quot;$imperial&quot; autoselect&gt;&gt;
 	&lt;&lt;option &quot;Metric&quot; false&gt;&gt;
 &lt;&lt;/listbox&gt;&gt;
 
+Time: &lt;&lt;listbox &quot;$twelveHour&quot; autoselect&gt;&gt;
+	&lt;&lt;option &quot;12 Hour&quot; true&gt;&gt;
+	&lt;&lt;option &quot;24 Hour&quot; false&gt;&gt;
+&lt;&lt;/listbox&gt;&gt;
+
 &lt;&lt;button &quot;Next&quot; &quot;welcome&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="start" tags="" position="150,550" size="100,100">&lt;h1&gt;Bigger is Better&lt;/h1&gt;
 
-Description Text
+Welcome to Bigger is Better!
 
-[[New Game|newGame]]</tw-passagedata><tw-passagedata pid="8" name="welcome" tags="" position="975,100" size="100,100">&lt;h1&gt;Welcome!&lt;/h1&gt;&lt;&lt;startGameRoutine&gt;&gt;
+A game about fighting, consuming, and growing. As you consume fallen enemies you will be growing various body parts and your overall size. Ontop of the physical attributes, you will be growing stats to be stronger in fights.
+
+This game wouldn&#39;t be possible without players like you, thank you! 
+
+@@color:red;As a warning: This game contains furry adult content, if you&#39;ve gotten here by mistake now is your chance to turn back. By clicking the &quot;New Game&quot; you are confirming you are the appropriate age to be consuming this content.@@
+
+&lt;&lt;button &quot;New Game&quot; &quot;newGame&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="welcome" tags="" position="975,100" size="100,100">&lt;h1&gt;Welcome!&lt;/h1&gt;&lt;&lt;startGameRoutine&gt;&gt;
 
 Welcome to the world! This page is still a WIP, but please proceed with the game!
+
+/* New lands, new life. 
+
+Having just moved to the area you&#39;re unsure what you may find. Are the residents friendly? What are they like?
+
+As you arrive at the station,  */
 
 &lt;&lt;link &quot;Start Game&quot; &quot;home&quot;&gt;&gt;
 	&lt;&lt;set $gameStarted to true&gt;&gt;
@@ -1935,8 +2100,10 @@ Cannot work outside of work hours
 	&lt;&lt;unset $workText&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="StoryBanner" tags="" position="975,225" size="100,100">&lt;img class=&quot;logo&quot; id=&quot;logoImage&quot; @src=&quot;setup.ImagePath+&#39;bigCard.png&#39;&quot;&gt;</tw-passagedata><tw-passagedata pid="19" name="StorySubtitle" tags="" position="1100,225" size="100,100">$version</tw-passagedata><tw-passagedata pid="20" name="StoryCaption" tags="" position="25,550" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 Health: &lt;&lt;healthBarMacro $player&gt;&gt;
+Stomach Capacity: &lt;&lt;capacityBarMacro $player &quot;stomach&quot;&gt;&gt;
+&lt;&lt;if def $player.capacity.balls&gt;&gt;Testicle Capacity: &lt;&lt;capacityBarMacro $player &quot;balls&quot;&gt;&gt;&lt;&lt;/if&gt;&gt;
 Day: $time.day
-Time: $time.hour:&lt;&lt;if $time.min lt 10&gt;&gt;0&lt;&lt;/if&gt;&gt;$time.min
+Time: &lt;&lt;clockMacro&gt;&gt;
 Credits: $player.credits
 &lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="StoryMenu" tags="" position="25,675" size="100,100">&lt;&lt;if def $gameStarted&gt;&gt;
 &lt;&lt;link $player.name &quot;character&quot;&gt;&gt;&lt;&lt;if ndef $menuReturn&gt;&gt;&lt;&lt;set $menuReturn to passage()&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/link&gt;&gt;
@@ -1979,6 +2146,7 @@ Thank you to everyone that provided feedback and encouragement!
 And thank you to you, the player! I hope you have enjoyed/will enjoy the game!
 
 &lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="debugPassage" tags="noreturn" position="475,350" size="100,100">Max Health: &lt;&lt;textbox &quot;$player.stats.maxHlth&quot; $player.stats.maxHlth&gt;&gt;
+Health: &lt;&lt;textbox &quot;$player.stats.hlth&quot; $player.stats.hlth&gt;&gt;
 Strength: &lt;&lt;textbox &quot;$player.stats.strg&quot; $player.stats.strg&gt;&gt;
 Constitution: &lt;&lt;textbox &quot;$player.stats.con&quot; $player.stats.con&gt;&gt;
 Dexterity: &lt;&lt;textbox &quot;$player.stats.dex&quot; $player.stats.dex&gt;&gt;
@@ -1987,7 +2155,9 @@ Penis: &lt;&lt;textbox &quot;$player.gender.penis&quot; $player.gender.penis&gt;
 Balls: &lt;&lt;textbox &quot;$player.gender.balls&quot; $player.gender.balls&gt;&gt;
 Breasts: &lt;&lt;textbox &quot;$player.gender.breasts&quot; $player.gender.breasts&gt;&gt;
 Height: &lt;&lt;textbox &quot;$player.measurements.height&quot; $player.measurements.height&gt;&gt;
-Weight: &lt;&lt;textbox &quot;$player.measurements.weight&quot; $player.measurements.weight&gt;&gt;
+Body Fat: &lt;&lt;textbox &quot;$player.measurements.bodyFat&quot; $player.measurements.bodyFat&gt;&gt;
+Current Stomach Capacity: &lt;&lt;textbox &quot;$player.capacity.stomach&quot; $player.capacity.stomach&gt;&gt;
+Current Balls Capacity: &lt;&lt;textbox &quot;$player.capacity.balls&quot; $player.capacity.balls&gt;&gt;
 Credits: &lt;&lt;textbox &quot;$player.credits&quot; $player.credits&gt;&gt;
 Skill Points: &lt;&lt;textbox &quot;$player.skillPoints&quot; $player.skillPoints&gt;&gt;
 
@@ -2035,6 +2205,10 @@ Items grant Experience for the stat that it effects.
 Units of Measure: &lt;&lt;listbox &quot;$imperial&quot; autoselect&gt;&gt;
 	&lt;&lt;option &quot;Imperial&quot; true&gt;&gt;
 	&lt;&lt;option &quot;Metric&quot; false&gt;&gt;
+&lt;&lt;/listbox&gt;&gt;
+Time: &lt;&lt;listbox &quot;$twelveHour&quot; autoselect&gt;&gt;
+	&lt;&lt;option &quot;12 Hour&quot; true&gt;&gt;
+	&lt;&lt;option &quot;24 Hour&quot; false&gt;&gt;
 &lt;&lt;/listbox&gt;&gt;
 
 &lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata></tw-storydata>
