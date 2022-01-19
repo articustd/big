@@ -468,7 +468,7 @@ function statPoints(player) {
     return (player.stats.strg + player.stats.con + player.stats.dex + player.stats.acc) / 4
 }
 /* twine-user-script #2: "Index.js" */
-State.variables.version = `v0.5.0`
+State.variables.version = `v0.5.1`
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
@@ -1426,8 +1426,8 @@ let sizes = [
     { "Average": { range: [153, 180], sizeMulti: 470, statBase: 15, loot: [7] } },
     { "Tall": { range: [181, 244], sizeMulti: 600, statBase: 20, loot: [2] } },
     { "Huge": { range: [245, 457], sizeMulti: 700, statBase: 40, loot: [2] } },
-    { "Massive": { range: [458, 915], sizeMulti: 800, statBase: 60, loot: [2] } },
-    { "Macro": { range: [915, 3048], sizeMulti: 900, statBase: 80, loot: [2] } }
+    { "Massive": { range: [458, 6095], sizeMulti: 800, statBase: 60, loot: [2] } },
+    { "Macro": { range: [6096, 30480000], sizeMulti: 900, statBase: 80, loot: [2] } }
 ];
 
 let bodyTypes = [
@@ -1457,7 +1457,7 @@ let fatAmount = [
     {"Fair": {range:[0.20,0.25], singular: `a`, stomach: 'you see a little bump sticking out from underneath your shirt', showAbs: false}},
     {"Pudgey": {range:[0.25,0.30], singular: `a`, stomach: 'there is some flab starting to form', showAbs: false}},
     {"Large": {range:[0.30,0.35], singular: `a`, stomach: 'a gut has formed slightly lifting your shirt', showAbs: false}},
-    {"Huge": {range:[0.35,1000], singular: `a`, stomach: 'a mound of flesh encompases the area, eating any abs that may be underneath', showAbs: false}},
+    {"Huge": {range:[0.35,100000], singular: `a`, stomach: 'a mound of flesh encompases the area, eating any abs that may be underneath', showAbs: false}},
 ]
 
 let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm is the average height
@@ -1487,28 +1487,28 @@ let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm 
     {"W": {range:[0.31,0.321]}},
     {"X": {range:[0.321,0.335]}},
     {"Y": {range:[0.335,0.35]}},
-    {"Z": {range:[0.35,10]}}, // 26" Set this to 1 so there is no issues for large characters. Programatically set this up later. Should be 0.363 for normal ratio
+    {"Z": {range:[0.35,1000000]}}, // 26" Set this to 1 so there is no issues for large characters. Programatically set this up later. Should be 0.363 for normal ratio
 ]
 
 let penisSize = [
-    {"Peanut": {range:[0.01,0.05]}},
+    {"Peanut": {range:[0.00,0.05]}},
     {"Cucumber": {range:[0.05,0.09]}},
     {"Bratwurst": {range:[0.09,0.11]}},
     {"Cucumber": {range:[0.11,0.16]}},
     {"Baton": {range:[0.16,0.30]}},
     {"Baseball bat": {range:[0.30,0.50]}},
     {"Concrete barrier": {range:[0.50,0.70]}},
-    {"Telephone pole": {range:[0.70,10]}},
+    {"Telephone pole": {range:[0.70,1000000]}},
 ]
 
 let ballSize = [
-    {"Walnut": {range:[0.01,0.02]}},
+    {"Walnut": {range:[0.00,0.02]}},
     {"Orange": {range:[0.02,0.06]}},
     {"Cantaloupe": {range:[0.06,0.18]}},
     {"Watermelon": {range:[0.18,0.23]}},
     {"Beach ball": {range:[0.23,0.30]}},
     {"Yoga ball": {range:[0.30,0.40]}},
-    {"Wrecking ball": {range:[0.40,10]}},
+    {"Wrecking ball": {range:[0.40,1000000]}},
 ]
 /* twine-user-script #25: "Species.js" */
 let species = [`Dragon`,`Fox`,`Wolf`,`Snake`,`Rabbit`,`Dog`,`Badger`,`Tiger`,`Bear`,`Mouse`].sort()
