@@ -9,7 +9,8 @@
     "serve": "webpack serve",
     "build:twee": "./vendor/tweego --format=sugarcube-2 --output=./dist/index.html ./src/twee/",
     "clean:twee": "Remove-Item ./index.html",
-    "watch:twee": "./vendor/tweego --format=sugarcube-2 --output=./dist/index.html ./src/twee/ --watch"
+    "watch:twee": "./vendor/tweego --format=sugarcube-2 --output=./dist/index.html ./src/twee/ --watch",
+    "css": "node-sass src/"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   },
   "homepage": "https://github.com/articustd/big#readme",
   "dependencies": {
+    "node-sass": "^7.0.1",
     "sugarcube-yaml-properties": "^0.1.0"
   },
   "devDependencies": {

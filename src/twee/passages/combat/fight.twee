@@ -44,5 +44,5 @@
 <</if>>
 /* Combat Lose Actions */
 <<if $combat is false && (ndef $win || $win is false)>>
-<div id="LeaveContainer" class="CombatActionContainer" style="width:100%"><<leaveButtonMacro "Pass Out" $return>><<combatReset>><<set $player.stats.hlth to 1>><</leaveButtonMacro>></div>
+<div id="LeaveContainer" class="CombatActionContainer" style="width:100%"><<leaveButtonMacro "Pass Out" $return>><<combatReset true>><</leaveButtonMacro>></div>
 <</if>>

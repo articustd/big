@@ -8,7 +8,7 @@ Macro.add('startGameRoutine', {
         let pronounKey = getPronounId(player.pronouns)
         let genderKey = findObjIdx(player.gender, genders)
         
-        State.variables.player = genChar(10,speciesKey,sizeKey,bodyTypeKey,genderKey,player.name,pronounKey)
+        State.variables.player = genChar(15,speciesKey,sizeKey,bodyTypeKey,genderKey,player.name,pronounKey)
     }
 })
 

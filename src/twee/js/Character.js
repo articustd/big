@@ -31,18 +31,21 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
 
     // Calculate Measurements
     character.measurements.height = random(size[sizeKey].range[0], size[sizeKey].range[1])
-    character.measurements.weight = calcWeight(character.measurements.height, bodyType[bodyTypeKey].weightMod, size[sizeKey].sizeMulti)
+    character.measurements.bodyFat = bodyType[bodyTypeKey].bodyFat //HACK Rudimentary, need to change to ranges
 
+    // Default Hyper to no
     let hyper = false
 
+    // Species
     character.species = species[speciesId]
 
-    // Calculate Exp, Stats, and Name (This was not fun)
+    // Calculate Stats
+    statPoints = size[sizeKey].statBase
+    calcStats(character, statMods, statPoints)
+
+    // Calculate Exp and Name (This was not fun)
     if (!name) {
         character.name = `${sizeKey} ${bodyTypeKey} ${species[speciesId]}`
-        let statPointMod = Math.floor(statPoints / 4)
-        statPoints = random(statPoints - statPointMod, statPoints + statPointMod)
-        calcStats(character, statMods, statPoints)
 
         for (let exp in expMods)
             character.exp[exp] = getExpCalc(character, exp, expMods[exp], statPoints)
@@ -56,7 +59,6 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
         character.skills = []
         character.skillPoints = 0
         character.inv = []
-        calcStats(character, statMods, statPoints)
     }
 
     // Calculate Genitals... Oh boy
@@ -66,13 +68,9 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
     calcMaxHealth(character)
 
     // Calculate Capacity
-    calcCapacity(character, bodyType[bodyTypeKey].weightMod)
+    calcCapacity(character)
 
     return character;
-}
-
-function calcWeight(height, weightMod, sizeMulti) {
-    return (height * sizeMulti) * weightMod
 }
 
 function randomSize(range) {
@@ -89,7 +87,7 @@ function randomBodyType(range) {
 
 function calcStats(character, statMods, statPoints) {
     for (let statMod in statMods) {
-        character.stats[statMod] = Math.floor(statPoints * statMods[statMod])
+        character.stats[statMod] = Math.ceil(statPoints * statMods[statMod])
     }
 }
 
@@ -97,9 +95,9 @@ function calcGenitals(hyper, height, gender, pronounKey) {
     let hyperMod = hyper ? 2 : 1
     let genderKey = Object.keys(gender)[0]
     let response = {
-        penis: Math.floor(((height / random(8, 11)) + 1) * hyperMod),
-        balls: Math.floor(((height / random(8, 11)) + 1) * hyperMod),
-        breasts: Math.floor(((height / random(6, 8)) + 1) * hyperMod),
+        penis: Math.floor(((height / random(height - 20, height + 20)) + 1) * hyperMod) / 100,
+        balls: Math.floor(((height / random(height - 5, height + 20)) + 1) * hyperMod) / 100,
+        breasts: Math.floor(((height / random(100, height + 20)) + 1) * hyperMod) / 100,
         vagina: true
     }
     for (let gen in gender[genderKey]) {
@@ -137,19 +135,20 @@ function calcMaxHealth(character) {
     character.stats.maxHlth = getMaxHealth(character)
 }
 
+//HACK Changed to BodyFat % temporarily to see how it effects health
 function getMaxHealth(character) {
-    let hW = character.measurements.height + character.measurements.weight
+    let hB = Math.ceil(character.measurements.height * character.measurements.bodyFat)
     let con = character.stats.con
-    let logConHW = Math.log2(con * hW)
-    let sqLogConHW = logConHW ** 2
-    return Math.floor((((0.01 * (2 * sqLogConHW * logConHW)) + 10) / 2) + 5)
+    return Math.ceil((con*Math.log(hB))+5)
 }
 
-function calcCapacity(character, weightMod) {
-    character.capacity.stomachMax = Math.ceil(character.measurements.weight / (4/weightMod))
+//HACK need to finalize stomach capacity calcs
+function calcCapacity(character) {
+    character.capacity.stomachMax = Math.ceil(character.measurements.height / character.measurements.bodyFat)
     character.capacity.stomach = 0
-    if(character.gender.balls) {
-        character.capacity.ballsMax = Math.ceil(character.gender.balls * 100)
+    if (character.gender.balls) {
+        let ballSize = character.measurements.height * character.gender.balls
+        character.capacity.ballsMax = Math.floor((4 / 3) * Math.PI * (ballSize ** 3)) * 2
         character.capacity.balls = 0
     }
 }
@@ -161,4 +160,8 @@ window.sizeArray = function (range) {
             sizeArr.push(Object.keys(size)[0])
     })
     return sizeArr
+}
+
+function statPoints(player) {
+    return (player.stats.strg + player.stats.con + player.stats.dex + player.stats.acc) / 4
 }

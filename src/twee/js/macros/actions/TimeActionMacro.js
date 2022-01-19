@@ -39,28 +39,7 @@ Macro.add('timeAction', {
     }
 })
 
-function incrementTime(hour, min) {
-    let checkHour = State.variables.time.hour + hour
-    let checkMin = State.variables.time.min + min
-    let checkDay = State.variables.time.day
-    if (checkMin / 60 >= 1) {
-        checkHour += Math.floor(checkMin / 60)
-        checkMin = checkMin % 60
-    }
-    if ((checkHour == 24 && checkMin > 0) || checkHour > 24) {
-        checkHour -= 24
-        checkDay += 1
-        restockStore(checkDay)
-    }
-    State.variables.time = {day: checkDay, hour: checkHour, min: checkMin };
-}
 
-function advanceTime(advTime) {
-    State.temporary.advanceTime = advTime
-}
 
-function restockStore(day) {
-    if(day%7 == 0) {
-        State.variables.stores = Object.assign({},stores)
-    }
-}
+
+

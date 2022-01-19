@@ -22,5 +22,10 @@ Units of Measure: <<listbox "$imperial" autoselect>>
 	<<option "Metric" false>>
 <</listbox>>
 
+Time: <<listbox "$twelveHour" autoselect>>
+	<<option "12 Hour" true>>
+	<<option "24 Hour" false>>
+<</listbox>>
+
 <<button "Next" "welcome">><</button>>
 

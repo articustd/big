@@ -6,23 +6,19 @@ function convertToImperial(entity, weight) {
 }
 
 window.convertToLargerUnits = function (measurements, imperial) {
-	let weightText = '', heightText = ''
-
-	let weight = measurements.weight
-	weight = weightMeasurements(weight, imperial)
+	let heightText = ''
 
 	let height = measurements.height
 	height = heightMeasurements(height, imperial)
-	if (!imperial) {
-		weightText += `${weight[0] > 0 ? weight[0] + 't ' : ''}${weight[1] > 0 ? weight[1] + "kg " : ''}${weight[2]}g`
+	if (!imperial)
 		heightText += `${height[0] > 0 ? height[0] + 'km ' : ''}${height[1] > 0 ? height[1] + "m " : ''}${height[2]}cm`
-	} else {
-		weightText += `${weight[0] > 0 ? weight[0] + 't ' : ''}${weight[1] > 0 ? weight[1] + "lbs " : ''}${weight[2]}oz`
+	else 
 		heightText += `${height[0] > 0 ? height[0] + 'mi ' : ''}${height[1] > 0 ? height[1] + "' " : ''}${height[2]}"`
-	}
-	return { heightText, weightText }
+	
+	return { heightText }
 }
 
+//DEPRICATED Weight measurments from the original system before Body Fat
 function weightMeasurements(weight, imperial) {
 	let weights = [];
 	let m1, m2;
@@ -79,17 +75,16 @@ function findMuscle(muscle) {
 	}
 }
 
-function findFat(weight, height) {
+function findFat(bodyFat) {
 	for (let fa of fatAmount) {
 		let faKey = Object.keys(fa)[0]
-		let fatPer = (height * 100) / weight
-		if (fatPer >= fa[faKey].range[0] && fatPer < fa[faKey].range[1])
+		if (bodyFat >= fa[faKey].range[0] && bodyFat < fa[faKey].range[1])
 			return fa
 	}
 }
 
 function findBreastSize(character) {
-	let ratio = character.gender.breasts / character.measurements.height
+	let ratio = character.gender.breasts // / character.measurements.height
 	for (let breast of breastSize) {
 		let breastKey = Object.keys(breast)[0]
 		if (ratio >= breast[breastKey].range[0] && ratio < breast[breastKey].range[1])
@@ -99,7 +94,7 @@ function findBreastSize(character) {
 }
 
 function findPenisSize(character) {
-	let ratio = character.gender.penis / character.measurements.height
+	let ratio = character.gender.penis // / character.measurements.height
 	for (let pen of penisSize) {
 		let penKey = Object.keys(pen)[0]
 		if (ratio >= pen[penKey].range[0] && ratio <= pen[penKey].range[1])
@@ -109,11 +104,25 @@ function findPenisSize(character) {
 }
 
 function findBallSize(character) {
-	let ratio = character.gender.balls / character.measurements.height
+	let ratio = character.gender.balls // / character.measurements.height
 	for (let ball of ballSize) {
 		let ballKey = Object.keys(ball)[0]
 		if (ratio >= ball[ballKey].range[0] && ratio < ball[ballKey].range[1])
 			return ballKey
 	}
 	return ``
+}
+
+function calcWeight(measurements) {
+	let hSrqd = (measurements.height/100)**2
+	let bmi = calcBMI(measurements.bodyFat)
+	logger(`Height Squared: ${hSrqd}`)
+	logger(`BMI: ${bmi}`)
+	logger(`Kg: ${bmi*hSrqd}`)
+	return (bmi*hSrqd)*1000
+}
+
+function calcBMI(bodyFat) {
+	bodyFat = Number(bodyFat)
+	return ((bodyFat*100)+5.4+(10.8*1)-(0.23*25))/1.2 // ((bodyFat %)+5.4+(10.8*GENDER)-(0.23*AGE))/1.2 GENDER= MALE:1 FEMALE:0 AGE= 25
 }

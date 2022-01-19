@@ -1,9 +1,4 @@
-State.variables.version = `v0.4.1`
-
-Config.history.controls = false;
-Config.debug = false;
-
-setup.ImagePath = "assets/";
+State.variables.version = `v0.5.0`
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
@@ -44,6 +39,7 @@ $(document).one(':storyready', function (ev) {
 	State.variables.attacks = attacks;
 	State.variables.skills = skills;
 	State.variables.pronouns = pronounArray()
+	State.variables.twelveHour = false
 	State.variables.debug = Config.debug
 });
 

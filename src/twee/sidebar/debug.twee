@@ -1,6 +1,7 @@
 :: debugPassage [noreturn] 
 
 Max Health: <<textbox "$player.stats.maxHlth" $player.stats.maxHlth>>
+Health: <<textbox "$player.stats.hlth" $player.stats.hlth>>
 Strength: <<textbox "$player.stats.strg" $player.stats.strg>>
 Constitution: <<textbox "$player.stats.con" $player.stats.con>>
 Dexterity: <<textbox "$player.stats.dex" $player.stats.dex>>
@@ -9,7 +10,9 @@ Penis: <<textbox "$player.gender.penis" $player.gender.penis>>
 Balls: <<textbox "$player.gender.balls" $player.gender.balls>>
 Breasts: <<textbox "$player.gender.breasts" $player.gender.breasts>>
 Height: <<textbox "$player.measurements.height" $player.measurements.height>>
-Weight: <<textbox "$player.measurements.weight" $player.measurements.weight>>
+Body Fat: <<textbox "$player.measurements.bodyFat" $player.measurements.bodyFat>>
+Current Stomach Capacity: <<textbox "$player.capacity.stomach" $player.capacity.stomach>>
+Current Balls Capacity: <<textbox "$player.capacity.balls" $player.capacity.balls>>
 Credits: <<textbox "$player.credits" $player.credits>>
 Skill Points: <<textbox "$player.skillPoints" $player.skillPoints>>
 
