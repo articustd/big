@@ -1,0 +1,8 @@
+:: bugReport [noreturn] {"position":"275,550","size":"100,100"}
+<h1>Bug Report</h1>
+
+Please copy the contents below and message Articus (gunpoint) on FA [["Here"|"https://www.furaffinity.net/user/gunpoint/"]] the issue
+
+<<bugMacro>>
+
+<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
