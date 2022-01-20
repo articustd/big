@@ -1212,7 +1212,52 @@ Macro.add('storeItem', {
 function decreaseStock(id,storeStock) {
     storeStock[id].qty -= 1
 }
-/* twine-user-script #20: "playerFluffMacro.js" */
+/* twine-user-script #20: "bugMacro.js" */
+Macro.add('bugMacro', {
+    skipArgs: false,
+    handler: function () {
+        let player = State.variables.player
+        let $wrapper = $('<span/>')
+        // let $general = $('<span/>')
+        // let $upperBody = $('<span/>')
+        // let $lowerBody = $('<span/>')
+        // let $allAround = $('<span/>')
+
+        // let playerSize = lowercaseFirstLetter(findSize(player.measurements.height))
+        // let playerHeightText = convertToLargerUnits(player.measurements, State.variables.imperial).heightText
+        // let playerMuscle = findMuscle(player.stats.strg)
+        // let playerMuscleKey = Object.keys(playerMuscle)[0]
+        // let playerFat = findFat(player.measurements.bodyFat)
+        // let playerFatKey = Object.keys(playerFat)[0]
+        // $general
+        //     .text(`Your ${playerSize} ${playerHeightText} frame is supporting ${playerMuscle[playerMuscleKey].singular} ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles and ${playerMuscle[playerMuscleKey].singular} ${lowercaseFirstLetter(playerFatKey)} amount of body fat.`)
+        //     .append('<br><br>')
+
+        // $upperBody
+        //     .text(`Your chest sports ${getBreastText(player)}${playerMuscle[playerMuscleKey].pecs} pectoral muscles. 
+        //             Looking at your arms, ${playerMuscle[playerMuscleKey].arms}. 
+        //             With your ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles, your arms ${playerMuscle[playerMuscleKey].armsSecond}. 
+        //             Looking down at your stomach ${checkAbs(playerFat[playerFatKey],playerFatKey,playerMuscle[playerMuscleKey],playerMuscleKey)}.`)
+        //     .append('<br><br>')
+
+        // // logger(playerMuscle)
+
+        // $lowerBody // Ok, kinda done
+        //     .text(`Your eyes and paws work their way down to explore below your waist. ${collectGenitals(player)}`)//the only equipment you find are your weak looking legs and a vagina.`)
+        //     .append('<br><br>')
+
+        // $allAround
+        //     .text(`All around you are a ${playerSize} looking ${lowercaseFirstLetter(player.gender.type)} ${lowercaseFirstLetter(player.species)}.`)
+
+        $wrapper.text(`${JSON.stringify(State.variables.player,)}`)
+            // .append($general)
+            // .append($upperBody)
+            // .append($lowerBody)
+            // .append($allAround)
+            .appendTo(this.output)
+    }
+})
+/* twine-user-script #21: "playerFluffMacro.js" */
 Macro.add('playerFluffMacro', {
     skipArgs: false,
     handler: function () {
@@ -1296,7 +1341,7 @@ function checkAbs(fat,fatKey,muscle,muscleKey) {
         return `you see a ${lowercaseFirstLetter(fatKey)} muscle gut`
     return `${fat.stomach}`
 }
-/* twine-user-script #21: "Items.js" */
+/* twine-user-script #22: "Items.js" */
 let testItems = [
     {name: "Test Item", mod: 1, type: "stats", stat: "strg"},
     {name: "Test Item 2", mod: 1, type: "exp", stat: "size"}
@@ -1323,7 +1368,7 @@ let loot = [
     {id:4,chnc:30}, //Con loot
     {id:0,chnc:30}, //Just Health
 ]
-/* twine-user-script #22: "Stores.js" */
+/* twine-user-script #23: "Stores.js" */
 let testStore = {
     name: "Test Store",
     stock: [
@@ -1359,7 +1404,7 @@ let stores = [
         ]
     }
 ]
-/* twine-user-script #23: "Genders.js" */
+/* twine-user-script #24: "Genders.js" */
 let genders = [
     {"Male": { type: "Male", penis: true, balls: true, vagina: false, breasts: false, pronouns: 0, loot: [3,4] }},
     {"Female": { type: "Female", penis: false, balls: false, vagina: true, breasts: true, pronouns: 1, loot: [5] }},
@@ -1417,7 +1462,7 @@ function getPosPronoun(character) {
 function getRefPronoun(character) {
     return pronouns[character.pronouns].reflexive
 }
-/* twine-user-script #24: "Measurements.js" */
+/* twine-user-script #25: "Measurements.js" */
 let sizes = [
     { "Micro": { range: [3, 7], sizeMulti: 4, statBase: 2, loot: [7] } },
     { "Tiny": { range: [8, 30], sizeMulti: 66, statBase: 5, loot: [7] } },
@@ -1510,7 +1555,7 @@ let ballSize = [
     {"Yoga ball": {range:[0.30,0.40]}},
     {"Wrecking ball": {range:[0.40,1000000]}},
 ]
-/* twine-user-script #25: "Species.js" */
+/* twine-user-script #26: "Species.js" */
 let species = [`Dragon`,`Fox`,`Wolf`,`Snake`,`Rabbit`,`Dog`,`Badger`,`Tiger`,`Bear`,`Mouse`].sort()
 
 let speciesDesc = {
@@ -1518,12 +1563,12 @@ let speciesDesc = {
 
     }
 }
-/* twine-user-script #26: "Attacks.js" */
+/* twine-user-script #27: "Attacks.js" */
 let attacks = [
     {name: "Punch", type: "strg", baseHitChnc: 50, critMulti: 1.5, maxMod: 0.9, minMod: 0.6},
     {name: "Kick", type: "dex", baseHitChnc: 50, critMulti: 1.5, maxMod: 0.9, minMod: 0.6}
 ]
-/* twine-user-script #27: "Skills.js" */
+/* twine-user-script #28: "Skills.js" */
 /**
  * Skills
  * 
@@ -1537,7 +1582,7 @@ let skills = [
     {name: 'Power Attacks', desc: 'Adds 2 damage to all attacks', mod: 2, type: 'dmg', min: true, max: true, multi: false, cost: 100},
     {name: 'Willing Prey', desc: 'Enemies have a % chance of instantly submitting', mod: 20, type: 'ability', subType: 'willing', cost: 200},
 ]
-/* twine-user-script #28: "CombatHelper.js" */
+/* twine-user-script #29: "CombatHelper.js" */
 var maxHitPer = 85;
 var minDmgMult = 60;
 
@@ -1708,12 +1753,12 @@ let hitText = [
 let missText = [
 	{ give: "You swung wide!", take: "You dodged out of the way!" }
 ]
-/* twine-user-script #29: "Logging.js" */
+/* twine-user-script #30: "Logging.js" */
 function logger(message) {
     if(logging)
         console.log(message)
 }
-/* twine-user-script #30: "MeasurementsHelper.js" */
+/* twine-user-script #31: "MeasurementsHelper.js" */
 /* Measurment Converts */
 function convertToImperial(entity, weight) {
 	if (weight)
@@ -1842,7 +1887,7 @@ function calcBMI(bodyFat) {
 	bodyFat = Number(bodyFat)
 	return ((bodyFat*100)+5.4+(10.8*1)-(0.23*25))/1.2 // ((bodyFat %)+5.4+(10.8*GENDER)-(0.23*AGE))/1.2 GENDER= MALE:1 FEMALE:0 AGE= 25
 }
-/* twine-user-script #31: "TimeHelper.js" */
+/* twine-user-script #32: "TimeHelper.js" */
 function incrementTime(hour, min) {
     let checkHour = State.variables.time.hour + hour
     let checkMin = State.variables.time.min + min
@@ -2112,7 +2157,13 @@ Credits: $player.credits
 &lt;&lt;if $debug&gt;&gt;&lt;&lt;link &quot;Dev&quot; &quot;debugPassage&quot;&gt;&gt;&lt;&lt;if ndef $menuReturn&gt;&gt;&lt;&lt;set $menuReturn to passage()&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;&lt;/if&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 &lt;&lt;link &quot;Credits&quot; &quot;credits&quot;&gt;&gt;&lt;&lt;if ndef $menuReturn&gt;&gt;&lt;&lt;set $menuReturn to passage()&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/link&gt;&gt;
-&lt;&lt;link &quot;Help&quot; &quot;help&quot;&gt;&gt;&lt;&lt;if ndef $menuReturn&gt;&gt;&lt;&lt;set $menuReturn to passage()&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="character" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;$player.name&lt;/h1&gt;
+&lt;&lt;link &quot;Help&quot; &quot;help&quot;&gt;&gt;&lt;&lt;if ndef $menuReturn&gt;&gt;&lt;&lt;set $menuReturn to passage()&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="bugReport" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Bug Report&lt;/h1&gt;
+
+Please copy the contents below and message Articus (gunpoint) on FA [[&quot;Here&quot;|&quot;https://www.furaffinity.net/user/gunpoint/&quot;]] the issue
+
+&lt;&lt;bugMacro&gt;&gt;
+
+&lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="character" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;$player.name&lt;/h1&gt;
 
 Available Skill Points: $player.skillPoints 
 
@@ -2139,13 +2190,14 @@ Agility: $player.exp.agility
 Paw-Eye Coordination: $player.exp.pawEye
 Skill: $player.exp.skill
 
-&lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn $skillText&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="credits" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Credits&lt;/h1&gt;
+&lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn $skillText&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="credits" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Credits&lt;/h1&gt;
 
 Thank you to everyone that provided feedback and encouragement!
 
 And thank you to you, the player! I hope you have enjoyed/will enjoy the game!
 
-&lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="debugPassage" tags="noreturn" position="475,350" size="100,100">Max Health: &lt;&lt;textbox &quot;$player.stats.maxHlth&quot; $player.stats.maxHlth&gt;&gt;
+&lt;&lt;link &quot;Bug Report&quot; &quot;bugReport&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+&lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="debugPassage" tags="noreturn" position="600,350" size="100,100">Max Health: &lt;&lt;textbox &quot;$player.stats.maxHlth&quot; $player.stats.maxHlth&gt;&gt;
 Health: &lt;&lt;textbox &quot;$player.stats.hlth&quot; $player.stats.hlth&gt;&gt;
 Strength: &lt;&lt;textbox &quot;$player.stats.strg&quot; $player.stats.strg&gt;&gt;
 Constitution: &lt;&lt;textbox &quot;$player.stats.con&quot; $player.stats.con&gt;&gt;
@@ -2163,7 +2215,7 @@ Skill Points: &lt;&lt;textbox &quot;$player.skillPoints&quot; $player.skillPoint
 
 &lt;&lt;script&gt;&gt;console.log(convertToLargerUnits(State.variables.player.measurements, State.variables.imperial))&lt;&lt;/script&gt;&gt;
 
-&lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn $skillText&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="help" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Help&lt;/h1&gt;
+&lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn $skillText&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="help" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Help&lt;/h1&gt;
 !!Stats
 &#39;&#39;__Base Stats__&#39;&#39;
 &#39;&#39;Health&#39;&#39; - Current health out of max total health.
@@ -2197,11 +2249,11 @@ Currently there are only two types of attacks: Punch and Kick.
 
 !!Items
 Items grant Experience for the stat that it effects.
-&lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
+&lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
 
 &lt;&lt;nobr&gt;&gt;&lt;&lt;if def $invText&gt;&gt;$invText&lt;&lt;/if&gt;&gt;&lt;&lt;/nobr&gt;&gt;
 &lt;&lt;invMacro&gt;&gt;
-&lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn $invText&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;h1&gt;Settings&lt;/h1&gt;
+&lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn $invText&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="settings" tags="noreturn" position="275,425" size="100,100">&lt;h1&gt;Settings&lt;/h1&gt;
 Units of Measure: &lt;&lt;listbox &quot;$imperial&quot; autoselect&gt;&gt;
 	&lt;&lt;option &quot;Imperial&quot; true&gt;&gt;
 	&lt;&lt;option &quot;Metric&quot; false&gt;&gt;
