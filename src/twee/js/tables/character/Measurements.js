@@ -1,13 +1,13 @@
 let sizes = [
     { "Micro": { range: [3, 7], sizeMulti: 4, statBase: 2, loot: [7] } },
-    { "Tiny": { range: [8, 30], sizeMulti: 66, statBase: 5, loot: [7] } },
-    { "Mini": { range: [31, 60], sizeMulti: 150, statBase: 7, loot: [7] } },
-    { "Small": { range: [61, 152], sizeMulti: 387, statBase: 10, loot: [7] } },
-    { "Average": { range: [153, 180], sizeMulti: 470, statBase: 15, loot: [7] } },
-    { "Tall": { range: [181, 244], sizeMulti: 600, statBase: 20, loot: [2] } },
-    { "Huge": { range: [245, 457], sizeMulti: 700, statBase: 40, loot: [2] } },
-    { "Massive": { range: [458, 6095], sizeMulti: 800, statBase: 60, loot: [2] } },
-    { "Macro": { range: [6096, 30480000], sizeMulti: 900, statBase: 80, loot: [2] } }
+    { "Tiny": { range: [7, 30], sizeMulti: 66, statBase: 5, loot: [7] } },
+    { "Mini": { range: [30, 60], sizeMulti: 150, statBase: 7, loot: [7] } },
+    { "Small": { range: [60, 152], sizeMulti: 387, statBase: 10, loot: [7] } },
+    { "Average": { range: [152, 180], sizeMulti: 470, statBase: 15, loot: [7] } },
+    { "Tall": { range: [180, 244], sizeMulti: 600, statBase: 20, loot: [2] } },
+    { "Huge": { range: [244, 457], sizeMulti: 700, statBase: 40, loot: [2] } },
+    { "Massive": { range: [457, 6095], sizeMulti: 800, statBase: 60, loot: [2] } },
+    { "Macro": { range: [6095], sizeMulti: 900, statBase: 80, loot: [2] } }
 ];
 
 let bodyTypes = [
@@ -19,14 +19,14 @@ let bodyTypes = [
 ]
 
 let muscleAmount = [
-    {"Frail": {range:[0,9], singular: 'a', pecs:'no', abs: `your imaginary abs`, arms: 'not much to look at', muscleGut: false, armsSecond: 'are slightly better than twigs'}},
-    {"Weak": {range:[10,29], singular: 'a', pecs:'no', abs: `your flat stomach`, arms: `they're not much to look at`, muscleGut: false, armsSecond: 'are slightly better than twigs'}},
-    {"Average": {range:[30,49], singular: 'an', pecs:'a little amount of', abs: `your singular muscle that is your abs`, muscleGut: false, arms: `they're about what you would expect`, armsSecond: `have a a bit of meat on them`}},
-    {"Healthy": {range:[50,79], singular: 'a', pecs:'a decent amount of', abs: `the start of your soon to be six-pack abs`, muscleGut: false, arms: `they've put on some heft`, armsSecond: `are starting to show more definition`}},
-    {"Modest": {range:[80,99], singular: 'a', pecs:'a modest amount of', abs: `your firm six-pack abs`, muscleGut: true, arms: `they've become bulkier`, armsSecond: `are defined and showing growth`}},
-    {"Large": {range:[100,129], singular: 'a', pecs:'a generous amount of', abs: `your washboard abs`, muscleGut: true, arms: `they're more muscle than anything else`, armsSecond: `have become the size of coconuts`}},
-    {"Herculean": {range:[130,199], singular: 'a', pecs:'near demi-god like', abs: `your mythical abs`, muscleGut: true, arms: `they've become near perfect`, armsSecond: `have become as large as a soccer ball`}},
-    {"Colossal": {range:[200,200000], singular: 'a', pecs:'mountain', abs: `your absolute cheese grater abs`, arms: `even the gods would be jealous`, muscleGut: true, armsSecond: `look like boulders shaped by time and erosion`}},
+    {"Frail": {range:[0,10], singular: 'a', pecs:'no', abs: `your imaginary abs`, arms: 'not much to look at', muscleGut: false, armsSecond: 'are slightly better than twigs'}},
+    {"Weak": {range:[10,30], singular: 'a', pecs:'no', abs: `your flat stomach`, arms: `they're not much to look at`, muscleGut: false, armsSecond: 'are slightly better than twigs'}},
+    {"Average": {range:[30,50], singular: 'an', pecs:'a little amount of', abs: `your singular muscle that is your abs`, muscleGut: false, arms: `they're about what you would expect`, armsSecond: `have a a bit of meat on them`}},
+    {"Healthy": {range:[50,80], singular: 'a', pecs:'a decent amount of', abs: `the start of your soon to be six-pack abs`, muscleGut: false, arms: `they've put on some heft`, armsSecond: `are starting to show more definition`}},
+    {"Modest": {range:[80,100], singular: 'a', pecs:'a modest amount of', abs: `your firm six-pack abs`, muscleGut: true, arms: `they've become bulkier`, armsSecond: `are defined and showing growth`}},
+    {"Large": {range:[100,130], singular: 'a', pecs:'a generous amount of', abs: `your washboard abs`, muscleGut: true, arms: `they're more muscle than anything else`, armsSecond: `have become the size of coconuts`}},
+    {"Herculean": {range:[130,200], singular: 'a', pecs:'near demi-god like', abs: `your mythical abs`, muscleGut: true, arms: `they've become near perfect`, armsSecond: `have become as large as a soccer ball`}},
+    {"Colossal": {range:[200], singular: 'a', pecs:'mountain', abs: `your absolute cheese grater abs`, arms: `even the gods would be jealous`, muscleGut: true, armsSecond: `look like boulders shaped by time and erosion`}},
 ]
 
 let fatAmount = [
@@ -37,7 +37,7 @@ let fatAmount = [
     {"Fair": {range:[0.20,0.25], singular: `a`, stomach: 'you see a little bump sticking out from underneath your shirt', showAbs: false}},
     {"Pudgey": {range:[0.25,0.30], singular: `a`, stomach: 'there is some flab starting to form', showAbs: false}},
     {"Large": {range:[0.30,0.35], singular: `a`, stomach: 'a gut has formed slightly lifting your shirt', showAbs: false}},
-    {"Huge": {range:[0.35,100000], singular: `a`, stomach: 'a mound of flesh encompases the area, eating any abs that may be underneath', showAbs: false}},
+    {"Huge": {range:[0.35], singular: `a`, stomach: 'a mound of flesh encompases the area, eating any abs that may be underneath', showAbs: false}},
 ]
 
 let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm is the average height
@@ -67,7 +67,7 @@ let breastSize = [ // 1" increments, calc to cm then cm/182 to get range. 182cm 
     {"W": {range:[0.31,0.321]}},
     {"X": {range:[0.321,0.335]}},
     {"Y": {range:[0.335,0.35]}},
-    {"Z": {range:[0.35,1000000]}}, // 26" Set this to 1 so there is no issues for large characters. Programatically set this up later. Should be 0.363 for normal ratio
+    {"Z": {range:[0.35]}}, // 26" Set this to 1 so there is no issues for large characters. Programatically set this up later. Should be 0.363 for normal ratio
 ]
 
 let penisSize = [
@@ -78,7 +78,7 @@ let penisSize = [
     {"Baton": {range:[0.16,0.30]}},
     {"Baseball bat": {range:[0.30,0.50]}},
     {"Concrete barrier": {range:[0.50,0.70]}},
-    {"Telephone pole": {range:[0.70,1000000]}},
+    {"Telephone pole": {range:[0.70]}},
 ]
 
 let ballSize = [
@@ -88,5 +88,5 @@ let ballSize = [
     {"Watermelon": {range:[0.18,0.23]}},
     {"Beach ball": {range:[0.23,0.30]}},
     {"Yoga ball": {range:[0.30,0.40]}},
-    {"Wrecking ball": {range:[0.40,1000000]}},
+    {"Wrecking ball": {range:[0.40]}},
 ]
