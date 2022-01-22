@@ -62,7 +62,7 @@ function heightMeasurements(height, imperial) {
 function findSize(height) {
 	for (let size of sizes) {
 		let sizeKey = Object.keys(size)[0]
-		if (height >= size[sizeKey].range[0] && height <= size[sizeKey].range[1])
+		if (height >= size[sizeKey].range[0] && (size[sizeKey].range.length == 1 || height < size[sizeKey].range[1]))
 			return sizeKey
 	}
 }
@@ -70,7 +70,7 @@ function findSize(height) {
 function findMuscle(muscle) {
 	for (let ma of muscleAmount) {
 		let maKey = Object.keys(ma)[0]
-		if (muscle >= ma[maKey].range[0] && muscle < ma[maKey].range[1])
+		if (muscle >= ma[maKey].range[0] && (ma[maKey].range.length == 1 || muscle < ma[maKey].range[1]))
 			return ma
 	}
 }
@@ -78,7 +78,7 @@ function findMuscle(muscle) {
 function findFat(bodyFat) {
 	for (let fa of fatAmount) {
 		let faKey = Object.keys(fa)[0]
-		if (bodyFat >= fa[faKey].range[0] && bodyFat < fa[faKey].range[1])
+		if (bodyFat >= fa[faKey].range[0] && (fa[faKey].range.length == 1 || bodyFat < fa[faKey].range[1]))
 			return fa
 	}
 }
@@ -87,7 +87,7 @@ function findBreastSize(character) {
 	let ratio = character.gender.breasts // / character.measurements.height
 	for (let breast of breastSize) {
 		let breastKey = Object.keys(breast)[0]
-		if (ratio >= breast[breastKey].range[0] && ratio < breast[breastKey].range[1])
+		if (ratio >= breast[breastKey].range[0] && (breast[breastKey].range.length == 1 || ratio < breast[breastKey].range[1]))
 			return breastKey
 	}
 	return ``
@@ -97,7 +97,7 @@ function findPenisSize(character) {
 	let ratio = character.gender.penis // / character.measurements.height
 	for (let pen of penisSize) {
 		let penKey = Object.keys(pen)[0]
-		if (ratio >= pen[penKey].range[0] && ratio <= pen[penKey].range[1])
+		if (ratio >= pen[penKey].range[0] && (pen[penKey].range.length == 1 || ratio < pen[penKey].range[1]))
 			return penKey
 	}
 	return ``
@@ -107,7 +107,7 @@ function findBallSize(character) {
 	let ratio = character.gender.balls // / character.measurements.height
 	for (let ball of ballSize) {
 		let ballKey = Object.keys(ball)[0]
-		if (ratio >= ball[ballKey].range[0] && ratio < ball[ballKey].range[1])
+		if (ratio >= ball[ballKey].range[0] && (ball[ballKey].range.length == 1 || ratio < ball[ballKey].range[1]))
 			return ballKey
 	}
 	return ``
