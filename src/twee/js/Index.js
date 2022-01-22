@@ -1,4 +1,4 @@
-State.variables.version = `v0.5.2`
+State.variables.version = `v0.5.3`
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
