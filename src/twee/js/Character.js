@@ -1,10 +1,12 @@
 function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
     let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {} };
-
+    logger(`In char`)
     let size = sizes[randomSize(sizeRange)]
+    logger(`After size`)
     let sizeKey = Object.keys(size)[0]
 
     let bodyType = bodyTypes[randomBodyType(bodyTypeRange)]
+    logger(`After body`)
     let bodyTypeKey = Object.keys(bodyType)[0]
 
     let statMods = bodyType[bodyTypeKey].statMods
@@ -30,9 +32,10 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
     var credits = Math.floor(50 * randomPercent);
 
     // Calculate Measurements
-    character.measurements.height = random(size[sizeKey].range[0], size[sizeKey].range[1])
+    logger(`Before height`)
+    character.measurements.height = random(size[sizeKey].range[0], (size[sizeKey].range[1])?size[sizeKey].range[1]:1000000)
     character.measurements.bodyFat = bodyType[bodyTypeKey].bodyFat //HACK Rudimentary, need to change to ranges
-
+    logger(`After height`)
     // Default Hyper to no
     let hyper = false
 
