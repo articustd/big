@@ -27,6 +27,7 @@ Macro.add('consumeEnemy', {
                             State.variables.consumeText = con.desc
                             State.variables.consumeHeader = `${con.method}ing ${prey.name}`
                             let consumePoints = calcConsume(prey)
+                            logger(`ConsumePoints: ${JSON.stringify(consumePoints)}`)
                             addPoints(consumePoints,State.variables.player)
                             addCapacity(State.variables.player,calcWeight(prey.measurements),con.capacity)
                             getExpText(consumePoints) 
@@ -56,6 +57,7 @@ function calcConsume(prey) {
 }
 
 function randPoints(range) {
+    logger(`Rand Points: ${range}`)
     if(Array.isArray(range))
         return random(range[0],range[1]);
     return range

@@ -15,7 +15,7 @@ Macro.add('invMacro', {
             if (rowIndex > 0) {
                 $row.append($('<td/>').wiki(r[0].name))
                 $row.append($('<td/>').wiki(returnStatName(r[0].stat)))
-                $row.append($('<td/>').wiki(r[0].mod))
+                $row.append($('<td/>').wiki((r[0].mod % 1 == 0)?r[0].mod:r[0].mod*100))
                 $row.append($('<td/>').wiki(r[1]))
                 var $button = $(document.createElement('button')).wiki(`Use`).ariaClick(function (ev) {
                     let invText = ``
@@ -49,7 +49,7 @@ Macro.add('invMacro', {
 })
 
 function useItem(usedItem) {
-    if(usedItem.stat === 'hlth') { // This is a stop gap until I can put in prop health checking
+    if(usedItem.stat === 'hlth') { // HACK This is a stop gap until I can put in prop health checking
         if(usedItem.mod + State.variables.player.stats.hlth > State.variables.player.stats.maxHlth) {
             State.variables.player.stats.hlth = State.variables.player.stats.maxHlth
             return false

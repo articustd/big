@@ -20,7 +20,7 @@ Accuracy: $player.stats.acc
 
 ''__Experience Points:__''
 Muscle: $player.exp.muscle
-Fat: $player.exp.fat
+Fat: <<print $player.exp.fat * 100>>
 Size: $player.exp.size
 Agility: $player.exp.agility
 Paw-Eye Coordination: $player.exp.pawEye
