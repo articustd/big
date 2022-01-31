@@ -23,8 +23,9 @@
 <<if $combat is true>>
 <<nobr>>
 <div class="CombatActionContainer"><u><span class="CombatActionHeader">Attack</span></u>
-<<attackAction $attacks[0]>>
-<<attackAction $attacks[1]>></div>
+<<for _attackId range $player.attacks>>
+    <<attackAction $attacks[_attackId]>>
+<</for>></div>
 <div class="CombatActionContainer"><u><span class="CombatActionHeader">Skill</span></u>
 /* <<attackAction $attacks[0]>><br> */</div>
 <div id="LeaveContainer" class="CombatActionContainer"><<leaveButtonMacro "Run Away!" $return>><<combatReset>><</leaveButtonMacro>></div>

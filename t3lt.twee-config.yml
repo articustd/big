@@ -54,3 +54,7 @@ sugarcube-2:
       name: clockMacro
     bugMacro:
       name: bugMacro
+    attackSkillsMacro:
+      name: attackSkillsMacro
+    tabMacro:
+      name: tabMacro

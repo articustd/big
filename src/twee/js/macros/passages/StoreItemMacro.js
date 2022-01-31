@@ -10,7 +10,7 @@ Macro.add('storeItem', {
 
         var storeStock = this.args[0].stock;
         
-        let $table = $('<table/>');
+        let $table = $('<table/>').addClass('storeTable');
         let $wrapper = $('<span/>')
         let tableData = [['Item','Quantity','Price']]
         storeStock.forEach(function (item, idx) {
@@ -51,7 +51,6 @@ Macro.add('storeItem', {
 
         $wrapper
             .attr('id', `macro-${this.name}`)
-            .addClass('store-table')
             .append($table)
             .appendTo(this.output);
     }

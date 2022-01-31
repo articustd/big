@@ -46,6 +46,10 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
     statPoints = size[sizeKey].statBase
     calcStats(character, statMods, statPoints)
 
+    // Base Attacks
+    character.attacks = [0,1]
+    character.learnedAttacks = character.attacks
+
     // Calculate Exp and Name (This was not fun)
     if (!name) {
         character.name = `${sizeKey} ${bodyTypeKey} ${species[speciesId]}`
