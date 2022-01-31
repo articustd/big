@@ -38,6 +38,8 @@ Macro.add('tabMacro', {
             .appendTo($contentWrapper)
 
         $wrapper.append($contentWrapper).appendTo(this.output);
+
+        $('<span/>').wiki(`<br><<link "Return" $menuReturn>><<unset $menuReturn $skillText>><</link>>`).appendTo(this.output);
     }
 })
 
