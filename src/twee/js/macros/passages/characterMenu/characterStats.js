@@ -9,6 +9,7 @@ function characterStats() {
                     Constitution: $player.stats.con
                     Dexterity: $player.stats.dex
                     Accuracy: $player.stats.acc
+                    Skill Points: $player.skillPoints
 
                     ''__Experience Points__''
                     Muscle: $player.exp.muscle

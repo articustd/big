@@ -155,8 +155,8 @@ function calcCapacity(character) {
     character.capacity.stomach = 0
     if (character.gender.balls) {
         let ballSize = character.measurements.height * character.gender.balls
-        character.capacity.ballsMax = Math.floor((4 / 3) * Math.PI * (ballSize ** 3)) * 2
-        character.capacity.balls = 0
+        character.capacity.testiMax = Math.floor((4 / 3) * Math.PI * (ballSize ** 3)) * 2
+        character.capacity.testi = 0
     }
 }
 

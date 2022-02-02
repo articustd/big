@@ -7,7 +7,6 @@ Macro.add('tabMacro', {
         let $tabs = $('<div/>').addClass('tab')
 
         let $skillsTab = $('<button/>').addClass('tabLinks').addClass('active').ariaClick(function (ev) {
-            logger('Skills')
             State.variables.charTab = 'skills'
             openTab(ev, 'skills')
         }).text(`Skills`).attr('id', 'skillsTab')
@@ -15,7 +14,6 @@ Macro.add('tabMacro', {
         $tabs.append($skillsTab)
 
         let $attacksTab = $('<button/>').addClass('tabLinks').ariaClick(function (ev) {
-            logger('Attacks')
             State.variables.charTab = 'attacks'
             openTab(ev, 'attacks')
         }).text(`Attacks`).attr('id', 'attacksTab')
@@ -38,8 +36,6 @@ Macro.add('tabMacro', {
             .appendTo($contentWrapper)
 
         $wrapper.append($contentWrapper).appendTo(this.output);
-
-        $('<span/>').wiki(`<br><<link "Return" $menuReturn>><<unset $menuReturn $skillText>><</link>>`).appendTo(this.output);
     }
 })
 

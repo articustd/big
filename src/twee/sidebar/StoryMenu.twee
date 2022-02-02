@@ -8,7 +8,7 @@ $version
 <<if def $gameStarted>>
 Health: <<healthBarMacro $player>>
 Stomach Capacity: <<capacityBarMacro $player "stomach">>
-<<if def $player.capacity.balls>>Testicle Capacity: <<capacityBarMacro $player "balls">><</if>>
+<<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><</if>>
 Day: $time.day
 Time: <<clockMacro>>
 Credits: $player.credits
