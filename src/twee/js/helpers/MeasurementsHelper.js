@@ -7,34 +7,40 @@ function convertToImperial(entity, weight) {
 
 window.convertToLargerUnits = function (measurements, imperial) {
 	let heightText = ''
+	let weightText = ''
 
 	let height = measurements.height
 	height = heightMeasurements(height, imperial)
 	if (!imperial)
 		heightText += `${height[0] > 0 ? height[0] + 'km ' : ''}${height[1] > 0 ? height[1] + "m " : ''}${height[2]}cm`
-	else 
+	else
 		heightText += `${height[0] > 0 ? height[0] + 'mi ' : ''}${height[1] > 0 ? height[1] + "' " : ''}${height[2]}"`
-	
-	return { heightText }
+
+	let weight = weightMeasurements(calcWeight(measurements), imperial)
+	if (!imperial)
+		weightText += `${weight[0] > 0 ? weight[0] + 't ' : ''}${weight[1] > 0 ? weight[1] + "kg " : ''}${weight[2]}g`
+	else
+		weightText += `${weight[0] > 0 ? weight[0] + 't ' : ''}${weight[1] > 0 ? weight[1] + "lb " : ''}${weight[2]}oz`
+
+	return { heightText, weightText }
 }
 
-//DEPRICATED Weight measurments from the original system before Body Fat
 function weightMeasurements(weight, imperial) {
 	let weights = [];
 	let m1, m2;
 
 	if (imperial)
-		m1 = 35840, m2 = 16, weight = convertToImperial(weight, true)
+		m1 = 32000, m2 = 16, weight = convertToImperial(weight, true)
 	else
 		m1 = 1000000, m2 = 1000
-
+	
 	weights.push(Math.floor(weight / m1))
 	weight -= weights[0] * m1
 
 	weights.push(Math.floor(weight / m2))
 	weight -= weights[1] * m2
 
-	weights.push(weight)
+	weights.push(Math.floor(weight))
 
 	return weights
 }
@@ -54,7 +60,7 @@ function heightMeasurements(height, imperial) {
 	heights.push(Math.floor(height / m2))
 	height -= heights[1] * m2
 
-	heights.push(height)
+	heights.push(Math.floor(height))
 
 	return heights
 }
@@ -114,15 +120,15 @@ function findBallSize(character) {
 }
 
 function calcWeight(measurements) {
-	let hSrqd = (measurements.height/100)**2
+	let hSrqd = (measurements.height / 100) ** 2
 	let bmi = calcBMI(measurements.bodyFat)
 	logger(`Height Squared: ${hSrqd}`)
 	logger(`BMI: ${bmi}`)
-	logger(`Kg: ${bmi*hSrqd}`)
-	return (bmi*hSrqd)*1000
+	logger(`Kg: ${bmi * hSrqd}`)
+	return (bmi * hSrqd) * 1000
 }
 
 function calcBMI(bodyFat) {
 	bodyFat = Number(bodyFat)
-	return ((bodyFat*100)+5.4+(10.8*1)-(0.23*25))/1.2 // ((bodyFat %)+5.4+(10.8*GENDER)-(0.23*AGE))/1.2 GENDER= MALE:1 FEMALE:0 AGE= 25
+	return ((bodyFat * 100) + 5.4 + (10.8 * 1) - (0.23 * 25)) / 1.2 // ((bodyFat %)+5.4+(10.8*GENDER)-(0.23*AGE))/1.2 GENDER= MALE:1 FEMALE:0 AGE= 25
 }
