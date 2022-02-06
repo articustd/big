@@ -47,7 +47,7 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
     calcStats(character, statMods, statPoints)
 
     // Base Attacks
-    character.attacks = [0,1]
+    character.attacks = [1,0]
     character.learnedAttacks = character.attacks
 
     // Calculate Exp and Name (This was not fun)

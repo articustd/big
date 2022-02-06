@@ -11,6 +11,7 @@ $restText
 
 <<link "Travel" "travel">><<<<unset $restText>><</link>>
 <<link "Look in the Mirror" "mirror">><</link>>
+<<link "Change Moveset" "moveset">><<<<unset $restText>><</link>>
 <<timeAction "Rest" 8 0>>
 	<<restMacro true false>>
 <</timeAction>>
