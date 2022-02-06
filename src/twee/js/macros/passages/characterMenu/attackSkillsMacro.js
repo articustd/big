@@ -29,7 +29,7 @@ function attacksPassage() {
                     reqText += `<br>`
                 reqText += `${returnStatName(reqName)}: ${reqName==='height'?findSize(reqValue):reqValue}`
             })
-            $row.append($(`<td/>`).wiki(reqText))
+            $row.append($(`<td/>`).wiki(reqText !== ``?reqText:`None`))
 
             var $button = $(document.createElement('button')).wiki(r[2]).addClass('inactiveButton')
             if (player.skillPoints >= r[2] && checkStatReqs(r[4], player)) { // Enough Skill Points and reqs

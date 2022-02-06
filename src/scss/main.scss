@@ -111,8 +111,9 @@ img#logoImage {
 
 .CombatContainer {
     padding: 5px;
-    width: 48%;
-    float: left;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 #EnemyContainer {
@@ -145,9 +146,8 @@ img#logoImage {
 }
 
 .CombatActionHeader {
-    text-align: center;
-    width: 100%;
-    display: block;
+    justify-content: center;
+    display: flex;
     font-size: x-large;
 }
 

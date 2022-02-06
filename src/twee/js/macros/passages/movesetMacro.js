@@ -11,8 +11,6 @@ Macro.add('movesetMacro', {
             $columnOne.append(createCard(attackId))
 
         let $columnTwo = createLane('available',30)
-        $columnTwo.append(createCard(4))
-        $columnTwo.append(createCard(3))
 
         for(let attackId of player.learnedAttacks) 
             if(!player.attacks.includes(attackId))
@@ -42,15 +40,15 @@ function createCard(attackId) {
         .attr('value', attackId)
 
     let $portletHeader = $('<div/>').addClass('portlet-header').text(attack.name)
-    let $portletToggle = $("<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>")
-    $portletToggle.on("click", function () {
-        var icon = $(this);
-        icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
-        icon.closest(".portlet").find(".portlet-content").toggle();
-    });
+    // let $portletToggle = $("<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>")
+    // $portletToggle.on("click", function () {
+    //     var icon = $(this);
+    //     icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
+    //     icon.closest(".portlet").find(".portlet-content").toggle();
+    // });
     $portletHeader
         .addClass("ui-widget-header ui-corner-all")
-        .append($portletToggle);
+        // .append($portletToggle);
     $portlet.append($portletHeader)
     $portlet.append($('<div/>').addClass('portlet-content').wiki(attack.desc))
 
