@@ -1,7 +1,7 @@
-:: StoryBanner
+:: StoryBanner {"position":"250,125"}
 <img class="logo" id="logoImage" @src="setup.ImagePath+'bigCard.png'"> 
 
-:: StorySubtitle
+:: StorySubtitle {"position":"375,0"}
 $version
 
 :: StoryCaption {"position":"25,550","size":"100,100"}

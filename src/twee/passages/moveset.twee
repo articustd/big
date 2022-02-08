@@ -1,4 +1,4 @@
-:: moveset [noreturn]
+:: moveset [noreturn] {"position":"250,250"}
 <h1>Change Moveset</h1>
 <<movesetMacro>>
 /* <<button "Save" "moveset">><</button>> */

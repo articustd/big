@@ -1,4 +1,4 @@
-:: microCity
+:: microCity {"position":"250,0"}
 <h1>Micro Metroplex Downtown</h1>
 
 <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 0 2>><</timeAction>>

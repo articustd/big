@@ -1,4 +1,4 @@
-:: debugCharacter [widget] {"position":"25,275","size":"100,100"}
+:: debugCharacter [widget] {"position":"0,250"}
 <<widget "debugCharacter">>
 	<<set $player.name to "Min">>
 	<<set $player.species to "Dragon">>

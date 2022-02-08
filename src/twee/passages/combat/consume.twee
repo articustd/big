@@ -1,4 +1,4 @@
-:: consume [noreturn] 
+:: consume [noreturn] {"position":"500,250"}
 <h1>$consumeHeader</h1>
 
 $consumeText

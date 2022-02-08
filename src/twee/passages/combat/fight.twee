@@ -1,4 +1,4 @@
-:: fight [noreturn combat] {"position":"1075,25","size":"100,100"}
+:: fight [noreturn combat] {"position":"500,0"}
 <h1>Found some trouble!</h1>
 <<nobr>>
 <div style="display: flex;flex-direction: row">

@@ -1,4 +1,4 @@
-:: initStats [nobr widget] {"position":"25,25","size":"100,100"}
+:: initStats [nobr widget] {"position":"125,0"}
 <<widget "initStats">>
 	<<set $player to {
 		name: "Min",

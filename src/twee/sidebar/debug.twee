@@ -1,4 +1,4 @@
-:: debugPassage [noreturn] 
+:: debugPassage [noreturn] {"position":"375,125"}
 
 Max Health: <<textbox "$player.stats.maxHlth" $player.stats.maxHlth>>
 Health: <<textbox "$player.stats.hlth" $player.stats.hlth>>
