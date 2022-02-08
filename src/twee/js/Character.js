@@ -158,6 +158,10 @@ function calcCapacity(character) {
         character.capacity.testiMax = Math.floor((4 / 3) * Math.PI * (ballSize ** 3)) * 2
         character.capacity.testi = 0
     }
+    if (character.gender.vagina) {
+        character.capacity.wombMax = Math.ceil(character.measurements.height / character.measurements.bodyFat)
+        character.capacity.womb = 0
+    }
 }
 
 window.sizeArray = function (range) {

@@ -5,13 +5,14 @@
 $version
 
 :: StoryCaption {"position":"25,550","size":"100,100"}
-<<if def $gameStarted>>
-Health: <<healthBarMacro $player>>
-Stomach Capacity: <<capacityBarMacro $player "stomach">>
-<<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><</if>>
-Day: $time.day
+<<if def $gameStarted>>Day: $time.day
 Time: <<clockMacro>>
 Credits: $player.credits
+<br><<nobr>>
+Health: <<healthBarMacro $player>>
+Stomach Capacity: <<capacityBarMacro $player "stomach">>
+<<if def $player.capacity.womb>>Womb Capacity: <<capacityBarMacro $player "womb">><</if>>
+<<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><</if>><</nobr>>
 <</if>>
 
 :: StoryMenu {"position":"25,675","size":"100,100"}

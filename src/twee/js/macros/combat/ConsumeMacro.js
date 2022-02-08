@@ -14,8 +14,8 @@ Macro.add('consumeEnemy', {
         let consume = [
             {method:'Eat',gen: '',desc:`You shove the enemy down your gullet.`,capacity:'stomach'},
             {method:'Anal',gen: '',desc:`You shove the enemy up your hole`,capacity:'stomach'},
-            {method:'Unbirth',gen: 'vagina',desc:`You shove the enemy up your lady bits.`,capacity:'stomach'},
-            {method:'Sound',gen: 'penis',desc:`You shove the enemy in your man bits`,capacity:'balls'}
+            {method:'Unbirth',gen: 'vagina',desc:`You shove the enemy up your lady bits.`,capacity:'womb'},
+            {method:'Sound',gen: 'penis',desc:`You shove the enemy in your man bits`,capacity:'testi'}
         ]
 
         consume.forEach(function(con) {
