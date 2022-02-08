@@ -5,4 +5,3 @@
 <<link "Train" "train">><</link>>
 <<link "Store" "store">><<set $storeId to 2>><</link>>
 <<timeAction "Go Back to the Station" "travel" 2 0>><</timeAction>>
-
