@@ -1,8 +1,10 @@
 :: microCity {"position":"250,0"}
 <h1>Micro Metroplex Downtown</h1>
+You see a city scaled down for the smaller inhabitants of the area. Looking at the billboards you see products targeted towards consumers looking to reduce their stature or other endowments.
+
+<<cityMacro 0 2>>
 
 <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 0 2>><</timeAction>>
 <<link "Train" "train">><</link>>
 <<link "Store" "store">><<set $storeId to 0>><</link>>
 <<timeAction "Go Back to the Station" "travel" 2 0>><</timeAction>>
-

@@ -132,3 +132,15 @@ function calcBMI(bodyFat) {
 	bodyFat = Number(bodyFat)
 	return ((bodyFat * 100) + 5.4 + (10.8 * 1) - (0.23 * 25)) / 1.2 // ((bodyFat %)+5.4+(10.8*GENDER)-(0.23*AGE))/1.2 GENDER= MALE:1 FEMALE:0 AGE= 25
 }
+
+function sizeInRange(min, max, charSize) {
+	let response = false; 
+	sizes.forEach(function (size,idx) {
+		let sizeKey = Object.keys(size)[0]
+		if(size[sizeKey].range[0]<=charSize && size[sizeKey].range[1]>charSize)
+			if(min <= idx && max >= idx)
+				response = true
+			
+	})
+	return response
+}
