@@ -4,7 +4,7 @@ Macro.add('attackAction', {
         let playerAttacks = this.args[0];
         let $wrapper = $('<div/>').css('display','flex').css('flex-direction','column')
 
-        for (let attackId in playerAttacks) {
+        for (let attackId of playerAttacks) {
             let attack = attacks[attackId]
             let $link = $('<button/>')
             let dmgRange = calcDmgRange(attack, State.variables.player)
