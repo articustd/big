@@ -1,48 +1,38 @@
-:: fight [noreturn combat] {"position":"1075,25","size":"100,100"}
+:: fight [noreturn combat] {"position":"500,0"}
 <h1>Found some trouble!</h1>
 <<nobr>>
+<div style="display: flex;flex-direction: row">
 <div id="PlayerContainer" class="CombatContainer">$player.name
 <<healthBarMacro $player>><br>
 <div id="PlayerCombatLog" class="CombatLog">
 <<if def $playerCombatLog>><<for _log range $playerCombatLog>>
     _log <br>
 <</for>><</if>>
-</div>
-</div>
-
-<div id="EnemyContainer" class="CombatContainer">$enemy.name<br>
-<<healthBarMacro $enemy "right">><br><br>
+</div></div>
+<div id="EnemyContainer" class="CombatContainer">$enemy.name
+<<healthBarMacro $enemy "right">><br>
 <div id="EnemyCombatLog" class="CombatLog">
 <<if def $enemyCombatLog>><<for _log range $enemyCombatLog>>
     _log <br>
-<</for>><</if>>
-</div>
-</div>
-<</nobr>>
-/* Combat Actions */
-<<if $combat is true>>
+<</for>><</if>></div></div></div>
+<</nobr>>/* Combat Actions */<<if $combat is true>>
 <<nobr>>
-<div class="CombatActionContainer"><u><span class="CombatActionHeader">Attack</span></u>
-<<attackAction $attacks[0]>>
-<<attackAction $attacks[1]>></div>
-<div class="CombatActionContainer"><u><span class="CombatActionHeader">Skill</span></u>
+<div style="display: flex;flex-direction: row">
+<div class="CombatContainer"><u><span class="CombatActionHeader">Attack</span></u>
+<<attackAction $player.attacks>></div>
+<div class="CombatContainer"><u><span class="CombatActionHeader">Skill</span></u>
 /* <<attackAction $attacks[0]>><br> */</div>
-<div id="LeaveContainer" class="CombatActionContainer"><<leaveButtonMacro "Run Away!" $return>><<combatReset>><</leaveButtonMacro>></div>
-<</nobr>>
-
-<</if>>
-/* Combat Win Actions */
-<<if $win is true>>
+<div id="LeaveContainer" class="CombatContainer"><<leaveButtonMacro "Run Away!" $return>><<combatReset>><</leaveButtonMacro>></div>
+</div>
+<</nobr>><</if>>/* Combat Win Actions */<<if $win is true>>
 <<nobr>>
-<div class="CombatActionContainer"><u><span class="CombatActionHeader">Consume</span></u>
+<div style="display: flex;flex-direction: row">
+<div class="CombatContainer"><u><span class="CombatActionHeader">Consume</span></u>
 <<consumeEnemy $enemy>></div>
-<div class="CombatActionContainer"><u><span class="CombatActionHeader">Loot</span></u>
+<div class="CombatContainer"><u><span class="CombatActionHeader">Loot</span></u>
 <<for _i, _item range $foundItems>><span class="lootText"><<=_item>></span><</for>>
 </div>
-<div id="LeaveContainer" class="CombatActionContainer"><<leaveButtonMacro "Leave" $return>><<combatReset>><</leaveButtonMacro>></div>
-<</nobr>>
-<</if>>
-/* Combat Lose Actions */
-<<if $combat is false && (ndef $win || $win is false)>>
-<div id="LeaveContainer" class="CombatActionContainer" style="width:100%"><<leaveButtonMacro "Pass Out" $return>><<combatReset true>><</leaveButtonMacro>></div>
+<div id="LeaveContainer" class="CombatContainer"><<leaveButtonMacro "Leave" $return>><<combatReset>><</leaveButtonMacro>></div></div>
+<</nobr>><</if>>/* Combat Lose Actions */<<if $combat is false && (ndef $win || $win is false)>>
+<div id="LeaveContainer" class="CombatContainer" style="width:100%"><<leaveButtonMacro "Pass Out" $return>><<combatReset true>><</leaveButtonMacro>></div>
 <</if>>

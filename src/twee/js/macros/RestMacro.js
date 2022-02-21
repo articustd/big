@@ -9,17 +9,14 @@ Macro.add('restMacro', {
             if (levelUp) {
                 let leveled = false
                 Object.entries(player.exp).forEach(([stat, value]) => {
-                    if (value > 0) {
+                    if (value !== 0) {
                         let statMap = statMapping(stat)
-                        if (statMap.length == 1) {
+                        if (statMap.length == 1)
                             player[statMap[0]] += value
-                        }
-                        if (statMap.length == 2) {
-                            let mod = 1
-                            if(stat === 'fat')
-                                mod = 1000
-                            player[statMap[0]][statMap[1]] += (value * mod)
-                        }
+                        
+                        if (statMap.length == 2)
+                            player[statMap[0]][statMap[1]] += value
+                        
                         player.exp[stat] = 0
                         
                         leveled = true

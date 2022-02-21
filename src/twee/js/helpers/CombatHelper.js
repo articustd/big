@@ -112,7 +112,7 @@ function calcCombatDmg(attack, attacker, crit) {
 
 function calcDmgRange(attack, attacker) {
 	// Base Stats
-	let dmgRange = { min: Math.floor(Math.pow(attacker.stats[attack.type], attack.minMod)), max: Math.floor(Math.pow(attacker.stats[attack.type], attack.maxMod)) }
+	let dmgRange = { min: Math.floor(Math.pow(attacker.stats[attack.type], attack.minMod)), max: Math.floor(Math.pow(attacker.stats[attack.type], attack.maxMod)) } // FIXME This looks wrong, minMod shouldn't be used for the pow
 	// Status Effect
 
 	// Skill

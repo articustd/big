@@ -2,7 +2,7 @@
 Bigger is Better
 
 
-:: StoryData
+:: StoryData {"position":"0,125"}
 {
 	"ifid": "8F9B8851-BEB2-4276-8DAD-93D801E54DAC",
 	"format": "SugarCube",

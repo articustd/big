@@ -3,7 +3,7 @@ Macro.add('invMacro', {
     handler: function () {
         let inventory = State.variables.player.inv;
         
-        let $table = $('<table/>');
+        let $table = $('<table/>').addClass('inventoryTable');
         let $wrapper = $('<span/>')
         let tableData = [['Item','Stat','Modifier','Quantity']]
         inventory.forEach(function (item, idx) {
@@ -15,7 +15,7 @@ Macro.add('invMacro', {
             if (rowIndex > 0) {
                 $row.append($('<td/>').wiki(r[0].name))
                 $row.append($('<td/>').wiki(returnStatName(r[0].stat)))
-                $row.append($('<td/>').wiki(r[0].mod))
+                $row.append($('<td/>').wiki((r[0].mod % 1 == 0)?r[0].mod:r[0].mod*100))
                 $row.append($('<td/>').wiki(r[1]))
                 var $button = $(document.createElement('button')).wiki(`Use`).ariaClick(function (ev) {
                     let invText = ``
@@ -42,14 +42,13 @@ Macro.add('invMacro', {
 
         $wrapper
             .attr('id', `macro-${this.name}`)
-            .addClass('item-table')
             .append($table)
             .appendTo(this.output);
     }
 })
 
 function useItem(usedItem) {
-    if(usedItem.stat === 'hlth') { // This is a stop gap until I can put in prop health checking
+    if(usedItem.stat === 'hlth') { // HACK This is a stop gap until I can put in prop health checking... this might not be a stop gap anymore
         if(usedItem.mod + State.variables.player.stats.hlth > State.variables.player.stats.maxHlth) {
             State.variables.player.stats.hlth = State.variables.player.stats.maxHlth
             return false
@@ -98,5 +97,7 @@ function returnStatName(stat) {
             return 'Balls'
         case 'breasts':
             return 'Breasts'
+        case 'height':
+            return 'Height'
     }
 }

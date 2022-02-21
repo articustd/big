@@ -1,4 +1,4 @@
-:: home {"position":"550,425","size":"100,100"}
+:: home {"position":"375,250"}
 <h1>Home</h1>
 
 You're home. Nothing here except you, a bed, and the mirror.
@@ -11,6 +11,7 @@ $restText
 
 <<link "Travel" "travel">><<<<unset $restText>><</link>>
 <<link "Look in the Mirror" "mirror">><</link>>
+<<link "Change Moveset" "moveset">><<<<unset $restText>><</link>>
 <<timeAction "Rest" 8 0>>
 	<<restMacro true false>>
 <</timeAction>>

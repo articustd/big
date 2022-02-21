@@ -1,4 +1,4 @@
-:: welcome
+:: welcome {"position":"625,0"}
 <h1>Welcome!</h1><<startGameRoutine>>
 
 Welcome to the world! This page is still a WIP, but please proceed with the game!

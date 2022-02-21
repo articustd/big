@@ -1,4 +1,4 @@
-:: store [noreturn] {"position":"875,825","size":"100,100"}
+:: store [noreturn] {"position":"750,125"}
 <h1>$stores[$storeId].name</h1>
 
 Welcome to the $stores[$storeId].name!

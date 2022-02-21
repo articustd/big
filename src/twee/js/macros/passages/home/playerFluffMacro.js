@@ -10,12 +10,13 @@ Macro.add('playerFluffMacro', {
 
         let playerSize = lowercaseFirstLetter(findSize(player.measurements.height))
         let playerHeightText = convertToLargerUnits(player.measurements, State.variables.imperial).heightText
+        let playerWeightText = convertToLargerUnits(player.measurements, State.variables.imperial).weightText
         let playerMuscle = findMuscle(player.stats.strg)
         let playerMuscleKey = Object.keys(playerMuscle)[0]
         let playerFat = findFat(player.measurements.bodyFat)
         let playerFatKey = Object.keys(playerFat)[0]
         $general
-            .text(`Your ${playerSize} ${playerHeightText} frame is supporting ${playerMuscle[playerMuscleKey].singular} ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles and ${playerMuscle[playerMuscleKey].singular} ${lowercaseFirstLetter(playerFatKey)} amount of body fat.`)
+            .text(`Your ${playerSize} ${playerHeightText} frame is supporting ${playerMuscle[playerMuscleKey].singular} ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles and ${playerMuscle[playerMuscleKey].singular} ${lowercaseFirstLetter(playerFatKey)} amount of body fat. With your muscles and fat, your total weight comes out to ${playerWeightText}.`)
             .append('<br><br>')
 
         $upperBody

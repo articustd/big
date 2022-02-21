@@ -1,4 +1,4 @@
-:: debugPassage [noreturn] 
+:: debugPassage [noreturn] {"position":"375,125"}
 
 Max Health: <<textbox "$player.stats.maxHlth" $player.stats.maxHlth>>
 Health: <<textbox "$player.stats.hlth" $player.stats.hlth>>
@@ -18,4 +18,13 @@ Skill Points: <<textbox "$player.skillPoints" $player.skillPoints>>
 
 <<script>>console.log(convertToLargerUnits(State.variables.player.measurements, State.variables.imperial))<</script>>
 
-<<link "Return" $menuReturn>><<unset $menuReturn $skillText>><</link>>
+<<link "Return" $menuReturn>>
+<<unset $menuReturn $skillText>>
+<<set $player.gender.penis to Number($player.gender.penis)>>
+<<set $player.gender.balls to Number($player.gender.balls)>>
+<<set $player.gender.breasts to Number($player.gender.breasts)>>
+<<set $player.measurements.height to Number($player.measurements.height)>>
+<<set $player.measurements.bodyFat to Number($player.measurements.bodyFat)>>
+<<set $player.capacity.stomach to Number($player.capacity.stomach)>>
+<<set $player.capacity.balls to Number($player.capacity.balls)>>
+<</link>>

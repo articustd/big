@@ -46,6 +46,10 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
     statPoints = size[sizeKey].statBase
     calcStats(character, statMods, statPoints)
 
+    // Base Attacks
+    character.attacks = [1,0]
+    character.learnedAttacks = character.attacks
+
     // Calculate Exp and Name (This was not fun)
     if (!name) {
         character.name = `${sizeKey} ${bodyTypeKey} ${species[speciesId]}`
@@ -151,8 +155,12 @@ function calcCapacity(character) {
     character.capacity.stomach = 0
     if (character.gender.balls) {
         let ballSize = character.measurements.height * character.gender.balls
-        character.capacity.ballsMax = Math.floor((4 / 3) * Math.PI * (ballSize ** 3)) * 2
-        character.capacity.balls = 0
+        character.capacity.testiMax = Math.floor((4 / 3) * Math.PI * (ballSize ** 3)) * 2
+        character.capacity.testi = 0
+    }
+    if (character.gender.vagina) {
+        character.capacity.wombMax = Math.ceil(character.measurements.height / character.measurements.bodyFat)
+        character.capacity.womb = 0
     }
 }
 

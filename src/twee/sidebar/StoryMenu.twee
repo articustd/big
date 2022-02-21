@@ -1,17 +1,18 @@
-:: StoryBanner
+:: StoryBanner {"position":"250,125"}
 <img class="logo" id="logoImage" @src="setup.ImagePath+'bigCard.png'"> 
 
-:: StorySubtitle
+:: StorySubtitle {"position":"375,0"}
 $version
 
 :: StoryCaption {"position":"25,550","size":"100,100"}
-<<if def $gameStarted>>
-Health: <<healthBarMacro $player>>
-Stomach Capacity: <<capacityBarMacro $player "stomach">>
-<<if def $player.capacity.balls>>Testicle Capacity: <<capacityBarMacro $player "balls">><</if>>
-Day: $time.day
+<<if def $gameStarted>>Day: $time.day
 Time: <<clockMacro>>
 Credits: $player.credits
+<br><<nobr>>
+Health: <<healthBarMacro $player>>
+Stomach Capacity: <<capacityBarMacro $player "stomach">>
+<<if def $player.capacity.womb>>Womb Capacity: <<capacityBarMacro $player "womb">><</if>>
+<<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><</if>><</nobr>>
 <</if>>
 
 :: StoryMenu {"position":"25,675","size":"100,100"}

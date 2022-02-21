@@ -1,25 +1,29 @@
 Macro.add('attackAction', {
     skipArgs: false,
     handler: function () {
-        let attack = this.args[0];
-        let $wrapper = $('<span/>').css('display','block').css('text-align','center')
-        let $link = $(document.createElement('button'))
-        let dmgRange = calcDmgRange(this.args[0],State.variables.player)
-        let attackText = `${this.args[0].name } [${dmgRange.min}-${dmgRange.max}] ${calcHitChance(this.args[0],State.variables.player)}%`
+        let playerAttacks = this.args[0];
+        let $wrapper = $('<div/>').css('display','flex').css('flex-direction','column')
 
-        $link
-            .wiki(attackText)
-            .ariaClick(function (ev) {
-                combatRoll(attack);
-                Engine.play(passage(), true)
-            })
-            .css('width','90%')
-            .css('margin-bottom', '10px')
+        for (let attackId in playerAttacks) {
+            let attack = attacks[attackId]
+            let $link = $('<button/>')
+            let dmgRange = calcDmgRange(attack, State.variables.player)
+            let attackText = `${attack.name} [${dmgRange.min}-${dmgRange.max}] ${calcHitChance(attack, State.variables.player)}%`
+
+            $link
+                .wiki(attackText)
+                .ariaClick(function (ev) {
+                    combatRoll(attack);
+                    Engine.play(passage(), true)
+                })
+                .css('margin-bottom', '10px')
+                .css('flex-grow', '1')
+                // .attr('id', `macro-${this.name}-${this.args.join('').replace(/[^A-Za-z0-9]/g, '')}`)
+                .appendTo($wrapper);
+        }
+
 
         $wrapper
-            .attr('id',`macro-${this.name}-${this.args.join('').replace(/[^A-Za-z0-9]/g, '')}`)
-            .addClass('message-text')
-            .append($link)
             .appendTo(this.output);
     }
 })
