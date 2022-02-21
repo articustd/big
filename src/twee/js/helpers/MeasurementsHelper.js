@@ -33,7 +33,7 @@ function weightMeasurements(weight, imperial) {
 		m1 = 32000, m2 = 16, weight = convertToImperial(weight, true)
 	else
 		m1 = 1000000, m2 = 1000
-	
+
 	weights.push(Math.floor(weight / m1))
 	weight -= weights[0] * m1
 
@@ -133,14 +133,35 @@ function calcBMI(bodyFat) {
 	return ((bodyFat * 100) + 5.4 + (10.8 * 1) - (0.23 * 25)) / 1.2 // ((bodyFat %)+5.4+(10.8*GENDER)-(0.23*AGE))/1.2 GENDER= MALE:1 FEMALE:0 AGE= 25
 }
 
-function sizeInRange(min, max, charSize) {
-	let response = false; 
-	sizes.forEach(function (size,idx) {
+function getSizeIdx(char) {
+	let sizeIdx = 0
+	sizes.forEach(function (size, idx) {
 		let sizeKey = Object.keys(size)[0]
-		if(size[sizeKey].range[0]<=charSize && size[sizeKey].range[1]>charSize)
-			if(min <= idx && max >= idx)
+		if (size[sizeKey].range[0] <= char.measurements.height && size[sizeKey].range[1] > char.measurements.height)
+			sizeIdx = idx
+	})
+	return sizeIdx
+}
+
+function sizeInRange(min, max, charSize) {
+	let response = false;
+	sizes.forEach(function (size, idx) {
+		let sizeKey = Object.keys(size)[0]
+		if (size[sizeKey].range[0] <= charSize && size[sizeKey].range[1] > charSize)
+			if (min <= idx && max >= idx)
 				response = true
-			
+
 	})
 	return response
+}
+
+function sizeDiff(player, enemy) {
+	let sizeIdxDiff = getSizeIdx(player) - getSizeIdx(enemy)
+	logger(getSizeIdx(player))
+	logger(getSizeIdx(enemy))
+	logger(sizeIdxDiff)
+	if(sizeIdxDiff>2) sizeIdxDiff = 2
+	logger(sizeIdxDiff)
+	if(sizeIdxDiff<-2) sizeIdxDiff = -2
+	return sizeIdxDiff
 }

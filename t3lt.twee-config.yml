@@ -62,3 +62,5 @@ sugarcube-2:
       name: movesetMacro
     cityMacro:
       name: cityMacro
+    consumeMacro:
+      name: consumeMacro

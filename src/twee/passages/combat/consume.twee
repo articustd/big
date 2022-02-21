@@ -1,11 +1,3 @@
 :: consume [noreturn] {"position":"500,250"}
-<h1>$consumeHeader</h1>
-
-$consumeText
-
-<<if def $consumeExp>><<for _i range $consumeExp>>_i<br><</for>><</if>>
-<<link "Return" $return>>
-    <<unset $consumeText>>
-    <<unset $consumeExp>>
-    <<unset $consumeHeader>>
-<</link>>
+<<consumeMacro>>
+<<link "Return" $return>><<combatReset>><</link>>

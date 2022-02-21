@@ -1,7 +1,7 @@
 /* Style the tab */
 .tab {
   overflow: hidden;
-  margin-left: 11em;
+  margin-left: 12.5em;
   margin-bottom: 1em;
 }
 
@@ -32,7 +32,7 @@
 
 /* Style the tab content */
 .tabContent {
-  flex-grow: 10;
+  flex: 10;
   display: none;
   padding-left: 15px;
   // border: 1px solid #ccc;

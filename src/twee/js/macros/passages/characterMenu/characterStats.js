@@ -1,7 +1,7 @@
 function characterStats() {
     let player = State.variables.player
 
-    let $wrapper = $('<span/>')
+    let $wrapper = $('<span/>').css('flex', '3');
 
     $wrapper.wiki(`''__Base Stats__''
                     Health: $player.stats.hlth/$player.stats.maxHlth

@@ -4,6 +4,7 @@
 @import "partials/moveset";
 
 .flex-container {
+    flex-direction: row;
     display: flex;
 }
 
