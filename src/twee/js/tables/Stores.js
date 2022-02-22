@@ -29,7 +29,7 @@ let stores = [
     {
         name: "Macro Megamart",
         stock: [
-            { id: 15, qty: 10, price: 50 },
+            { id: 15, qty: 10, price: 150 },
             { id: 1, qty: 3, price: 200 },
             { id: 2, qty: 3, price: 200 },
             { id: 3, qty: 3, price: 200 },
