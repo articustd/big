@@ -1,0 +1,14 @@
+{
+    "javascript":{
+        "minify": true,
+        "transpile": true
+    },
+    "browsers": [
+        "> 1%",
+        "last 3 versions",
+        "last 10 Chrome versions",
+        "last 10 Firefox versions",
+        "IE >= 9",
+        "Opera >= 12"
+    ]
+}
