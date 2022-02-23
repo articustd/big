@@ -4,13 +4,13 @@
   "description": "Bigger is Better Twine Game",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run serve -and npm run watch:twee",
-    "serve": "webpack serve",
-    "build:twee": "./vendor/tweego --format=sugarcube-2 --output=./dist/index.html ./src/twee/",
+    "build:twee": "gulp buildTwee",
+    "build:sass": "gulp buildSass",
+    "build:dev": "gulp buildDev",
     "clean:twee": "Remove-Item ./index.html",
-    "watch:twee": "./vendor/tweego --format=sugarcube-2 --output=./dist/index.html ./src/twee/ --watch",
-    "css": "node-sass src/"
+    "clean:sass": "Remove-Item ./story/modules/main.min.css",
+    "watch:dev": "gulp watchDev"
+    
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,8 @@
   "homepage": "https://github.com/articustd/big#readme",
   "devDependencies": {
     "gulp": "^4.0.2",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.1.0",
     "sass": "^1.49.8"
   }
 }
