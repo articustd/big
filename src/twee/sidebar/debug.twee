@@ -12,7 +12,7 @@ Breasts: <<textbox "$player.gender.breasts" $player.gender.breasts>>
 Height: <<textbox "$player.measurements.height" $player.measurements.height>>
 Body Fat: <<textbox "$player.measurements.bodyFat" $player.measurements.bodyFat>>
 Current Stomach Capacity: <<textbox "$player.capacity.stomach" $player.capacity.stomach>>
-Current Balls Capacity: <<textbox "$player.capacity.balls" $player.capacity.balls>>
+Current Balls Capacity: <<textbox "$player.capacity.testi" $player.capacity.testi>>
 Credits: <<textbox "$player.credits" $player.credits>>
 Skill Points: <<textbox "$player.skillPoints" $player.skillPoints>>
 
