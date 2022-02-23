@@ -1,4 +1,4 @@
-const   { src, dest, watch, series } = require('gulp'),
+const   { src, dest, watch, series, task,  } = require('gulp'),
         sass = require('gulp-sass')(require('sass')),
         rename = require('gulp-rename'),
         { exec, spawn } = require('child_process'),
@@ -8,22 +8,20 @@ const   { src, dest, watch, series } = require('gulp'),
         options = {cwd:path.resolve('vendor'), stdio: 'inherit'},   
         args = ['--format=sugarcube-2', '--output=../dist/index.html', '../story/'];
 
-function buildTwee() {
+task(function buildTwee() {
     return spawn(command,args,options)
-}
+})
 
-function buildSass() {
+task(function buildSass() {
     return src('src/sass/**/*.scss')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(rename('main.min.css'))
-        .pipe(dest('story/modules'));
-}
+        .pipe(dest('story/modules'))
+})
 
-exports.buildTwee = buildTwee
-exports.buildSass = buildSass
-exports.buildDev = series(buildSass, buildTwee)
-exports.watchDev = function() {
-    watch('src/sass',{ignoreInitial: false},buildSass)
-    watch('story',buildTwee)
-}
-exports.default = this.watchDev
+task(function watchDev() {
+    watch('src/sass',{ignoreInitial: false}, task('buildSass'))
+    watch('story', task('buildTwee'))
+})
+
+task('default', task('watchDev'))
