@@ -13,29 +13,27 @@ Macro.add('restMacro', {
                         let statMap = statMapping(stat)
                         if (statMap.length == 1)
                             player[statMap[0]] += value
-                        
+
                         if (statMap.length == 2)
                             player[statMap[0]][statMap[1]] += value
-                        
+
                         player.exp[stat] = 0
-                        
+
                         leveled = true
                     }
                 });
-                if(leveled) {
-                    State.variables.restText = "You feel the effects of your experience" 
-                    
+                if (leveled) {
+                    State.variables.restText = "You feel the effects of your experience"
+
                 }
-                else 
+                else
                     State.variables.restText = `You feel rested and rejuvenated!`
             }
             player.stats.maxHlth = getMaxHealth(player)
-            
+
             player.stats.hlth = player.stats.maxHlth;
-            calcCapacity(player)
-            // player.capacity.stomach = 0
-            // if(player.capacity.balls)
-            //     player.capacity.balls = 0
+            capacityChange(player)
+            
             advanceTime(true)
         }
     }
@@ -55,5 +53,14 @@ function statMapping(stat) {
             return ['stats', 'acc']
         case 'agility':
             return ['stats', 'dex']
+    }
+}
+
+function capacityChange(player) {
+    for (let cap in player.capacity) {
+        if (!cap.contains("Max") && player.capacity[cap] > 0) {
+            player.capacity[`${cap}Max`] += Math.min(Math.ceil(player.capacity[cap]), player.capacity[`${cap}Max`]) / 4
+            player.capacity[cap] = 0
+        }
     }
 }

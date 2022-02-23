@@ -10,7 +10,7 @@ let items = [
     {name: "Tub of Grease", mod: 0.01, type: "exp", stat: "fat"},
     {name: "Vitamins", mod: 1, type: "stats", stat: "con"},
     {name: "Blue Pill", mod: 0.02, type: "gender", stat: "penis"}, // 5
-    {name: "Magnisium Pills", mod: 0.01, type: "gender", stat: "balls"},
+    {name: "Magnesium Pills", mod: 0.01, type: "gender", stat: "balls"},
     {name: "Injection", mod: 0.01, type: "gender", stat: "breasts"},
     {name: "Health Potion", mod: 15, type: "stats", stat: "hlth"},
     {name: "Muscle Reducer", mod: -3, type: "exp", stat: "muscle"},
