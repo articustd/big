@@ -1,4 +1,4 @@
-twee_dir=src/twee
+twee_dir=story/twee
 config_dir=src/configs
 
 prod:

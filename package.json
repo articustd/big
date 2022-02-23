@@ -25,18 +25,8 @@
     "url": "https://github.com/articustd/big/issues"
   },
   "homepage": "https://github.com/articustd/big#readme",
-  "dependencies": {
-    "node-sass": "^7.0.1",
-    "sugarcube-yaml-properties": "^0.1.0"
-  },
   "devDependencies": {
-    "@babel/core": "^7.16.5",
-    "@babel/preset-env": "^7.16.5",
-    "@babel/runtime": "^7.16.5",
-    "babel-loader": "^8.2.3",
-    "raw-loader": "^4.0.2",
-    "webpack": "^5.65.0",
-    "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.7.1"
+    "gulp": "^4.0.2",
+    "sass": "^1.49.8"
   }
 }
