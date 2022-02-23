@@ -156,12 +156,19 @@ function sizeInRange(min, max, charSize) {
 }
 
 function sizeDiff(player, enemy) {
-	let sizeIdxDiff = getSizeIdx(player) - getSizeIdx(enemy)
-	logger(getSizeIdx(player))
-	logger(getSizeIdx(enemy))
-	logger(sizeIdxDiff)
-	if(sizeIdxDiff>2) sizeIdxDiff = 2
-	logger(sizeIdxDiff)
-	if(sizeIdxDiff<-2) sizeIdxDiff = -2
-	return sizeIdxDiff
+	let sizeDiff = (player.measurements.height-enemy.measurements.height)/player.measurements.height
+	sizeDiff = isNaN(sizeDiff)?0:sizeDiff
+
+	if(sizeDiff>=0.6)
+		return 2
+	if(sizeDiff>=0.18)
+		return 1
+	if(sizeDiff>=0)
+		return 0
+	if(sizeDiff<=-0.6)
+		return -2
+	if(sizeDiff<0)
+		return -1
+
+	return sizeId
 }
