@@ -90,3 +90,5 @@ let ballSize = [
     {"Yoga ball": {range:[0.30,0.40]}},
     {"Wrecking ball": {range:[0.40]}},
 ]
+
+export {sizes, bodyTypes, muscleAmount, fatAmount, breastSize, penisSize, ballSize}

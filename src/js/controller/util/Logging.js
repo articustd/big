@@ -1,4 +1,4 @@
 function logger(message) {
-    if(logging)
+    if(Config.logging)
         console.log(message)
 }

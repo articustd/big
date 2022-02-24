@@ -1,4 +1,8 @@
-State.variables.version = `v0.6.1`
+import storyConfig from '@js/config.json'
+import { items, loot } from '@js/data'
+
+State.variables.version = `v0.6.1`;
+setup.ImagePath = "assets/";
 
 /* Passage Tag Triggers */
 $(document).on(':passagestart', function (ev) {
@@ -7,19 +11,19 @@ $(document).on(':passagestart', function (ev) {
 });
 
 // Refresh Combat Log Scroll
-$(document).on(":passagedisplay", function(ev) {
+$(document).on(":passagedisplay", function (ev) {
 	let syncPlayerScroll = false;
 	let syncEnemyScroll = false;
 	$("#PlayerCombatLog").scrollTop($(document).height());
 	$("#PlayerCombatLog").on("scroll", function () {
-		if(!syncPlayerScroll) {
+		if (!syncPlayerScroll) {
 			syncEnemyScroll = true
 			$("#EnemyCombatLog").scrollTop($(this).scrollTop())
 		}
 		syncPlayerScroll = false
 	})
 	$("#EnemyCombatLog").on("scroll", function () {
-		if(!syncEnemyScroll) {
+		if (!syncEnemyScroll) {
 			syncPlayerScroll = true
 			$("#PlayerCombatLog").scrollTop($(this).scrollTop())
 		}
@@ -28,6 +32,8 @@ $(document).on(":passagedisplay", function(ev) {
 })
 
 $(document).one(':storyready', function (ev) {
+	Config = {...Config, ...storyConfig};
+
 	State.variables.items = items;
 	State.variables.loot = loot;
 	State.variables.stores = cloneObj(stores);

@@ -1,37 +1,18 @@
 const   { src, dest, watch, series, task } = require('gulp'),
         sass = require('gulp-sass')(require('sass')),
         rename = require('gulp-rename'),
-        babel = require('gulp-babel'),
         noop = require('gulp-noop'),
-        uglify = require('gulp-uglify'),
-        concat = require('gulp-concat'),
-        { exec, spawn } = require('child_process'),
+        file = require('gulp-file'),
+        webpack = require('webpack-stream'),
+        compiler = require('webpack'),
+        { spawn } = require('child_process'),
         { platform } = require('os'),
         path = require('path'),
-        babelConfig = require('./src/babel_config.json'),
         command = `tweego${(platform() == 'win32')?'.exe':''}`, 
         options = {cwd:path.resolve('vendor'), stdio: 'inherit'},   
         args = ['--format=sugarcube-2', '--output=../dist/index.html', '../story/'];
 
-task(function transpileJS() {
-    return src('src/js/**/*.js')
-        .pipe(concat('story.min.js'))
-        .pipe(babelConfig.javascript.transpile ? babel({
-            presets : [
-                ['@babel/preset-env', {
-                    targets: babelConfig.browsers
-                }]
-            ]
-        }) : noop())
-        .pipe(babelConfig.javascript.minify ? 
-            uglify().on('error', (e) => {console.log(e)}) : noop())
-        .pipe(dest('story/modules'))
-})
-
-task(function buildTwee() {
-    return spawn(command,args,options)
-})
-
+// Compile SASS into working CSS
 task(function buildSass() {
     return src('src/sass/**/*.scss')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
@@ -39,12 +20,42 @@ task(function buildSass() {
         .pipe(dest('story/modules'))
 })
 
+// Bundle JS into story dir
+task(function bundle() {
+    return src('src/js/index.js')
+        .pipe(webpack(require('./webpack.config.js'),compiler,function(err, stats){}))
+        .pipe(rename('story.bundle.js'))
+        .pipe(dest('story/modules'))
+})
+
+// Build with Tweego
+task(function buildTwee() {
+    return spawn(command,args,options)
+})
+
+// Configure Environments
+task(function configDev() {
+    let config = '{"history": true, "debug": true, "logging": true }'
+    return writeConfig(config)
+})
+
+task(function configProd() {
+    let config = '{"history": false, "debug": false, "logging": false }'
+    return writeConfig(config)
+})
+
+function writeConfig(config) {
+    return src('src/**.js')
+        .pipe(file('config.json', config))
+        .pipe(dest('src/js'))
+}
+
+// Watch Tasks
 task(function watching() {
-    watch('src/js', task('transpileJS'))
+    watch('src/js', task('bundle'))
     watch('src/sass', task('buildSass'))
     watch('story',{ignoreInitial:false}, task('buildTwee'))
 })
 
-task('watchDev', series('transpileJS','buildSass','watching'))
-
+task('watchDev', series('bundle','buildSass','watching'))
 task('default', task('watchDev'))

@@ -5,3 +5,5 @@ let speciesDesc = {
 
     }
 }
+
+export {species, speciesDesc}

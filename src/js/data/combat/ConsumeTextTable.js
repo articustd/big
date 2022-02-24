@@ -58,3 +58,5 @@ let muchLargerText = {
     Unbirth: ``,
     Sound: ``
 }
+
+export { muchSmallerText, smallerText, sameText, largerText, muchLargerText }
