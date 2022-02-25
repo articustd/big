@@ -10,7 +10,7 @@ const   { src, dest, watch, series, task } = require('gulp'),
         path = require('path'),
         browserSync = require('browser-sync').create(),
         command = `tweego${(platform() == 'win32')?'.exe':''}`, 
-        options = {cwd:path.resolve('vendor'), stdio: 'inherit'},   
+        options = {cwd:path.resolve(__dirname,'vendor'), stdio: 'inherit'},   
         args = ['--format=sugarcube-2', '--output=../dist/index.html', '../story/'];
 
 // Compile SASS into working CSS
