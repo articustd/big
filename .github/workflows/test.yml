@@ -25,6 +25,8 @@ jobs:
       - name: Build Game HTML
         run: |
           chmod +x vendor/tweego
+          pwd
+          ls
           npm run build
 
       - name: Deploy to Pages
