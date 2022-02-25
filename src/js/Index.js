@@ -12,7 +12,6 @@ setup.ImagePath = "assets/";
 ((Config, State, Story, Engine, Dialog, $document) => {
 	// Set State Variables
 	variables().version = `v0.6.1`
-	logger(storyConfig.debug)
 	variables().items = items.items
 	variables().loot = loot;
 	variables().stores = cloneObj(stores.stores);

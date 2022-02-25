@@ -8,6 +8,7 @@ const   { src, dest, watch, series, task } = require('gulp'),
         { spawn } = require('child_process'),
         { platform } = require('os'),
         path = require('path'),
+        browserSync = require('browser-sync').create(),
         command = `tweego${(platform() == 'win32')?'.exe':''}`, 
         options = {cwd:path.resolve('vendor'), stdio: 'inherit'},   
         args = ['--format=sugarcube-2', '--output=../dist/index.html', '../story/'];
@@ -50,12 +51,25 @@ function writeConfig(config) {
         .pipe(dest('src/js'))
 }
 
+function serve(cb) {
+    browserSync.init({
+        server: "./dist",
+        port: 8080,
+        host: "localhost"
+    }, cb)
+}
+
+function reload(cb) {
+    browserSync.reload()
+    cb()
+}
+
 // Watch Tasks
 task(function watching() {
     watch('src/js', task('bundle'))
     watch('src/sass', task('buildSass'))
-    watch('story',{ignoreInitial:false}, task('buildTwee'))
+    watch('story', series('buildTwee',reload))
 })
 
-task('watchDev', series('bundle','buildSass','watching'))
+task('watchDev', series('bundle','buildSass', 'buildTwee', serve, 'watching'))
 task('default', task('watchDev'))
