@@ -124,7 +124,7 @@ export function findBallSize(character) {
 	return ``
 }
 
-function calcWeight(measurement) {
+export function calcWeight(measurement) {
 	let hSrqd = (measurement.height / 100) ** 2
 	let bmi = calcBMI(measurement.bodyFat)
 	logger(`Height Squared: ${hSrqd}`)
@@ -160,7 +160,7 @@ export function sizeInRange(min, max, charSize) {
 	return response
 }
 
-function sizeDiff(player, enemy) {
+export function sizeDiff(player, enemy) {
 	let sizeDiff = (player.measurements.height - enemy.measurements.height) / player.measurements.height
 	sizeDiff = isNaN(sizeDiff) ? 0 : sizeDiff
 

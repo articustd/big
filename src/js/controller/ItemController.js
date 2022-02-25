@@ -1,5 +1,5 @@
 /* Item Logic */
-function rollItems(enemyLoot, credits) {
+export function rollItems(enemyLoot, credits) {
 	var text = []
 	enemyLoot.forEach(function (item) {
 		if (itemChance(item.chnc)) {
@@ -19,7 +19,7 @@ function itemChance(chance) {
 	return false
 }
 
-function addToInventory(lootItem) {
+export function addToInventory(lootItem) {
 	var found = -1
 	let qty = random(1,lootItem.qty)
 	State.variables.player.inv.forEach(function (item, idx) {
@@ -35,14 +35,14 @@ function addToInventory(lootItem) {
 }
 
 function addCredits(credits) {
-	State.variables.player.credits += credits
+	variables().player.credits += credits
 	return credits
 }
 
-function getItemInfoByIndex(index) {
-	return State.variables.items[index]
+export function getItemInfoByIndex(index) {
+	return variables().items[index]
 }
 
-function decreaseCredits(amt) {
-	State.variables.player.credits -= amt;
+export function decreaseCredits(amt) {
+	variables().player.credits -= amt;
 }

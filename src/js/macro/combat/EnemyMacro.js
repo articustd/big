@@ -1,3 +1,7 @@
+import { genChar, statPoints } from "@controller/character/CharacterController"
+import { calcWeight } from "@controller/character/MeasurementController";
+import { species } from "@js/data";
+
 Macro.add('enemyMacro', {
     skipArgs: false,
     handler: function () {

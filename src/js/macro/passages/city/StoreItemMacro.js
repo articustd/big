@@ -1,3 +1,6 @@
+import { addToInventory, decreaseCredits, getItemInfoByIndex } from "@controller/ItemController";
+import { logger } from "@util/Logging"
+
 Macro.add('storeItem', {
     skipArgs: false,
     handler: function () {
@@ -7,7 +10,6 @@ Macro.add('storeItem', {
         //     if (this.args.length < 2) { errors.push('Var 2 Missing') }
         //     return this.error(`${errors[0]}  ${errors.length == 2 ? "and " + errors[1] : ""}`)
         // }
-
         var storeStock = this.args[0].stock;
         
         let $table = $('<table/>').addClass('storeTable');

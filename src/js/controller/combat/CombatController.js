@@ -1,8 +1,10 @@
+import { rollItems } from "@controller/ItemController";
+
 var maxHitPer = 85;
 var minDmgMult = 60;
 
 /* Combat calculations */
-function combatRoll(playerAttack) {
+export function combatRoll(playerAttack) {
 	// Pull in player & enemy into local vars for easy access
 	let enemy = State.variables.enemy
 	let player = State.variables.player
@@ -89,7 +91,7 @@ function calcCombatHit(attack, attacker) {
 	return { hit: false, crit: false }
 }
 
-function calcHitChance(attack, attacker) {
+export function calcHitChance(attack, attacker) {
 	// Base Stats
 	let hitMod = attacker.stats.acc;
 
@@ -110,7 +112,7 @@ function calcCombatDmg(attack, attacker, crit) {
 	return random(dmg.min, dmg.max)
 }
 
-function calcDmgRange(attack, attacker) {
+export function calcDmgRange(attack, attacker) {
 	// Base Stats
 	let dmgRange = { min: Math.floor(Math.pow(attacker.stats[attack.type], attack.minMod)), max: Math.floor(Math.pow(attacker.stats[attack.type], attack.maxMod)) } // FIXME This looks wrong, minMod shouldn't be used for the pow
 	// Status Effect

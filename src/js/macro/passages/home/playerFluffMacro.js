@@ -47,7 +47,7 @@ Macro.add('playerFluffMacro', {
     }
 })
 
-function lowercaseFirstLetter(string) {
+export function lowercaseFirstLetter(string) {
     return string.charAt(0).toLowerCase() + string.slice(1);
 }
 

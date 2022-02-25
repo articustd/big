@@ -166,7 +166,7 @@ function calcCapacity(character) {
     }
 }
 
-function statPoints(player) {
+export function statPoints(player) {
     return (player.stats.strg + player.stats.con + player.stats.dex + player.stats.acc) / 4
 }
 

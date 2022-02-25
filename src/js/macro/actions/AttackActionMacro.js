@@ -1,3 +1,6 @@
+import { calcDmgRange, calcHitChance, combatRoll } from "@controller/combat/CombatController";
+import { attacks } from "@js/data"
+
 Macro.add('attackAction', {
     skipArgs: false,
     handler: function () {
@@ -5,7 +8,7 @@ Macro.add('attackAction', {
         let $wrapper = $('<div/>').css('display','flex').css('flex-direction','column')
 
         for (let attackId of playerAttacks) {
-            let attack = attacks[attackId]
+            let attack = attacks.attacks[attackId]
             let $link = $('<button/>')
             let dmgRange = calcDmgRange(attack, State.variables.player)
             let attackText = `${attack.name} [${dmgRange.min}-${dmgRange.max}] ${calcHitChance(attack, State.variables.player)}%`

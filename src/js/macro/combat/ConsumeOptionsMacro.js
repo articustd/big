@@ -1,3 +1,6 @@
+import { logger } from "@util/Logging"
+import { calcWeight, sizeDiff } from "@controller/character/MeasurementController"
+
 Macro.add('consumeEnemy', {
     skipArgs: false,
     handler: function () {
@@ -18,7 +21,7 @@ Macro.add('consumeEnemy', {
                     $('<button/>')
                         .wiki(con.method)
                         .ariaClick(function (ev) {
-                            let consumeObj = { consume: con, points: calcConsume(prey), sDiff: sizeDiff(player,prey) }
+                            let consumeObj = { consume: con, points: calcConsume(prey), sDiff: sizeDiff(player, prey) }
 
                             // This needs to be here to prevent players from repeatedly getting exp by refreshing
                             addPoints(consumeObj.points, player)
@@ -27,7 +30,7 @@ Macro.add('consumeEnemy', {
 
                             Engine.play("consume")
                         })
-                        .css({'width': '90%','margin-bottom':'10px'})
+                        .css({ 'width': '90%', 'margin-bottom': '10px' })
                 )
             }
         })
@@ -43,9 +46,9 @@ function calcConsume(prey) {
     let response = {};
     for (let points in prey.exp) {
         let point = randPoints(prey.exp[points])
-        if(point > 0)response[points] = point
+        if (point > 0) response[points] = point
     }
-        
+
     return response;
 }
 

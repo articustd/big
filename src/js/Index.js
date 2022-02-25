@@ -4,6 +4,7 @@ import * as macros from '@js/macro'
 import { sizeArray } from '@controller/character/MeasurementController'
 import { genderArray } from '@js/controller/character/GenderController'
 import { pronounArray } from '@js/controller/character/PronounController'
+import { logger } from '@util/Logging'
 
 Config = { ...Config, ...storyConfig };
 setup.ImagePath = "assets/";
@@ -11,10 +12,10 @@ setup.ImagePath = "assets/";
 ((Config, State, Story, Engine, Dialog, $document) => {
 	// Set State Variables
 	variables().version = `v0.6.1`
-
-	variables().items = items
+	logger(storyConfig.debug)
+	variables().items = items.items
 	variables().loot = loot;
-	variables().stores = cloneObj(stores);
+	variables().stores = cloneObj(stores.stores);
 	variables().species = species;
 	variables().sizes = sizeArray();
 	variables().bodyTypes = measurements.bodyTypes;
@@ -24,7 +25,7 @@ setup.ImagePath = "assets/";
 	variables().skills = skills;
 	variables().pronouns = pronounArray()
 	variables().twelveHour = false
-
+	variables().debug = storyConfig.debug
 	// Register custom SugarCube macros
 	// registerAlert(Macro, Dialog);
 

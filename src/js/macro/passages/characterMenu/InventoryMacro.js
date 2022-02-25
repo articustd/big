@@ -1,3 +1,6 @@
+import { returnStatName } from "@controller/character/CharacterController";
+import { getItemInfoByIndex } from "@controller/ItemController"
+
 Macro.add('invMacro', {
     skipArgs: false,
     handler: function () {

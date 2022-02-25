@@ -28,8 +28,8 @@ function returnTime(twelveHour) {
     return `${State.variables.time.hour}:${State.variables.time.min>9?State.variables.time.min:'0'+State.variables.time.min}`
 }
 
-function advanceTime(advTime) {
-    State.temporary.advanceTime = advTime
+export function advanceTime(advTime) {
+    temporary().advanceTime = advTime
 }
 
 function restockStore(day) {

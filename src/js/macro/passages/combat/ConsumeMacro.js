@@ -1,3 +1,8 @@
+import { returnStatName } from "@controller/character/CharacterController"
+import { findSize } from "@controller/character/MeasurementController"
+import { largerText, muchLargerText, muchSmallerText, sameText, smallerText } from "@js/data/combat/ConsumeTextTable"
+import { lowercaseFirstLetter } from "../home/playerFluffMacro"
+
 Macro.add('consumeMacro', {
     skipArgs: false,
     handler: function () {
