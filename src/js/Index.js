@@ -4,7 +4,6 @@ import * as macros from '@js/macro'
 import { sizeArray } from '@controller/character/MeasurementController'
 import { genderArray } from '@js/controller/character/GenderController'
 import { pronounArray } from '@js/controller/character/PronounController'
-import { logger } from '@util/Logging'
 
 Config = { ...Config, ...storyConfig };
 setup.ImagePath = "assets/";

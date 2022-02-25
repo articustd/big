@@ -4,11 +4,15 @@
   "description": "Bigger is Better Twine Game",
   "main": "index.js",
   "scripts": {
+    "build": "gulp build",
+    "build:bundle": "gulp bundle",
     "build:twee": "gulp buildTwee",
     "build:sass": "gulp buildSass",
-    "build:dev": "gulp buildDev",
+    "config:dev": "gulp configDev",
+    "config:prod": "gulp configProd",
     "clean:twee": "Remove-Item ./index.html",
     "clean:sass": "Remove-Item ./story/modules/main.min.css",
+    "clean:bundle": "Remove-Item ./story/modules/story.bundle.js",
     "watch:dev": "gulp watchDev",
     "webpack": "webpack"
   },
