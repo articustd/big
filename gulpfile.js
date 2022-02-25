@@ -71,9 +71,7 @@ task(function watching() {
     watch('story', series('buildTwee',reload))
 })
 
-task(function build(){
-    series('bundle','buildSass','buildTwee')
-})
+task('build', series('bundle','buildSass','buildTwee'))
 
 task('watchDev', series('bundle','buildSass', 'buildTwee', serve, 'watching'))
 task('default', task('watchDev'))
