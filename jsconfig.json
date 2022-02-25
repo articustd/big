@@ -6,6 +6,8 @@
         "allowSyntheticDefaultImports": true,
         "baseUrl": "./",
         "paths": {
+            "@util/*": ["src/js/controller/util/*"],
+            "@controller/*": ["src/js/controller/*"],
             "@js/*": ["src/js/*"]
         }
     },

@@ -1,53 +1,66 @@
-import storyConfig from '@js/config.json'
-import { items, loot } from '@js/data'
+import storyConfig from './config.json'
+import { items, loot, stores, species, measurements, attacks, skills } from '@js/data'
+import * as macros from '@js/macro'
+import { sizeArray } from '@controller/character/MeasurementController'
+import { genderArray } from '@js/controller/character/GenderController'
+import { pronounArray } from '@js/controller/character/PronounController'
 
-State.variables.version = `v0.6.1`;
+Config = { ...Config, ...storyConfig };
 setup.ImagePath = "assets/";
 
-/* Passage Tag Triggers */
-$(document).on(':passagestart', function (ev) {
-	if (!ev.passage.tags.includes('noreturn'))
-		State.variables.return = ev.passage.title;
-});
+((Config, State, Story, Engine, Dialog, $document) => {
+	// Set State Variables
+	variables().version = `v0.6.1`
 
-// Refresh Combat Log Scroll
-$(document).on(":passagedisplay", function (ev) {
-	let syncPlayerScroll = false;
-	let syncEnemyScroll = false;
-	$("#PlayerCombatLog").scrollTop($(document).height());
-	$("#PlayerCombatLog").on("scroll", function () {
-		if (!syncPlayerScroll) {
-			syncEnemyScroll = true
-			$("#EnemyCombatLog").scrollTop($(this).scrollTop())
-		}
-		syncPlayerScroll = false
+	variables().items = items
+	variables().loot = loot;
+	variables().stores = cloneObj(stores);
+	variables().species = species;
+	variables().sizes = sizeArray();
+	variables().bodyTypes = measurements.bodyTypes;
+	variables().genders = genderArray();
+	variables().time = { day: 1, hour: 0, min: 0 }
+	variables().attacks = attacks;
+	variables().skills = skills;
+	variables().pronouns = pronounArray()
+	variables().twelveHour = false
+
+	// Register custom SugarCube macros
+	// registerAlert(Macro, Dialog);
+
+	// Register plugin modules
+	// registerTitleMatchProperties({ State, Story, $document });
+
+	// Register components
+	// registerHeader($document);
+
+	// Setup noreturn
+	$document.on(':passagestart', function (ev) {
+		if (!ev.passage.tags.includes('noreturn'))
+			State.variables.return = ev.passage.title;
+	});
+
+	// Setup CombatLog scrolling
+	$document.on(":passagedisplay", function (ev) {
+		let syncPlayerScroll = false;
+		let syncEnemyScroll = false;
+		$("#PlayerCombatLog").scrollTop($(document).height());
+		$("#PlayerCombatLog").on("scroll", function () {
+			if (!syncPlayerScroll) {
+				syncEnemyScroll = true
+				$("#EnemyCombatLog").scrollTop($(this).scrollTop())
+			}
+			syncPlayerScroll = false
+		})
+		$("#EnemyCombatLog").on("scroll", function () {
+			if (!syncEnemyScroll) {
+				syncPlayerScroll = true
+				$("#PlayerCombatLog").scrollTop($(this).scrollTop())
+			}
+			syncEnemyScroll = false
+		})
 	})
-	$("#EnemyCombatLog").on("scroll", function () {
-		if (!syncEnemyScroll) {
-			syncPlayerScroll = true
-			$("#PlayerCombatLog").scrollTop($(this).scrollTop())
-		}
-		syncEnemyScroll = false
-	})
-})
-
-$(document).one(':storyready', function (ev) {
-	Config = {...Config, ...storyConfig};
-
-	State.variables.items = items;
-	State.variables.loot = loot;
-	State.variables.stores = cloneObj(stores);
-	State.variables.species = species;
-	State.variables.sizes = sizeArray();
-	State.variables.bodyTypes = bodyTypes;
-	State.variables.genders = genderArray();
-	State.variables.time = { day: 1, hour: 0, min: 0 }
-	State.variables.attacks = attacks;
-	State.variables.skills = skills;
-	State.variables.pronouns = pronounArray()
-	State.variables.twelveHour = false
-	State.variables.debug = Config.debug
-});
+})(Config, State, Story, Engine, Dialog, $(document));
 
 function cloneObj(obj) {
 	return Object.assign({}, obj)

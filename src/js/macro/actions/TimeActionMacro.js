@@ -1,3 +1,5 @@
+import { incrementTime } from "@controller/TimeController"
+
 Macro.add('timeAction', {
     skipArgs: false,
     tags: null,

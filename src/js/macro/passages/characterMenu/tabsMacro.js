@@ -1,7 +1,11 @@
+import { attacksPassage } from './attackSkillsMacro'
+import { characterStats } from './characterStats'
+import { skillPassage } from './skillPassage'
+
 Macro.add('tabMacro', {
     skipArgs: false,
     handler: function () {
-        $('#passages:has(#passage-character)').css('max-width','60em')
+        $('#passages:has(#passage-character)').css('max-width', '60em')
         let $wrapper = $('<div/>')
         let $contentWrapper = $('<div/>').addClass('flex-container')
         let $tabs = $('<div/>').addClass('tab')

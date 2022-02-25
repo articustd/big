@@ -1,3 +1,6 @@
+import { findSize, findMuscle, findFat, findBreastSize, findBallSize, findPenisSize, convertToLargerUnits } from '@controller/character/MeasurementController'
+import { logger } from '@util/Logging'
+
 Macro.add('playerFluffMacro', {
     skipArgs: false,
     handler: function () {
@@ -9,8 +12,8 @@ Macro.add('playerFluffMacro', {
         let $allAround = $('<span/>')
 
         let playerSize = lowercaseFirstLetter(findSize(player.measurements.height))
-        let playerHeightText = convertToLargerUnits(player.measurements, State.variables.imperial).heightText
-        let playerWeightText = convertToLargerUnits(player.measurements, State.variables.imperial).weightText
+        let playerHeightText = convertToLargerUnits(player.measurements, variables().imperial).heightText
+        let playerWeightText = convertToLargerUnits(player.measurements, variables().imperial).weightText
         let playerMuscle = findMuscle(player.stats.strg)
         let playerMuscleKey = Object.keys(playerMuscle)[0]
         let playerFat = findFat(player.measurements.bodyFat)
@@ -23,7 +26,7 @@ Macro.add('playerFluffMacro', {
             .text(`Your chest sports ${getBreastText(player)}${playerMuscle[playerMuscleKey].pecs} pectoral muscles. 
                     Looking at your arms, ${playerMuscle[playerMuscleKey].arms}. 
                     With your ${lowercaseFirstLetter(playerMuscleKey)} amount of muscles, your arms ${playerMuscle[playerMuscleKey].armsSecond}. 
-                    Looking down at your stomach ${checkAbs(playerFat[playerFatKey],playerFatKey,playerMuscle[playerMuscleKey],playerMuscleKey)}.`)
+                    Looking down at your stomach ${checkAbs(playerFat[playerFatKey], playerFatKey, playerMuscle[playerMuscleKey], playerMuscleKey)}.`)
             .append('<br><br>')
 
         // logger(playerMuscle)
@@ -75,10 +78,10 @@ function collectGenitals(character) {
     return `${penis ? penis : ''}${balls ? balls : ''}${vagina ? vagina : ''}`
 }
 
-function checkAbs(fat,fatKey,muscle,muscleKey) {
-    if(fat.showAbs)
+function checkAbs(fat, fatKey, muscle, muscleKey) {
+    if (fat.showAbs)
         return `${fat.stomach} ${muscle.abs}`
-    if(!fat.showAbs && muscle.muscleGut)
+    if (!fat.showAbs && muscle.muscleGut)
         return `you see a ${lowercaseFirstLetter(fatKey)} muscle gut`
     return `${fat.stomach}`
 }

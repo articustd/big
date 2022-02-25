@@ -1,6 +1,6 @@
 import { genders } from '@js/data'
 
-function genderArray() {
+export function genderArray() {
     let genderArr = []
     genders.forEach(function (gender) {
         genderArr.push(Object.keys(gender)[0])

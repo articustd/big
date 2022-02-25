@@ -1,3 +1,7 @@
+import { logger } from "../util/Logging"
+import { measurements } from '@js/data'
+import { sizes } from "@js/data/character/MeasurementTable"
+
 /* Measurment Converts */
 function convertToImperial(entity, weight) {
 	if (weight)
@@ -5,18 +9,18 @@ function convertToImperial(entity, weight) {
 	return Math.floor(entity / 2.54) //1IN in 2.54 CM
 }
 
-window.convertToLargerUnits = function (measurements, imperial) {
+export function convertToLargerUnits(measurement, imperial) {
 	let heightText = ''
 	let weightText = ''
 
-	let height = measurements.height
+	let height = measurement.height
 	height = heightMeasurements(height, imperial)
 	if (!imperial)
 		heightText += `${height[0] > 0 ? height[0] + 'km ' : ''}${height[1] > 0 ? height[1] + "m " : ''}${height[2]}cm`
 	else
 		heightText += `${height[0] > 0 ? height[0] + 'mi ' : ''}${height[1] > 0 ? height[1] + "' " : ''}${height[2]}"`
 
-	let weight = weightMeasurements(calcWeight(measurements), imperial)
+	let weight = weightMeasurements(calcWeight(measurement), imperial)
 	if (!imperial)
 		weightText += `${weight[0] > 0 ? weight[0] + 't ' : ''}${weight[1] > 0 ? weight[1] + "kg " : ''}${weight[2]}g`
 	else
@@ -24,6 +28,7 @@ window.convertToLargerUnits = function (measurements, imperial) {
 
 	return { heightText, weightText }
 }
+window.convertToLargerUnits = convertToLargerUnits
 
 function weightMeasurements(weight, imperial) {
 	let weights = [];
@@ -65,33 +70,33 @@ function heightMeasurements(height, imperial) {
 	return heights
 }
 
-function findSize(height) {
-	for (let size of sizes) {
+export function findSize(height) {
+	for (let size of measurements.sizes) {
 		let sizeKey = Object.keys(size)[0]
 		if (height >= size[sizeKey].range[0] && (size[sizeKey].range.length == 1 || height < size[sizeKey].range[1]))
 			return sizeKey
 	}
 }
 
-function findMuscle(muscle) {
-	for (let ma of muscleAmount) {
+export function findMuscle(muscle) {
+	for (let ma of measurements.muscleAmount) {
 		let maKey = Object.keys(ma)[0]
 		if (muscle >= ma[maKey].range[0] && (ma[maKey].range.length == 1 || muscle < ma[maKey].range[1]))
 			return ma
 	}
 }
 
-function findFat(bodyFat) {
-	for (let fa of fatAmount) {
+export function findFat(bodyFat) {
+	for (let fa of measurements.fatAmount) {
 		let faKey = Object.keys(fa)[0]
 		if (bodyFat >= fa[faKey].range[0] && (fa[faKey].range.length == 1 || bodyFat < fa[faKey].range[1]))
 			return fa
 	}
 }
 
-function findBreastSize(character) {
+export function findBreastSize(character) {
 	let ratio = character.gender.breasts // / character.measurements.height
-	for (let breast of breastSize) {
+	for (let breast of measurements.breastSize) {
 		let breastKey = Object.keys(breast)[0]
 		if (ratio >= breast[breastKey].range[0] && (breast[breastKey].range.length == 1 || ratio < breast[breastKey].range[1]))
 			return breastKey
@@ -99,9 +104,9 @@ function findBreastSize(character) {
 	return ``
 }
 
-function findPenisSize(character) {
+export function findPenisSize(character) {
 	let ratio = character.gender.penis // / character.measurements.height
-	for (let pen of penisSize) {
+	for (let pen of measurements.penisSize) {
 		let penKey = Object.keys(pen)[0]
 		if (ratio >= pen[penKey].range[0] && (pen[penKey].range.length == 1 || ratio < pen[penKey].range[1]))
 			return penKey
@@ -109,9 +114,9 @@ function findPenisSize(character) {
 	return ``
 }
 
-function findBallSize(character) {
+export function findBallSize(character) {
 	let ratio = character.gender.balls // / character.measurements.height
-	for (let ball of ballSize) {
+	for (let ball of measurements.ballSize) {
 		let ballKey = Object.keys(ball)[0]
 		if (ratio >= ball[ballKey].range[0] && (ball[ballKey].range.length == 1 || ratio < ball[ballKey].range[1]))
 			return ballKey
@@ -119,9 +124,9 @@ function findBallSize(character) {
 	return ``
 }
 
-function calcWeight(measurements) {
-	let hSrqd = (measurements.height / 100) ** 2
-	let bmi = calcBMI(measurements.bodyFat)
+function calcWeight(measurement) {
+	let hSrqd = (measurement.height / 100) ** 2
+	let bmi = calcBMI(measurement.bodyFat)
 	logger(`Height Squared: ${hSrqd}`)
 	logger(`BMI: ${bmi}`)
 	logger(`Kg: ${bmi * hSrqd}`)
@@ -143,7 +148,7 @@ function getSizeIdx(char) {
 	return sizeIdx
 }
 
-function sizeInRange(min, max, charSize) {
+export function sizeInRange(min, max, charSize) {
 	let response = false;
 	sizes.forEach(function (size, idx) {
 		let sizeKey = Object.keys(size)[0]
@@ -156,19 +161,29 @@ function sizeInRange(min, max, charSize) {
 }
 
 function sizeDiff(player, enemy) {
-	let sizeDiff = (player.measurements.height-enemy.measurements.height)/player.measurements.height
-	sizeDiff = isNaN(sizeDiff)?0:sizeDiff
+	let sizeDiff = (player.measurements.height - enemy.measurements.height) / player.measurements.height
+	sizeDiff = isNaN(sizeDiff) ? 0 : sizeDiff
 
-	if(sizeDiff>=0.6)
+	if (sizeDiff >= 0.6)
 		return 2
-	if(sizeDiff>=0.18)
+	if (sizeDiff >= 0.18)
 		return 1
-	if(sizeDiff>=0)
+	if (sizeDiff >= 0)
 		return 0
-	if(sizeDiff<=-0.6)
+	if (sizeDiff <= -0.6)
 		return -2
-	if(sizeDiff<0)
+	if (sizeDiff < 0)
 		return -1
 
 	return sizeId
 }
+
+export function sizeArray(range) {
+	let sizeArr = []
+	measurements.sizes.forEach(function (size, idx) {
+		if (!range || range.includes(idx))
+			sizeArr.push(Object.keys(size)[0])
+	})
+	return sizeArr
+}
+window.sizeArray = sizeArray

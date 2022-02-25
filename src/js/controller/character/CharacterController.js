@@ -1,17 +1,19 @@
-function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
+import { logger } from "@util/Logging";
+import { species, measurements, genders, loot } from '@js/data'
+
+export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
     let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {} };
     logger(`In char`)
-    let size = sizes[randomSize(sizeRange)]
+    let size = measurements.sizes[randomSize(sizeRange)]
     logger(`After size`)
     let sizeKey = Object.keys(size)[0]
 
-    let bodyType = bodyTypes[randomBodyType(bodyTypeRange)]
-    logger(`After body`)
+    let bodyType = measurements.bodyTypes[randomBodyType(bodyTypeRange)]
     let bodyTypeKey = Object.keys(bodyType)[0]
-
+    
     let statMods = bodyType[bodyTypeKey].statMods
     let expMods = bodyType[bodyTypeKey].expMods
-
+    
     // Collect All Potential Loot
     let rawLoot = [...bodyType[bodyTypeKey].loot, ...size[sizeKey].loot, ...character.gender[Object.keys(character.gender)[0]].loot]
     // Loop through and count items
@@ -19,18 +21,18 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
     for (let item of rawLoot) {
         let found = false
         availableLoot.forEach(function (foundLoot, idx) {
-            if (loot[item].id === foundLoot.id) {
+            if (loot['loot'][item].id === foundLoot.id) {
                 found = true
                 availableLoot[idx].qty += 1
             }
         })
         if (!found)
-            availableLoot.push({ id: loot[item].id, qty: 1, chnc: loot[item].chnc })
+            availableLoot.push({ id: loot['loot'][item].id, qty: 1, chnc: loot['loot'][item].chnc })
     }
     // Roll for credits
     var randomPercent = Math.clamp(random(1, 100), 75, 100) / 100
     var credits = Math.floor(50 * randomPercent);
-
+    
     // Calculate Measurements
     logger(`Before height`)
     character.measurements.height = random(size[sizeKey].range[0], (size[sizeKey].range[1])?size[sizeKey].range[1]:1000000)
@@ -82,14 +84,14 @@ function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name
 
 function randomSize(range) {
     if (Array.isArray(range))
-        return random(Math.clamp(range[0], 0, sizes.length - 1), Math.clamp(range[1], 0, sizes.length - 1))
-    return Math.clamp(range, 0, sizes.length - 1)
+        return random(Math.clamp(range[0], 0, measurements.sizes.length - 1), Math.clamp(range[1], 0, measurements.sizes.length - 1))
+    return Math.clamp(range, 0, measurements.sizes.length - 1)
 }
 
 function randomBodyType(range) {
     if (Array.isArray(range))
-        return random(Math.clamp(range[0], 0, bodyTypes.length - 1), Math.clamp(range[1], 0, bodyTypes.length - 1))
-    return Math.clamp(range, 0, bodyTypes.length - 1)
+        return random(Math.clamp(range[0], 0, measurements.bodyTypes.length - 1), Math.clamp(range[1], 0, measurements.bodyTypes.length - 1))
+    return Math.clamp(range, 0, measurements.bodyTypes.length - 1)
 }
 
 function calcStats(character, statMods, statPoints) {
@@ -164,15 +166,43 @@ function calcCapacity(character) {
     }
 }
 
-window.sizeArray = function (range) {
-    let sizeArr = []
-    sizes.forEach(function (size, idx) {
-        if (!range || range.includes(idx))
-            sizeArr.push(Object.keys(size)[0])
-    })
-    return sizeArr
-}
-
 function statPoints(player) {
     return (player.stats.strg + player.stats.con + player.stats.dex + player.stats.acc) / 4
+}
+
+export function returnStatName(stat) {
+    switch(stat) {
+        case 'con':
+            return 'Constitution'
+        case 'hlth':
+            return 'Health'
+        case 'strg':
+            return 'Strength'
+        case 'def':
+            return 'Defense'
+        case 'acc':
+            return 'Accuracy'
+        case 'dex':
+            return 'Dexterity'
+        case 'muscle':
+            return 'Muscle'
+        case 'fat':
+            return 'Fat'
+        case 'size':
+            return 'Size'
+        case 'agility':
+            return 'Agility'
+        case 'pawEye':
+            return 'Paw-Eye Coordination'
+        case 'skill':
+            return 'Skill'
+        case 'penis':
+            return 'Penis'
+        case 'balls':
+            return 'Balls'
+        case 'breasts':
+            return 'Breasts'
+        case 'height':
+            return 'Height'
+    }
 }

@@ -1,4 +1,4 @@
-function incrementTime(hour, min) {
+export function incrementTime(hour, min) {
     let checkHour = State.variables.time.hour + hour
     let checkMin = State.variables.time.min + min
     let checkDay = State.variables.time.day
@@ -37,3 +37,5 @@ function restockStore(day) {
         State.variables.stores = Object.assign({},stores)
     }
 }
+
+export {returnTime}

@@ -2,7 +2,6 @@ Macro.add('healthBarMacro', {
     skipArgs: false,
     handler: function () {
         let character = this.args[0]
-        
         let $healthBar = $('<div/>')
                             .addClass(`statusBar`)
         let $currentHealthBar = $('<div/>')

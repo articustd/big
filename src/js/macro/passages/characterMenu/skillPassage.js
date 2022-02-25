@@ -1,4 +1,7 @@
-function skillPassage() {
+import { skills } from '@js/data'
+import { logger } from '@util/Logging';
+
+export function skillPassage() {
     let $wrapper = $('<span/>');
 
     $wrapper.append($('<span/>').wiki(`''__Learned Skills__''`))
@@ -10,10 +13,9 @@ function skillPassage() {
     })
     $wrapper.append($list).append('<br>')
     $wrapper.append($('<span/>').wiki(`''__Available Skills''`))
-
     let $table = $('<table/>').addClass('skillTable');;
     let tableData = [['Skill', 'Description', 'Points']];
-    skills.forEach(function (skill, idx) {
+    skills.skills.forEach(function (skill, idx) {
         if (!State.variables.player.skills.includes(idx))
             tableData.push([skill.name, skill.desc, skill.cost, idx])
     })

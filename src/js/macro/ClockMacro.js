@@ -1,3 +1,5 @@
+import { returnTime } from '@js/controller/TimeController'
+
 Macro.add('clockMacro', {
     skipArgs: false,
     handler: function () {

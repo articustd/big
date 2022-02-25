@@ -1,11 +1,14 @@
-function attacksPassage() {
-    let $wrapper = $('<span/>');
+import { returnStatName } from "@controller/character/CharacterController";
+import { findSize } from "@controller/character/MeasurementController";
+import { attacks } from "@js/data";
 
+export function attacksPassage() {
+    let $wrapper = $('<span/>');
     $wrapper.append($('<span/>').wiki(`''__Learned Attacks__''`))
-    let player = State.variables.player
+    let player = variables().player
     let $list = $('<ul/>').addClass('no-bullets')
     $.each(player.learnedAttacks, function (rowIndex, attackId) {
-        let attack = attacks[attackId]
+        let attack = attacks.attacks[attackId]
         $list.append($('<li/>').wiki(`''${attack.name}'' - ${attack.desc}`))
     })
     $wrapper.append($list).append('<br>')
@@ -13,8 +16,9 @@ function attacksPassage() {
     $wrapper.append($('<span/>').wiki(`''__Available Attacks__''`))
     let $table = $('<table/>').addClass('skillTable').addClass('skillTable');
     let tableData = [['Attack', 'Description', 'Requirements', 'Points']];
-    attacks.forEach(function (attack, idx) {
-        if (!State.variables.player.learnedAttacks.includes(idx))
+    
+    attacks.attacks.forEach(function (attack, idx) {
+        if (!variables().player.learnedAttacks.includes(idx))
             tableData.push([attack.name, attack.desc, attack.cost, idx, attack.reqs])
     })
 

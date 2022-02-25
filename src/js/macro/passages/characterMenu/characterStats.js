@@ -1,4 +1,4 @@
-function characterStats() {
+export function characterStats() {
     let player = State.variables.player
 
     let $wrapper = $('<span/>').css('flex', '3');

@@ -1,3 +1,5 @@
+import { sizeInRange } from  "@controller/character/MeasurementController"
+
 Macro.add('cityMacro', {
     skipArgs: false,
     handler: function () {

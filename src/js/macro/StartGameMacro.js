@@ -1,21 +1,26 @@
+import { species, measurements, genders } from '@js/data'
+import { getPronounId } from '@controller/character/PronounController'
+import { genChar } from '@controller/character/CharacterController'
+import { logger } from '@util/Logging'
+
 Macro.add('startGameRoutine', {
     skipArgs: true,
     handler: function () {
         let player = State.variables.player;
         let speciesKey = species.indexOf(player.species)
-        let sizeKey = findObjIdx(player.size, sizes)
-        let bodyTypeKey = findObjIdx("Normal", bodyTypes)
+        let sizeKey = findObjIdx(player.size, measurements.sizes)
+        let bodyTypeKey = findObjIdx("Normal", measurements.bodyTypes)
         let pronounKey = getPronounId(player.pronouns)
         let genderKey = findObjIdx(player.gender, genders)
-        
-        State.variables.player = genChar(15,speciesKey,sizeKey,bodyTypeKey,genderKey,player.name,pronounKey)
+
+        variables().player = genChar(15, speciesKey, sizeKey, bodyTypeKey, genderKey, player.name, pronounKey)
     }
 })
 
 function findObjIdx(item, arr) {
     let response;
-    arr.forEach(function(el, idx) {
-        if(Object.keys(el)[0] === item)
+    arr.forEach(function (el, idx) {
+        if (Object.keys(el)[0] === item)
             response = idx
     })
     return response

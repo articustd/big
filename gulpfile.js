@@ -35,12 +35,12 @@ task(function buildTwee() {
 
 // Configure Environments
 task(function configDev() {
-    let config = '{"history": true, "debug": true, "logging": true }'
+    let config = '{"history": {"controls": true }, "debug": true, "logging": true }'
     return writeConfig(config)
 })
 
 task(function configProd() {
-    let config = '{"history": false, "debug": false, "logging": false }'
+    let config = '{"history": {"controls": false }, "debug": false, "logging": false }'
     return writeConfig(config)
 })
 
