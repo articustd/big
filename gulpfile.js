@@ -31,6 +31,9 @@ task(function bundle() {
 
 // Build with Tweego
 task(function buildTwee() {
+    console.log(`Command: ${command}`)
+    console.log(`Options: ${JSON.stringify(options)}`)
+    console.log(`Args: ${args}`)
     return spawn(command,args,options)
 })
 
