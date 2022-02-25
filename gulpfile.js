@@ -9,7 +9,7 @@ const   { src, dest, watch, series, task } = require('gulp'),
         { platform } = require('os'),
         path = require('path'),
         browserSync = require('browser-sync').create(),
-        command = `tweego${(platform() == 'win32')?'.exe':''}`, 
+        command = `${(platform() == 'win32')?'tweego.exe':'./tweego'}`, 
         options = {cwd:path.resolve(__dirname,'vendor'), stdio: 'inherit'},   
         args = ['--format=sugarcube-2', '--output=../dist/index.html', '../story/'];
 
@@ -31,9 +31,6 @@ task(function bundle() {
 
 // Build with Tweego
 task(function buildTwee() {
-    console.log(`Command: ${command}`)
-    console.log(`Options: ${JSON.stringify(options)}`)
-    console.log(`Args: ${args}`)
     return spawn(command,args,options)
 })
 
