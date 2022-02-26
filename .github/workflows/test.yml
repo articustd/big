@@ -3,7 +3,7 @@ name: Build Test Deployment
 on:
   push:
     branches:
-      - dir-refactor
+      - 'dev/*'
 
 jobs:
   build:
