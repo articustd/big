@@ -1,4 +1,4 @@
-name: Build & Deploy Twine HTML
+name: Build Prod Deployment
 
 on:
   push:
