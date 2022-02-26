@@ -1,0 +1,34 @@
+name: Build Prod Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Go 1.13
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13.x
+
+      - name: install make
+        run: sudo apt-get install make
+
+      - name: build game
+        run: |
+          chmod +x vendor/tweego
+          export PATH=$PATH:$(go env GOPATH)/bin
+          make prod
+          vendor/tweego --format=sugarcube-2 src/twee/ -o dist/index.html
+
+      - name: Deploy to Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./dist

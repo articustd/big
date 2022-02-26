@@ -1,42 +1,39 @@
-const { watch } = require('fs');
 const path = require('path');
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
     mode: 'production',
-    entry: ['./src/js/index.js'],
+    entry: './src/js/index.js',
     output: {
-        filename: 'twee/js-dist.js',
-        path: path.resolve(__dirname, 'src')
+        filename: 'story.bundle.js'
     },
-    performance: {
-        hints: false,
-        maxEntrypointSize: 512000,
-        maxAssetSize: 512000
-    },
+    target: 'web',
     module: {
         rules: [
             {
-                test: /\.js$/,
-                exclude: /(node_modules)/,
-                include: [
-                    path.resolve(__dirname, "src/js"),
-                ],
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components|story|vendor)/,
                 use: {
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/preset-env']
                     }
                 }
-            },
-            {
-                test: /\.html$/,
-                loader: "raw-loader"
             }
         ]
     },
-    devServer: {
-        hot: true,
-        open: true,
-        port: 3000,
-    }
-}
+    resolve: {
+        alias: {
+            "@util": path.resolve(__dirname, 'src', 'js', 'controller','util'),
+            "@controller": path.resolve(__dirname, 'src', 'js', 'controller'),
+            "@js": path.resolve(__dirname, 'src', 'js')
+        },
+        extensions: ['.js', '.json']
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin({
+            extractComments: false,
+        })],
+    },
+};

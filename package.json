@@ -4,13 +4,17 @@
   "description": "Bigger is Better Twine Game",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run serve -and npm run watch:twee",
-    "serve": "webpack serve",
-    "build:twee": "./vendor/tweego --format=sugarcube-2 --output=./dist/index.html ./src/twee/",
+    "build": "gulp build",
+    "build:bundle": "gulp bundle",
+    "build:twee": "gulp buildTwee",
+    "build:sass": "gulp buildSass",
+    "config:dev": "gulp configDev",
+    "config:prod": "gulp configProd",
     "clean:twee": "Remove-Item ./index.html",
-    "watch:twee": "./vendor/tweego --format=sugarcube-2 --output=./dist/index.html ./src/twee/ --watch",
-    "css": "node-sass src/"
+    "clean:sass": "Remove-Item ./story/modules/main.min.css",
+    "clean:bundle": "Remove-Item ./story/modules/story.bundle.js",
+    "watch:dev": "gulp watchDev",
+    "webpack": "webpack"
   },
   "repository": {
     "type": "git",
@@ -25,18 +29,26 @@
     "url": "https://github.com/articustd/big/issues"
   },
   "homepage": "https://github.com/articustd/big#readme",
-  "dependencies": {
-    "node-sass": "^7.0.1",
-    "sugarcube-yaml-properties": "^0.1.0"
-  },
   "devDependencies": {
-    "@babel/core": "^7.16.5",
-    "@babel/preset-env": "^7.16.5",
-    "@babel/runtime": "^7.16.5",
+    "@babel/core": "^7.17.5",
+    "@babel/plugin-external-helpers": "^7.16.7",
+    "@babel/plugin-transform-modules-commonjs": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
     "babel-loader": "^8.2.3",
-    "raw-loader": "^4.0.2",
-    "webpack": "^5.65.0",
-    "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.7.1"
+    "babel-plugin-transform-commonjs": "^1.1.6",
+    "babel-preset-env": "^1.7.0",
+    "browser-sync": "^2.27.7",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-file": "^0.4.0",
+    "gulp-noop": "^1.0.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.1.0",
+    "sass": "^1.49.8",
+    "terser-webpack-plugin": "^5.3.1",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-stream": "^7.0.0"
   }
 }

@@ -1,0 +1,18 @@
+:: StoryTitle
+Bigger is Better
+
+
+:: StoryData {"position":"0,125"}
+{
+	"ifid": "8F9B8851-BEB2-4276-8DAD-93D801E54DAC",
+	"format": "SugarCube",
+	"format-version": "2.34.1",
+	"start": "start",
+	"zoom": 1
+}
+
+
+:: StoryInit {"position":"25,425","size":"100,100"}
+<<initStats>>
+<<set $combat to false>>
+<<set $foundItems to []>>

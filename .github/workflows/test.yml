@@ -1,0 +1,36 @@
+name: Build Test Deployment
+
+on:
+  push:
+    branches:
+      - dir-refactor
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install Dependencies
+        run: npm install          
+      
+      - name: Configure for Prod
+        run: npm run config:dev
+
+      - name: Build Game HTML
+        run: |
+          chmod +x vendor/tweego
+          npm run build
+
+      - name: Deploy to Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./dist
+          destination_dir: test
