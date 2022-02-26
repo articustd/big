@@ -34,6 +34,7 @@
     "@babel/plugin-external-helpers": "^7.16.7",
     "@babel/plugin-transform-modules-commonjs": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
+    "@editorjs/editorjs": "^2.23.2",
     "babel-loader": "^8.2.3",
     "babel-plugin-transform-commonjs": "^1.1.6",
     "babel-preset-env": "^1.7.0",
