@@ -2,8 +2,7 @@
 <h1>Train Station</h1>
 
 Where do you want to go?
-
-<<timeAction "Work" "work" 1 0>><</timeAction>>
+/* <<timeAction "Work" "work" 1 0>><</timeAction>> */
 <<timeAction "Micro Metro" "microCity" 2 0>><</timeAction>>
 <<timeAction "Variable Village" "normalCity" 2 0>><</timeAction>>
 <<timeAction "Macro Megacity" "macroCity" 2 0>><</timeAction>>
