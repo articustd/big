@@ -1,5 +1,5 @@
 let sizes = [
-    { "Micro": { range: [3, 7], sizeMulti: 4, statBase: 2, loot: [7] } },
+    { "Micro": { range: [1, 7], sizeMulti: 4, statBase: 2, loot: [7] } },
     { "Tiny": { range: [7, 30], sizeMulti: 66, statBase: 5, loot: [7] } },
     { "Mini": { range: [30, 60], sizeMulti: 150, statBase: 7, loot: [7] } },
     { "Small": { range: [60, 152], sizeMulti: 387, statBase: 10, loot: [7] } },

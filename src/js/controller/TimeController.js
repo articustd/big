@@ -34,7 +34,7 @@ export function advanceTime(advTime) {
 
 function restockStore(day) {
     if(day%7 == 0) {
-        State.variables.stores = Object.assign({},stores)
+        State.variables.stores = Object.assign({},stores.stores)
     }
 }
 
