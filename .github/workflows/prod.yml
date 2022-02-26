@@ -9,22 +9,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
-      - name: Use Go 1.13
-        uses: actions/setup-go@v1
+      - name: Install Node
+        uses: actions/setup-node@v2
         with:
-          go-version: 1.13.x
+          node-version: 16
 
-      - name: install make
-        run: sudo apt-get install make
+      - name: Install Dependencies
+        run: npm install          
+      
+      - name: Configure for Prod
+        run: npm run config:prod
 
-      - name: build game
+      - name: Build Game HTML
         run: |
           chmod +x vendor/tweego
-          export PATH=$PATH:$(go env GOPATH)/bin
-          make prod
-          vendor/tweego --format=sugarcube-2 src/twee/ -o dist/index.html
+          npm run build
 
       - name: Deploy to Pages
         uses: peaceiris/actions-gh-pages@v3
