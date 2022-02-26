@@ -1,6 +1,7 @@
 import { genChar, statPoints } from "@controller/character/CharacterController"
 import { calcWeight } from "@controller/character/MeasurementController";
-import { species } from "@js/data";
+import { skills, species } from "@js/data";
+import { logger } from "@util/Logging";
 
 Macro.add('enemyMacro', {
     skipArgs: false,
@@ -22,7 +23,8 @@ function checkWilling(playerSkills, enemy) {
         willing = willing > 0 ? willing : 1
 
         for (let skillId of playerSkills) {
-            let skill = skills[skillId]
+            let skill = skills.skills[skillId]
+            logger(skill)
             if (skill.type === 'ability')
                 if (skill.subType === 'willing')
                     willing += skill.mod

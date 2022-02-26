@@ -145,7 +145,7 @@ function calcMaxHealth(character) {
 }
 
 //HACK Changed to BodyFat % temporarily to see how it effects health
-function getMaxHealth(character) {
+export function getMaxHealth(character) {
     let hB = Math.ceil(character.measurements.height * character.measurements.bodyFat)
     let con = character.stats.con
     return Math.ceil((con*Math.log(hB))+5)

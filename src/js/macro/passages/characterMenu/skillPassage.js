@@ -8,7 +8,7 @@ export function skillPassage() {
     let player = State.variables.player
     let $list = $('<ul/>').addClass('no-bullets')
     $.each(player.skills, function (rowIndex, skillId) {
-        let skill = skills[skillId]
+        let skill = skills.skills[skillId]
         $list.append($('<li/>').wiki(`''${skill.name}'' - ${skill.desc}`))
     })
     $wrapper.append($list).append('<br>')

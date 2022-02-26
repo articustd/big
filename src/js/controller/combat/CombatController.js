@@ -1,4 +1,6 @@
 import { rollItems } from "@controller/ItemController";
+import { skills } from "@js/data";
+import { logger } from "@util/Logging";
 
 var maxHitPer = 85;
 var minDmgMult = 60;
@@ -135,7 +137,9 @@ function reduceHealth(defender, dmg) {
 function getSkillMods(type, character, value) {
 	let multi = []
 	for (let skillId of character.skills) {
-		let skill = skills[skillId]
+		logger('here')
+		let skill = skills.skills[skillId]
+		logger(skill)
 		if (skill.type === type) {
 			if (skill.multi) {
 				multi.push({ mod: skill.mod, min: skill.min, max: skill.max })

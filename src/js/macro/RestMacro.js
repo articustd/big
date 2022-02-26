@@ -1,3 +1,6 @@
+import { getMaxHealth } from "@controller/character/CharacterController"
+import { advanceTime } from "@controller/TimeController";
+
 Macro.add('restMacro', {
     skipArgs: false,
     handler: function () {

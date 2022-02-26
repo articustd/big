@@ -2,8 +2,10 @@ Macro.add('healthBarMacro', {
     skipArgs: false,
     handler: function () {
         let character = this.args[0]
+        let align = this.args[1]
         let $healthBar = $('<div/>')
                             .addClass(`statusBar`)
+                            .css(`margin-${align?'left':'right'}`,'auto')
         let $currentHealthBar = $('<div/>')
                     .addClass('currentHealthBar')
                     .css('width', `${Math.floor((character.stats.hlth/character.stats.maxHlth)*100)}%`)
