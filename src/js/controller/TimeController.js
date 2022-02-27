@@ -1,3 +1,6 @@
+import { stores } from "@js/data"
+import { logger } from "@util/Logging"
+
 export function incrementTime(hour, min) {
     let checkHour = State.variables.time.hour + hour
     let checkMin = State.variables.time.min + min
@@ -8,7 +11,9 @@ export function incrementTime(hour, min) {
     }
     if ((checkHour == 24 && checkMin > 0) || checkHour > 24) {
         checkHour -= 24
+        logger(checkHour)
         checkDay += 1
+        logger(checkDay)
         restockStore(checkDay)
     }
     State.variables.time = {day: checkDay, hour: checkHour, min: checkMin };
