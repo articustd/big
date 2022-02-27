@@ -1,3 +1,5 @@
+import { stores } from "@js/data"
+
 export function incrementTime(hour, min) {
     let checkHour = State.variables.time.hour + hour
     let checkMin = State.variables.time.min + min
