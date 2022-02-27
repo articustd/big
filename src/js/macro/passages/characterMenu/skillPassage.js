@@ -1,5 +1,6 @@
 import { skills } from '@js/data'
 import { logger } from '@util/Logging';
+import { popup } from '@controller/util/ModalPopup'
 
 export function skillPassage() {
     let $wrapper = $('<span/>');
@@ -49,6 +50,9 @@ export function skillPassage() {
         }
         $table.append($row)
     });
+
+    popup()
+
 
     $wrapper
         .append($('<p/>').attr('id', 'notificationText').css('color', 'red').hide())

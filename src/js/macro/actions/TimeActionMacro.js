@@ -1,5 +1,7 @@
 import { findSize } from "@controller/character/MeasurementController";
 import { incrementTime } from "@controller/TimeController"
+import { measurements } from "@js/data";
+
 
 Macro.add('timeAction', {
     skipArgs: false,
@@ -35,9 +37,9 @@ Macro.add('timeAction', {
                             incrementTime(args[2], args[3])
                             if (checkCapacity(State.variables.player) && args[1] !== "fight") {
                                 let sizeIdx = findSize(State.variables.player.measurements.height)
-                                for(let sizeId in sizes)
-                                    (Object.keys(sizes[sizeId])[0] == sizeIdx)?sizeIdx=sizeId:sizeIdx
-                                let upperSize = (sizeIdx+2)<=(sizes.length-1)?(sizeIdx+2):sizes.length-1
+                                for(let sizeId in measurements.sizes)
+                                    (Object.keys(measurements.sizes[sizeId])[0] == sizeIdx)?sizeIdx=sizeId:sizeIdx
+                                let upperSize = (sizeIdx+2)<=(measurements.sizes.length-1)?(sizeIdx+2):measurements.sizes.length-1
                                 $.wiki(`<<enemyMacro ${sizeIdx} ${upperSize}>>`)
                                 Engine.play("fight")
                             } else
