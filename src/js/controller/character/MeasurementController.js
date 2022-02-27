@@ -1,6 +1,5 @@
 import { logger } from "../util/Logging"
 import { measurements } from '@js/data'
-import { sizes } from "@js/data/character/MeasurementTable"
 
 /* Measurment Converts */
 function convertToImperial(entity, weight) {
@@ -140,7 +139,7 @@ function calcBMI(bodyFat) {
 
 function getSizeIdx(char) {
 	let sizeIdx = 0
-	sizes.forEach(function (size, idx) {
+	measurements.sizes.forEach(function (size, idx) {
 		let sizeKey = Object.keys(size)[0]
 		if (size[sizeKey].range[0] <= char.measurements.height && size[sizeKey].range[1] > char.measurements.height)
 			sizeIdx = idx
@@ -150,7 +149,7 @@ function getSizeIdx(char) {
 
 export function sizeInRange(min, max, charSize) {
 	let response = false;
-	sizes.forEach(function (size, idx) {
+	measurements.sizes.forEach(function (size, idx) {
 		let sizeKey = Object.keys(size)[0]
 		if (size[sizeKey].range[0] <= charSize && size[sizeKey].range[1] > charSize)
 			if (min <= idx && max >= idx)
