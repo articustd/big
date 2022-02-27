@@ -15,6 +15,8 @@ Current Stomach Capacity: <<textbox "$player.capacity.stomach" $player.capacity.
 Current Balls Capacity: <<textbox "$player.capacity.testi" $player.capacity.testi>>
 Credits: <<textbox "$player.credits" $player.credits>>
 Skill Points: <<textbox "$player.skillPoints" $player.skillPoints>>
+Day: <<textbox "$time.day" $time.day>>
+Hour: <<textbox "$time.hour" $time.hour>>
 
 <<script>>console.log(convertToLargerUnits(State.variables.player.measurements, State.variables.imperial))<</script>>
 
@@ -27,4 +29,6 @@ Skill Points: <<textbox "$player.skillPoints" $player.skillPoints>>
 <<set $player.measurements.bodyFat to Number($player.measurements.bodyFat)>>
 <<set $player.capacity.stomach to Number($player.capacity.stomach)>>
 <<set $player.capacity.balls to Number($player.capacity.balls)>>
+<<set $time.day to Number($time.day)>>
+<<set $time.hour to Number($time.hour)>>
 <</link>>
