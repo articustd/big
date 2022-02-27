@@ -4,7 +4,7 @@ import { logger } from '@util/Logging';
 export function skillPassage() {
     let $wrapper = $('<span/>');
 
-    $wrapper.append($('<span/>').wiki(`''__Learned Skills__''`))
+    $wrapper.append($('<span/>').wiki(`''__Learned Skills__''`).append($('<span/>').addClass('ui-icon ui-icon-info')))
     let player = State.variables.player
     let $list = $('<ul/>').addClass('no-bullets')
     $.each(player.skills, function (rowIndex, skillId) {
