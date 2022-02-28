@@ -1,5 +1,6 @@
 import { genChar, statPoints } from "@controller/character/CharacterController"
 import { calcWeight } from "@controller/character/MeasurementController";
+import { rollItems } from "@controller/ItemController";
 import { skills, species } from "@js/data";
 import { logger } from "@util/Logging";
 
