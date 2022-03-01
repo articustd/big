@@ -3,7 +3,7 @@
         "imperial": false,
         "twelveHour": false
     },
-    "warnings": {
+    "warning": {
         "overConsumeWarning": true
     },
     "info": {
