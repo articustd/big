@@ -13,7 +13,7 @@ Macro.add('attackSkill', {
         let $table = $('<table/>').addClass('skillTable').addClass('skillTable');
         let tableData = [['Attack', 'Description', 'Requirements', 'Points']];
 
-        attacks.attacks.forEach(function (attack, idx) {
+        attacks.forEach(function (attack, idx) {
             if (!variables().player.learnedAttacks.includes(idx))
                 tableData.push([attack.name, attack.desc, attack.cost, idx, attack.reqs])
         })

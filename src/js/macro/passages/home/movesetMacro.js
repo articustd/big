@@ -36,7 +36,7 @@ Macro.add('movesetMacro', {
 })
 
 function createCard(attackId) {
-    let attack = attacks.attacks[attackId]
+    let attack = attacks[attackId]
     let $portlet = $('<div/>')
         .addClass('portlet')
         .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
