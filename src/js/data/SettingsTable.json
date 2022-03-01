@@ -1,0 +1,9 @@
+{
+    "units": {
+        "imperial": false,
+        "twelveHour": false
+    },
+    "warnings": {
+        "overConsumeWarning": true
+    }
+}

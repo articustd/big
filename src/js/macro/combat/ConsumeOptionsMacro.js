@@ -1,12 +1,13 @@
 import { logger } from "@util/Logging"
 import { calcWeight, sizeDiff } from "@controller/character/MeasurementController"
+import { popup } from "@util/ModalPopup";
 
 Macro.add('consumeEnemy', {
     skipArgs: false,
     handler: function () {
         let $wrapper = $('<span/>').css('display', 'block').css('text-align', 'center')
         let prey = this.args[0];
-        let player = State.variables.player
+        let player = variables().player
 
         let consume = [
             { method: 'Eat', gen: '', desc: `You shove the enemy down your gullet.`, capacity: 'stomach' },
@@ -21,14 +22,12 @@ Macro.add('consumeEnemy', {
                     $('<button/>')
                         .wiki(con.method)
                         .ariaClick(function (ev) {
-                            let consumeObj = { consume: con, points: calcConsume(prey), sDiff: sizeDiff(player, prey) }
-
-                            // This needs to be here to prevent players from repeatedly getting exp by refreshing
-                            addPoints(consumeObj.points, player)
-                            addCapacity(player, calcWeight(prey.measurements), consumeObj.consume.capacity)
-                            State.variables.consumeObj = consumeObj
-
-                            Engine.play("consume")
+                            let consumeAmt = Math.floor(calcWeight(prey.measurements))
+                            if(variables().settings.warnings.overConsumeWarning && isOverMaxCapacity(player, consumeAmt, con.capacity)) 
+                                popup(`Over Capacity`,`You are about to go over your max capacity. If you continue you will be attacked randomly until you rest at home. <br><br>Do you wish to consume?`, 
+                                    {"Yes": ()=>{$( '#overConsumeWarning' ).dialog( "destroy" );consumeContinue(con,consumeAmt,player,prey)}, "No": false}, 'overConsumeWarning')
+                            else
+                                consumeContinue(con,consumeAmt,player,prey)
                         })
                         .css({ 'width': '90%', 'margin-bottom': '10px' })
                 )
@@ -60,10 +59,29 @@ function randPoints(range) {
 }
 
 function addCapacity(hunter, prey, capType) {
-    hunter.capacity[capType] += Math.floor(prey)
+    hunter.capacity[capType] += prey
 }
 
 function addPoints(points, hunter) {
     for (var point in points)
         hunter.exp[point] += points[point]
+}
+
+function isOverMaxCapacity(player, amt, capType) {
+    logger((player.capacity[capType]+amt))
+    if((player.capacity[capType]+amt) >= player.capacity[`${capType}Max`])
+        return true
+    return false
+}
+
+function consumeContinue(con, consumeAmt, player, prey) {
+    let consumeObj = { consume: con, points: calcConsume(prey), sDiff: sizeDiff(player, prey) }
+
+    // This needs to be here to prevent players from repeatedly getting exp by refreshing
+    addPoints(consumeObj.points, player)
+    addCapacity(player, consumeAmt, consumeObj.consume.capacity)
+    variables().consumeObj = consumeObj
+
+    
+    Engine.play("consume")
 }

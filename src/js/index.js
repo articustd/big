@@ -1,9 +1,10 @@
 import storyConfig from './config.json'
-import { items, loot, stores, species, measurements, attacks, skills } from '@js/data'
+import { items, loot, stores, species, measurements, attacks, skills, settings } from '@js/data'
 import * as macros from '@js/macro'
 import { sizeArray } from '@controller/character/MeasurementController'
 import { genderArray } from '@js/controller/character/GenderController'
 import { pronounArray } from '@js/controller/character/PronounController'
+import { logger } from '@util/Logging'
 
 Config = { ...Config, ...storyConfig };
 setup.ImagePath = "assets/";
@@ -22,8 +23,8 @@ setup.ImagePath = "assets/";
 	variables().attacks = attacks;
 	variables().skills = skills;
 	variables().pronouns = pronounArray()
-	variables().twelveHour = false
 	variables().debug = storyConfig.debug
+	variables().settings = settings
 	// Register custom SugarCube macros
 	// registerAlert(Macro, Dialog);
 

@@ -12,8 +12,8 @@ Macro.add('playerFluffMacro', {
         let $allAround = $('<span/>')
 
         let playerSize = lowercaseFirstLetter(findSize(player.measurements.height))
-        let playerHeightText = convertToLargerUnits(player.measurements, variables().imperial).heightText
-        let playerWeightText = convertToLargerUnits(player.measurements, variables().imperial).weightText
+        let playerHeightText = convertToLargerUnits(player.measurements, variables().settings.units.imperial).heightText
+        let playerWeightText = convertToLargerUnits(player.measurements, variables().settings.units.imperial).weightText
         let playerMuscle = findMuscle(player.stats.strg)
         let playerMuscleKey = Object.keys(playerMuscle)[0]
         let playerFat = findFat(player.measurements.bodyFat)

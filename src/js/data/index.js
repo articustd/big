@@ -12,15 +12,19 @@ import * as measurements from './character/MeasurementTable'
 import { species, speciesDesc } from './character/SpeciesTable'
 import { genders, pronouns } from './character/Genders'
 
-export { items, 
-        loot, 
-        stores, 
-        attacks, 
+import settings from './SettingsTable.json'
+
+export {
+        items,
+        loot,
+        stores,
+        attacks,
         skills,
         consumeText,
         measurements,
         species,
         speciesDesc,
         genders,
-        pronouns
+        pronouns,
+        settings
 }
