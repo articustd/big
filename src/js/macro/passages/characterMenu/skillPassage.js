@@ -51,9 +51,6 @@ export function skillPassage() {
         $table.append($row)
     });
 
-    popup()
-
-
     $wrapper
         .append($('<p/>').attr('id', 'notificationText').css('color', 'red').hide())
         .append($table)

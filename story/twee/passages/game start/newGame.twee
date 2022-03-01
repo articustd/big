@@ -17,12 +17,12 @@ Pronouns: <<listbox "$player.pronouns" autoselect>><<optionsfrom $pronouns>><</l
 
 Size: <<listbox "$player.size" autoselect>><<optionsfrom $playerSizes>><</listbox>>
 
-Units of Measure: <<listbox "$imperial" autoselect>>
+Units of Measure: <<listbox "$settings.units.imperial" autoselect>>
 	<<option "Imperial" true>>
 	<<option "Metric" false>>
 <</listbox>>
 
-Time: <<listbox "$twelveHour" autoselect>>
+Time: <<listbox "$settings.units.twelveHour" autoselect>>
 	<<option "12 Hour" true>>
 	<<option "24 Hour" false>>
 <</listbox>>
