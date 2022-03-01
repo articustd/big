@@ -5,5 +5,8 @@
     },
     "warnings": {
         "overConsumeWarning": true
+    },
+    "info": {
+        "learnedAttackInfo": true
     }
 }

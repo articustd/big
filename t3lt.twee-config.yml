@@ -64,3 +64,5 @@ sugarcube-2:
       name: cityMacro
     consumeMacro:
       name: consumeMacro
+    attackSkill:
+      name: attackSkill

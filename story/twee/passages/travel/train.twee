@@ -20,6 +20,9 @@ $trainText
 <<timeAction "Use Speed Bag" 1 0>>
 	<<trainMacro "pawEye" "You threw paws and gain 1 paw-eye coordination!" 100 1>>
 <</timeAction>>
+
+<<attackSkill>>
+
 <<link [[Go Back|$return]]>>
 	<<unset $trainText>>
 <</link>>

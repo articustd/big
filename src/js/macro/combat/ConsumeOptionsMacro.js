@@ -25,7 +25,7 @@ Macro.add('consumeEnemy', {
                             let consumeAmt = Math.floor(calcWeight(prey.measurements))
                             if(variables().settings.warnings.overConsumeWarning && isOverMaxCapacity(player, consumeAmt, con.capacity)) 
                                 popup(`Over Capacity`,`You are about to go over your max capacity. If you continue you will be attacked randomly until you rest at home. <br><br>Do you wish to consume?`, 
-                                    {"Yes": ()=>{$( '#overConsumeWarning' ).dialog( "destroy" );consumeContinue(con,consumeAmt,player,prey)}, "No": false}, 'overConsumeWarning')
+                                    {"Yes": ()=>{$( '#overConsumeWarning' ).dialog( "destroy" );consumeContinue(con,consumeAmt,player,prey)}, "No": false}, {type: "warning", name: "overConsumeWarning"})
                             else
                                 consumeContinue(con,consumeAmt,player,prey)
                         })

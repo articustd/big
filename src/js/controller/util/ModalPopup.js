@@ -23,6 +23,7 @@ function getButtons(btns, hasNoShow) {
     _.forEach(btns, (value, key) => {
         buttons[key] = () => {
             if (value) {
+                logger(`In button`)
                 if (hasNoShow)
                     setNoShow(hasNoShow)
                 value()
@@ -35,5 +36,6 @@ function getButtons(btns, hasNoShow) {
 }
 
 function setNoShow(setting) {
-    variables().settings.warnings[setting] = !$('#noShow').prop('checked')
+    logger(`In noshow`)
+    variables().settings[setting.type][setting.name] = !$('#noShow').prop('checked')
 }

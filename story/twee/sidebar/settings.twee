@@ -11,9 +11,15 @@ Time: <<listbox "$settings.units.twelveHour" autoselect>>
 <</listbox>>
 
 ''__Warnings__''
-Over Consumption: <<listbox "$settings.warnings.overConsumeWarning" autoselect>>
-	<<option "Warn" true>>
-	<<option "No Warning" false>>
+Over Consumption Warning: <<listbox "$settings.warnings.overConsumeWarning" autoselect>>
+	<<option "Always" true>>
+	<<option "Never" false>>
+<</listbox>>
+
+''__Info__''
+Learn Attack Informational: <<listbox "$settings.info.learnedAttackInfo" autoselect>>
+	<<option "Always" true>>
+	<<option "Never" false>>
 <</listbox>>
 
 <<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
