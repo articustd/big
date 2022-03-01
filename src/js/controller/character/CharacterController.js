@@ -10,10 +10,10 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
 
     let bodyType = measurements.bodyTypes[randomBodyType(bodyTypeRange)]
     let bodyTypeKey = Object.keys(bodyType)[0]
-    
+
     let statMods = bodyType[bodyTypeKey].statMods
     let expMods = bodyType[bodyTypeKey].expMods
-    
+
     // Collect All Potential Loot
     let rawLoot = [...bodyType[bodyTypeKey].loot, ...size[sizeKey].loot, ...character.gender[Object.keys(character.gender)[0]].loot]
     // Loop through and count items
@@ -32,10 +32,10 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     // Roll for credits
     var randomPercent = Math.clamp(random(1, 100), 75, 100) / 100
     var credits = Math.floor(50 * randomPercent);
-    
+
     // Calculate Measurements
     logger(`Before height`)
-    character.measurements.height = random(size[sizeKey].range[0], (size[sizeKey].range[1])?size[sizeKey].range[1]:1000000)
+    character.measurements.height = random(size[sizeKey].range[0], (size[sizeKey].range[1]) ? size[sizeKey].range[1] : 1000000)
     character.measurements.bodyFat = bodyType[bodyTypeKey].bodyFat //HACK Rudimentary, need to change to ranges
     logger(`After height`)
     // Default Hyper to no
@@ -48,10 +48,6 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     statPoints = size[sizeKey].statBase
     calcStats(character, statMods, statPoints)
 
-    // Base Attacks
-    character.attacks = [1,0]
-    character.learnedAttacks = character.attacks
-
     // Calculate Exp and Name (This was not fun)
     if (!name) {
         character.name = `${sizeKey} ${bodyTypeKey} ${species[speciesId]}`
@@ -61,6 +57,10 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
 
         character.loot = availableLoot
         character.credits = credits
+
+        // Base Attacks
+        character.attacks = [1, 0]
+        character.learnedAttacks = character.attacks
     } else {
         character.name = name
         character.exp = blankExp()
@@ -68,6 +68,10 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
         character.skills = []
         character.skillPoints = 0
         character.inv = []
+
+        // Base Attacks
+        character.attacks = [0, 1, 2]
+        character.learnedAttacks = character.attacks
     }
 
     // Calculate Genitals... Oh boy
@@ -148,7 +152,7 @@ function calcMaxHealth(character) {
 export function getMaxHealth(character) {
     let hB = Math.ceil(character.measurements.height * character.measurements.bodyFat)
     let con = character.stats.con
-    return Math.ceil((con*Math.log(hB))+5)
+    return Math.ceil((con * Math.log(hB)) + 5)
 }
 
 //HACK need to finalize stomach capacity calcs
@@ -171,7 +175,7 @@ export function statPoints(player) {
 }
 
 export function returnStatName(stat) {
-    switch(stat) {
+    switch (stat) {
         case 'con':
             return 'Constitution'
         case 'hlth':
