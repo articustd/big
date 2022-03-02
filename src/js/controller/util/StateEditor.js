@@ -14,7 +14,8 @@ export function stateEditor() {
         select: (event, ui) => { logger(variables()[ui.item.value]); addFields($popup, ui.item.value ,variables()[ui.item.value]) }
     })
 
-
+    let firstItem = Object.keys(variables())[0]
+    addFields($popup, firstItem ,variables()[firstItem])
 
     return $popup
 }
@@ -34,7 +35,6 @@ function createDropdown($parent, label, id) {
 function addOptions($dropDown, options) {
     for (let option in options)
         $dropDown.append($('<option/>').wiki(option))
-
     $dropDown.selectmenu("refresh")
 }
 
