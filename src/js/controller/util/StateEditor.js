@@ -1,5 +1,4 @@
 import { logger } from "./Logging";
-import { popup } from "./ModalPopup";
 
 export function stateEditor() {
     let $popup = $('<div id="stateEditor"/>').dialog({
@@ -48,11 +47,11 @@ function addField($parent, variable, varVal) {
     logger(typeof variable)
     if (typeof varVal == "string") {
         let $label = $(`<label for="${variable}-text"/>`).wiki(`${variable}: `)
-        let $dropDown = $(`<input type="text" id="${variable}-text" name="${variable}-text" value="${varVal}"/>`).on('input',function (e){
+        let $textbox = $(`<input type="text" id="${variable}-text" name="${variable}-text" value="${varVal}"/>`).on('input',function (e){
             variables()[variable] = $(this).val()
             Engine.show()
         })
-        $parent.append($('<div/>').append($label).append($dropDown))
+        $parent.append($('<div/>').append($label).append($textbox))
     }
     if (typeof varVal == "boolean") {
         let $label = $(`<label for="${variable}-text"/>`).wiki(`${variable}: `)
@@ -63,8 +62,36 @@ function addField($parent, variable, varVal) {
 
         $parent.append($('<div/>').append($label).append($checkbox))
     }
+    if (typeof varVal == "number") {
+        let $label = $(`<label for="${variable}-text"/>`).wiki(`${variable}: `)
+        let $textbox = $(`<input type="text" id="${variable}-text" name="${variable}-text" value="${varVal}"/>`).on('input',function (e){
+            variables()[variable] = Number($(this).val())
+            Engine.show()
+        }).inputFilter(function(value) {
+            return /^-?\d*.?\d*$/.test(value);    // FIXME For some reason allows a single non-numeric character
+          });
+        $parent.append($('<div/>').append($label).append($textbox))
+    }
 }
 
 function clearElement($ele) {
     $ele.empty()
 }
+
+// Filter for numeric text fields
+(function($) {
+    $.fn.inputFilter = function(inputFilter) {
+      return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+        if (inputFilter(this.value)) {
+          this.oldValue = this.value;
+          this.oldSelectionStart = this.selectionStart;
+          this.oldSelectionEnd = this.selectionEnd;
+        } else if (this.hasOwnProperty("oldValue")) {
+          this.value = this.oldValue;
+          this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+        } else {
+          this.value = "";
+        }
+      });
+    };
+  }(jQuery));
