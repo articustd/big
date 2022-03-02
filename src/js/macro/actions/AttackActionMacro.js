@@ -22,7 +22,7 @@ Macro.add('attackAction', {
             }
 
             let dmgRange = calcDmgRange(attack, State.variables.player)
-            let attackText = `${attack.name} [${dmgRange.min}-${dmgRange.max}] ${calcHitChance(attack, State.variables.player)}%`
+            let attackText = `${attack.name}<br>[${dmgRange.min}-${dmgRange.max}] ${calcHitChance(attack, State.variables.player)}%`
 
             $link
                 .wiki(attackText)
@@ -35,7 +35,6 @@ Macro.add('attackAction', {
                 // .attr('id', `macro-${this.name}-${this.args.join('').replace(/[^A-Za-z0-9]/g, '')}`)
                 .appendTo($wrapper);
         }
-
 
         $wrapper
             .appendTo(this.output);

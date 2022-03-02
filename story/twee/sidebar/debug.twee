@@ -19,7 +19,7 @@ Day: <<textbox "$time.day" $time.day>>
 Hour: <<textbox "$time.hour" $time.hour>>
 
 <<script>>console.log(convertToLargerUnits(State.variables.player.measurements, State.variables.imperial))<</script>>
-
+<<devMacro>>
 <<link "Return" $menuReturn>>
 <<unset $menuReturn $skillText>>
 <<set $player.gender.penis to Number($player.gender.penis)>>
