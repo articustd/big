@@ -1,11 +1,12 @@
 import { logger } from "./Logging";
+import _ from 'lodash';
 
 export function stateEditor() {
     let $popup = $('<div id="stateEditor"/>').dialog({
         title: `State Editor`,
         resizeable: true,
-        width: 400,
-        height: 200,
+        width: 360,
+        height: 600,
         close: (event, ui)=>{$popup.remove()}
     })
 
@@ -14,11 +15,11 @@ export function stateEditor() {
     $popup.append($fieldContainer)
     addOptions($dropDown, variables())
     $dropDown.selectmenu({
-        select: (event, ui) => { clearElement($fieldContainer); addField($fieldContainer, ui.item.value ,variables()[ui.item.value]) }
+        select: (event, ui) => { clearElement($fieldContainer); addField($fieldContainer, [ui.item.value] ,variables()[ui.item.value]) }
     })
 
     let firstItem = Object.keys(variables())[0]
-    addField($fieldContainer, firstItem ,variables()[firstItem])
+    addField($fieldContainer, [firstItem] ,variables()[firstItem])
 
     return $popup
 }
@@ -43,34 +44,47 @@ function addOptions($dropDown, options) {
     $dropDown.selectmenu("refresh")
 }
 
-function addField($parent, variable, varVal) {
-    logger(typeof variable)
+function addField($parent, varPath, varVal) {
+    logger(varPath)
+    let varName = varPath[varPath.length-1]
     if (typeof varVal == "string") {
-        let $label = $(`<label for="${variable}-text"/>`).wiki(`${variable}: `)
-        let $textbox = $(`<input type="text" id="${variable}-text" name="${variable}-text" value="${varVal}"/>`).on('input',function (e){
-            variables()[variable] = $(this).val()
+        let $label = $(`<label for="${varName}-text"/>`).wiki(`${varName}: `)
+        let $textbox = $(`<input type="text" id="${varName}-text" name="${varName}-text" value="${varVal}"/>`).on('input',function (e){
+            _.update(variables(), varPath, ()=>{return $(this).val()})
             Engine.show()
         })
-        $parent.append($('<div/>').append($label).append($textbox))
+        $parent.append($('<div/>').css('margin-bottom', '5px').append($label).append($textbox))
     }
     if (typeof varVal == "boolean") {
-        let $label = $(`<label for="${variable}-text"/>`).wiki(`${variable}: `)
-        let $checkbox = $(`<input type="checkbox" id="${variable}-text" ${varVal?'checked':''}/>`).on('input',function (e){
-            variables()[variable] = $(this)[0].checked
+        let $label = $(`<label for="${varName}-text"/>`).wiki(`${varName}: `)
+        let $checkbox = $(`<input type="checkbox" id="${varName}-text" ${varVal?'checked':''}/>`).on('input',function (e){
+            _.update(variables(), varPath, ()=>{return $(this)[0].checked})
             Engine.show()
         })
 
-        $parent.append($('<div/>').append($label).append($checkbox))
+        $parent.append($('<div/>').css('margin-bottom', '5px').append($label).append($checkbox))
     }
     if (typeof varVal == "number") {
-        let $label = $(`<label for="${variable}-text"/>`).wiki(`${variable}: `)
-        let $textbox = $(`<input type="text" id="${variable}-text" name="${variable}-text" value="${varVal}"/>`).on('input',function (e){
-            variables()[variable] = Number($(this).val())
+        let $label = $(`<label for="${varName}-text"/>`).wiki(`${varName}: `)
+        let $textbox = $(`<input type="text" id="${varName}-text" name="${varName}-text" value="${varVal}"/>`).on('input',function (e){
+            _.update(variables(), varPath, ()=>{return Number($(this).val())})
             Engine.show()
         }).inputFilter(function(value) {
             return /^-?\d*.?\d*$/.test(value);    // FIXME For some reason allows a single non-numeric character
           });
-        $parent.append($('<div/>').append($label).append($textbox))
+        $parent.append($('<div/>').css('margin-bottom', '5px').append($label).append($textbox))
+    }
+    if (typeof varVal == "object") {
+        if (Array.isArray(varVal)) {
+            logger('Object data type of Array')
+        } else {
+            logger('Object data type of JSON')
+            for(let field in varVal) {
+                logger(varVal[field])
+                logger(varPath)
+                addField($parent, [...varPath, field], varVal[field])
+            }
+        }
     }
 }
 
@@ -95,3 +109,7 @@ function clearElement($ele) {
       });
     };
   }(jQuery));
+
+  function setVal(obj, path, val) {
+      
+  }
