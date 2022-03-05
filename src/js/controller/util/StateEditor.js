@@ -83,7 +83,7 @@ function addField($parent, varPath, varVal, noLabel, rowId) {
         $parent.append($wrapper)
     }
     if (typeof varVal == "object") {
-        if (Array.isArray(varVal)) {
+        if (Array.isArray(varVal) && !_.isEmpty(varVal)) {
             logger('Object data type of Array')
 
             if (typeof varVal[0] == "string" || typeof varVal[0] == "number") {
@@ -94,6 +94,7 @@ function addField($parent, varPath, varVal, noLabel, rowId) {
             } else {
                 logger(varVal)
                 let tableHeaders = Object.keys(varVal[0])
+                $parent.append($(`<label for="${varName}-text"/>`).wiki(`${varName}: `)).append($('<br/>'))
                 logger(tableHeaders)
                 if (tableHeaders.length > 1) {
                     let $table = $('<table/>').addClass('skillTable');
@@ -117,9 +118,7 @@ function addField($parent, varPath, varVal, noLabel, rowId) {
                     _.each(varVal, (item, key) => {
                         let objKey = Object.keys(item)[0]
                         $parent.append($(`<label for="${objKey}-text"/>`).wiki(`${objKey}: `))
-                        logger(item)
                         addField($parent, [...varPath, key, objKey], item[objKey], false, objKey)
-                        logger([...varPath, key, objKey])
                     })
                     
                 }
@@ -128,9 +127,8 @@ function addField($parent, varPath, varVal, noLabel, rowId) {
 
         } else {
             logger('Object data type of JSON')
-            for (let field in varVal) {
+            for (let field in varVal)
                 addField($parent, [...varPath, field], varVal[field])
-            }
         }
     }
 }

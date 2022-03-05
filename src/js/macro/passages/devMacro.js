@@ -5,7 +5,13 @@ Macro.add('devMacro', {
     skipArgs: false,
     handler: function () {
         logger($('#stateEditor').length)
-        if($('#stateEditor').length == 0)
-            stateEditor()
+
+        let $stateEditor = $('<button/>').wiki('State Editor').click(() => {
+            if ($('#stateEditor').length == 0)
+                stateEditor()
+        })
+
+        $stateEditor.appendTo(this.output)
+
     }
 })
