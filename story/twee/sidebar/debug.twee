@@ -2,6 +2,10 @@
 <<script>>console.log(convertToLargerUnits(State.variables.player.measurements, State.variables.imperial))<</script>>
 <<devMacro>>
 
+<<button "Data Editor" "dataEditor">><</button>>
+
+<<button "Passage Previewer" "passagePreviewer">><</button>>
+
 <<link "Return" $menuReturn>>
 <<unset $menuReturn $skillText>>
 <</link>>

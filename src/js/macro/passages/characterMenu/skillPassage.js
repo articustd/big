@@ -5,7 +5,7 @@ import { popup } from '@controller/util/ModalPopup'
 export function skillPassage() {
     let $wrapper = $('<span/>');
 
-    $wrapper.append($('<span/>').wiki(`''__Learned Skills__''`).append($('<span/>').addClass('ui-icon ui-icon-info')))
+    $wrapper.append($('<span/>').wiki(`''__Learned Skills__''`).append($('<i/>').addClass('fa fa-camera-retro')))
     let player = State.variables.player
     let $list = $('<ul/>').addClass('no-bullets')
     $.each(player.skills, function (rowIndex, skillId) {

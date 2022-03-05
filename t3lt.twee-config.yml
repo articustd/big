@@ -68,3 +68,7 @@ sugarcube-2:
       name: attackSkill
     devMacro:
       name: devMacro
+    dataEditorMacro:
+      name: dataEditorMacro
+    passagePreviewerMacro:
+      name: passagePreviewerMacro
