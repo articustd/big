@@ -14,7 +14,7 @@ export function skillPassage() {
     })
     $wrapper.append($list).append('<br>')
     $wrapper.append($('<span/>').wiki(`''__Available Skills''`))
-    let $table = $('<table/>').addClass('skillTable');;
+    let $table = $('<table/>').addClass('skillTable');
     let tableData = [['Skill', 'Description', 'Points']];
     skills.skills.forEach(function (skill, idx) {
         if (!State.variables.player.skills.includes(idx))

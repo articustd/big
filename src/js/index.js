@@ -12,7 +12,7 @@ setup.ImagePath = "assets/";
 ((Config, State, Story, Engine, Dialog, $document) => {
 	// Set State Variables
 	variables().version = `v0.7.0`
-	variables().items = items.items
+	variables().items = items
 	variables().loot = loot;
 	variables().stores = stores;
 	variables().species = species;

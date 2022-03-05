@@ -1,34 +1,6 @@
 :: debugPassage [noreturn] {"position":"375,125"}
-
-Max Health: <<textbox "$player.stats.maxHlth" $player.stats.maxHlth>>
-Health: <<textbox "$player.stats.hlth" $player.stats.hlth>>
-Strength: <<textbox "$player.stats.strg" $player.stats.strg>>
-Constitution: <<textbox "$player.stats.con" $player.stats.con>>
-Dexterity: <<textbox "$player.stats.dex" $player.stats.dex>>
-Accuracy: <<textbox "$player.stats.acc" $player.stats.acc>>
-Penis: <<textbox "$player.gender.penis" $player.gender.penis>>
-Balls: <<textbox "$player.gender.balls" $player.gender.balls>>
-Breasts: <<textbox "$player.gender.breasts" $player.gender.breasts>>
-Height: <<textbox "$player.measurements.height" $player.measurements.height>>
-Body Fat: <<textbox "$player.measurements.bodyFat" $player.measurements.bodyFat>>
-Current Stomach Capacity: <<textbox "$player.capacity.stomach" $player.capacity.stomach>>
-Current Balls Capacity: <<textbox "$player.capacity.testi" $player.capacity.testi>>
-Credits: <<textbox "$player.credits" $player.credits>>
-Skill Points: <<textbox "$player.skillPoints" $player.skillPoints>>
-Day: <<textbox "$time.day" $time.day>>
-Hour: <<textbox "$time.hour" $time.hour>>
-
 <<script>>console.log(convertToLargerUnits(State.variables.player.measurements, State.variables.imperial))<</script>>
 <<devMacro>>
 <<link "Return" $menuReturn>>
 <<unset $menuReturn $skillText>>
-<<set $player.gender.penis to Number($player.gender.penis)>>
-<<set $player.gender.balls to Number($player.gender.balls)>>
-<<set $player.gender.breasts to Number($player.gender.breasts)>>
-<<set $player.measurements.height to Number($player.measurements.height)>>
-<<set $player.measurements.bodyFat to Number($player.measurements.bodyFat)>>
-<<set $player.capacity.stomach to Number($player.capacity.stomach)>>
-<<set $player.capacity.balls to Number($player.capacity.balls)>>
-<<set $time.day to Number($time.day)>>
-<<set $time.hour to Number($time.hour)>>
 <</link>>
