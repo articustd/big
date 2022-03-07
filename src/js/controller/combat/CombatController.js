@@ -138,7 +138,7 @@ function getSkillMods(type, character, value) {
 	let multi = []
 	for (let skillId of character.skills) {
 		logger('here')
-		let skill = skills.skills[skillId]
+		let skill = skills[skillId]
 		logger(skill)
 		if (skill.type === type) {
 			if (skill.multi) {

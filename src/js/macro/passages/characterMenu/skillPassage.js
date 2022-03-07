@@ -9,14 +9,14 @@ export function skillPassage() {
     let player = State.variables.player
     let $list = $('<ul/>').addClass('no-bullets')
     $.each(player.skills, function (rowIndex, skillId) {
-        let skill = skills.skills[skillId]
+        let skill = skills[skillId]
         $list.append($('<li/>').wiki(`''${skill.name}'' - ${skill.desc}`))
     })
     $wrapper.append($list).append('<br>')
     $wrapper.append($('<span/>').wiki(`''__Available Skills''`))
     let $table = $('<table/>').addClass('skillTable');
     let tableData = [['Skill', 'Description', 'Points']];
-    skills.skills.forEach(function (skill, idx) {
+    skills.forEach(function (skill, idx) {
         if (!State.variables.player.skills.includes(idx))
             tableData.push([skill.name, skill.desc, skill.cost, idx])
     })

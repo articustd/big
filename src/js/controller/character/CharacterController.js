@@ -21,13 +21,13 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     for (let item of rawLoot) {
         let found = false
         availableLoot.forEach(function (foundLoot, idx) {
-            if (loot['loot'][item].id === foundLoot.id) {
+            if (loot[item].id === foundLoot.id) {
                 found = true
                 availableLoot[idx].qty += 1
             }
         })
         if (!found)
-            availableLoot.push({ id: loot['loot'][item].id, qty: 1, chnc: loot['loot'][item].chnc })
+            availableLoot.push({ id: loot[item].id, qty: 1, chnc: loot[item].chnc })
     }
     // Roll for credits
     var randomPercent = Math.clamp(random(1, 100), 75, 100) / 100

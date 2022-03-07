@@ -24,7 +24,7 @@ function checkWilling(playerSkills, enemy) {
         willing = willing > 0 ? willing : 1
 
         for (let skillId of playerSkills) {
-            let skill = skills.skills[skillId]
+            let skill = skills[skillId]
             logger(skill)
             if (skill.type === 'ability')
                 if (skill.subType === 'willing')
