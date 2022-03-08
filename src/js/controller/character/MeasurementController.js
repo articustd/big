@@ -148,13 +148,16 @@ function getSizeIdx(char) {
 }
 
 export function sizeInRange(min, max, charSize) {
-	let response = false;
+	let response;
 	measurements.sizes.forEach(function (size, idx) {
 		let sizeKey = Object.keys(size)[0]
 		if (size[sizeKey].range[0] <= charSize && size[sizeKey].range[1] > charSize)
-			if (min <= idx && max >= idx)
-				response = true
-
+			if (min > idx)
+				response = 0
+			else if (max < idx)
+				response = 2
+			else
+				response = 1
 	})
 	return response
 }

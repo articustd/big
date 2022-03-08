@@ -12,6 +12,9 @@ import * as measurements from './character/MeasurementTable'
 import { species, speciesDesc } from './character/SpeciesTable'
 import { genders, pronouns } from './character/Genders'
 
+//City Tables
+import { normalCity } from './cityTable'
+
 import settings from './SettingsTable.json'
 
 export {

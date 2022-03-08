@@ -1,62 +1,40 @@
 import { logger } from "@util/Logging"
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
-import { attacks, genders, skills, stores } from "@js/data"
+import * as data from "@js/data"
+import * as dataMap from '@js/data/dataMaps'
 import _ from "lodash"
+import { getPropMeta } from "@util/DataMapping"
 
 
 Macro.add('dataEditorMacro', {
     skipArgs: false,
     handler: function () {
-        let metaMap = getPropMeta([], attacks)
-        let $button = $('<button/>').wiki('Copy JSON').click(()=>{
-            navigator.clipboard.writeText(`${JSON.stringify(metaMap)}`);
+        let $label = $(`<label for="dataMapDropDown"/>`).wiki(`Data Map: `)
+        let $dropDown = $(`<select id="dataMapDropDown" name="dataMapDropDown"/>`)
+
+        let $wrapper = $('<div/>').append($label).append($dropDown).css({ width: '100%', "margin-bottom": '10px' })
+        $wrapper.appendTo(this.output)
+        $dropDown.selectmenu({
+            width: 200
         })
-        
-        $button.appendTo(this.output)
+        logger(dataMap)
+        _.each(dataMap, (val, key) => {
+            // logger(val)
+            $dropDown.append($('<option/>').wiki(val.name))
+            logger(key)
+            logger(val)
+        })
+
+        $dropDown.selectmenu("refresh")
+
+
+        // Use this to get the meta map of a data store
+        // let metaMap = getPropMeta([], attacks)
+        // let $button = $('<button/>').wiki('Copy JSON').click(()=>{
+        //     navigator.clipboard.writeText(`${JSON.stringify(metaMap)}`);
+        // })
+
+        // $button.appendTo(this.output)
     }
 })
-
-function getPropMeta(metaMap, obj, propName) {
-    let currPropMeta = { name: ``, propName: ``, type: ``, children: [] }
-    switch (typeof obj) {
-        case 'number':
-            currPropMeta.propName = propName
-            currPropMeta.type = `Number`
-            metaMap = currPropMeta
-            break
-        case 'object':
-            let type
-            if (Array.isArray(obj)) {
-                type = `Array`
-                obj = obj[0]
-            }
-            else
-                type = `Object`
-            _.each(obj, (childItem, childKey) => {
-                currPropMeta.children.push(getPropMeta([], childItem, childKey))
-            })
-            currPropMeta.type = type
-            currPropMeta.propName = propName || ""
-            metaMap = currPropMeta
-            break
-        case 'string':
-            currPropMeta.propName = propName
-            currPropMeta.type = `String`
-            metaMap = currPropMeta
-            break
-        case 'boolean':
-            currPropMeta.propName = propName
-            currPropMeta.type = `Boolean`
-            metaMap = currPropMeta
-            break
-        case 'function':
-            currPropMeta.propName = propName
-            currPropMeta.type = `Function`
-            metaMap = currPropMeta
-            break
-        default:
-            logger(`default`)
-    }
-    return metaMap
-}

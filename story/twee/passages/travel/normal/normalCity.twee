@@ -1,6 +1,8 @@
 :: normalCity {"position":"500,125"}
 <h1>Variable Village Downtown</h1>
 
+<<cityMacro 3 5 "normalCity">>
+
 <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 3 5>><</timeAction>>
 <<link "The Maintainer Gym" "train">><</link>>
 <<link "Store" "store">><<set $storeId to 1>><</link>>
