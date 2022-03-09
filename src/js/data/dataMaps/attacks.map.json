@@ -1,5 +1,6 @@
 {
     "name": "Attacks",
+    "dataName": "attacks",
     "propName": "",
     "type": "Array",
     "children": [{

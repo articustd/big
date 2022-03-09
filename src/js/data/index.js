@@ -13,7 +13,7 @@ import { species, speciesDesc } from './character/SpeciesTable'
 import { genders, pronouns } from './character/Genders'
 
 //City Tables
-import { normalCity } from './cityTable'
+import * as cityText from './cityTable'
 
 import settings from './SettingsTable.json'
 
@@ -29,5 +29,6 @@ export {
         speciesDesc,
         genders,
         pronouns,
-        settings
+        settings,
+        cityText
 }
