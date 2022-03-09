@@ -9,7 +9,7 @@ let attacks = [{
     reqs: {
         isDisabled: (user,enemy) => { return false }
     },
-    "desc": "You use your claws for a swiping attack."
+    "desc": "''Description:''<br/>You use your claws for a swiping attack.<br/><br/>''Stat Modifers:''<br/>- Dexterity"
 },
 {
     "name": "Bite",
@@ -22,7 +22,7 @@ let attacks = [{
     reqs: {
         isDisabled: (user,enemy) => { return false }
     },
-    "desc": "Getting a taste before the meal.",
+    "desc": "''Description:''<br/>Getting a taste before the meal.<br/><br/>''Stat Modifers:''<br/>- Strength",
 },
 {
     "name": "Stomp",
@@ -36,7 +36,7 @@ let attacks = [{
         isDisabled: (user, enemy) => { return user.measurements.height / enemy.measurements.height < 2 },
         disabledToolTip: `Enemy is too large`,
     },
-    "desc": "You are large enough to step on your oppenent. <br> You must be at least 2x taller to use this attack."
+    "desc": "''Description:''<br/>You are large enough to step on your oppenent.<br/><br/>''Stat Modifers:''<br/>- Strength<br/><br/>''Requirements:''<br>You must be at least 2x taller to use this attack. If not, it will be disabled in combat."
 }
 ]
 
