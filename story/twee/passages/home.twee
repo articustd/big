@@ -6,7 +6,7 @@ You're home. Nothing here except you, a bed, and the mirror.
 <<nobr>>
 <<if def $restText>>
 $restText
-<</if>>
+<</if>><<restMessageMacro true>>
 <</nobr>>
 
 <<link "Travel" "travel">><<<<unset $restText>><</link>>

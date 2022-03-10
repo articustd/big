@@ -1,6 +1,7 @@
 :: macroCity {"position":"125,125"}
 <h1>Macro Megacity Downtown</h1>
 
+<<restMessageMacro>>
 <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 6 8>><</timeAction>>
 <<link "Titan Triceps Gym" "train">><</link>>
 <<link "Store" "store">><<set $storeId to 2>><</link>>

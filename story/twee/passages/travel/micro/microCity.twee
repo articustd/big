@@ -4,6 +4,7 @@ You see a city scaled down for the smaller inhabitants of the area. Looking at t
 
 <<cityMacro 0 2 "microCity">>
 
+<<restMessageMacro>>
 <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 0 2>><</timeAction>>
 <<link "Micro Muscle Gym" "train">><</link>>
 <<link "Store" "store">><<set $storeId to 0>><</link>>

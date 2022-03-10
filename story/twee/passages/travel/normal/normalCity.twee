@@ -3,6 +3,7 @@
 
 <<cityMacro 3 5 "normalCity">>
 
+<<restMessageMacro>>
 <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 3 5>><</timeAction>>
 <<link "The Maintainer Gym" "train">><</link>>
 <<link "Store" "store">><<set $storeId to 1>><</link>>

@@ -18,7 +18,11 @@
 
 .currentHealthBar, .currentVisCapBar {
     @extend %currentStatusBar-shared;
-    background: red;
+    background: #ff0000;
+}
+
+.warningFlash {
+    animation: healthFlash 1s alternate ease-in-out infinite;
 }
 
 .currentNotVisCapBar {
@@ -31,4 +35,10 @@
     top: -45%;
     transform: translateY(-50%);
     font-weight: bold;
+}
+
+@keyframes healthFlash {
+    100% {
+        background: transparent
+    }
 }
