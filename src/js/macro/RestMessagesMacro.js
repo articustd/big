@@ -32,8 +32,9 @@ Macro.add('restMessageMacro', {
                 message = null
         }
 
-        if (message)
-            $messageDiv.wiki(message).appendTo(this.output)
+        if (message) {
+            $messageDiv.wiki(message).prepend($('<br/>')).appendTo(this.output)
+        }
     }
 })
 
