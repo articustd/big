@@ -127,19 +127,20 @@ function blankExp() {
 }
 
 function getExpCalc(character, exp, expMod, statPoints) {
+    let hyperMode = (variables().tweak.hyperMode)?4:1
     switch (exp) {
         case 'muscle':
-            return Math.round(Math.log10(character.stats.strg)) * expMod
+            return (Math.round(Math.log10(character.stats.strg)) * expMod) * hyperMode
         case 'fat':
-            return Math.round(Math.log10(character.stats.con)) * expMod
+            return (Math.round(Math.log10(character.stats.con)) * expMod) * hyperMode
         case 'size':
-            return Math.floor(Math.log(character.measurements.height) ** 2)
+            return (Math.floor(Math.log(character.measurements.height) ** 2)) * hyperMode
         case 'skill':
-            return Math.floor(Math.log2(statPoints))
+            return (Math.floor(Math.log2(statPoints))) * hyperMode
         case 'pawEye':
-            return Math.round(Math.log10(character.stats.acc)) * expMod
+            return (Math.round(Math.log10(character.stats.acc)) * expMod) * hyperMode
         case 'agility':
-            return Math.round(Math.log10(character.stats.dex)) * expMod
+            return (Math.round(Math.log10(character.stats.dex)) * expMod) * hyperMode
     }
 }
 

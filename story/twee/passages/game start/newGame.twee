@@ -1,5 +1,5 @@
 :: newGame {"position":"150,675","size":"100,100"}
-<h1>Create Character</h1><<script>>State.variables.playerSizes = sizeArray([2,3,4])<</script>>
+<h1>Create Character</h1><<script>>State.variables.playerSizes = sizeArray([2,3,4]);<</script>>
 Welcome to the character creater! 
 
 Here you can pick your name, starting species, gender, size, and how you want measurements displayed.
@@ -17,14 +17,18 @@ Pronouns: <<listbox "$player.pronouns" autoselect>><<optionsfrom $pronouns>><</l
 
 Size: <<listbox "$player.size" autoselect>><<optionsfrom $playerSizes>><</listbox>>
 
+''__Game Settings__''
 Units of Measure: <<listbox "$settings.units.imperial" autoselect>>
 	<<option "Imperial" true>>
 	<<option "Metric" false>>
 <</listbox>>
-
 Time: <<listbox "$settings.units.twelveHour" autoselect>>
 	<<option "12 Hour" true>>
 	<<option "24 Hour" false>>
+<</listbox>>
+Hyper Mode <<script>>$('<i class="fa fa-info-circle" aria-hidden="true"/>').tooltip({ track: true, hide: { delay: 100 } }).attr('title', `Increases experience gain by 4x from fights.`).appendTo(this.output)<</script>>: <<listbox "$settings.tweak.hyperMode" autoselect>>
+	<<option "On" true>>
+	<<option "Off" false>>
 <</listbox>>
 
 <<button "Next" "welcome">><</button>>

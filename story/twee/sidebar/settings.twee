@@ -22,4 +22,10 @@ Learn Attack Informational: <<listbox "$settings.info.learnedAttackInfo" autosel
 	<<option "Never" false>>
 <</listbox>>
 
+''__Gameplay Tweaks__''
+Hyper Mode <<script>>$('<i class="fa fa-info-circle" aria-hidden="true"/>').tooltip({ track: true, hide: { delay: 100 } }).attr('title', `Increases experience gain by 4x from fights.`).appendTo(this.output)<</script>>: <<listbox "$settings.tweak.hyperMode" autoselect>>
+	<<option "On" true>>
+	<<option "Off" false>>
+<</listbox>>
+
 <<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

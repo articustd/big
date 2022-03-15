@@ -5,8 +5,8 @@ import { popup } from '@controller/util/ModalPopup'
 export function skillPassage() {
     let $wrapper = $('<span/>');
 
-    $wrapper.append($('<span/>').wiki(`''__Learned Skills__''`).append($('<i/>').addClass('fa fa-camera-retro')))
-    let player = State.variables.player
+    $wrapper.append($('<span/>').wiki(`''__Learned Skills__''`))
+    let player = variables().player
     let $list = $('<ul/>').addClass('no-bullets')
     $.each(player.skills, function (rowIndex, skillId) {
         let skill = skills[skillId]
@@ -17,7 +17,7 @@ export function skillPassage() {
     let $table = $('<table/>').addClass('skillTable');
     let tableData = [['Skill', 'Description', 'Points']];
     skills.forEach(function (skill, idx) {
-        if (!State.variables.player.skills.includes(idx))
+        if (!variables().player.skills.includes(idx))
             tableData.push([skill.name, skill.desc, skill.cost, idx])
     })
 
@@ -30,9 +30,9 @@ export function skillPassage() {
             if (player.skillPoints >= r[2]) {
                 $button.ariaClick(function (ev) {
                     let notificationText = ''
-                    if (State.variables.player.skillPoints >= r[2]) {
-                        State.variables.player.skills.push(r[3])
-                        State.variables.player.skillPoints -= r[2]
+                    if (variables().player.skillPoints >= r[2]) {
+                        variables().player.skills.push(r[3])
+                        variables().player.skillPoints -= r[2]
 
                         $(`#skill-${r[3]}`).remove()
                         $('<li/>').wiki(`''${r[0]}'' - ${r[1]}`).hide().appendTo(`ul.no-bullets`).fadeIn(1000).fadeOut(1000).fadeIn(1000)
