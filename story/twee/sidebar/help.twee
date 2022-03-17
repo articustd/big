@@ -1,5 +1,14 @@
 :: help [noreturn] {"position":"275,550","size":"100,100"}
 <h1>Help</h1>
+!!Combat
+Reduce the enemies health down to 0 to win. Use items to heal or run away if the fight is too difficult!
+
+''Winning'' - Will randomly give you items and credits. After winning you can choose to consume the enemy, doing so will grant a random amount of Experience suited for the enemy type.
+''Losing'' - When you lose a fight you will be knocked out. When knocked out you will lose ALL Experience, be reduced to 1 HP, and sent back home with full health.
+
+!!Leveling Up
+To level up you must have consumed any amount of enemies and have experience points. You will need to head home and rest to absorb the experience into your permanent base stats. If you go over your consumption, you will encounter random enemies until you get home!
+
 !!Stats
 ''__Base Stats__''
 ''Health'' - Current health out of max total health.
@@ -10,8 +19,8 @@
 ''Skill Points'' - Used to purchase skills from the Skills Page. Governed by Skill Experience.
 
 ''__Measurements__''
-''Height'' - How large you are. Currently does NOT effect anything. Governed by the Size Experience.
-''Weight'' - How heavy you are. Currently does NOT effect anything. Governed by the Fat Experience.
+''Height'' - How large you are. Governed by the Size Experience.
+''Weight'' - How heavy you are. Governed by the Fat Experience.
 
 ''__Experience Points__''
 ''Muscle'' - The amount of Muscle Experience you currently have. Effects Strength when resting.
@@ -23,14 +32,4 @@
 
 ''Credits'' - Current amount of credits you have.
 
-!!Combat
-Currently there are only two types of attacks: Punch and Kick.
-''Punch'' - Uses the Strength stat.
-''Kick'' - Uses the Dexterity stat.
-
-''Winning'' - Will randomly give you items and credits. After winning you can choose to consume the enemy, doing so will grant a random amount of Experience suited for the enemy type.
-''Losing'' - When you lose a fight you will be knocked out. When knocked out you will lose ALL Experience, be reduced to 1 HP, and sent back to the area you picked the fight in.
-
-!!Items
-Items grant Experience for the stat that it effects.
 <<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
