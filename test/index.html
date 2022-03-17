@@ -395,6 +395,15 @@ And thank you to you, the player! I hope you have enjoyed/will enjoy the game!
 &lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;
 &lt;&lt;unset $menuReturn $skillText&gt;&gt;
 &lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="help" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Help&lt;/h1&gt;
+!!Combat
+Reduce the enemies health down to 0 to win. Use items to heal or run away if the fight is too difficult!
+
+&#39;&#39;Winning&#39;&#39; - Will randomly give you items and credits. After winning you can choose to consume the enemy, doing so will grant a random amount of Experience suited for the enemy type.
+&#39;&#39;Losing&#39;&#39; - When you lose a fight you will be knocked out. When knocked out you will lose ALL Experience, be reduced to 1 HP, and sent back home with full health.
+
+!!Leveling Up
+To level up you must have consumed any amount of enemies and have experience points. You will need to head home and rest to absorb the experience into your permanent base stats. If you go over your consumption, you will encounter random enemies until you get home!
+
 !!Stats
 &#39;&#39;__Base Stats__&#39;&#39;
 &#39;&#39;Health&#39;&#39; - Current health out of max total health.
@@ -405,8 +414,8 @@ And thank you to you, the player! I hope you have enjoyed/will enjoy the game!
 &#39;&#39;Skill Points&#39;&#39; - Used to purchase skills from the Skills Page. Governed by Skill Experience.
 
 &#39;&#39;__Measurements__&#39;&#39;
-&#39;&#39;Height&#39;&#39; - How large you are. Currently does NOT effect anything. Governed by the Size Experience.
-&#39;&#39;Weight&#39;&#39; - How heavy you are. Currently does NOT effect anything. Governed by the Fat Experience.
+&#39;&#39;Height&#39;&#39; - How large you are. Governed by the Size Experience.
+&#39;&#39;Weight&#39;&#39; - How heavy you are. Governed by the Fat Experience.
 
 &#39;&#39;__Experience Points__&#39;&#39;
 &#39;&#39;Muscle&#39;&#39; - The amount of Muscle Experience you currently have. Effects Strength when resting.
@@ -418,16 +427,6 @@ And thank you to you, the player! I hope you have enjoyed/will enjoy the game!
 
 &#39;&#39;Credits&#39;&#39; - Current amount of credits you have.
 
-!!Combat
-Currently there are only two types of attacks: Punch and Kick.
-&#39;&#39;Punch&#39;&#39; - Uses the Strength stat.
-&#39;&#39;Kick&#39;&#39; - Uses the Dexterity stat.
-
-&#39;&#39;Winning&#39;&#39; - Will randomly give you items and credits. After winning you can choose to consume the enemy, doing so will grant a random amount of Experience suited for the enemy type.
-&#39;&#39;Losing&#39;&#39; - When you lose a fight you will be knocked out. When knocked out you will lose ALL Experience, be reduced to 1 HP, and sent back to the area you picked the fight in.
-
-!!Items
-Items grant Experience for the stat that it effects.
 &lt;&lt;link &quot;Return&quot; $menuReturn&gt;&gt;&lt;&lt;unset $menuReturn&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="inv" tags="noreturn" position="275,550" size="100,100">&lt;h1&gt;Inventory&lt;/h1&gt;
 
 &lt;&lt;nobr&gt;&gt;&lt;&lt;if def $invText&gt;&gt;$invText&lt;&lt;/if&gt;&gt;&lt;&lt;/nobr&gt;&gt;
