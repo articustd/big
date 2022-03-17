@@ -22,7 +22,7 @@ Macro.add('attackAction', {
             }
 
             let dmgRange = calcDmgRange(attack, State.variables.player)
-            let attackText = `${attack.name}<br>[${dmgRange.min}-${dmgRange.max}] ${calcHitChance(attack, State.variables.player)}%`
+            let attackText = `${attack.name}<br>[${dmgRange.min}-${dmgRange.max}] ${calcHitChance(attack, variables().player, variables().enemy)}%`
 
             $link
                 .wiki(attackText)

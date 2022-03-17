@@ -41,13 +41,8 @@ Macro.add('restMessageMacro', {
 function getFullPercentage(capacity) {
     let maxCap = 0
     _.each(capacity, (val, key) => {
-        logger(key)
         if (!key.includes('Max'))
             maxCap = (capacity[key] / capacity[key + 'Max'] > maxCap) ? (capacity[key] / capacity[key + 'Max']) : maxCap
-        logger(capacity[key] / capacity[key + 'Max'])
-        logger(maxCap)
-        // logger(key)
-        // logger(val)
     })
     return maxCap
 }

@@ -2,29 +2,26 @@ import { rollItems } from "@controller/ItemController";
 import { skills } from "@js/data";
 import { logger } from "@util/Logging";
 
-var maxHitPer = 85;
-var minDmgMult = 60;
-
 /* Combat calculations */
 export function combatRoll(playerAttack) {
 	// Pull in player & enemy into local vars for easy access
-	let enemy = State.variables.enemy
-	let player = State.variables.player
+	let enemy = variables().enemy
+	let player = variables().player
 
-	// Pull in State Variables for Logs
-	if (!State.variables.playerCombatLog)
-		State.variables.playerCombatLog = []
-	if (!State.variables.enemyCombatLog)
-		State.variables.enemyCombatLog = []
+	// Pull in variables() for Logs
+	if (!variables().playerCombatLog)
+		variables().playerCombatLog = []
+	if (!variables().enemyCombatLog)
+		variables().enemyCombatLog = []
 
-	let playerCombatLog = State.variables.playerCombatLog
-	let enemyCombatLog = State.variables.enemyCombatLog
+	let playerCombatLog = variables().playerCombatLog
+	let enemyCombatLog = variables().enemyCombatLog
 
 	// Ready storage for damage done
 	let playerDmg, enemyDmg;
 
 	// Check if player hits
-	let hitChance = calcCombatHit(playerAttack, player)
+	let hitChance = calcCombatHit(playerAttack, player, enemy)
 	if (hitChance.hit) {
 		playerDmg = calcCombatDmg(playerAttack, player, hitChance.crit)
 		reduceHealth(enemy, playerDmg)
@@ -39,7 +36,7 @@ export function combatRoll(playerAttack) {
 	// let enemyAttack = randomEnemyAttack(enemy.attackSet);
 	let enemyAttack = playerAttack;
 	if (checkHealth(enemy)) { // Check to see if enemy is alive first
-		hitChance = calcCombatHit(enemyAttack, enemy)
+		hitChance = calcCombatHit(enemyAttack, enemy, player)
 		if (hitChance.hit) {
 			enemyDmg = calcCombatDmg(enemyAttack, enemy, false)
 			reduceHealth(player, enemyDmg)
@@ -51,18 +48,18 @@ export function combatRoll(playerAttack) {
 		}
 	} else { // Enemy is knocked out
 		// enemyHitText = "Enemy has passed out!"
-		State.variables.combat = false
-		State.variables.win = true
-		State.variables.combatResults = `You've knocked out your enemy!`
-		State.variables.foundItems = rollItems(enemy.loot, enemy.credits)
+		variables().combat = false
+		variables().win = true
+		variables().combatResults = `You've knocked out your enemy!`
+		variables().foundItems = rollItems(enemy.loot, enemy.credits)
 	}
 
 	if (!checkHealth(player)) {
 		for (let exp in player.exp) {
 			player.exp[exp] = 0;
 		}
-		State.variables.combatResults = `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
-		State.variables.combat = false
+		variables().combatResults = `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
+		variables().combat = false
 	}
 }
 
@@ -82,8 +79,8 @@ function getDodgeHTML(text) {
 	return `<span style="color:white">${text}</span>`
 }
 
-function calcCombatHit(attack, attacker) {
-	let hitChance = 100 - calcHitChance(attack, attacker);
+function calcCombatHit(attack, attacker, defender) {
+	let hitChance = 100 - calcHitChance(attack, attacker, defender);
 	let hitRoll = random(1, 100)
 	if (hitRoll > hitChance) {
 		if (hitRoll >= 100)
@@ -93,18 +90,28 @@ function calcCombatHit(attack, attacker) {
 	return { hit: false, crit: false }
 }
 
-export function calcHitChance(attack, attacker) {
+export function calcHitChance(attack, attacker, defender) {
 	// Base Stats
-	let hitMod = attacker.stats.acc;
+	let attackerAcc = attacker.stats.acc
+	let defenderDex = defender.stats.dex
+
+	let accNum = _.clamp((attackerAcc * 0.4 - defenderDex) + 9,0,8)
+	logger(`attackerAcc: ${attackerAcc}`)
+	logger(`defenderDex: ${defenderDex}`)
+	logger(`attackerAcc * 0.4: ${attackerAcc * 0.4}`)
+	logger(`attackerAcc * 0.4 - defenderDex: ${attackerAcc * 0.4 - defenderDex}`)
+	logger(`accNum: ${accNum}`)
+	let accPer = [15,20,30,40,45,50,65,80,100]
 
 	// Status Effect
 
 
 	// Skill
-	if (attacker.skills)
-		hitMod = getSkillMods('hit', attacker, hitMod)
+	// if (attacker.skills)
+	// 	hitMod = getSkillMods('hit', attacker, hitMod)
 
-	return Math.clamp(Math.floor(((4 * Math.log2(hitMod)) + attack.baseHitChnc)), 1, 100);
+	accNum = _.clamp(accNum,0,8)
+	return accPer[accNum]
 }
 
 function calcCombatDmg(attack, attacker, crit) {

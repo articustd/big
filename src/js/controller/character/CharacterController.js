@@ -127,7 +127,7 @@ function blankExp() {
 }
 
 function getExpCalc(character, exp, expMod, statPoints) {
-    let hyperMode = (variables().tweak.hyperMode)?4:1
+    let hyperMode = (variables().settings.tweak.hyperMode) ? 4 : 1
     switch (exp) {
         case 'muscle':
             return (Math.round(Math.log10(character.stats.strg)) * expMod) * hyperMode
@@ -210,4 +210,55 @@ export function returnStatName(stat) {
         case 'height':
             return 'Height'
     }
+}
+
+export function capacityChange(player) {
+    for (let cap in player.capacity) {
+        if (!cap.contains("Max") && player.capacity[cap] > 0) {
+            player.capacity[`${cap}Max`] += Math.min(Math.ceil(player.capacity[cap]), player.capacity[`${cap}Max`]) / 4
+            player.capacity[cap] = 0
+        }
+    }
+}
+
+export function statMapping(stat) {
+    switch (stat) {
+        case 'muscle':
+            return ['stats', 'strg']
+        case 'fat':
+            return ['measurements', 'bodyFat']
+        case 'size':
+            return ['measurements', 'height']
+        case 'skill':
+            return ['skillPoints']
+        case 'pawEye':
+            return ['stats', 'acc']
+        case 'agility':
+            return ['stats', 'dex']
+    }
+}
+
+export function levelUp(character) {
+    let leveled = false
+    Object.entries(character.exp).forEach(([stat, value]) => {
+        if (value !== 0) {
+            let statMap = statMapping(stat)
+            if (statMap.length == 1)
+                character[statMap[0]] += value
+
+            if (statMap.length == 2)
+                character[statMap[0]][statMap[1]] += value
+
+            character.exp[stat] = 0
+
+            leveled = true
+        }
+    });
+    return leveled
+}
+
+export function rest(character) {
+    character.stats.maxHlth = getMaxHealth(character)
+    character.stats.hlth = character.stats.maxHlth;
+    capacityChange(character)
 }
