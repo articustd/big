@@ -1,6 +1,8 @@
+import { getSkillById } from "@controller/character/CharacterController";
 import { rollItems } from "@controller/ItemController";
 import { skills } from "@js/data";
 import { logger } from "@util/Logging";
+import _ from "lodash";
 
 /* Combat calculations */
 export function combatRoll(playerAttack) {
@@ -92,43 +94,33 @@ function calcCombatHit(attack, attacker, defender) {
 
 export function calcHitChance(attack, attacker, defender) {
 	// Base Stats
-	let attackerAcc = attacker.stats.acc
-	let defenderDex = defender.stats.dex
+	let { stats: { con: atkCon, dex: atkDex } } = attacker
+	let { stats: { con: defCon, dex: defDex } } = defender
 
-	let accNum = _.clamp((attackerAcc * 0.4 - defenderDex) + 9,0,8)
-	logger(`attackerAcc: ${attackerAcc}`)
-	logger(`defenderDex: ${defenderDex}`)
-	logger(`attackerAcc * 0.4: ${attackerAcc * 0.4}`)
-	logger(`attackerAcc * 0.4 - defenderDex: ${attackerAcc * 0.4 - defenderDex}`)
-	logger(`accNum: ${accNum}`)
-	let accPer = [15,20,30,40,45,50,65,80,100]
-
+	let hitPer = ((atkDex / 4) + attack.baseHitChnc) + atkCon - defCon
 	// Status Effect
 
 
 	// Skill
-	// if (attacker.skills)
-	// 	hitMod = getSkillMods('hit', attacker, hitMod)
+	if (attacker.skills)
+		hitPer += getHitSkillMod(attacker)
 
-	accNum = _.clamp(accNum,0,8)
-	return accPer[accNum]
+	return _.clamp(_.floor(hitPer), 1, 100)
 }
 
 function calcCombatDmg(attack, attacker, crit) {
-	let dmg = calcDmgRange(attack, attacker)
-	if (crit)
-		return Math.floor(random(dmg.min, dmg.max) * attack.critMulti)
-	return random(dmg.min, dmg.max)
+	let { min, max } = calcDmgRange(attack, attacker)
+	return _.floor(_.random(min, max) * ((crit) ? attack.critMulti : 1))
 }
 
 export function calcDmgRange(attack, attacker) {
 	// Base Stats
-	let dmgRange = { min: Math.floor(Math.pow(attacker.stats[attack.type], attack.minMod)), max: Math.floor(Math.pow(attacker.stats[attack.type], attack.maxMod)) } // FIXME This looks wrong, minMod shouldn't be used for the pow
+	let dmgRange = { min: Math.floor(Math.pow(attacker.stats[attack.type], attack.minMod)), max: Math.floor(Math.pow(attacker.stats[attack.type], attack.maxMod)) }
 	// Status Effect
 
 	// Skill
 	if (attacker.skills)
-		dmgRange = getSkillMods('dmg', attacker, dmgRange)
+		dmgRange = getDmgSkillMod(attacker, dmgRange)
 
 	return dmgRange
 }
@@ -138,40 +130,45 @@ function checkHealth(defender) {
 }
 
 function reduceHealth(defender, dmg) {
-	defender.stats.hlth = Math.clamp(defender.stats.hlth - dmg, 0, defender.stats.hlth)
+	defender.stats.hlth = _.clamp(defender.stats.hlth - dmg, 0, defender.stats.hlth)
 }
 
-function getSkillMods(type, character, value) {
-	let multi = []
-	for (let skillId of character.skills) {
-		logger('here')
-		let skill = skills[skillId]
-		logger(skill)
-		if (skill.type === type) {
-			if (skill.multi) {
-				multi.push({ mod: skill.mod, min: skill.min, max: skill.max })
-			} else {
-				if (typeof value === Number)
-					value += skill.mod
-				else {
-					if (skill.min)
-						value.min += skill.mod
-					if (skill.max)
-						value.max += skill.mod
-				}
+function getHitSkillMod(character) {
+	let hitMod = 0
+
+	_.each(character.skills, (skillId)=>{
+		let {mod, type} = getSkillById(skillId)
+		if(type === "hit")
+			hitMod += mod
+	})
+
+	return hitMod
+}
+
+function getDmgSkillMod(character, value) {
+	let multipliers = []
+	
+	_.each(character.skills, (skillId)=>{
+		let {mod, type, multi, min, max} = getSkillById(skillId)
+		if(type === "dmg") {
+			if(multi)
+				multipliers.push({mod,min,max})
+			else {
+				if(min)
+					value.min += mod
+				if(max)
+					value.max += mod
 			}
 		}
-	}
+	})
 
-	for (let multiMod of multi) {
-		if (multiMod.min)
-			value.min = value.min * multiMod.mod
-		if (multiMod.max)
-			value.max = value.max * multiMod.mod
-		else
-			value = value * multiMod.mod
-	}
-	
+	_.each(multipliers, ({min,max,mod})=>{
+		if(min)
+			value.min *= mod
+		if(max)
+			value.max *= mod
+	})
+
 	return value
 }
 

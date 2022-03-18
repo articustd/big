@@ -1,15 +1,15 @@
 let attacks = [{
     "name": "Scratch",
-    "type": "dex",
-    "baseHitChnc": 50,
+    "type": "strg",
+    "baseHitChnc": 75,
     "critMulti": 2,
-    "maxMod": 0.9,
-    "minMod": 0.6,
+    "maxMod": 0.6,
+    "minMod": 0.3,
     "cost": 10,
     reqs: {
         isDisabled: (user,enemy) => { return false }
     },
-    "desc": "''Description:''<br/>You use your claws for a swiping attack.<br/><br/>''Stat Modifers:''<br/>- Dexterity"
+    "desc": "''Description:''<br/>You use your claws for a swiping attack.<br/><br/>''Stat Modifers:''<br/>- Strength"
 },
 {
     "name": "Bite",

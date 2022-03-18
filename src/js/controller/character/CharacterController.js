@@ -1,5 +1,5 @@
 import { logger } from "@util/Logging";
-import { species, measurements, genders, loot } from '@js/data'
+import { species, measurements, genders, loot, skills } from '@js/data'
 
 export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
     let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {} };
@@ -261,4 +261,8 @@ export function rest(character) {
     character.stats.maxHlth = getMaxHealth(character)
     character.stats.hlth = character.stats.maxHlth;
     capacityChange(character)
+}
+
+export function getSkillById(id) {
+    return skills[id]
 }

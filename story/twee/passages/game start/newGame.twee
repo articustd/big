@@ -26,7 +26,7 @@ Time: <<listbox "$settings.units.twelveHour" autoselect>>
 	<<option "12 Hour" true>>
 	<<option "24 Hour" false>>
 <</listbox>>
-Hyper Mode <<script>>$('<i class="fa fa-info-circle" aria-hidden="true"/>').tooltip({ track: true, hide: { delay: 100 } }).attr('title', `Increases experience gain by 4x from fights.`).appendTo(this.output)<</script>>: <<listbox "$settings.tweak.hyperMode" autoselect>>
+Hyper EXP Mode <<script>>$('<i class="fa fa-info-circle" aria-hidden="true"/>').tooltip({ track: true, hide: { delay: 100 } }).attr('title', `Increases experience gain by 4x from fights.`).appendTo(this.output)<</script>>: <<listbox "$settings.tweak.hyperMode" autoselect>>
 	<<option "On" true>>
 	<<option "Off" false>>
 <</listbox>>
