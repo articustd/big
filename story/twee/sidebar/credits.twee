@@ -6,7 +6,7 @@ Thank you to everyone that's provided feedback and encouragement!
 Special thanks to:
 /* [img[Dragonien|https://a.furaffinity.net/1571097870/dragonien.gif][Dragonien|https://a.furaffinity.net/1571097870/dragonien.gif]] */
 
-And thank you to you, the player! I hope you have enjoyed/will enjoy the game!
+And thanks to you, the player! I hope you have enjoyed/will enjoy the game!
 
 <<link "Bug Report" "bugReport">><</link>>
 <<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

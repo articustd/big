@@ -1,4 +1,4 @@
-import { decreaseCredits } from "@controller/ItemController"
+import { decreaseCredits } from "@controller/character/ItemController"
 import { advanceTime } from "@controller/TimeController";
 
 Macro.add('trainMacro', {

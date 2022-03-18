@@ -1,4 +1,4 @@
-import { addToInventory, decreaseCredits, getItemInfoByIndex } from "@controller/ItemController";
+import { addToInventory, decreaseCredits, getItemInfoByIndex } from "@controller/character/ItemController";
 import { logger } from "@util/Logging"
 
 Macro.add('storeItem', {

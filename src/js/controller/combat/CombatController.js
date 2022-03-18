@@ -1,6 +1,5 @@
 import { getSkillById } from "@controller/character/CharacterController";
-import { rollItems } from "@controller/ItemController";
-import { skills } from "@js/data";
+import { rollItems } from "@controller/character/ItemController";
 import { logger } from "@util/Logging";
 import _ from "lodash";
 
@@ -147,7 +146,7 @@ function getHitSkillMod(character) {
 
 function getDmgSkillMod(character, value) {
 	let multipliers = []
-	
+
 	_.each(character.skills, (skillId)=>{
 		let {mod, type, multi, min, max} = getSkillById(skillId)
 		if(type === "dmg") {

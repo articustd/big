@@ -1,5 +1,5 @@
 import { getMaxHealth, returnStatName } from "@controller/character/CharacterController";
-import { getItemInfoByIndex } from "@controller/ItemController"
+import { getItemInfoByIndex } from "@controller/character/ItemController"
 
 Macro.add('invMacro', {
     skipArgs: false,
