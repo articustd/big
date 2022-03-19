@@ -300,3 +300,32 @@ a.ui-button:active,
 	color: #ffffff;
 	text-decoration: none;
 }
+
+.creditWrapper {
+    $this: &;
+    max-width: 150px;
+    max-height: 150px;
+    position: relative;
+    &:hover {
+        cursor: pointer;
+    }
+    &:hover .creditOverlay {
+        animation: fadeIn 0.5s;
+        visibility: visible;
+    }
+}
+
+.creditOverlay {
+    width: 151px;
+    height: 151px;
+    background: #4e4c4cb9;
+    visibility: hidden;
+    position: absolute;
+    line-height: 150px;
+    text-align: center;
+}
+
+.creditImg {
+    max-width: 150px;
+    max-height: 150px;
+}

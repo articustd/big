@@ -172,7 +172,7 @@ function calcCapacity(character) {
 }
 
 export function statPoints(player) {
-    return (player.stats.strg + player.stats.con + player.stats.dex + player.stats.acc) / 4
+    return (player.stats.strg + player.stats.con + player.stats.dex) / 4
 }
 
 export function returnStatName(stat) {

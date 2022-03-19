@@ -37,7 +37,7 @@ let attacks = [{
         disabledToolTip: `Enemy is too large`,
     },
     "desc": "''Description:''<br/>You are large enough to step on your oppenent.<br/><br/>''Stat Modifers:''<br/>- Strength<br/><br/>''Requirements:''<br>You must be at least 2x taller to use this attack. If not, it will be disabled in combat."
-}
+},
 ]
 
 export { attacks }

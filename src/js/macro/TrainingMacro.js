@@ -1,5 +1,6 @@
 import { decreaseCredits } from "@controller/character/ItemController"
 import { advanceTime } from "@controller/TimeController";
+import { logger } from "@util/Logging";
 
 Macro.add('trainMacro', {
     skipArgs: false,
@@ -17,10 +18,12 @@ Macro.add('trainMacro', {
         let trainText = this.args[1];
         let cost = this.args[2];
         let modAmt = this.args[3];
-
+        let {settings:{tweak:{hyperMode}}} = variables()
+        logger({hyperMode})
         if(cost <= variables().player.credits) {
-            variables().player.exp[expType] += modAmt;
-            variables().trainText = trainText;
+            let mod = modAmt * (hyperMode?4:1)
+            variables().player.exp[expType] += mod;
+            variables().trainText = `${trainText} ${mod} ${expType}!`;
 
             decreaseCredits(cost);
             advanceTime(true)

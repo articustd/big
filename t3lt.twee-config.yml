@@ -74,3 +74,5 @@ sugarcube-2:
       name: passagePreviewerMacro
     restMessageMacro:
       name: restMessageMacro
+    creditMacro:
+      name: creditMacro
