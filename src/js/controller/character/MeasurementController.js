@@ -151,7 +151,7 @@ export function sizeInRange(min, max, charSize) {
 	let response;
 	measurements.sizes.forEach(function (size, idx) {
 		let sizeKey = Object.keys(size)[0]
-		if (size[sizeKey].range[0] <= charSize && size[sizeKey].range[1] > charSize)
+		if (size[sizeKey].range[0] <= charSize && (size[sizeKey].range.length == 1 || size[sizeKey].range[1] > charSize))
 			if (min > idx)
 				response = 0
 			else if (max < idx)
