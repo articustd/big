@@ -1,5 +1,5 @@
 import { logger } from "@util/Logging";
-import { species, measurements, genders, loot } from '@js/data'
+import { species, measurements, genders, loot, skills } from '@js/data'
 
 export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
     let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {} };
@@ -10,10 +10,10 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
 
     let bodyType = measurements.bodyTypes[randomBodyType(bodyTypeRange)]
     let bodyTypeKey = Object.keys(bodyType)[0]
-    
+
     let statMods = bodyType[bodyTypeKey].statMods
     let expMods = bodyType[bodyTypeKey].expMods
-    
+
     // Collect All Potential Loot
     let rawLoot = [...bodyType[bodyTypeKey].loot, ...size[sizeKey].loot, ...character.gender[Object.keys(character.gender)[0]].loot]
     // Loop through and count items
@@ -21,21 +21,21 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     for (let item of rawLoot) {
         let found = false
         availableLoot.forEach(function (foundLoot, idx) {
-            if (loot['loot'][item].id === foundLoot.id) {
+            if (loot[item].id === foundLoot.id) {
                 found = true
                 availableLoot[idx].qty += 1
             }
         })
         if (!found)
-            availableLoot.push({ id: loot['loot'][item].id, qty: 1, chnc: loot['loot'][item].chnc })
+            availableLoot.push({ id: loot[item].id, qty: 1, chnc: loot[item].chnc })
     }
     // Roll for credits
     var randomPercent = Math.clamp(random(1, 100), 75, 100) / 100
     var credits = Math.floor(50 * randomPercent);
-    
+
     // Calculate Measurements
     logger(`Before height`)
-    character.measurements.height = random(size[sizeKey].range[0], (size[sizeKey].range[1])?size[sizeKey].range[1]:1000000)
+    character.measurements.height = random(size[sizeKey].range[0], (size[sizeKey].range[1]) ? size[sizeKey].range[1] : 1000000)
     character.measurements.bodyFat = bodyType[bodyTypeKey].bodyFat //HACK Rudimentary, need to change to ranges
     logger(`After height`)
     // Default Hyper to no
@@ -48,10 +48,6 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     statPoints = size[sizeKey].statBase
     calcStats(character, statMods, statPoints)
 
-    // Base Attacks
-    character.attacks = [1,0]
-    character.learnedAttacks = character.attacks
-
     // Calculate Exp and Name (This was not fun)
     if (!name) {
         character.name = `${sizeKey} ${bodyTypeKey} ${species[speciesId]}`
@@ -61,6 +57,10 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
 
         character.loot = availableLoot
         character.credits = credits
+
+        // Base Attacks
+        character.attacks = [1, 0]
+        character.learnedAttacks = character.attacks
     } else {
         character.name = name
         character.exp = blankExp()
@@ -68,6 +68,10 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
         character.skills = []
         character.skillPoints = 0
         character.inv = []
+
+        // Base Attacks
+        character.attacks = [0, 1, 2]
+        character.learnedAttacks = character.attacks
     }
 
     // Calculate Genitals... Oh boy
@@ -123,19 +127,20 @@ function blankExp() {
 }
 
 function getExpCalc(character, exp, expMod, statPoints) {
+    let hyperMode = (variables().settings.tweak.hyperMode) ? 4 : 1
     switch (exp) {
         case 'muscle':
-            return Math.round(Math.log10(character.stats.strg)) * expMod
+            return (Math.round(Math.log10(character.stats.strg)) * expMod) * hyperMode
         case 'fat':
-            return Math.round(Math.log10(character.stats.con)) * expMod
+            return (Math.round(Math.log10(character.stats.con)) * expMod) * hyperMode
         case 'size':
-            return Math.floor(Math.log(character.measurements.height) ** 2)
+            return (Math.floor(Math.log(character.measurements.height) ** 2)) * hyperMode
         case 'skill':
-            return Math.floor(Math.log2(statPoints))
+            return (Math.floor(Math.log2(statPoints))) * hyperMode
         case 'pawEye':
-            return Math.round(Math.log10(character.stats.acc)) * expMod
+            return (Math.round(Math.log10(character.stats.acc)) * expMod) * hyperMode
         case 'agility':
-            return Math.round(Math.log10(character.stats.dex)) * expMod
+            return (Math.round(Math.log10(character.stats.dex)) * expMod) * hyperMode
     }
 }
 
@@ -148,7 +153,7 @@ function calcMaxHealth(character) {
 export function getMaxHealth(character) {
     let hB = Math.ceil(character.measurements.height * character.measurements.bodyFat)
     let con = character.stats.con
-    return Math.ceil((con*Math.log(hB))+5)
+    return Math.ceil((con * Math.log(hB)) + 5)
 }
 
 //HACK need to finalize stomach capacity calcs
@@ -167,11 +172,11 @@ function calcCapacity(character) {
 }
 
 export function statPoints(player) {
-    return (player.stats.strg + player.stats.con + player.stats.dex + player.stats.acc) / 4
+    return (player.stats.strg + player.stats.con + player.stats.dex) / 4
 }
 
 export function returnStatName(stat) {
-    switch(stat) {
+    switch (stat) {
         case 'con':
             return 'Constitution'
         case 'hlth':
@@ -205,4 +210,59 @@ export function returnStatName(stat) {
         case 'height':
             return 'Height'
     }
+}
+
+export function capacityChange(player) {
+    for (let cap in player.capacity) {
+        if (!cap.contains("Max") && player.capacity[cap] > 0) {
+            player.capacity[`${cap}Max`] += Math.min(Math.ceil(player.capacity[cap]), player.capacity[`${cap}Max`]) / 4
+            player.capacity[cap] = 0
+        }
+    }
+}
+
+export function statMapping(stat) {
+    switch (stat) {
+        case 'muscle':
+            return ['stats', 'strg']
+        case 'fat':
+            return ['measurements', 'bodyFat']
+        case 'size':
+            return ['measurements', 'height']
+        case 'skill':
+            return ['skillPoints']
+        case 'pawEye':
+            return ['stats', 'acc']
+        case 'agility':
+            return ['stats', 'dex']
+    }
+}
+
+export function levelUp(character) {
+    let leveled = false
+    Object.entries(character.exp).forEach(([stat, value]) => {
+        if (value !== 0) {
+            let statMap = statMapping(stat)
+            if (statMap.length == 1)
+                character[statMap[0]] += value
+
+            if (statMap.length == 2)
+                character[statMap[0]][statMap[1]] += value
+
+            character.exp[stat] = 0
+
+            leveled = true
+        }
+    });
+    return leveled
+}
+
+export function rest(character) {
+    character.stats.maxHlth = getMaxHealth(character)
+    character.stats.hlth = character.stats.maxHlth;
+    capacityChange(character)
+}
+
+export function getSkillById(id) {
+    return skills[id]
 }

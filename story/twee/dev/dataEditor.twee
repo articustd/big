@@ -1,0 +1,6 @@
+:: dataEditor [noreturn] {"position":"375,125"}
+<<dataEditorMacro>> <style>#passages {max-width: 100%!important;}</style>
+
+<<link "Return" $menuReturn>>
+<<unset $menuReturn $skillText>>
+<</link>>

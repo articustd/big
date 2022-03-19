@@ -34,5 +34,5 @@
 </div>
 <div id="LeaveContainer" class="CombatContainer"><<leaveButtonMacro "Leave" $return>><<combatReset>><</leaveButtonMacro>></div></div>
 <</nobr>><</if>>/* Combat Lose Actions */<<if $combat is false && (ndef $win || $win is false)>>
-<div id="LeaveContainer" class="CombatContainer" style="width:100%"><<leaveButtonMacro "Pass Out" $return>><<combatReset true>><</leaveButtonMacro>></div>
+<div id="LeaveContainer" class="CombatContainer" style="width:100%"><<leaveButtonMacro "Pass Out" "home" true>><<combatReset true>><</leaveButtonMacro>></div>
 <</if>>

@@ -11,11 +11,11 @@ let sizes = [
 ];
 
 let bodyTypes = [
-    { "Thin": { bodyFat: 0.05, statMods: { strg: 0.5, dex: 1.5, acc: 1.5, con: 0.5 }, expMods: { pawEye: 2, size: 1, skill: 1 }, loot: [7] } },
-    { "Normal": { bodyFat: 0.2, statMods: { strg: 1, dex: 1, acc: 1, con: 1 }, expMods: { size: 1, skill: 1 }, loot: [7] } },
-    { "Fit": { bodyFat: 0.1, statMods: { strg: 1.2, dex: 1.2, acc: 1.2, con: 1.2 }, expMods: { agility: 2, size: 1, skill: 1 }, loot: [6] } },
-    { "Muscle": { bodyFat: 0.05, statMods: { strg: 2, dex: 0.8, acc: 0.5, con: 1.5 }, expMods: { muscle: 2, size: 1, skill: 1 }, loot: [0] } },
-    { "Fat": { bodyFat: 0.45, statMods: { strg: 1.5, dex: 0.6, acc: 0.5, con: 2 }, expMods: { fat: 0.01, size: 1, skill: 1 }, loot: [6] } }
+    { "Thin": { bodyFat: 0.05, statMods: { strg: 0.5, dex: 1.5, con: 0.5 }, expMods: { pawEye: 2, size: 1, skill: 1 }, loot: [7] } },
+    { "Normal": { bodyFat: 0.2, statMods: { strg: 1, dex: 1, con: 1 }, expMods: { size: 1, skill: 1 }, loot: [7] } },
+    { "Fit": { bodyFat: 0.1, statMods: { strg: 1.2, dex: 1.2, con: 1.2 }, expMods: { agility: 2, size: 1, skill: 1 }, loot: [6] } },
+    { "Muscle": { bodyFat: 0.05, statMods: { strg: 2, dex: 0.8, con: 1.5 }, expMods: { muscle: 2, size: 1, skill: 1 }, loot: [0] } },
+    { "Fat": { bodyFat: 0.45, statMods: { strg: 1.5, dex: 0.6, con: 2 }, expMods: { fat: 0.01, size: 1, skill: 1 }, loot: [6] } }
 ]
 
 let muscleAmount = [

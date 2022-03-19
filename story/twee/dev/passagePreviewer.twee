@@ -1,0 +1,6 @@
+:: passagePreviewer [noreturn] {"position":"375,125"}
+
+<<passagePreviewerMacro>>
+<<link "Return" $menuReturn>>
+<<unset $menuReturn $skillText>>
+<</link>>

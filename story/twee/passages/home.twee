@@ -1,14 +1,8 @@
 :: home {"position":"375,250"}
 <h1>Home</h1>
 
-You're home. Nothing here except you, a bed, and the mirror.
-
-<<nobr>>
-<<if def $restText>>
-$restText
-<</if>>
-<</nobr>>
-
+You're home. Nothing here except you, a bed, and the mirror.<<nobr>><<if def $restText>><br/><br/>$restText<</if>><</nobr>>
+<<restMessageMacro true>>
 <<link "Travel" "travel">><<<<unset $restText>><</link>>
 <<link "Look in the Mirror" "mirror">><</link>>
 <<link "Change Moveset" "moveset">><<<<unset $restText>><</link>>

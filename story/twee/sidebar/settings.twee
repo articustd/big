@@ -1,12 +1,31 @@
 :: settings [noreturn] {"position":"275,425","size":"100,100"}
 <h1>Settings</h1>
-Units of Measure: <<listbox "$imperial" autoselect>>
+''__Measurements__''
+Units of Measure: <<listbox "$settings.units.imperial" autoselect>>
 	<<option "Imperial" true>>
 	<<option "Metric" false>>
 <</listbox>>
-Time: <<listbox "$twelveHour" autoselect>>
+Time: <<listbox "$settings.units.twelveHour" autoselect>>
 	<<option "12 Hour" true>>
 	<<option "24 Hour" false>>
+<</listbox>>
+
+''__Warnings__''
+Over Consumption Warning: <<listbox "$settings.warnings.overConsumeWarning" autoselect>>
+	<<option "Always" true>>
+	<<option "Never" false>>
+<</listbox>>
+
+''__Info__''
+Learn Attack Informational: <<listbox "$settings.info.learnedAttackInfo" autoselect>>
+	<<option "Always" true>>
+	<<option "Never" false>>
+<</listbox>>
+
+''__Gameplay Tweaks__''
+Hyper EXP Mode <<script>>$('<i class="fa fa-info-circle" aria-hidden="true"/>').tooltip({ track: true, hide: { delay: 100 } }).attr('title', `Increases experience gain by 4x from fights.`).appendTo(this.output)<</script>>: <<listbox "$settings.tweak.hyperMode" autoselect>>
+	<<option "On" true>>
+	<<option "Off" false>>
 <</listbox>>
 
 <<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

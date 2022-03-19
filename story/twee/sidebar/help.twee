@@ -1,36 +1,33 @@
 :: help [noreturn] {"position":"275,550","size":"100,100"}
 <h1>Help</h1>
+!!Combat
+Reduce the enemies health down to 0 to win. Use items to heal or run away if the fight is too difficult!
+
+''Winning'' - Will randomly give you items and credits. After winning you can choose to consume the enemy, doing so will grant a random amount of Experience suited for the enemy type.
+''Losing'' - When you lose a fight you will be knocked out. When knocked out you will lose ALL Experience, be reduced to 1 HP, and sent back home with full health.
+
+!!Leveling Up
+To level up you must have consumed any amount of enemies and have experience points. You will need to head home and rest to absorb the experience into your permanent base stats. If you go over your consumption, you will encounter random enemies until you get home!
+
 !!Stats
 ''__Base Stats__''
 ''Health'' - Current health out of max total health.
 ''Strength'' - Used to inflict more damage with the Punch attack. Governed by Muscle Experience.
-''Constitution'' - Used to figure out max health.
 ''Dexterity'' - Used to inflict more damage with the Kick attack. Governed by Agility Experience.
-''Accuracy'' - Is used to calculate hit chance. Governed by Paw-Eye Coordination Experience.
+''Constitution'' - Used to figure out max health.
 ''Skill Points'' - Used to purchase skills from the Skills Page. Governed by Skill Experience.
 
 ''__Measurements__''
-''Height'' - How large you are. Currently does NOT effect anything. Governed by the Size Experience.
-''Weight'' - How heavy you are. Currently does NOT effect anything. Governed by the Fat Experience.
+''Height'' - How large you are. Governed by the Size Experience.
+''Weight'' - How heavy you are. Governed by the Fat Experience.
 
 ''__Experience Points__''
 ''Muscle'' - The amount of Muscle Experience you currently have. Effects Strength when resting.
-''Fat'' - The amount of Fat Experience you currently have. Effects Weight when resting.
-''Size'' - The amount of Size Experience you currently have. Effects Height when resting.
 ''Agility'' - The amount of Agility Experience you currently have. Effects Dexterity when resting.
-''Paw-Eye Coordination'' - The amount of Paw-Eye Coordination Experience you currently have. Effects Accuracy when resting.
+''Size'' - The amount of Size Experience you currently have. Effects Height when resting.
+''Fat'' - The amount of Fat Experience you currently have. Effects Weight when resting.
 ''Skill'' - The amount of Skill Experience you currently have. Effects Skill Points when resting.
 
 ''Credits'' - Current amount of credits you have.
 
-!!Combat
-Currently there are only two types of attacks: Punch and Kick.
-''Punch'' - Uses the Strength stat.
-''Kick'' - Uses the Dexterity stat.
-
-''Winning'' - Will randomly give you items and credits. After winning you can choose to consume the enemy, doing so will grant a random amount of Experience suited for the enemy type.
-''Losing'' - When you lose a fight you will be knocked out. When knocked out you will lose ALL Experience, be reduced to 1 HP, and sent back to the area you picked the fight in.
-
-!!Items
-Items grant Experience for the stat that it effects.
 <<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

@@ -1,19 +1,21 @@
 import storyConfig from './config.json'
-import { items, loot, stores, species, measurements, attacks, skills } from '@js/data'
+import { items, loot, stores, species, measurements, attacks, skills, settings } from '@js/data'
 import * as macros from '@js/macro'
 import { sizeArray } from '@controller/character/MeasurementController'
 import { genderArray } from '@js/controller/character/GenderController'
 import { pronounArray } from '@js/controller/character/PronounController'
+import { logger } from '@util/Logging'
 
 Config = { ...Config, ...storyConfig };
 setup.ImagePath = "assets/";
 
 ((Config, State, Story, Engine, Dialog, $document) => {
+	$(document.head).append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css" integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">')
 	// Set State Variables
-	variables().version = `v0.6.1`
-	variables().items = items.items
+	variables().version = `v0.7.0`
+	variables().items = items
 	variables().loot = loot;
-	variables().stores = cloneObj(stores.stores);
+	variables().stores = stores;
 	variables().species = species;
 	variables().sizes = sizeArray();
 	variables().bodyTypes = measurements.bodyTypes;
@@ -22,8 +24,9 @@ setup.ImagePath = "assets/";
 	variables().attacks = attacks;
 	variables().skills = skills;
 	variables().pronouns = pronounArray()
-	variables().twelveHour = false
 	variables().debug = storyConfig.debug
+	variables().settings = settings
+	variables().numberTest = 1
 	// Register custom SugarCube macros
 	// registerAlert(Macro, Dialog);
 

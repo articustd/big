@@ -2,8 +2,8 @@
 <h1>Micro Metroplex Downtown</h1>
 You see a city scaled down for the smaller inhabitants of the area. Looking at the billboards you see products targeted towards consumers looking to reduce their stature or other endowments.
 
-<<cityMacro 0 2>>
-
+<<cityMacro 0 2 "microCity">>
+<<restMessageMacro>>
 <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 0 2>><</timeAction>>
 <<link "Micro Muscle Gym" "train">><</link>>
 <<link "Store" "store">><<set $storeId to 0>><</link>>

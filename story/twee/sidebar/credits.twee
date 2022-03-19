@@ -1,9 +1,11 @@
 :: credits [noreturn] {"position":"275,550","size":"100,100"}
 <h1>Credits</h1>
 
-Thank you to everyone that provided feedback and encouragement!
+Thank you to everyone that's provided feedback and encouragement!
 
-And thank you to you, the player! I hope you have enjoyed/will enjoy the game!
+Contributing Writer Credits:
+<<creditMacro>>
+And thanks to you, the player! I hope you have enjoyed/will enjoy the game!
 
 <<link "Bug Report" "bugReport">><</link>>
 <<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

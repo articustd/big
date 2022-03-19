@@ -1,0 +1,31 @@
+{
+    "name": "Stores",
+    "propName": "",
+    "type": "Array",
+    "children": [{
+        "name": "Store Name",
+        "propName": "name",
+        "type": "String",
+        "children": []
+    }, {
+        "name": "Stock",
+        "propName": "stock",
+        "type": "Array",
+        "children": [{
+            "name": "Item ID",
+            "propName": "id",
+            "type": "Number",
+            "children": []
+        }, {
+            "name": "Quantity",
+            "propName": "qty",
+            "type": "Number",
+            "children": []
+        }, {
+            "name": "Price",
+            "propName": "price",
+            "type": "Number",
+            "children": []
+        }]
+    }]
+}

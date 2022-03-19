@@ -17,12 +17,12 @@ Macro.add('tabMacro', {
 
         $tabs.append($skillsTab)
 
-        let $attacksTab = $('<button/>').addClass('tabLinks').ariaClick(function (ev) {
-            State.variables.charTab = 'attacks'
-            openTab(ev, 'attacks')
-        }).text(`Attacks`).attr('id', 'attacksTab')
+        // let $attacksTab = $('<button/>').addClass('tabLinks').ariaClick(function (ev) {
+        //     State.variables.charTab = 'attacks'
+        //     openTab(ev, 'attacks')
+        // }).text(`Attacks`).attr('id', 'attacksTab')
 
-        $tabs.append($attacksTab)
+        // $tabs.append($attacksTab)
 
         $wrapper.append($tabs)
 
@@ -34,10 +34,10 @@ Macro.add('tabMacro', {
             .attr('id', 'skills')
             .appendTo($contentWrapper)
 
-        attacksPassage()
-            .addClass('tabContent')
-            .attr('id', 'attacks')
-            .appendTo($contentWrapper)
+        // attacksPassage()
+        //     .addClass('tabContent')
+        //     .attr('id', 'attacks')
+        //     .appendTo($contentWrapper)
 
         $wrapper.append($contentWrapper).appendTo(this.output);
     }
