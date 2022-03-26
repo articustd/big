@@ -36,7 +36,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     // Calculate Measurements
     logger(`Before height`)
     character.measurements.height = random(size[sizeKey].range[0], (size[sizeKey].range[1]) ? size[sizeKey].range[1] : 1000000)
-    character.measurements.bodyFat = bodyType[bodyTypeKey].bodyFat //HACK Rudimentary, need to change to ranges
+    character.measurements.bodyFat = _.round(_.random(bodyType[bodyTypeKey].bodyFat[0],bodyType[bodyTypeKey].bodyFat[1]),2)
     logger(`After height`)
     // Default Hyper to no
     let hyper = false
