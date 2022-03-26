@@ -1,3 +1,5 @@
+import { combatReset, loseExp } from "@controller/combat/CombatController"
+
 Macro.add('combatReset', {
     skipArgs: false,
     handler: function () {
@@ -8,28 +10,3 @@ Macro.add('combatReset', {
         }
     }
 })
-
-function combatReset() {
-    delete State.variables.enemyHitDmg
-    delete State.variables.enemyCombatLog
-    delete State.variables.foundItems
-    delete State.variables.playerHitDmg
-    delete State.variables.combatResults
-    delete State.variables.playerCombatLog
-    delete State.variables.enemy
-    delete State.variables.willing
-    delete State.variables.consumeObj
-
-    State.variables.combat = false;
-    State.variables.win = false;
-}
-
-function loseExp() {
-    for (let exp in State.variables.player.exp)
-        State.variables.player.exp[exp] = 0
-
-    for (let cap in State.variables.player.capacity)
-        if (!cap.contains('Max'))
-            State.variables.player.capacity[cap] = 0
-
-}

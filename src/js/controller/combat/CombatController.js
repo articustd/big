@@ -1,4 +1,4 @@
-import { getSkillById } from "@controller/character/CharacterController";
+import { getSkillById, returnStatName } from "@controller/character/CharacterController";
 import { rollItems } from "@controller/character/ItemController";
 import { logger } from "@util/Logging";
 import _ from "lodash";
@@ -177,3 +177,35 @@ let hitText = [
 let missText = [
 	{ give: "You swung wide!", take: "You dodged out of the way!" }
 ]
+
+export function combatReset() {
+    delete State.variables.enemyHitDmg
+    delete State.variables.enemyCombatLog
+    delete State.variables.foundItems
+    delete State.variables.playerHitDmg
+    delete State.variables.combatResults
+    delete State.variables.playerCombatLog
+    delete State.variables.enemy
+    delete State.variables.willing
+    delete State.variables.consumeObj
+
+    State.variables.combat = false;
+    State.variables.win = false;
+}
+
+export function loseExp() {
+    for (let exp in State.variables.player.exp)
+        State.variables.player.exp[exp] = 0
+
+    for (let cap in State.variables.player.capacity)
+        if (!cap.contains('Max'))
+            State.variables.player.capacity[cap] = 0
+
+}
+
+export function getExpText(consumePoints) {
+    let consumeExp = []
+    for (let cp in consumePoints)
+        consumeExp.push(`Gained +${Math.ceil(consumePoints[cp])} ${returnStatName(cp)} to Experience`)
+    return consumeExp
+}

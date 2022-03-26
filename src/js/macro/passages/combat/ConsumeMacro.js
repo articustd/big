@@ -1,5 +1,6 @@
 import { returnStatName } from "@controller/character/CharacterController"
 import { findSize } from "@controller/character/MeasurementController"
+import { getExpText } from "@controller/combat/CombatController"
 import { largerText, muchLargerText, muchSmallerText, sameText, smallerText } from "@js/data/combat/ConsumeTextTable"
 import _ from "lodash"
 
@@ -36,7 +37,7 @@ Macro.add('consumeMacro', {
             }
         }
 
-        $.each(getExpText(consumeObj.points), function (idx, text) {
+        _.each(getExpText(consumeObj.points), (text) => {
             $exp.append($('<span/>').wiki(text + '<br>'))
         })
 
@@ -53,9 +54,3 @@ Macro.add('consumeMacro', {
     }
 })
 
-function getExpText(consumePoints) {
-    let consumeExp = []
-    for (let cp in consumePoints)
-        consumeExp.push(`Gained +${Math.ceil(consumePoints[cp])} ${returnStatName(cp)} to Experience`)
-    return consumeExp
-}
