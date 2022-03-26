@@ -27,7 +27,7 @@ Macro.add('playerFluffMacro', {
             .append('<br><br>')
 
         $allAround
-            .wiki(`All around you are a ?pSize looking ?pGender ?pSpecies.`)
+            .wiki(`All around you are a ?pSize looking ?pSpecies.`)
 
         $wrapper
             .append($general)
