@@ -10,7 +10,8 @@ Macro.add('timeAction', {
 
         // Stay in place and advance time
         if (this.args.length == 3) {
-            $(link).text(`${this.args[0]} - ${this.args[1]}:${(this.args[2] < 10) ? '0' + this.args[2] : this.args[2]}`)
+            // $(link).text(`${this.args[0]} - ${this.args[1]}:${(this.args[2] < 10) ? '0' + this.args[2] : this.args[2]}`)
+            $(link).text(`${this.args[0]}`)
             $(link).ariaClick(
                 (function (args, passage, content) {
                     return this.createShadowWrapper(
@@ -25,7 +26,8 @@ Macro.add('timeAction', {
                 }).call(this, this.args, passage, this.payload[0].contents.trim())
             )
         } else { // Proceed to another screen and advance time
-            $(link).text(`${this.args[0]} - ${this.args[2]}:${(this.args[3] < 10) ? '0' + this.args[3] : this.args[3]}`)
+            // $(link).text(`${this.args[0]} - ${this.args[2]}:${(this.args[3] < 10) ? '0' + this.args[3] : this.args[3]}`)
+            $(link).text(`${this.args[0]}`)
             $(link).ariaClick(
                 (function (args, passage, content) {
                     return this.createShadowWrapper(
