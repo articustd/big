@@ -27,7 +27,7 @@ let attacks = [{
 {
     "name": "Stomp",
     "type": "strg",
-    "baseHitChnc": 50,
+    "baseHitChnc": 65,
     "critMulti": 2,
     "maxMod": 0.99,
     "minMod": 0.6,
