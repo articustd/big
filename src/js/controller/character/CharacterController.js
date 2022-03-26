@@ -4,18 +4,16 @@ import { species, measurements, genders, loot, skills } from '@js/data'
 export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
     let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {} };
     logger(`In char`)
-    let size = measurements.sizes[randomSize(sizeRange)]
+    let {sizeName, size } = randomSize(sizeRange)
     logger(`After size`)
-    let sizeKey = Object.keys(size)[0]
 
-    let bodyType = measurements.bodyTypes[randomBodyType(bodyTypeRange)]
-    let bodyTypeKey = Object.keys(bodyType)[0]
+    let {bodyTypeName, bodyType} = randomBodyType(bodyTypeRange)
 
-    let statMods = bodyType[bodyTypeKey].statMods
-    let expMods = bodyType[bodyTypeKey].expMods
+    let statMods = bodyType.statMods
+    let expMods = bodyType.expMods
 
     // Collect All Potential Loot
-    let rawLoot = [...bodyType[bodyTypeKey].loot, ...size[sizeKey].loot, ...character.gender[Object.keys(character.gender)[0]].loot]
+    let rawLoot = [...bodyType.loot, ...size.loot, ...character.gender[Object.keys(character.gender)[0]].loot]
     // Loop through and count items
     let availableLoot = []
     for (let item of rawLoot) {
@@ -35,8 +33,8 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
 
     // Calculate Measurements
     logger(`Before height`)
-    character.measurements.height = random(size[sizeKey].range[0], (size[sizeKey].range[1]) ? size[sizeKey].range[1] : 1000000)
-    character.measurements.bodyFat = _.round(_.random(bodyType[bodyTypeKey].bodyFat[0],bodyType[bodyTypeKey].bodyFat[1]),2)
+    character.measurements.height = random(size.range[0], (size.range[1]) ? size.range[1] : 1000000)
+    character.measurements.bodyFat = _.round(_.random(bodyType.bodyFat[0],bodyType.bodyFat[1]),2)
     logger(`After height`)
     // Default Hyper to no
     let hyper = false
@@ -45,12 +43,12 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     character.species = species[speciesId]
 
     // Calculate Stats
-    statPoints = size[sizeKey].statBase
+    statPoints = size.statBase
     calcStats(character, statMods, statPoints)
 
     // Calculate Exp and Name (This was not fun)
     if (!name) {
-        character.name = `${sizeKey} ${bodyTypeKey} ${species[speciesId]}`
+        character.name = `${sizeName} ${bodyTypeName} ${species[speciesId]}`
 
         for (let exp in expMods)
             character.exp[exp] = getExpCalc(character, exp, expMods[exp], statPoints)
@@ -87,15 +85,31 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
 }
 
 function randomSize(range) {
+    let sizeIdx
     if (Array.isArray(range))
-        return random(Math.clamp(range[0], 0, measurements.sizes.length - 1), Math.clamp(range[1], 0, measurements.sizes.length - 1))
-    return Math.clamp(range, 0, measurements.sizes.length - 1)
+        sizeIdx = random(Math.clamp(range[0], 0, measurements.sizes.length - 1), Math.clamp(range[1], 0, measurements.sizes.length - 1))
+    else
+        sizeIdx = Math.clamp(range, 0, measurements.sizes.length - 1)
+
+    let sizeObj = measurements.sizes[sizeIdx]
+    let sizeName = Object.keys(sizeObj)[0]
+    let {[sizeName]: size} = sizeObj
+
+    return {sizeName, size}
 }
 
 function randomBodyType(range) {
+    let bodyTypeIdx
     if (Array.isArray(range))
-        return random(Math.clamp(range[0], 0, measurements.bodyTypes.length - 1), Math.clamp(range[1], 0, measurements.bodyTypes.length - 1))
-    return Math.clamp(range, 0, measurements.bodyTypes.length - 1)
+        bodyTypeIdx =  random(Math.clamp(range[0], 0, measurements.bodyTypes.length - 1), Math.clamp(range[1], 0, measurements.bodyTypes.length - 1))
+    else
+        bodyTypeIdx = Math.clamp(range, 0, measurements.bodyTypes.length - 1)
+
+    let bodyTypeObj = measurements.bodyTypes[bodyTypeIdx]
+    let bodyTypeName = Object.keys(bodyTypeObj)[0]
+    let {[bodyTypeName]: bodyType} = bodyTypeObj
+    
+    return {bodyTypeName, bodyType}
 }
 
 function calcStats(character, statMods, statPoints) {
