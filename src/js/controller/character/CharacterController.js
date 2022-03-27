@@ -3,9 +3,7 @@ import { species, measurements, genders, loot, skills } from '@js/data'
 
 export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
     let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {} };
-    logger(`In char`)
     let {sizeName, size } = randomSize(sizeRange)
-    logger(`After size`)
 
     let {bodyTypeName, bodyType} = randomBodyType(bodyTypeRange)
 
@@ -32,10 +30,9 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     var credits = Math.floor(50 * randomPercent);
 
     // Calculate Measurements
-    logger(`Before height`)
     character.measurements.height = random(size.range[0], (size.range[1]) ? size.range[1] : 1000000)
     character.measurements.bodyFat = _.round(_.random(bodyType.bodyFat[0],bodyType.bodyFat[1]),2)
-    logger(`After height`)
+
     // Default Hyper to no
     let hyper = false
 
@@ -81,6 +78,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     // Calculate Capacity
     calcCapacity(character)
 
+    logger(character)
     return character;
 }
 
@@ -148,7 +146,7 @@ function getExpCalc(character, exp, expMod, statPoints) {
         case 'fat':
             return (Math.round(Math.log10(character.stats.con)) * expMod) * hyperMode
         case 'size':
-            return (Math.floor(Math.log(character.measurements.height) ** 2)) * hyperMode
+            return (Math.floor(Math.log10(character.measurements.height) * expMod)) * hyperMode
         case 'skill':
             return (Math.floor(Math.log2(statPoints))) * hyperMode
         case 'pawEye':
