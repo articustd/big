@@ -1,5 +1,5 @@
 export function getPropMeta(metaMap, obj, propName) {
-    let currPropMeta = { name: ``, propName: ``, type: ``, children: [] }
+    let currPropMeta = { name: ``, propName: ``, type: ``, header: false, children: [] }
     switch (typeof obj) {
         case 'number':
             currPropMeta.propName = propName

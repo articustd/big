@@ -17,6 +17,9 @@ import * as cityText from './cityTable'
 
 import settings from './SettingsTable.json'
 
+import statTypes from './StatType.json'
+import stats from './StatTable.json'
+
 export {
         items,
         loot,
@@ -30,5 +33,7 @@ export {
         genders,
         pronouns,
         settings,
-        cityText
+        cityText,
+        statTypes,
+        stats
 }

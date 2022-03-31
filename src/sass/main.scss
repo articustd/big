@@ -329,3 +329,12 @@ a.ui-button:active,
     max-width: 150px;
     max-height: 150px;
 }
+
+.dataEditorTable {
+    tr:hover.dataRow {
+        .dataCell {
+            cursor: pointer;
+            background-color: #333;
+        }
+    }
+}

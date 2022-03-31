@@ -1,57 +1,83 @@
 import { logger } from "@util/Logging"
-import { Editor } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
-import * as data from "@js/data"
-import * as dataMap from '@js/data/dataMaps'
+import * as dataObjs from "@js/data"
+import * as dataMaps from '@js/data/dataMaps'
 import _ from "lodash"
 import { getPropMeta } from "@util/DataMapping"
+import { createButton, createDropdown, createInputField } from "@util/Input"
+import { createTable, updateRow } from "@util/Table"
 
 
 Macro.add('dataEditorMacro', {
     skipArgs: false,
     handler: function () {
-        let $label = $(`<label for="dataMapDropDown"/>`).wiki(`Data Map: `)
-        let $dropDown = $(`<select id="dataMapDropDown" name="dataMapDropDown"/>`)
+        let $dropDown = createDropdown({
+            $parent: this.output,
+            label: 'Data Map: ',
+            data: dataMaps,
+            displayProp: 'name',
+            callback: (event, ui) => {
+                $fieldsContainer.empty()
+                let dataMap = dataMaps[ui.item.value]
+                let data = dataObjs[dataMap.dataName]
+                createTable({
+                    $parent: $fieldsContainer,
+                    dataMap,
+                    data,
+                    name: dataMap.name,
+                    btns: { hasDelete: true, hasAdd: createEmpty(dataMap) },
+                    rowCallback: ({ $table, rowIdx, data, dataMap, name }) => { openFormEditor({ $table, rowIdx, data, dataMap, name }) }
+                })
+            }
+        })
 
-        let $passage = $('#passage-dataeditor').parent()
-        logger($passage)
-        $passage.css('max-width', '100%')
+        let $fieldsContainer = $('<div/>').attr('id', 'fieldsContainer').appendTo(this.output)
 
-        let $wrapper = $('<div/>').append($label).append($dropDown).css({ width: '100%', "margin-bottom": '10px' })
-        $wrapper.appendTo(this.output)
-        $dropDown.selectmenu({
-            width: 200
-        })
-        logger(dataMap)
-        _.each(dataMap, (val, key) => {
-            $dropDown.append($(`<option value="${key}"/>`).wiki(val.name))
-        })
-        let $fieldsContainer = $('<div id="fieldsContainer"/>').appendTo(this.output)
-        $dropDown.selectmenu({
-            select: (event, ui) => { clearElement($fieldsContainer); createForm($fieldsContainer, dataMap[ui.item.value]); displayData($fieldsContainer, dataMap[ui.item.value], data[dataMap[ui.item.value].dataName]) }
+        let dataMap = dataMaps[$dropDown.val()]
+        let data = dataObjs[dataMap.dataName]
+
+        let $table = createTable({
+            $parent: $fieldsContainer,
+            dataMap,
+            data,
+            name: dataMap.name,
+            btns: { hasDelete: true, hasAdd: createEmpty(dataMap) },
+            rowCallback: ({ $table, $row, data, dataMap, name }) => { openFormEditor({ $table, $row, data, dataMap, name }) }
         })
 
-        $dropDown.selectmenu("refresh")
-        let firstItem = $dropDown.val()
-        // logger(dataMap[firstItem])
-        createForm($fieldsContainer, dataMap[firstItem])
-        displayData($fieldsContainer, dataMap[firstItem], data[dataMap[firstItem].dataName])
-        let $exportBtn = $('<button id="Export"/>').append($('<i class="fa fa-floppy-o"/>')).wiki(' Export').appendTo(this.output).click(() => {
-            let file = new Blob([JSON.stringify(marshallData(dataMap[$dropDown.val()]), null, 2)], { type: 'application/json' })
-            let a = document.createElement('a');
-            a.download = dataMap[$dropDown.val()].dataName + '.json';
-            a.href = URL.createObjectURL(file);
-            a.click();
-        })
-        let $cpyBtn = $('<button id="Copy"/>').css('margin-left', '5px').append($('<i class="fa fa-files-o"/>')).wiki(' Copy').appendTo(this.output).click(() => {
-            navigator.clipboard.writeText(`${JSON.stringify(marshallData(dataMap[$dropDown.val()]), null, 2)}`);
-        })
-        let $stateBtn = $('<button id="Copy"/>').css('margin-left', '5px').append($('<i class="fa fa-link"/>')).wiki(' Save State').appendTo(this.output).click(() => {
-            variables()[dataMap[$dropDown.val()].dataName] = marshallData(dataMap[$dropDown.val()])
-            Engine.show()
-        })
+        createButton({
+            type: 'Action',
+            icon: 'fa-floppy-o',
+            text: ' Export',
+            callback: () => {
+                let file = new Blob([JSON.stringify(marshallData(dataMap), null, 2)], { type: 'application/json' })
+                let a = document.createElement('a')
+                a.download = dataMap.dataName + '.json'
+                a.href = URL.createObjectURL(file)
+                a.click()
+            }
+        }).appendTo(this.output)
+        createButton({
+            type: 'Action',
+            icon: 'fa-files-o',
+            text: ' Copy',
+            style: { 'margin-left': '5px' },
+            callback: () => {
+                navigator.clipboard.writeText(`${JSON.stringify(marshallData(dataMap), null, 2)}`)
+            }
+        }).appendTo(this.output)
+        createButton({
+            type: 'Action',
+            icon: 'fa-floppy-o',
+            text: ' Save State',
+            style: { 'margin-left': '5px' },
+            callback: () => {
+                variables()[dataMap.dataName] = marshallData(dataMap)
+                Engine.show()
+            }
+        }).appendTo(this.output)
+
         // Use this to get the meta map of a data store
-        // let metaMap = getPropMeta([], attacks)
+        // let metaMap = getPropMeta([], data.stores)
         // let $button = $('<button/>').wiki('Copy JSON').click(()=>{
         //     navigator.clipboard.writeText(`${JSON.stringify(metaMap)}`);
         // })
@@ -60,122 +86,75 @@ Macro.add('dataEditorMacro', {
     }
 })
 
-function createForm($parent, varVal) {
-    switch (varVal.type) {
-        case 'Array':
-            let $table = $(`<table id="${varVal.name}-table"/>`)
-            let $headerRow = $('<tr/>').appendTo($table)
-            _.each(varVal.children, (val, key) => {
-                $headerRow.append($(`<th id="${val.propName}-column"/>`).wiki(val.name))
-            })
-            $parent.append($table)
-            $('<Button/>').css({ "float": "right", "width": "35px", "border-radius": "5px" }).append($('<i class="fa fa-plus"/>')).click(() => {
-                let emptyData = createEmpty(varVal)
-                displayData($parent, varVal, emptyData)
-            }).appendTo($parent)
-            break
-        default:
-            logger(`Type ${varVal.type} not yet implement`)
-    }
-}
-
-function displayData($parent, dMap, dVals) {
-    // logger(dMap)
-    // logger(dVals)
-    switch (dMap.type) {
-        case 'Array':
-            let $table = $parent.find(`#${dMap.name}-table`)
-            // logger($table)
-            _.each(dVals, (dValsData, dValsKey) => {
-                let $row = $(`<tr id="${dMap.dataName}[${dValsKey}]"/>`)
-                _.each(dMap.children, (dMapData, dMapKey) => {
-                    let $dataCell = $('<td/>').css('padding', '0px')
-                    createField($dataCell, dMapData.type, dValsData[dMapData.propName], dMapData.propName, dValsKey)
-                    // $row.append($(`<td/>`).wiki(dValsData[dMapData.propName]))
-                    $row.append($dataCell)
-                    // logger(dMapData)
-                })
-                $table.append($row)
-                // logger(dValsData)
-            })
-            break
-        default:
-            logger(`Type ${dMap.type} not yet implement`)
-    }
-}
-
-function createField($parent, type, data, prop) {
-    let css = { "min-width": "1em" }
-    switch (type) {
-        case 'String':
-            $parent.append($(`<input type="text" name="${prop}" value="${data}"/>`).css(css))
-            break
-        case 'Number':
-            $parent.append($(`<input type="number" name="${prop}" value="${data}"/>`).css(css))
-            break
-    }
-}
-
-function clearElement($ele) {
-    $ele.empty()
-}
-
-// Filter for numeric text fields
-(function ($) {
-    $.fn.inputFilter = function (inputFilter) {
-        return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
-            if (inputFilter(this.value)) {
-                this.oldValue = this.value;
-                this.oldSelectionStart = this.selectionStart;
-                this.oldSelectionEnd = this.selectionEnd;
-            } else if (this.hasOwnProperty("oldValue")) {
-                this.value = this.oldValue;
-                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-            } else {
-                this.value = "";
-            }
-        });
-    };
-}(jQuery));
-
-function marshallData(dMap) {
-    let response
-    if (dMap.type === 'Array') {
+function marshallData({ type, response }) {
+    if (type === 'Array') {
         response = []
-        $(`#${dMap.name}-table`).find('tr').each((idx, element) => {
-            if (idx != 0) {
-                logger(idx)
-                logger(element)
-                let obj = {}
-                $(element).find('td').each((idx, element) => {
-                    logger(idx)
-                    logger($($(element).find('input')).attr('name'))
-                    let dataVal = $($(element).find('input')).prop('value')
-                    obj[$($(element).find('input')).attr('name')] = (Number(dataVal)) ? Number(dataVal) : dataVal
-                })
-                response.push(obj)
-            }
+        $('.dataEditorTable > tr.dataRow').each(function () {
+            response.push($(this).data())
         })
-        logger(response)
     }
     return response
 }
 
-function createEmpty(dMap) {
-    let response = [{}]
-    _.each(dMap.children, (dVal, dKey) => {
-        let prop = dVal.propName
-        let val;
-        switch (dVal.type) {
+function createEmpty({ children, response = {} }) {
+    _.each(children, ({ propName, type }) => {
+        switch (type) {
             case 'String':
-                val = ''
+                response[propName] = 'New Data'
                 break
             case 'Number':
-                val = 0
+                response[propName] = 0
                 break
         }
-        response[0][prop] = val
     })
-    logger(response)
     return response
+}
+
+function openFormEditor({ $table, $row, data, dataMap, name }) {
+    // logger($table)
+    // logger({ $row, data, dataMap })
+
+    let $popup = $('<form id="formEditor"/>').dialog({
+        autoOpen: true,
+        title: name,
+        resizeable: true,
+        width: 800,
+        height: 600,
+        buttons: {
+            "Save": () => {
+                logger(formSerialize({ $form }))
+                updateRow({ $row, data: formSerialize({ $form }) })
+            },
+            "Close": () => { $popup.remove() }
+        },
+        close: (event, ui) => { $popup.remove() }
+    })
+    let $form = $('<form/>')
+
+    _.each(dataMap, ({ name, propName, type, field }) => {
+        createField({ $parent: $form, data: data[propName], type, field, prop: propName, name })
+    })
+
+    $popup.append($form)
+}
+
+function createField({ $parent, type, field, data, prop, name }) {
+    switch (field.type || type) {
+        case 'String':
+            $parent.append(createInputField({ type: "text", prop, label: `${name}: `, data }))
+            break
+        case 'Number':
+            $parent.append(createInputField({ type: "number", prop, label: `${name}: `, data }))
+            break
+        case 'Dropdown':
+            createDropdown({ $parent, $menuParent: $parent, label: `${name}: `, prop: field.dataProp, displayProp: field.displayProp, data: dataObjs[field.data], selectedData: data, name: prop })
+            break
+    }
+}
+
+function formSerialize({ $form }) {
+    return $form.serializeArray().reduce((obj, item) => {
+        obj[item.name] = item.value;
+        return obj;
+    }, {})
 }
