@@ -103,11 +103,8 @@ function openFormEditor({ $row, data, dataMap, name }) {
         width: 800,
         height: 600,
         buttons: {
-            "Save": () => {
-                logger(formSerialize({ $form, data }))
-                updateRow({ $row, data: formSerialize({ $form, data }) })
-            },
-            "Save & Close": () => { $popup.remove() }
+            "Save": () => { updateRow({ $row, data: formSerialize({ $form, data }) }) },
+            "Save & Close": () => { updateRow({ $row, data: formSerialize({ $form, data }) }); $popup.remove() }
         },
         close: (event, ui) => { $popup.remove() }
     })
@@ -133,11 +130,11 @@ function formSerialize({ $form, data }) {
     $form.find('> div > input').each(function () {
         data[$(this).attr('name')] = $(this).val()
     })
-    $form.find('> div > select').each(function () { 
+    $form.find('> div > select').each(function () {
         data[$(this).attr('name')] = $(this).val()
     })
-    $form.find('table').each(function ({arr = []}) {
-        $(this).find('tr.dataRow').each(function() {
+    $form.find('table').each(function ({ arr = [] }) {
+        $(this).find('tr.dataRow').each(function () {
             arr.push($(this).data())
         })
         data[$(this).attr('name')] = arr

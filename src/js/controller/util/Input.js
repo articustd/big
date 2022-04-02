@@ -76,7 +76,7 @@ export function createInputField({ type, label, prop, data, style: { wrapper, in
     return $wrapper.append($inputField)
 }
 
-export function createField({ $parent, type, field, data, dataObj, prop, name, label, map, style, callback }) {
+export function createField({ $parent, type, field, data, dataObj, prop, label, map, style, callback }) {
     switch (field.type || type) {
         case 'String':
             $parent.append(createInputField({ type: "text", prop, label, data, style, callback }))

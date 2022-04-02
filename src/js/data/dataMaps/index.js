@@ -3,7 +3,7 @@ import storesMap from './stores.map.json'
 import itemsMap from './items.map.json'
 
 export { 
-    // attacksMap, 
+    attacksMap, 
     storesMap, 
     itemsMap 
 }
