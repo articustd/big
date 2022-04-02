@@ -27,7 +27,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     }
     // Roll for credits
     var randomPercent = Math.clamp(random(1, 100), 75, 100) / 100
-    var credits = Math.floor(50 * randomPercent);
+    var credits = Math.floor(100 * randomPercent);
 
     // Calculate Measurements
     character.measurements.height = random(size.range[0], (size.range[1]) ? size.range[1] : 1000000)
