@@ -16,3 +16,4 @@
     {"name": "Breast Reducer", "mod": -0.01, "type": "gender", "stat": "breasts"},
     {"name": "Large Health Potion", "mod": 30, "type": "stats", "stat": "hlth"}
 ]
+

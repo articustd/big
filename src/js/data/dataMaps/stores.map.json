@@ -3,29 +3,45 @@
     "dataName": "stores",
     "propName": "",
     "type": "Array",
+    "header": false,
     "children": [{
         "name": "Store Name",
         "propName": "name",
         "type": "String",
+        "field": {},
+        "header": true,
         "children": []
     }, {
         "name": "Stock",
         "propName": "stock",
         "type": "Array",
+        "field": {},
+        "header": false,
         "children": [{
-            "name": "Item ID",
+            "name": "Item Name",
             "propName": "id",
             "type": "Number",
+            "field": {
+                "type": "Dropdown",
+                "data": "items",
+                "displayProp": "name",
+                "dataProp": "index"
+            },
+            "header": true,
             "children": []
         }, {
             "name": "Quantity",
             "propName": "qty",
             "type": "Number",
+            "field": {},
+            "header": true,
             "children": []
         }, {
             "name": "Price",
             "propName": "price",
             "type": "Number",
+            "field": {},
+            "header": true,
             "children": []
         }]
     }]

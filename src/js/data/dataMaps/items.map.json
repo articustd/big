@@ -16,7 +16,7 @@
         "propName": "mod",
         "type": "Number",
         "field": {},
-        "header": false,
+        "header": true,
         "children": []
     }, {
         "name": "Type",

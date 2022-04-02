@@ -1,9 +1,9 @@
 import { logger } from "@util/Logging"
 import * as dataObjs from "@js/data"
 import * as dataMaps from '@js/data/dataMaps'
-import _ from "lodash"
+import _, { functionsIn } from "lodash"
 import { getPropMeta } from "@util/DataMapping"
-import { createButton, createDropdown, createInputField } from "@util/Input"
+import { createButton, createDropdown, createEmpty, createField } from "@util/Input"
 import { createTable, updateRow } from "@util/Table"
 
 
@@ -15,19 +15,19 @@ Macro.add('dataEditorMacro', {
             label: 'Data Map: ',
             data: dataMaps,
             displayProp: 'name',
-            callback: (event, ui) => {
+            callback: (value) => {
                 $fieldsContainer.empty()
-                let dataMap = dataMaps[ui.item.value]
+                let dataMap = dataMaps[value]
                 let data = dataObjs[dataMap.dataName]
                 createTable({
                     $parent: $fieldsContainer,
-                    dataMap,
-                    data,
+                    dataMap, data,
                     name: dataMap.name,
                     btns: { hasDelete: true, hasAdd: createEmpty(dataMap) },
-                    rowCallback: ({ $table, rowIdx, data, dataMap, name }) => { openFormEditor({ $table, rowIdx, data, dataMap, name }) }
+                    rowCallback: ({ $table, $row, data, dataMap, name }) => { openFormEditor({ $table, $row, data, dataMap, name }) }
                 })
-            }
+            },
+            style: { wrapper: false, input: false }
         })
 
         let $fieldsContainer = $('<div/>').attr('id', 'fieldsContainer').appendTo(this.output)
@@ -37,11 +37,10 @@ Macro.add('dataEditorMacro', {
 
         let $table = createTable({
             $parent: $fieldsContainer,
-            dataMap,
-            data,
+            dataMap, data,
             name: dataMap.name,
             btns: { hasDelete: true, hasAdd: createEmpty(dataMap) },
-            rowCallback: ({ $table, $row, data, dataMap, name }) => { openFormEditor({ $table, $row, data, dataMap, name }) }
+            rowCallback: ({ $row, data, dataMap, name }) => { openFormEditor({ $row, data, dataMap, name }) }
         })
 
         createButton({
@@ -49,7 +48,7 @@ Macro.add('dataEditorMacro', {
             icon: 'fa-floppy-o',
             text: ' Export',
             callback: () => {
-                let file = new Blob([JSON.stringify(marshallData(dataMap), null, 2)], { type: 'application/json' })
+                let file = new Blob([JSON.stringify(marshallData(dataMap), null, 0)], { type: 'application/json' })
                 let a = document.createElement('a')
                 a.download = dataMap.dataName + '.json'
                 a.href = URL.createObjectURL(file)
@@ -62,7 +61,7 @@ Macro.add('dataEditorMacro', {
             text: ' Copy',
             style: { 'margin-left': '5px' },
             callback: () => {
-                navigator.clipboard.writeText(`${JSON.stringify(marshallData(dataMap), null, 2)}`)
+                navigator.clipboard.writeText(`${JSON.stringify(marshallData(dataMap), null, 1)}`)
             }
         }).appendTo(this.output)
         createButton({
@@ -96,65 +95,52 @@ function marshallData({ type, response }) {
     return response
 }
 
-function createEmpty({ children, response = {} }) {
-    _.each(children, ({ propName, type }) => {
-        switch (type) {
-            case 'String':
-                response[propName] = 'New Data'
-                break
-            case 'Number':
-                response[propName] = 0
-                break
-        }
-    })
-    return response
-}
-
-function openFormEditor({ $table, $row, data, dataMap, name }) {
-    // logger($table)
-    // logger({ $row, data, dataMap })
-
+function openFormEditor({ $row, data, dataMap, name }) {
     let $popup = $('<form id="formEditor"/>').dialog({
-        autoOpen: true,
+        modal: true,
         title: name,
         resizeable: true,
         width: 800,
         height: 600,
         buttons: {
             "Save": () => {
-                logger(formSerialize({ $form }))
-                updateRow({ $row, data: formSerialize({ $form }) })
+                logger(formSerialize({ $form, data }))
+                updateRow({ $row, data: formSerialize({ $form, data }) })
             },
-            "Close": () => { $popup.remove() }
+            "Save & Close": () => { $popup.remove() }
         },
         close: (event, ui) => { $popup.remove() }
     })
     let $form = $('<form/>')
 
-    _.each(dataMap, ({ name, propName, type, field }) => {
-        createField({ $parent: $form, data: data[propName], type, field, prop: propName, name })
+    _.each(dataMap, function ({ name, propName, type, field, children }) {
+        createField({
+            $parent: $form,
+            data: data[propName],
+            dataObj: dataObjs[field.data],
+            type, field, name,
+            prop: propName,
+            label: `${name}: `,
+            map: { children },
+            style: { wrapper: false, input: false }
+        })
     })
 
     $popup.append($form)
 }
 
-function createField({ $parent, type, field, data, prop, name }) {
-    switch (field.type || type) {
-        case 'String':
-            $parent.append(createInputField({ type: "text", prop, label: `${name}: `, data }))
-            break
-        case 'Number':
-            $parent.append(createInputField({ type: "number", prop, label: `${name}: `, data }))
-            break
-        case 'Dropdown':
-            createDropdown({ $parent, $menuParent: $parent, label: `${name}: `, prop: field.dataProp, displayProp: field.displayProp, data: dataObjs[field.data], selectedData: data, name: prop })
-            break
-    }
-}
-
-function formSerialize({ $form }) {
-    return $form.serializeArray().reduce((obj, item) => {
-        obj[item.name] = item.value;
-        return obj;
-    }, {})
+function formSerialize({ $form, data }) {
+    $form.find('> div > input').each(function () {
+        data[$(this).attr('name')] = $(this).val()
+    })
+    $form.find('> div > select').each(function () { 
+        data[$(this).attr('name')] = $(this).val()
+    })
+    $form.find('table').each(function ({arr = []}) {
+        $(this).find('tr.dataRow').each(function() {
+            arr.push($(this).data())
+        })
+        data[$(this).attr('name')] = arr
+    })
+    return data
 }

@@ -4,6 +4,6 @@ import itemsMap from './items.map.json'
 
 export { 
     // attacksMap, 
-    // storesMap, 
+    storesMap, 
     itemsMap 
 }
