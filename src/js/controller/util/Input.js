@@ -1,4 +1,3 @@
-import { isInteger, isNumber } from "lodash"
 import { logger } from "./Logging"
 import { createTable } from "./Table"
 
@@ -29,8 +28,6 @@ export function createDropdown({ $parent, $menuParent, label, name, data, prop, 
         })
 
     $dropDown.selectmenu("refresh", true)
-
-
 
     if (selectedData)
         $dropDown.val(selectedData).selectmenu("refresh", true)

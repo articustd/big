@@ -6,6 +6,7 @@ import loot from './combat/LootTable.json'
 import { attacks } from './combat/AttackTable.js'
 import * as consumeText from './combat/ConsumeTextTable.js'
 import skills from './combat/SkillTable.json'
+import { attackSkill } from './combat/AttackSkillTable'
 
 //Character Tables
 import * as measurements from './character/MeasurementTable'
@@ -35,5 +36,6 @@ export {
         settings,
         cityText,
         statTypes,
-        stats
+        stats,
+        attackSkill
 }

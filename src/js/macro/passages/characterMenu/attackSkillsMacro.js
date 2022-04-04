@@ -1,7 +1,8 @@
 import { returnStatName } from "@controller/character/CharacterController";
 import { findSize } from "@controller/character/MeasurementController";
-import { attacks } from "@js/data";
+import { attacks, attackSkill } from "@js/data";
 import { popup } from "@util/ModalPopup";
+import _ from "lodash";
 
 Macro.add('attackSkill', {
     skipArgs: false,
@@ -13,9 +14,9 @@ Macro.add('attackSkill', {
         let $table = $('<table/>').addClass('skillTable').addClass('skillTable');
         let tableData = [['Attack', 'Description', 'Requirements', 'Points']];
 
-        attacks.forEach(function (attack, idx) {
-            if (!variables().player.learnedAttacks.includes(idx))
-                tableData.push([attack.name, attack.desc, attack.cost, idx, attack.reqs])
+        _.each(attackSkill, ({ name, desc: { baseDesc }, skillPoints, reqs }, idx) => {
+            if (!isLearned(idx, player))
+                tableData.push([name, baseDesc, skillPoints, idx, ''])
         })
 
         $.each(tableData, function (rowIndex, r) {
@@ -35,14 +36,14 @@ Macro.add('attackSkill', {
                 if (player.skillPoints >= r[2] && checkStatReqs(r[4], player)) { // Enough Skill Points and reqs
                     $button.ariaClick(function (ev) {
                         let notificationText = ''
-                        if (State.variables.player.skillPoints >= r[2]) {
-                            State.variables.player.learnedAttacks.push(r[3])
-                            State.variables.player.skillPoints -= r[2]
+                        if (variables().player.skillPoints >= r[2]) {
+                            variables().player.learnedAttacks.push(r[3])
+                            variables().player.skillPoints -= r[2]
 
                             $(`#attack-${r[3]}`).remove()
                             $('<li/>').wiki(`''${r[0]}'' - ${r[1]}`).hide().appendTo(`ul.no-bullets`).fadeIn(1000).fadeOut(1000).fadeIn(1000)
-                            if(variables().settings.info.learnedAttackInfo)
-                                popup(`Learned ${r[0]}`,`You learned ${r[0]}! <br><br>To equip you'll need to go Home and change your moveset.`, {'Ok': ()=>{}}, {type: "info", name:'learnedAttackInfo'})
+                            if (variables().settings.info.learnedAttackInfo)
+                                popup(`Learned ${r[0]}`, `You learned ${r[0]}! <br><br>To equip you'll need to go Home and change your moveset.`, { 'Ok': () => { } }, { type: "info", name: 'learnedAttackInfo' })
                         } else
                             notificationText = `You don't have enough Skill Points!`
 
@@ -70,23 +71,27 @@ Macro.add('attackSkill', {
 })
 
 function checkStatReqs(reqs, player) {
-        for (let req in reqs)
-            if (reqs[req] > findJSONValueByKey(player, req))
-                return false
+    for (let req in reqs)
+        if (reqs[req] > findJSONValueByKey(player, req))
+            return false
 
-        return true
-    }
+    return true
+}
 
 function findJSONValueByKey(json, key) {
-        let temp;
-        for (let k in json) {
-            if (typeof (json[k]) === "object" && !Array.isArray(json[k]))
-                temp = findJSONValueByKey(json[k], key)
+    let temp;
+    for (let k in json) {
+        if (typeof (json[k]) === "object" && !Array.isArray(json[k]))
+            temp = findJSONValueByKey(json[k], key)
 
-            if (typeof temp !== 'undefined')
-                return temp
+        if (typeof temp !== 'undefined')
+            return temp
 
-            if (k === key)
-                return json[k]
-        }
+        if (k === key)
+            return json[k]
     }
+}
+
+function isLearned(idx, char) {
+    return char.learnedAttacks.includes(idx) || char.passives.includes(idx)
+}

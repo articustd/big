@@ -11,7 +11,8 @@ Macro.add('leaveButtonMacro', {
             "background-color": "red",
             "border-color": "#560000",
             "width": "100%",
-            "height": "50px"
+            "height": "50px",
+            "margin-top": "13px"
         }
         let $button = $('<button/>').text(buttonText).css(styles)
 

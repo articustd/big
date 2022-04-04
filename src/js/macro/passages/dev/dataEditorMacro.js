@@ -1,7 +1,7 @@
 import { logger } from "@util/Logging"
 import * as dataObjs from "@js/data"
 import * as dataMaps from '@js/data/dataMaps'
-import _, { functionsIn } from "lodash"
+import _ from "lodash"
 import { getPropMeta } from "@util/DataMapping"
 import { createButton, createDropdown, createEmpty, createField } from "@util/Input"
 import { createTable, updateRow } from "@util/Table"

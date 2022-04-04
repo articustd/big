@@ -1,5 +1,5 @@
 import storyConfig from './config.json'
-import { items, loot, stores, species, measurements, attacks, skills, settings } from '@js/data'
+import { items, loot, stores, species, measurements, attacks, skills, settings, attackSkill } from '@js/data'
 import * as macros from '@js/macro'
 import * as templates from '@js/template'
 import { sizeArray } from '@controller/character/MeasurementController'
@@ -28,6 +28,7 @@ setup.ImagePath = "assets/";
 	variables().debug = storyConfig.debug
 	variables().settings = settings
 	variables().numberTest = 1
+	variables().attackSkill = attackSkill
 	// Register custom SugarCube macros
 	// registerAlert(Macro, Dialog);
 

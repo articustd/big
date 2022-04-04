@@ -5,18 +5,11 @@ import _ from "lodash";
 
 /* Combat calculations */
 export function combatRoll(playerAttack) {
-	// Pull in player & enemy into local vars for easy access
-	let enemy = variables().enemy
-	let player = variables().player
-
 	// Pull in variables() for Logs
-	if (!variables().playerCombatLog)
-		variables().playerCombatLog = []
-	if (!variables().enemyCombatLog)
-		variables().enemyCombatLog = []
+	if (!variables().playerCombatLog || !variables().enemyCombatLog)
+		setState({ playerCombatLog: [], enemyCombatLog: [] })
 
-	let playerCombatLog = variables().playerCombatLog
-	let enemyCombatLog = variables().enemyCombatLog
+	let { player, playerCombatLog, enemy, enemyCombatLog } = variables()
 
 	// Ready storage for damage done
 	let playerDmg, enemyDmg;
@@ -49,19 +42,24 @@ export function combatRoll(playerAttack) {
 		}
 	} else { // Enemy is knocked out
 		// enemyHitText = "Enemy has passed out!"
-		variables().combat = false
-		variables().win = true
-		variables().combatResults = `You've knocked out your enemy!`
-		variables().foundItems = rollItems(enemy.loot, enemy.credits)
+		setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy.loot, enemy.credits) })
 	}
 
 	if (!checkHealth(player)) {
-		for (let exp in player.exp) {
+		for (let exp in player.exp)
 			player.exp[exp] = 0;
-		}
-		variables().combatResults = `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
-		variables().combat = false
+
+		setState({ 
+			combat: false, 
+			combatResults: `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.` 
+		})
 	}
+}
+
+function setState(obj) {
+	_.each(obj, (value, key) => {
+		variables()[key] = value
+	})
 }
 
 function getHitHTML(text) {
@@ -96,7 +94,13 @@ export function calcHitChance(attack, attacker, defender) {
 	let { stats: { con: atkCon, dex: atkDex } } = attacker
 	let { stats: { con: defCon, dex: defDex } } = defender
 
-	let hitPer = ((atkDex / 4) + attack.baseHitChnc) + atkCon - defCon
+	let baseHit = 0
+	if (attack.direct)
+		baseHit = attack.direct.hit
+	else
+		baseHit = attack.status.hit
+
+	let hitPer = ((atkDex / 4) + baseHit) + atkCon - defCon
 	// Status Effect
 
 
@@ -112,14 +116,14 @@ function calcCombatDmg(attack, attacker, crit) {
 	return _.floor(_.random(min, max) * ((crit) ? attack.critMulti : 1))
 }
 
-export function calcDmgRange(attack, attacker) {
+export function calcDmgRange({ direct: { dmg, stat } }, attacker) {
 	// Base Stats
-	let dmgRange = { min: Math.floor(Math.pow(attacker.stats[attack.type], attack.minMod)), max: Math.floor(Math.pow(attacker.stats[attack.type], attack.maxMod)) }
+	let dmgRange = { min: Math.floor(Math.pow(attacker.stats[stat], dmg.min)), max: Math.floor(Math.pow(attacker.stats[stat], dmg.max)) }
 	// Status Effect
 
 	// Skill
-	if (attacker.skills)
-		dmgRange = getDmgSkillMod(attacker, dmgRange)
+	// if (attacker.skills)
+	// 	dmgRange = getDmgSkillMod(attacker, dmgRange)
 
 	return dmgRange
 }
@@ -135,9 +139,9 @@ function reduceHealth(defender, dmg) {
 function getHitSkillMod(character) {
 	let hitMod = 0
 
-	_.each(character.skills, (skillId)=>{
-		let {mod, type} = getSkillById(skillId)
-		if(type === "hit")
+	_.each(character.skills, (skillId) => {
+		let { mod, type } = getSkillById(skillId)
+		if (type === "hit")
 			hitMod += mod
 	})
 
@@ -147,24 +151,24 @@ function getHitSkillMod(character) {
 function getDmgSkillMod(character, value) {
 	let multipliers = []
 
-	_.each(character.skills, (skillId)=>{
-		let {mod, type, multi, min, max} = getSkillById(skillId)
-		if(type === "dmg") {
-			if(multi)
-				multipliers.push({mod,min,max})
+	_.each(character.skills, (skillId) => {
+		let { mod, type, multi, min, max } = getSkillById(skillId)
+		if (type === "dmg") {
+			if (multi)
+				multipliers.push({ mod, min, max })
 			else {
-				if(min)
+				if (min)
 					value.min += mod
-				if(max)
+				if (max)
 					value.max += mod
 			}
 		}
 	})
 
-	_.each(multipliers, ({min,max,mod})=>{
-		if(min)
+	_.each(multipliers, ({ min, max, mod }) => {
+		if (min)
 			value.min *= mod
-		if(max)
+		if (max)
 			value.max *= mod
 	})
 
@@ -179,33 +183,33 @@ let missText = [
 ]
 
 export function combatReset() {
-    delete State.variables.enemyHitDmg
-    delete State.variables.enemyCombatLog
-    delete State.variables.foundItems
-    delete State.variables.playerHitDmg
-    delete State.variables.combatResults
-    delete State.variables.playerCombatLog
-    delete State.variables.enemy
-    delete State.variables.willing
-    delete State.variables.consumeObj
+	delete State.variables.enemyHitDmg
+	delete State.variables.enemyCombatLog
+	delete State.variables.foundItems
+	delete State.variables.playerHitDmg
+	delete State.variables.combatResults
+	delete State.variables.playerCombatLog
+	delete State.variables.enemy
+	delete State.variables.willing
+	delete State.variables.consumeObj
 
-    State.variables.combat = false;
-    State.variables.win = false;
+	State.variables.combat = false;
+	State.variables.win = false;
 }
 
 export function loseExp() {
-    for (let exp in State.variables.player.exp)
-        State.variables.player.exp[exp] = 0
+	for (let exp in State.variables.player.exp)
+		State.variables.player.exp[exp] = 0
 
-    for (let cap in State.variables.player.capacity)
-        if (!cap.contains('Max'))
-            State.variables.player.capacity[cap] = 0
+	for (let cap in State.variables.player.capacity)
+		if (!cap.contains('Max'))
+			State.variables.player.capacity[cap] = 0
 
 }
 
 export function getExpText(consumePoints) {
-    let consumeExp = []
-    for (let cp in consumePoints)
-        consumeExp.push(`Gained +${Math.ceil(consumePoints[cp])} ${returnStatName(cp)} to Experience`)
-    return consumeExp
+	let consumeExp = []
+	for (let cp in consumePoints)
+		consumeExp.push(`Gained +${Math.ceil(consumePoints[cp])} ${returnStatName(cp)} to Experience`)
+	return consumeExp
 }

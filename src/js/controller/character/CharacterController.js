@@ -54,19 +54,19 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
         character.credits = credits
 
         // Base Attacks
-        character.attacks = [1, 0]
+        character.attacks = [0, 1]
         character.learnedAttacks = character.attacks
     } else {
         character.name = name
         character.exp = blankExp()
         character.credits = 0
-        character.skills = []
         character.skillPoints = 0
         character.inv = []
 
         // Base Attacks
-        character.attacks = [0, 1, 2]
+        character.attacks = [0, 1]
         character.learnedAttacks = character.attacks
+        character.passives = [2]
     }
 
     // Calculate Genitals... Oh boy

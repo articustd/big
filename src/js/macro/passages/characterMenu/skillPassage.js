@@ -1,24 +1,25 @@
-import { skills } from '@js/data'
+import { attackSkill } from '@js/data'
 import { logger } from '@util/Logging';
 import { popup } from '@controller/util/ModalPopup'
+import _ from 'lodash';
 
 export function skillPassage() {
     let $wrapper = $('<span/>');
 
     $wrapper.append($('<span/>').wiki(`''__Learned Skills__''`))
-    let player = variables().player
+    let { passives } = variables().player
     let $list = $('<ul/>').addClass('no-bullets')
-    $.each(player.skills, function (rowIndex, skillId) {
-        let skill = skills[skillId]
-        $list.append($('<li/>').wiki(`''${skill.name}'' - ${skill.desc}`))
+    _.each(passives, (skillId) => {
+        let { name, desc: { baseDesc } } = attackSkill[skillId]
+        $list.append($('<li/>').wiki(`''${name}'' - ${baseDesc}`))
     })
     $wrapper.append($list).append('<br>')
     $wrapper.append($('<span/>').wiki(`''__Available Skills''`))
     let $table = $('<table/>').addClass('skillTable');
     let tableData = [['Skill', 'Description', 'Points']];
-    skills.forEach(function (skill, idx) {
-        if (!variables().player.skills.includes(idx))
-            tableData.push([skill.name, skill.desc, skill.cost, idx])
+    attackSkill.forEach(function ({ name, desc: { baseDesc }, skillPoints }, idx) {
+        if (!passives.includes(idx))
+            tableData.push([name, baseDesc, skillPoints, idx])
     })
 
     $.each(tableData, function (rowIndex, r) {
@@ -27,11 +28,11 @@ export function skillPassage() {
             $row.append($(`<td/>`).wiki(r[0]))
             $row.append($(`<td/>`).wiki(r[1]))
             var $button = $(document.createElement('button')).wiki(r[2]).addClass('inactiveButton')
-            if (player.skillPoints >= r[2]) {
+            if (variables().player.skillPoints >= r[2]) {
                 $button.ariaClick(function (ev) {
                     let notificationText = ''
                     if (variables().player.skillPoints >= r[2]) {
-                        variables().player.skills.push(r[3])
+                        passives.push(r[3])
                         variables().player.skillPoints -= r[2]
 
                         $(`#skill-${r[3]}`).remove()
