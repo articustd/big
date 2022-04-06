@@ -1,8 +1,9 @@
 export let attackSkill = [
     // {
     //     "name": "",
-    //     "skill": "",
+    //     "skill": false,
     //     "passive": false,
+    //     "cooldown": 0, // Set 0 to have instant refresh
     //     "skillPoints": 10,
     //     "desc": {
     //         "baseDesc": "",
@@ -30,6 +31,7 @@ export let attackSkill = [
     //         "mod": {
     //             "amt": 1, // How much this mod alters the given type
     //             "type": "hit", // What this mod alters, could be a table later on
+    //             "multi": true, // Should be used as a multiplier
     //             "min": true, // Should be added to min damage amount
     //             "max": true // Should be added to max damage amount
     //         },
@@ -51,6 +53,7 @@ export let attackSkill = [
         "name": "Scratch",
         "skill": false,
         "passive": false,
+        "cooldown": 0,
         "skillPoints": 10,
         "desc": {
             "baseDesc": "You use your claws for a swiping attack",
@@ -78,6 +81,7 @@ export let attackSkill = [
         "name": "Pepper Spray",
         "skill": true,
         "passive": false,
+        "cooldown": 5,
         "skillPoints": 50,
         "desc": {
             "baseDesc": "Taking some pepper spray, you aim for the eyes to blind your opponent for 3 turns.",
@@ -101,6 +105,7 @@ export let attackSkill = [
         "name": "Improved Paw-Eye Coordination",
         "skill": false,
         "passive": true,
+        "cooldown": 0,
         "skillPoints": 10,
         "desc": {
             "baseDesc": "Accuracy improved by 10%",
@@ -116,6 +121,7 @@ export let attackSkill = [
             "mod": {
                 "amt": 10,
                 "type": "hit",
+                "multi": true,
                 "min": false,
                 "max": false
             },

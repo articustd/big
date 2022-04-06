@@ -7,32 +7,41 @@ Macro.add('attackAction', {
     handler: function () {
         let isSkill = this.args[0]
         let { player, enemy, player: { attacks } } = variables()
-        let $wrapper = $('<div/>').css('display', 'flex').css('flex-direction', 'column').appendTo(this.output)
+        let $column = $('<div/>').css('display', 'flex').css('flex-direction', 'column').appendTo(this.output)
 
-        let attackList = _.filter(attackSkill, ({ skill, passive }, idx) => {
-            return !passive && skill === isSkill && attacks.includes(idx)
-        })
+        let attackList = _.filter(_.map(attacks, ({ id, currCooldown }) => {
+            return { ...attackSkill[id], currCooldown, id }
+        }), { skill: isSkill })
 
         _.each(attackList, (attack) => {
             let $link = $('<button/>')
                 .css({ 'margin-bottom': '10px', 'flex-grow': 1 })
-                .click(() => { combatRoll(attack); Engine.play(passage(), true) })
-                .tooltip({ track: true, hide: { duration: 500 } })
-                .appendTo($wrapper)
+                .click(function () {
+                    combatRoll(attack);
+                    Engine.play(passage(), true);
+                })
+                .appendTo($column)
 
-            if (attack.req)
-                $link.prop('disabled', attack.reqs.isDisabled(player, enemy)).attr('title', attack.reqs.tooltip)
-            else
-                $link.attr('title', attack.desc.atkTooltip)
+            $link.attr('title', attack.desc.atkTooltip)
+            checkDisabled($link, attack)
 
             let attackText = `${attack.name}<br>`
             if (attack.direct) {
                 let dmgRange = calcDmgRange(attack, player)
                 attackText += `[${dmgRange.min}-${dmgRange.max}] `
             }
-            attackText += `${calcHitChance(attack, player, enemy)}%`
+            attackText += (attack.currCooldown>0)?`${attack.currCooldown} turn${(attack.currCooldown > 1 ? 's' : '')}`:`${calcHitChance(attack, player, enemy)}%`
 
-            $link.wiki(attackText)
+            $link.tooltip({ track: true, hide: { duration: 500 } }).wiki(attackText)
         })
     }
 })
+
+function checkDisabled($parent, { req, currCooldown, desc }) {
+    if (req)
+        $parent.addClass('disabledAttack').attr('title', req.tooltip).off()
+    else if (currCooldown > 0)
+        $parent.addClass('disabledAttack').off()
+    else
+        $parent.removeClass('disabledAttack')
+}

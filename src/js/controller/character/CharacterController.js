@@ -1,11 +1,12 @@
 import { logger } from "@util/Logging";
-import { species, measurements, genders, loot, skills } from '@js/data'
+import { species, measurements, genders, loot, skills, attackSkill } from '@js/data'
+import _ from "lodash";
 
 export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
-    let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {} };
-    let {sizeName, size } = randomSize(sizeRange)
+    let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {}, statusEffect: [] };
+    let { sizeName, size } = randomSize(sizeRange)
 
-    let {bodyTypeName, bodyType} = randomBodyType(bodyTypeRange)
+    let { bodyTypeName, bodyType } = randomBodyType(bodyTypeRange)
 
     let statMods = bodyType.statMods
     let expMods = bodyType.expMods
@@ -31,7 +32,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
 
     // Calculate Measurements
     character.measurements.height = random(size.range[0], (size.range[1]) ? size.range[1] : 1000000)
-    character.measurements.bodyFat = _.round(_.random(bodyType.bodyFat[0],bodyType.bodyFat[1]),2)
+    character.measurements.bodyFat = _.round(_.random(bodyType.bodyFat[0], bodyType.bodyFat[1]), 2)
 
     // Default Hyper to no
     let hyper = false
@@ -54,7 +55,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
         character.credits = credits
 
         // Base Attacks
-        character.attacks = [0, 1]
+        character.attacks = setAttacks([0, 1])
         character.learnedAttacks = character.attacks
     } else {
         character.name = name
@@ -64,7 +65,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
         character.inv = []
 
         // Base Attacks
-        character.attacks = [0, 1]
+        character.attacks = setAttacks([0, 1])
         character.learnedAttacks = character.attacks
         character.passives = [2]
     }
@@ -82,6 +83,13 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     return character;
 }
 
+function setAttacks(attackIds) {
+    return _.map(attackIds, (id) => {
+        let { cooldown } = attackSkill[id]
+        return { id, cooldown, currCooldown: 0 }
+    })
+}
+
 function randomSize(range) {
     let sizeIdx
     if (Array.isArray(range))
@@ -91,23 +99,23 @@ function randomSize(range) {
 
     let sizeObj = measurements.sizes[sizeIdx]
     let sizeName = Object.keys(sizeObj)[0]
-    let {[sizeName]: size} = sizeObj
+    let { [sizeName]: size } = sizeObj
 
-    return {sizeName, size}
+    return { sizeName, size }
 }
 
 function randomBodyType(range) {
     let bodyTypeIdx
     if (Array.isArray(range))
-        bodyTypeIdx =  random(Math.clamp(range[0], 0, measurements.bodyTypes.length - 1), Math.clamp(range[1], 0, measurements.bodyTypes.length - 1))
+        bodyTypeIdx = random(Math.clamp(range[0], 0, measurements.bodyTypes.length - 1), Math.clamp(range[1], 0, measurements.bodyTypes.length - 1))
     else
         bodyTypeIdx = Math.clamp(range, 0, measurements.bodyTypes.length - 1)
 
     let bodyTypeObj = measurements.bodyTypes[bodyTypeIdx]
     let bodyTypeName = Object.keys(bodyTypeObj)[0]
-    let {[bodyTypeName]: bodyType} = bodyTypeObj
-    
-    return {bodyTypeName, bodyType}
+    let { [bodyTypeName]: bodyType } = bodyTypeObj
+
+    return { bodyTypeName, bodyType }
 }
 
 function calcStats(character, statMods, statPoints) {
@@ -277,4 +285,8 @@ export function rest(character) {
 
 export function getSkillById(id) {
     return skills[id]
+}
+
+export function getAttackSkill(id) {
+    return attackSkill[id]
 }

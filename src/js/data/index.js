@@ -7,6 +7,7 @@ import { attacks } from './combat/AttackTable.js'
 import * as consumeText from './combat/ConsumeTextTable.js'
 import skills from './combat/SkillTable.json'
 import { attackSkill } from './combat/AttackSkillTable'
+import statusEffect from './combat/StatusEffectTable'
 
 //Character Tables
 import * as measurements from './character/MeasurementTable'
@@ -37,5 +38,6 @@ export {
         cityText,
         statTypes,
         stats,
-        attackSkill
+        attackSkill,
+        statusEffect
 }

@@ -1,5 +1,6 @@
-import { getSkillById, returnStatName } from "@controller/character/CharacterController";
+import { getAttackSkill, getSkillById, returnStatName } from "@controller/character/CharacterController";
 import { rollItems } from "@controller/character/ItemController";
+import { attackSkill, statusEffect } from "@js/data";
 import { logger } from "@util/Logging";
 import _ from "lodash";
 
@@ -15,27 +16,39 @@ export function combatRoll(playerAttack) {
 	let playerDmg, enemyDmg;
 
 	// Check if player hits
-	let hitChance = calcCombatHit(playerAttack, player, enemy)
-	if (hitChance.hit) {
-		playerDmg = calcCombatDmg(playerAttack, player, hitChance.crit)
-		reduceHealth(enemy, playerDmg)
-		playerCombatLog.push(getHitHTML("Pummled the enemy"))
-		enemyCombatLog.push(getDmgHTML(`Took the hit on the jaw for ${playerDmg} damage`))
+	let { hit, crit } = calcCombatHit(playerAttack, player, enemy)
+	if (hit) {
+		if (playerAttack.direct) {
+			playerDmg = calcCombatDmg(playerAttack, player, crit)
+			reduceHealth(enemy, playerDmg)
+			playerCombatLog.push(getHitHTML("Pummled the enemy"))
+			enemyCombatLog.push(getDmgHTML(`Took the hit on the jaw for ${playerDmg} damage`))
+		}
+		if (playerAttack.status) {
+			inflictStatus(playerAttack, enemy)
+		}
+
 	} else {
 		playerCombatLog.push(getMissHTML("Swung wide and missed"))
 		enemyCombatLog.push(getDodgeHTML(`Jumped to the side`))
 	}
 
 	// Random enemy attack and roll for enemy hit
-	// let enemyAttack = randomEnemyAttack(enemy.attackSet);
-	let enemyAttack = playerAttack;
+	let enemyAttack = getEnemyAttack(enemy)
+	enemyAttack = { ...attackSkill[enemyAttack.id], ...enemyAttack }
+	logger(enemyAttack.name)
 	if (checkHealth(enemy)) { // Check to see if enemy is alive first
-		hitChance = calcCombatHit(enemyAttack, enemy, player)
-		if (hitChance.hit) {
-			enemyDmg = calcCombatDmg(enemyAttack, enemy, false)
-			reduceHealth(player, enemyDmg)
-			enemyCombatLog.push(getHitHTML(`Pummeled you`))
-			playerCombatLog.push(getDmgHTML(`You took the hit on the jaw for ${enemyDmg} damage`))
+		let { hit: eHit } = calcCombatHit(enemyAttack, enemy, player)
+		if (eHit) {
+			if (enemyAttack.direct) {
+				enemyDmg = calcCombatDmg(enemyAttack, enemy, false)
+				reduceHealth(player, enemyDmg)
+				enemyCombatLog.push(getHitHTML(`Pummeled you`))
+				playerCombatLog.push(getDmgHTML(`You took the hit on the jaw for ${enemyDmg} damage`))
+			}
+			if (enemyAttack.status) {
+				inflictStatus(enemyAttack, player)
+			}
 		} else {
 			enemyCombatLog.push(getDodgeHTML(`Swung wide and missed`))
 			playerCombatLog.push(getMissHTML("Jumped to the side"))
@@ -43,22 +56,42 @@ export function combatRoll(playerAttack) {
 	} else { // Enemy is knocked out
 		// enemyHitText = "Enemy has passed out!"
 		setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy.loot, enemy.credits) })
+		variables().player.statusEffect = []
 	}
+
+	// Reduce Status
+	reduceStatusEffect(player)
+	reduceStatusEffect(enemy)
+
+	// Reduce Cooldowns
+	reduceCooldowns(player)
+	reduceCooldowns(enemy)
+
+	// Set new cooldowns
+	setCooldown(player, playerAttack)
+	setCooldown(enemy, enemyAttack)
 
 	if (!checkHealth(player)) {
 		for (let exp in player.exp)
 			player.exp[exp] = 0;
 
-		setState({ 
-			combat: false, 
-			combatResults: `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.` 
+		setState({
+			combat: false,
+			combatResults: `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
 		})
+		variables().player.statusEffect = []
 	}
 }
 
 function setState(obj) {
 	_.each(obj, (value, key) => {
 		variables()[key] = value
+	})
+}
+
+function deleteState(obj) {
+	_.each(obj, (value, key) => {
+		delete variables()[key]
 	})
 }
 
@@ -89,26 +122,32 @@ function calcCombatHit(attack, attacker, defender) {
 	return { hit: false, crit: false }
 }
 
-export function calcHitChance(attack, attacker, defender) {
+export function calcHitChance(attack, attacker, defender, baseHit = 0, hitPer = 0) {
 	// Base Stats
 	let { stats: { con: atkCon, dex: atkDex } } = attacker
 	let { stats: { con: defCon, dex: defDex } } = defender
 
-	let baseHit = 0
+	// Direct Attack
 	if (attack.direct)
 		baseHit = attack.direct.hit
 	else
 		baseHit = attack.status.hit
 
-	let hitPer = ((atkDex / 4) + baseHit) + atkCon - defCon
-	// Status Effect
-
+	hitPer = ((atkDex / 4) + baseHit) + atkCon - defCon
 
 	// Skill
 	if (attacker.skills)
 		hitPer += getHitSkillMod(attacker)
 
-	return _.clamp(_.floor(hitPer), 1, 100)
+	// Status Effects
+	// CLEANUP This needs to be attached to a data object instead of explicitly looking for a name
+	_.each(attacker.statusEffect, function ({ name, mod }) {
+		if (name === 'Blind') {
+			hitPer = 0
+			return false
+		}
+	})
+	return _.clamp(_.floor(hitPer), 0, 100)
 }
 
 function calcCombatDmg(attack, attacker, crit) {
@@ -119,11 +158,12 @@ function calcCombatDmg(attack, attacker, crit) {
 export function calcDmgRange({ direct: { dmg, stat } }, attacker) {
 	// Base Stats
 	let dmgRange = { min: Math.floor(Math.pow(attacker.stats[stat], dmg.min)), max: Math.floor(Math.pow(attacker.stats[stat], dmg.max)) }
-	// Status Effect
 
 	// Skill
-	// if (attacker.skills)
-	// 	dmgRange = getDmgSkillMod(attacker, dmgRange)
+	if (attacker.passives)
+		dmgRange = getDmgSkillMod(attacker, dmgRange)
+
+	// Status Effect
 
 	return dmgRange
 }
@@ -136,43 +176,40 @@ function reduceHealth(defender, dmg) {
 	defender.stats.hlth = _.clamp(defender.stats.hlth - dmg, 0, defender.stats.hlth)
 }
 
-function getHitSkillMod(character) {
-	let hitMod = 0
+function getHitSkillMod(character, hitMod = 0) {
+	let passiveList = getPassiveSkills('hit', character)
 
-	_.each(character.skills, (skillId) => {
-		let { mod, type } = getSkillById(skillId)
-		if (type === "hit")
-			hitMod += mod
+	_.each(passiveList, ({ status: { mod: { type, min, max, amt, multi } } }) => {
+		hitMod += amt
 	})
 
 	return hitMod
 }
 
-function getDmgSkillMod(character, value) {
-	let multipliers = []
+function getDmgSkillMod(character, value, multipliers = []) {
+	let passiveList = getPassiveSkills('dmg', character)
 
-	_.each(character.skills, (skillId) => {
-		let { mod, type, multi, min, max } = getSkillById(skillId)
-		if (type === "dmg") {
-			if (multi)
-				multipliers.push({ mod, min, max })
-			else {
-				if (min)
-					value.min += mod
-				if (max)
-					value.max += mod
-			}
+	_.each(passiveList, ({ status: { mod: { type, min, max, amt, multi } } }) => {
+		if (multi)
+			multipliers.push({ min, max, amt })
+		else {
+			(min) ? value.min += min : 0;
+			(max) ? value.max += max : 0
 		}
 	})
 
-	_.each(multipliers, ({ min, max, mod }) => {
-		if (min)
-			value.min *= mod
-		if (max)
-			value.max *= mod
+	_.each(multipliers, ({ min, max, amt }) => {
+		(min) ? value.min *= min : 0;
+		(max) ? value.max *= max : 0
 	})
 
 	return value
+}
+
+function getPassiveSkills(type, { passives }) {
+	return _.filter(_.map(passives, (node) => {
+		return attackSkill[node]
+	}), { status: { mod: { type } } })
 }
 
 let hitText = [
@@ -183,27 +220,28 @@ let missText = [
 ]
 
 export function combatReset() {
-	delete State.variables.enemyHitDmg
-	delete State.variables.enemyCombatLog
-	delete State.variables.foundItems
-	delete State.variables.playerHitDmg
-	delete State.variables.combatResults
-	delete State.variables.playerCombatLog
-	delete State.variables.enemy
-	delete State.variables.willing
-	delete State.variables.consumeObj
+	deleteState({
+		enemyHitDmg: true,
+		enemyCombatLog: true,
+		foundItems: true,
+		playerHitDmg: true,
+		combatResults: true,
+		playerCombatLog: true,
+		enemy: true,
+		willing: true,
+		consumeObj: true
+	})
 
-	State.variables.combat = false;
-	State.variables.win = false;
+	setState({ combat: false, win: false })
 }
 
 export function loseExp() {
 	for (let exp in State.variables.player.exp)
-		State.variables.player.exp[exp] = 0
+		variables().player.exp[exp] = 0
 
 	for (let cap in State.variables.player.capacity)
 		if (!cap.contains('Max'))
-			State.variables.player.capacity[cap] = 0
+			variables().player.capacity[cap] = 0
 
 }
 
@@ -212,4 +250,34 @@ export function getExpText(consumePoints) {
 	for (let cp in consumePoints)
 		consumeExp.push(`Gained +${Math.ceil(consumePoints[cp])} ${returnStatName(cp)} to Experience`)
 	return consumeExp
+}
+
+function inflictStatus({ status: { type, duration } }, enemy) {
+	let { name } = statusEffect[type]
+	enemy.statusEffect.push({ name, duration })
+}
+
+function reduceStatusEffect({ statusEffect }) {
+	_.each(statusEffect, (status, idx) => {
+		statusEffect = _.remove(statusEffect, (n) => { return n.duration === 0 })
+		status.duration -= 1
+	})
+}
+
+function setCooldown(character, { cooldown, id }) {
+	_.each(character.attacks, (atk) => {
+		if (atk.id === id)
+			atk.currCooldown = cooldown
+	})
+}
+
+function reduceCooldowns({ attacks }) {
+	_.each(attacks, (atk) => {
+		if (atk.currCooldown > 0)
+			atk.currCooldown -= 1
+	})
+}
+
+function getEnemyAttack(enemy) {
+	return _.sample(_.filter(enemy.attacks, { currCooldown: 0 }))
 }
