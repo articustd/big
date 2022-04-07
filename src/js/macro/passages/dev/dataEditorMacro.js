@@ -76,12 +76,12 @@ Macro.add('dataEditorMacro', {
         }).appendTo(this.output)
 
         // Use this to get the meta map of a data store
-        // let metaMap = getPropMeta([], data.stores)
-        // let $button = $('<button/>').wiki('Copy JSON').click(()=>{
-        //     navigator.clipboard.writeText(`${JSON.stringify(metaMap)}`);
-        // })
+        let metaMap = getPropMeta([], dataObjs.attackSkill)
+        let $button = $('<button/>').css({'margin-left': '5px'}).wiki('Copy JSON').click(()=>{
+            navigator.clipboard.writeText(`${JSON.stringify(metaMap)}`);
+        })
 
-        // $button.appendTo(this.output)
+        $button.appendTo(this.output)
     }
 })
 
@@ -131,7 +131,7 @@ function formSerialize({ $form, data }) {
         data[$(this).attr('name')] = $(this).val()
     })
     $form.find('> div > select').each(function () {
-        data[$(this).attr('name')] = $(this).val()
+        data[$(this).attr('name')] = boolify($(this).val())
     })
     $form.find('table').each(function ({ arr = [] }) {
         $(this).find('tr.dataRow').each(function () {
@@ -140,4 +140,10 @@ function formSerialize({ $form, data }) {
         data[$(this).attr('name')] = arr
     })
     return data
+}
+
+function boolify(value) {
+    if(value === 'true' || value === 'false')
+        return JSON.parse(value)
+    return value
 }

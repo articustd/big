@@ -92,6 +92,12 @@ function findJSONValueByKey(json, key) {
     }
 }
 
-function isLearned(idx, char) {
-    return char.learnedAttacks.includes(idx) || char.passives.includes(idx)
+function isLearned(idx, char, response = false) {
+    _.each(char.learnedAttacks, ({ id }) => {
+        if (id === idx) {
+            response = true
+            return false
+        }
+    })
+    return response || char.passives.includes(idx)
 }

@@ -17,7 +17,7 @@ export function combatRoll(playerAttack) {
 
 	// Check if player hits
 	let { hit, crit } = calcCombatHit(playerAttack, player, enemy)
-	if (hit) {
+	if (hit) { // CLEANUP Messy for both player and enemy sections
 		if (playerAttack.direct) {
 			playerDmg = calcCombatDmg(playerAttack, player, crit)
 			reduceHealth(enemy, playerDmg)
@@ -34,12 +34,11 @@ export function combatRoll(playerAttack) {
 	}
 
 	// Random enemy attack and roll for enemy hit
-	let enemyAttack = getEnemyAttack(enemy)
-	enemyAttack = { ...attackSkill[enemyAttack.id], ...enemyAttack }
-	logger(enemyAttack.name)
+	let enemyAttack = getEnemyAttack(enemy) 
+	enemyAttack = { ...attackSkill[enemyAttack.id], ...enemyAttack } // CLEANUP Compress down into getEnemyAttack()
 	if (checkHealth(enemy)) { // Check to see if enemy is alive first
-		let { hit: eHit } = calcCombatHit(enemyAttack, enemy, player)
-		if (eHit) {
+		({ hit } = calcCombatHit(enemyAttack, enemy, player))
+		if (hit) {
 			if (enemyAttack.direct) {
 				enemyDmg = calcCombatDmg(enemyAttack, enemy, false)
 				reduceHealth(player, enemyDmg)
@@ -57,9 +56,10 @@ export function combatRoll(playerAttack) {
 		// enemyHitText = "Enemy has passed out!"
 		setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy.loot, enemy.credits) })
 		variables().player.statusEffect = []
+		resetCooldown(player)
 	}
 
-	// Reduce Status
+	// Reduce Status Effects
 	reduceStatusEffect(player)
 	reduceStatusEffect(enemy)
 
@@ -80,6 +80,7 @@ export function combatRoll(playerAttack) {
 			combatResults: `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
 		})
 		variables().player.statusEffect = []
+		resetCooldown(player)
 	}
 }
 
@@ -268,6 +269,12 @@ function setCooldown(character, { cooldown, id }) {
 	_.each(character.attacks, (atk) => {
 		if (atk.id === id)
 			atk.currCooldown = cooldown
+	})
+}
+
+function resetCooldown(character) {
+	_.each(character.attacks, (atk)=>{
+		atk.currCooldown = 0
 	})
 }
 

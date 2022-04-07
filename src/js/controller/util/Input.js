@@ -8,7 +8,7 @@ export function createDropdown({ $parent, $menuParent, label, name, data, prop, 
     if (label)
         $wrapper.append($(`<label for=${name}/>`).wiki(label))
 
-    $wrapper.append($dropDown).css(wrapper||{ width: '100%', "margin-bottom": '10px', "margin-top": '10px' })
+    $wrapper.append($dropDown).css(wrapper || { width: '100%', "margin-bottom": '10px', "margin-top": '10px' })
     $wrapper.appendTo($parent)
     $dropDown.selectmenu({
         appendTo: $menuParent,
@@ -16,21 +16,22 @@ export function createDropdown({ $parent, $menuParent, label, name, data, prop, 
     })
 
     _.each(data, (val, key) => {
-        $dropDown.append($(`<option value="${val[prop] || key}"/>`).wiki(val[displayProp || prop]))
+        $dropDown.append($(`<option value="${(typeof val[prop] !== 'undefined') ? val[prop] : key}"/>`).wiki(val[displayProp || prop]))
     })
 
     if (callback)
         $dropDown.selectmenu({
-            select: function(event, ui){
+            select: function (event, ui) {
                 let value = ui.item.value
-                callback(isNaN(value)?value:Number(value))
+                callback(isNaN(value) ? value : Number(value))
             }
         })
 
     $dropDown.selectmenu("refresh", true)
-
-    if (selectedData)
-        $dropDown.val(selectedData).selectmenu("refresh", true)
+    
+    if (typeof selectedData !== 'undefined')
+        $dropDown.val(selectedData.toString()).selectmenu("refresh", true)
+    
 
     return $dropDown
 }
@@ -66,9 +67,9 @@ export function createInputField({ type, label, prop, data, style: { wrapper, in
         $wrapper.append($('<label/>').attr('for', prop).wiki(label))
 
     if (callback)
-        $inputField.change(function(){
-            callback((type==='number')?Number($(this).val()):$(this).val())
-        })    
+        $inputField.change(function () {
+            callback((type === 'number') ? Number($(this).val()) : $(this).val())
+        })
 
     return $wrapper.append($inputField)
 }
@@ -84,6 +85,10 @@ export function createField({ $parent, type, field, data, dataObj, prop, label, 
         case 'Dropdown':
             createDropdown({ $parent, $menuParent: $parent, label, prop: field.dataProp, displayProp: field.displayProp, data: dataObj, selectedData: data, name: prop, style, callback })
             break
+        case 'Boolean':
+            logger({ label, prop, field, data })
+            createDropdown({ $parent, $menuParent: $parent, label, prop: field.dataProp, data: field.data, displayProp: field.displayProp, selectedData: data, name: prop, style, callback })
+            break
         case 'Array':
             createTable({
                 $parent,
@@ -92,7 +97,7 @@ export function createField({ $parent, type, field, data, dataObj, prop, label, 
                 name: prop,
                 title: label,
                 btns: { hasAdd: createEmpty(map), hasDelete: true },
-                editable: function(){},
+                editable: function () { },
                 dataCallback: callback
             })
     }
