@@ -132,7 +132,8 @@ function formSerialize({ $form, data }) {
         formSerialize({$form:$(this), data:data[$(this).attr('name')]})
     })
     $form.find('> div > input').each(function () {
-        data[$(this).attr('name')] = $(this).val()
+        let isNum = parseFloat($(this).val())
+        data[$(this).attr('name')] = isNaN(isNum)?$(this).val():isNum
     })
     $form.find('> div > select').each(function () {
         data[$(this).attr('name')] = boolify($(this).val())
