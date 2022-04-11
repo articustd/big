@@ -36,16 +36,18 @@ export function createTable({ $parent, dataMap, data, name, title, btns: { hasDe
             type: 'Add',
             icon: 'fa-plus',
             style: { "float": "right", "width": "35px", "border-radius": "5px", "margin-right": "3px" },
-            callback: () => addTableRow({
-                $table,
-                data: hasAdd,
-                dataMap: dataMap.children,
-                btns: { hasDelete: true },
-                rowCallback,
-                dataCallback,
-                editable,
-                name
-            })
+            callback: function() {
+                addTableRow({
+                    $table,
+                    data: hasAdd(dataMap),
+                    dataMap: dataMap.children,
+                    btns: { hasDelete: true },
+                    rowCallback,
+                    dataCallback,
+                    editable,
+                    name
+                })
+            }
         }).appendTo($parent)
 
     return $table
@@ -66,7 +68,7 @@ export function addTableRow({ $table, data, dataMap, name, btns: { hasDelete }, 
                     dataObj: dataObjs[field.data],
                     data: data[propName],
                     style: { wrapper: {}, input: { 'width': '93%' } },
-                    callback: function (value) {$row.data()[propName] = value}
+                    callback: function (value) { $row.data()[propName] = value }
                 })
             else
                 $dataCell.wiki(data[propName])

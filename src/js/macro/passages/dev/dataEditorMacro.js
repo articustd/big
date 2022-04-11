@@ -21,9 +21,9 @@ Macro.add('dataEditorMacro', {
                 let data = dataObjs[dataMap.dataName]
                 createTable({
                     $parent: $fieldsContainer,
-                    dataMap, data,
+                    dataMap, data, field: {},
                     name: dataMap.name,
-                    btns: { hasDelete: true, hasAdd: createEmpty(dataMap) },
+                    btns: { hasDelete: true, hasAdd: createEmpty },
                     rowCallback: ({ $table, $row, data, dataMap, name }) => { openFormEditor({ $table, $row, data, dataMap, name }) }
                 })
             },
@@ -37,9 +37,9 @@ Macro.add('dataEditorMacro', {
 
         let $table = createTable({
             $parent: $fieldsContainer,
-            dataMap, data,
+            dataMap, data, field: {},
             name: dataMap.name,
-            btns: { hasDelete: true, hasAdd: createEmpty(dataMap) },
+            btns: { hasDelete: true, hasAdd: createEmpty },
             rowCallback: ({ $row, data, dataMap, name }) => { openFormEditor({ $row, data, dataMap, name }) }
         })
 
@@ -127,6 +127,10 @@ function openFormEditor({ $row, data, dataMap, name }) {
 }
 
 function formSerialize({ $form, data }) {
+    $form.find('> div[name]').each(function() {
+        data[$(this).attr('name')] = $(this).data()
+        formSerialize({$form:$(this), data:data[$(this).attr('name')]})
+    })
     $form.find('> div > input').each(function () {
         data[$(this).attr('name')] = $(this).val()
     })

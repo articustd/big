@@ -8,8 +8,8 @@ export let attackSkill = [
     //     "desc": {
     //         "baseDesc": "",
     //         "critDesc": "",
-    //         "statMods": [""],
-    //         "reqs": [""]
+    //         "statMods": [{"stat": ""}],
+    //         "reqs": [{"req": ""}],
     //         "attackTooltip": ""
     //     },
     //     "direct": { // Maybe when something is passive or just has a status this could just be null
@@ -48,7 +48,7 @@ export let attackSkill = [
     //     "req": { // Maybe when an attack has no reqs this could just be null
     //         // TBD
     //     }
-    // },
+    // }
     {
         "name": "Scratch",
         "skill": false,
@@ -58,8 +58,8 @@ export let attackSkill = [
         "desc": {
             "baseDesc": "You use your claws for a swiping attack",
             "critDesc": "2x",
-            "statMods": ["Strength"],
-            "reqs": ["None"],
+            "statMods": [{"stat":"Strength"}],
+            "reqs": [{"req":"None"}],
             "atkTooltip": "Basic claw attack"
         },
         "direct": {
@@ -86,8 +86,8 @@ export let attackSkill = [
         "desc": {
             "baseDesc": "Taking some pepper spray, you aim for the eyes to blind your opponent for 3 turns.",
             "critDesc": "No",
-            "statMods": ["None"],
-            "reqs": ["None"],
+            "statMods": [{"stat":"None"}],
+            "reqs": [{"req":"None"}],
             "atkTooltip": "Blinds enemy for 3 turns",
         },
         "direct": null,
@@ -110,8 +110,8 @@ export let attackSkill = [
         "desc": {
             "baseDesc": "Accuracy improved by 10%",
             "critDesc": "",
-            "statMods": [""],
-            "reqs": [""]
+            "statMods": [],
+            "reqs": []
         },
         "direct": null,
         "status": { // Maybe when an attack has no status effect this could just be null
