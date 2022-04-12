@@ -1,6 +1,7 @@
 import { calcDmgRange, calcHitChance, combatRoll } from "@controller/combat/CombatController";
 import { attackSkill } from "@js/data"
 import { logger } from "@util/Logging";
+import _ from "lodash";
 
 Macro.add('attackAction', {
     skipArgs: false,
@@ -38,7 +39,7 @@ Macro.add('attackAction', {
 })
 
 function checkDisabled($parent, { req, currCooldown, desc }) {
-    if (req)
+    if (req && !_.isEmpty(req))
         $parent.addClass('disabledAttack').attr('title', req.tooltip).off()
     else if (currCooldown > 0)
         $parent.addClass('disabledAttack').off()

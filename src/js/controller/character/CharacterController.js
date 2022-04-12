@@ -67,7 +67,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
         // Base Attacks
         character.attacks = setAttacks([0, 1])
         character.learnedAttacks = character.attacks
-        character.passives = [2]
+        character.passives = []
     }
 
     // Calculate Genitals... Oh boy

@@ -1,4 +1,4 @@
-import { attacks, attackSkill } from '@js/data'
+import { attackSkill } from '@js/data'
 import { logger } from '@util/Logging'
 import _ from 'lodash'
 
@@ -11,14 +11,13 @@ Macro.add('movesetMacro', {
         let $columnOne = createLane('equipped', 3)
 
         // $columnOne.append($('<span/>').text('Attacks').css('width','100%').css('float', 'left'))
-        for (let atkId of player.attacks)
-            $columnOne.append(createCard(atkId))
+        _.each(player.attacks, (atk) => { $columnOne.append(createCard(atk)) })
 
         let $columnTwo = createLane('available', 30)
 
-        for (let attackId of player.learnedAttacks)
-            if (!player.attacks.includes(attackId))
-                $columnTwo.append(createCard(attackId))
+        _.each(_.filter(player.learnedAttacks, function ({ id }) {
+            return _.filter(player.attacks, { id }).length === 0
+        }), (atk) => { $columnTwo.append(createCard(atk)) })
 
         $wrapper
             .append($('<span/>').text('Equipped Attacks')
@@ -36,12 +35,13 @@ Macro.add('movesetMacro', {
     }
 })
 
-function createCard(atkId) {
-    let {name,desc} = attackSkill[atkId]
+function createCard(atk) {
+    let { name, desc } = attackSkill[atk.id]
     let $portlet = $('<div/>')
         .addClass('portlet')
         .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
-        .attr('value', atkId)
+        .attr('value', atk.id)
+        .data(atk)
 
     let $portletHeader = $('<div/>').addClass('portlet-header').text(name)
     // let $portletToggle = $("<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>")
@@ -54,7 +54,7 @@ function createCard(atkId) {
         .addClass("ui-widget-header ui-corner-all")
     // .append($portletToggle);
     $portlet.append($portletHeader)
-    
+
     $portlet.append($('<div/>').addClass('portlet-content').wiki(desc.baseDesc))
     $portlet.append($('<div/>').addClass('portlet-body-header').wiki(`''Crit:'' ${desc.critDesc}`))
     $portlet.append($('<div/>').addClass('portlet-body-header').wiki(`''Stat Mod:''`))
@@ -65,8 +65,8 @@ function createCard(atkId) {
 }
 
 function getList(desc, response = '') {
-    _.each(desc,(descVal)=>{
-        response+=`- ${descVal}<br/>`
+    _.each(desc, (val) => {
+        response += `- ${_.values(val)[0]}<br/>`
     })
     return response
 }
@@ -80,7 +80,12 @@ function createLane(id, size) {
         cursor: "grabbing",
         update: function (event, ui) {
             if (this.id === 'equipped') {
-                variables().player.attacks = $(this).sortable("toArray", { attribute: 'value' }).map(Number);
+                let newAtks = []
+                $(this).find('> .portlet').each(function () {
+                    let { id, cooldown, currCooldown } = $(this).data()
+                    newAtks.push({ id, cooldown, currCooldown })
+                })
+                variables().player.attacks = newAtks;
                 $('#outOf').text(`${variables().player.attacks.length}/3`)
             }
         },

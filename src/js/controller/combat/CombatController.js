@@ -18,13 +18,13 @@ export function combatRoll(playerAttack) {
 	// Check if player hits
 	let { hit, crit } = calcCombatHit(playerAttack, player, enemy)
 	if (hit) { // CLEANUP Messy for both player and enemy sections
-		if (playerAttack.direct) {
+		if (playerAttack.direct && !_.isEmpty(playerAttack.direct)) {
 			playerDmg = calcCombatDmg(playerAttack, player, crit)
 			reduceHealth(enemy, playerDmg)
 			playerCombatLog.push(getHitHTML("Pummled the enemy"))
 			enemyCombatLog.push(getDmgHTML(`Took the hit on the jaw for ${playerDmg} damage`))
 		}
-		if (playerAttack.status) {
+		if (playerAttack.status && !_.isEmpty(playerAttack.status)) {
 			inflictStatus(playerAttack, enemy)
 		}
 
@@ -34,29 +34,25 @@ export function combatRoll(playerAttack) {
 	}
 
 	// Random enemy attack and roll for enemy hit
-	let enemyAttack = getEnemyAttack(enemy) 
+	let enemyAttack = getEnemyAttack(enemy)
 	enemyAttack = { ...attackSkill[enemyAttack.id], ...enemyAttack } // CLEANUP Compress down into getEnemyAttack()
 	if (checkHealth(enemy)) { // Check to see if enemy is alive first
 		({ hit } = calcCombatHit(enemyAttack, enemy, player))
 		if (hit) {
-			if (enemyAttack.direct) {
+			if (enemyAttack.direct && !_.isEmpty(enemyAttack.direct)) {
 				enemyDmg = calcCombatDmg(enemyAttack, enemy, false)
 				reduceHealth(player, enemyDmg)
 				enemyCombatLog.push(getHitHTML(`Pummeled you`))
 				playerCombatLog.push(getDmgHTML(`You took the hit on the jaw for ${enemyDmg} damage`))
 			}
-			if (enemyAttack.status) {
+			if (enemyAttack.status && !_.isEmpty(enemyAttack.status)) {
 				inflictStatus(enemyAttack, player)
 			}
 		} else {
 			enemyCombatLog.push(getDodgeHTML(`Swung wide and missed`))
 			playerCombatLog.push(getMissHTML("Jumped to the side"))
 		}
-	} else { // Enemy is knocked out
-		// enemyHitText = "Enemy has passed out!"
-		setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy.loot, enemy.credits) })
-		variables().player.statusEffect = []
-		resetCooldown(player)
+
 	}
 
 	// Reduce Status Effects
@@ -70,6 +66,13 @@ export function combatRoll(playerAttack) {
 	// Set new cooldowns
 	setCooldown(player, playerAttack)
 	setCooldown(enemy, enemyAttack)
+
+	if (!checkHealth(enemy)) {
+		// enemyHitText = "Enemy has passed out!"
+		setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy.loot, enemy.credits) })
+		variables().player.statusEffect = []
+		resetCooldown(player)
+	}
 
 	if (!checkHealth(player)) {
 		for (let exp in player.exp)
@@ -273,7 +276,7 @@ function setCooldown(character, { cooldown, id }) {
 }
 
 function resetCooldown(character) {
-	_.each(character.attacks, (atk)=>{
+	_.each(character.attacks, (atk) => {
 		atk.currCooldown = 0
 	})
 }

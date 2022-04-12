@@ -1,54 +1,4 @@
 export let attackSkill = [
-    // {
-    //     "name": "",
-    //     "skill": false,
-    //     "passive": false,
-    //     "cooldown": 0, // Set 0 to have instant refresh
-    //     "skillPoints": 10,
-    //     "desc": {
-    //         "baseDesc": "",
-    //         "critDesc": "",
-    //         "statMods": [{"stat": ""}],
-    //         "reqs": [{"req": ""}],
-    //         "attackTooltip": ""
-    //     },
-    //     "direct": { // Maybe when something is passive or just has a status this could just be null
-    //         "hit": 0.75,
-    //         "stat": "strg",
-    //         "dmg": {
-    //             "min": 0.6,
-    //             "max": 0.99,
-    //             "crit": {
-    //                 "canCrit": true,
-    //                 "critMulti": 2
-    //             }
-    //         }
-    //     },
-    //     "status": { // Maybe when an attack has no status effect this could just be null
-    //         "hit": 0,
-    //         "type": 0, // Linked to a type table, 0 will be no status
-    //         "stat": "strg",
-    //         "mod": {
-    //             "amt": 1, // How much this mod alters the given type
-    //             "type": "hit", // What this mod alters, could be a table later on
-    //             "multi": true, // Should be used as a multiplier
-    //             "min": true, // Should be added to min damage amount
-    //             "max": true // Should be added to max damage amount
-    //         },
-    //         "dmg": {
-    //             "min": 0.6,
-    //             "max": 0.99,
-    //             "crit": {
-    //                 "canCrit": true,
-    //                 "critMulti": 2
-    //             }
-    //         },
-    //         "duration": 2 // Number of turns this status will take effect
-    //     },
-    //     "req": { // Maybe when an attack has no reqs this could just be null
-    //         // TBD
-    //     }
-    // }
     {
         "name": "Scratch",
         "skill": false,
@@ -58,8 +8,16 @@ export let attackSkill = [
         "desc": {
             "baseDesc": "You use your claws for a swiping attack",
             "critDesc": "2x",
-            "statMods": [{"stat":"Strength"}],
-            "reqs": [{"req":"None"}],
+            "statMods": [
+                {
+                    "stat": "Strength"
+                }
+            ],
+            "reqs": [
+                {
+                    "req": "None"
+                }
+            ],
             "atkTooltip": "Basic claw attack"
         },
         "direct": {
@@ -78,6 +36,90 @@ export let attackSkill = [
         "req": null
     },
     {
+        "name": "Bite",
+        "skill": false,
+        "passive": false,
+        "cooldown": 0,
+        "skillPoints": 10,
+        "desc": {
+            "baseDesc": "Getting a taste before the meal.",
+            "critDesc": "2x",
+            "atkTooltip": "Basic bite attack",
+            "statMods": [
+                {
+                    "stat": "Strength"
+                }
+            ],
+            "reqs": [
+                {
+                    "req": "None"
+                }
+            ]
+        },
+        "direct": {
+            "hit": 50,
+            "stat": "strg",
+            "dmg": {
+                "min": 0.6,
+                "max": 0.9,
+                "crit": {
+                    "canCrit": true,
+                    "critMulti": 2
+                }
+            }
+        },
+        "status": {},
+        "req": {},
+        "statMods": [
+            {
+                "stat": "Strength"
+            }
+        ],
+        "reqs": [
+            {
+                "req": "None"
+            }
+        ]
+    },
+    {
+        "name": "Stomp",
+        "skill": false,
+        "passive": false,
+        "cooldown": 1,
+        "skillPoints": 10,
+        "desc": {
+            "baseDesc": "You are large enough to step on your opponent.",
+            "critDesc": "2x",
+            "atkTooltip": "Paw slam for higher damage",
+            "statMods": [
+                {
+                    "stat": "Strength"
+                }
+            ],
+            "reqs": []
+        },
+        "direct": {
+            "hit": 65,
+            "stat": "strg",
+            "dmg": {
+                "min": 0.6,
+                "max": 0.99,
+                "crit": {
+                    "canCrit": true,
+                    "critMulti": 2
+                }
+            }
+        },
+        "status": {},
+        "req": {},
+        "statMods": [
+            {
+                "stat": "Strength"
+            }
+        ],
+        "reqs": []
+    },
+    {
         "name": "Pepper Spray",
         "skill": true,
         "passive": false,
@@ -86,18 +128,26 @@ export let attackSkill = [
         "desc": {
             "baseDesc": "Taking some pepper spray, you aim for the eyes to blind your opponent for 3 turns.",
             "critDesc": "No",
-            "statMods": [{"stat":"None"}],
-            "reqs": [{"req":"None"}],
-            "atkTooltip": "Blinds enemy for 3 turns",
+            "statMods": [
+                {
+                    "stat": "None"
+                }
+            ],
+            "reqs": [
+                {
+                    "req": "None"
+                }
+            ],
+            "atkTooltip": "Blinds enemy for 3 turns"
         },
         "direct": null,
-        "status": { // Maybe when an attack has no status effect this could just be null
+        "status": {
             "hit": 90,
-            "type": 1, // 1:Blind
+            "type": 1,
             "stat": null,
             "mod": null,
             "dmg": null,
-            "duration": 3 // Number of turns this status will take effect
+            "duration": 3
         },
         "req": null
     },
@@ -114,9 +164,9 @@ export let attackSkill = [
             "reqs": []
         },
         "direct": null,
-        "status": { // Maybe when an attack has no status effect this could just be null
+        "status": {
             "hit": 0,
-            "type": 0, // Linked to a type table, 0 will be no status
+            "type": 0,
             "stat": "",
             "mod": {
                 "amt": 10,
@@ -126,7 +176,7 @@ export let attackSkill = [
                 "max": false
             },
             "dmg": null,
-            "duration": -1 // Number of turns this status will take effect
+            "duration": -1
         },
         "req": null
     }
