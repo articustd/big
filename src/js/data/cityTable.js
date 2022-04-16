@@ -1,19 +1,23 @@
 export let microCity = [
     {
         name: "Too Small",
-        desc: `Congrats you broke the game! Don't know how you did that, but please report me as a bug!!!`
+        desc: `How was this even possible? These people were small. Tiny! They were Micros for god’s sake!
+        <br>So how did you get even smaller than they were?!
+        <br>Paws that you knew weren’t even an inch tall thundered around you like the footsteps of titans. Tails swept overhead and created gusts of wind strong enough hey threatened to lift you up off your feet! Even here, amongst the smallest people in the city you felt small.
+        <br>Insignificant.
+        <br>Powerless.`
     },
     {
         name: "Normal",
-        desc: `As you pull up to the city, everything seems to be made to fit your size!        
-        <br>Doorways and streets fit your size perfectly with no crouching or sliding in sideways.
-        <br>Looking at the signs on the gym you see that all the equipment is customized for creatures of your size. You should be able to get a good sweat in!`
+        desc: `Finally, a place sized just right for you! You didn’t have to worry about giant paws slamming down on top of you or fingers curling around you to scoop you off of the ground! Hundreds of fellow small people bustled around you like an endless stream of civilization. Dozens of shops lined the roads and apartment complexes towered dozens of stories into the air! Though most of them you knew in reality were less than four feet tall. Still, it was finally a space where you could feel like a normal person! At least, as long as one of the normies didn’t come through and decide to go exploring off of the path. 
+        <br>The nearby convenience store’s sign flashed brightly enough to catch your attention even from blocks down the road. The building was huge! At least, to you it was. You called it a convenience store but it was more like a department store to someone of your size. It was a small (proportionally) warehouse space that sold hundreds of products from food and drink cut down to portions for someone of your size to supplements and even some transformative products properly dosed for someone of a smaller-than-average size.
+        <br>The gym was extensive, if maybe a tiny bit demeaning. It was equipped with enough workout gear to let over a hundred people get their pump on! Even if much of the equipment was made of things like Legos, q-tips with screw washers used as weight plates and other similarly ‘makeshift’ items. But each piece of equipment, if cobbled together, was done so expertly and sturdily!`
     },
     {
         name: "Too Large",
-        desc: `As you pull up to the city, you see that it's rather small...
-        <br>You might not fit in correctly here. A lot of the shops and buildings seem to be sized for creatures smaller than yourself.
-        <br>Seeing the gym, a lot of the equipment is too small to be of any effect for your stature.`
+        desc: `A toy city! Or at least that’s what it looked like to you. The tallest skyscrapers, which had to be at least a dozen stories tall to the little people down below didn’t even come up to your chin. Most of the buildings didn’t even reach past your waist. You have to be careful where you step to avoid letting any of the locals wind up underfoot. Luckily there were a few roads wide enough for you to walk through without too much difficulty. Just being here was a bit exciting for you considering that, if you forgot your actual height for a moment, walking around this district let you feel like a giant for once.
+        <br>The local shops were almost universally too small for you. Few had any accommodation whatsoever for people of your stature. Not that there was much you could imagine needing from a place like this. Luckily there were a couple of places with at least minimal allowances for someone of your size. The most notable of which being a convenience store near the station that had a pseudo drive through facing towards a parking lot that was clearly designed to let normal size people get down on hands and knees and place an order at the window based on a small billboard listing a dozen items big enough to be of interest to someone of your size. After ordering the item would be delivered through a nearby loading dock door.
+        <br>The gym was far less impressive. The chances of you being able to get even a token workout were practically non-existent unless you jogged around the block a few times. The biggest weight in the whole gym, from what you could see through the windows, was a single five pound free-weight the ‘biggest’ of the little people would use as a squat bar.`
     }
 ]
 

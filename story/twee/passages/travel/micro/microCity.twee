@@ -1,7 +1,5 @@
 :: microCity {"position":"250,0"}
 <h1>Micro Metroplex Downtown</h1>
-You see a city scaled down for the smaller inhabitants of the area. Looking at the billboards you see products targeted towards consumers looking to reduce their stature or other endowments.
-
 <<cityMacro 0 2 "microCity">><<nobr>>
     <<if def $consumeText>><br/>
         <<for _i, _exp range $consumeText>>
