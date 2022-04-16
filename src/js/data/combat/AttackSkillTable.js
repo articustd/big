@@ -140,16 +140,32 @@ export let attackSkill = [
             ],
             "atkTooltip": "Blinds enemy for 3 turns"
         },
-        "direct": null,
+        "direct": {},
         "status": {
             "hit": 90,
             "type": 1,
-            "stat": null,
-            "mod": null,
-            "dmg": null,
+            "stat": "strg",
+            "mod": {
+                "amt": -1000,
+                "type": "hit",
+                "multi": false,
+                "min": false,
+                "max": false
+            },
+            "dmg": {},
             "duration": 3
         },
-        "req": null
+        "req": {},
+        "statMods": [
+            {
+                "stat": "None"
+            }
+        ],
+        "reqs": [
+            {
+                "req": "None"
+            }
+        ]
     },
     {
         "name": "Improved Paw-Eye Coordination",
@@ -179,5 +195,65 @@ export let attackSkill = [
             "duration": -1
         },
         "req": null
+    },
+    {
+        "name": "Gouge",
+        "skill": true,
+        "passive": false,
+        "cooldown": 0,
+        "skillPoints": 30,
+        "desc": {
+            "baseDesc": "Strike and cause a deep gash which will continue to bleed for 5 turns",
+            "critDesc": "2x",
+            "atkTooltip": "Has a chance to cause bleed for 5 turns along with direct damage",
+            "statMods": [
+                {
+                    "stat": "Dexterity"
+                }
+            ],
+            "reqs": [
+                {
+                    "req": "None"
+                }
+            ]
+        },
+        "direct": {
+            "hit": 90,
+            "stat": "dex",
+            "dmg": {
+                "min": 0.4,
+                "max": 0.6,
+                "crit": {
+                    "canCrit": true,
+                    "critMulti": 2
+                }
+            }
+        },
+        "status": {
+            "hit": 60,
+            "duration": 5,
+            "type": 2,
+            "stat": "dmg",
+            "mod": {},
+            "dmg": {
+                "min": 5,
+                "max": 5,
+                "crit": {
+                    "canCrit": false,
+                    "critMulti": 1
+                }
+            }
+        },
+        "req": {},
+        "statMods": [
+            {
+                "stat": "Dexterity"
+            }
+        ],
+        "reqs": [
+            {
+                "req": "None"
+            }
+        ]
     }
 ]

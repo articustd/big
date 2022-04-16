@@ -12,48 +12,12 @@ export function combatRoll(playerAttack) {
 
 	let { player, playerCombatLog, enemy, enemyCombatLog } = variables()
 
-	// Ready storage for damage done
-	let playerDmg, enemyDmg;
-
 	// Check if player hits
-	let { hit, crit } = calcCombatHit(playerAttack, player, enemy)
-	if (hit) { // CLEANUP Messy for both player and enemy sections
-		if (playerAttack.direct && !_.isEmpty(playerAttack.direct)) {
-			playerDmg = calcCombatDmg(playerAttack, player, crit)
-			reduceHealth(enemy, playerDmg)
-			playerCombatLog.push(getHitHTML("Pummled the enemy"))
-			enemyCombatLog.push(getDmgHTML(`Took the hit on the jaw for ${playerDmg} damage`))
-		}
-		if (playerAttack.status && !_.isEmpty(playerAttack.status)) {
-			inflictStatus(playerAttack, enemy)
-		}
-
-	} else {
-		playerCombatLog.push(getMissHTML("Swung wide and missed"))
-		enemyCombatLog.push(getDodgeHTML(`Jumped to the side`))
-	}
+	attackTurn(player, enemy, playerAttack, true, playerCombatLog)
 
 	// Random enemy attack and roll for enemy hit
 	let enemyAttack = getEnemyAttack(enemy)
-	enemyAttack = { ...attackSkill[enemyAttack.id], ...enemyAttack } // CLEANUP Compress down into getEnemyAttack()
-	if (checkHealth(enemy)) { // Check to see if enemy is alive first
-		({ hit } = calcCombatHit(enemyAttack, enemy, player))
-		if (hit) {
-			if (enemyAttack.direct && !_.isEmpty(enemyAttack.direct)) {
-				enemyDmg = calcCombatDmg(enemyAttack, enemy, false)
-				reduceHealth(player, enemyDmg)
-				enemyCombatLog.push(getHitHTML(`Pummeled you`))
-				playerCombatLog.push(getDmgHTML(`You took the hit on the jaw for ${enemyDmg} damage`))
-			}
-			if (enemyAttack.status && !_.isEmpty(enemyAttack.status)) {
-				inflictStatus(enemyAttack, player)
-			}
-		} else {
-			enemyCombatLog.push(getDodgeHTML(`Swung wide and missed`))
-			playerCombatLog.push(getMissHTML("Jumped to the side"))
-		}
-
-	}
+	attackTurn(enemy, player, enemyAttack, false, enemyCombatLog)
 
 	// Reduce Status Effects
 	reduceStatusEffect(player)
@@ -67,21 +31,18 @@ export function combatRoll(playerAttack) {
 	setCooldown(player, playerAttack)
 	setCooldown(enemy, enemyAttack)
 
-	if (!checkHealth(enemy)) {
-		// enemyHitText = "Enemy has passed out!"
-		setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy.loot, enemy.credits) })
-		variables().player.statusEffect = []
-		resetCooldown(player)
-	}
+	if (_.isBoolean(temporary().playerDead)) {
+		if (temporary().playerDead) {
+			for (let exp in player.exp)
+				player.exp[exp] = 0;
 
-	if (!checkHealth(player)) {
-		for (let exp in player.exp)
-			player.exp[exp] = 0;
+			setState({
+				combat: false,
+				combatResults: `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
+			})
+		} else
+			setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy.loot, enemy.credits) })
 
-		setState({
-			combat: false,
-			combatResults: `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
-		})
 		variables().player.statusEffect = []
 		resetCooldown(player)
 	}
@@ -132,7 +93,7 @@ export function calcHitChance(attack, attacker, defender, baseHit = 0, hitPer = 
 	let { stats: { con: defCon, dex: defDex } } = defender
 
 	// Direct Attack
-	if (attack.direct)
+	if (attack.direct && !_.isEmpty(attack.direct))
 		baseHit = attack.direct.hit
 	else
 		baseHit = attack.status.hit
@@ -144,12 +105,9 @@ export function calcHitChance(attack, attacker, defender, baseHit = 0, hitPer = 
 		hitPer += getHitSkillMod(attacker)
 
 	// Status Effects
-	// CLEANUP This needs to be attached to a data object instead of explicitly looking for a name
-	_.each(attacker.statusEffect, function ({ name, mod }) {
-		if (name === 'Blind') {
-			hitPer = 0
-			return false
-		}
+	_.each(_.filter(attacker.statusEffect, { mod: { type: "hit" } }), function ({ mod, finalEffect }) {
+		hitPer += mod.amt
+		return !finalEffect
 	})
 	return _.clamp(_.floor(hitPer), 0, 100)
 }
@@ -172,8 +130,8 @@ export function calcDmgRange({ direct: { dmg, stat } }, attacker) {
 	return dmgRange
 }
 
-function checkHealth(defender) {
-	return (defender.stats.hlth > 0) ? true : false
+function checkHealth({ stats: { hlth } }) {
+	return hlth > 0
 }
 
 function reduceHealth(defender, dmg) {
@@ -256,16 +214,29 @@ export function getExpText(consumePoints) {
 	return consumeExp
 }
 
-function inflictStatus({ status: { type, duration } }, enemy) {
-	let { name } = statusEffect[type]
-	enemy.statusEffect.push({ name, duration })
+function inflictStatus({ status: { type, duration, mod, dmg } }, defender) {
+	let { name, finalEffect } = statusEffect[type]
+	if (_.isEmpty(_.filter(defender.statusEffect, { name }))) {
+		defender.statusEffect.push({ name, duration, mod, dmg, finalEffect })
+		return true
+	}
+	return false
 }
 
 function reduceStatusEffect({ statusEffect }) {
-	_.each(statusEffect, (status, idx) => {
+	_.each(statusEffect, (status) => {
 		statusEffect = _.remove(statusEffect, (n) => { return n.duration === 0 })
 		status.duration -= 1
 	})
+}
+
+function statusDamage({ statusEffect }, combatLog, dmg = 0) {
+	_.each(_.filter(statusEffect, (se)=>{return !_.isEmpty(se.dmg)}), ({name, dmg: {min, max}})=>{
+		let damage = _.floor(_.random(min, max))
+		dmg += damage
+		combatLog.push(getDmgHTML(`Took ${damage} damage from ${name}`))
+	})
+	return dmg
 }
 
 function setCooldown(character, { cooldown, id }) {
@@ -289,5 +260,56 @@ function reduceCooldowns({ attacks }) {
 }
 
 function getEnemyAttack(enemy) {
-	return _.sample(_.filter(enemy.attacks, { currCooldown: 0 }))
+	let atk = _.sample(_.filter(enemy.attacks, { currCooldown: 0 }))
+	return { ...attackSkill[atk.id], ...atk }
+}
+
+
+
+function endCombat(isPlayer) {
+	temporary().playerDead = isPlayer
+}
+
+function getStatusEffect() {
+
+}
+
+function attackTurn(attacker, defender, attack, isPlayer, combatLog) {
+	if (checkHealth(attacker) && checkHealth(defender)) { // Check if both are alive
+		let { hit, crit, combatText = "" } = calcCombatHit(attack, attacker, defender)
+		if (hit) { // See if there is a hit
+			if (attack.direct && !_.isEmpty(attack.direct)) { // Attack has direct damage
+				let damage = calcCombatDmg(attack, attacker, isPlayer ? crit : false)
+				reduceHealth(defender, damage)
+				combatText = `Hit ${defender.name} for ${damage} dmg `
+				if (attack.status && !_.isEmpty(attack.status)) { // Attack also has status effect that has it's own hit accuracy (Bleed etc...)
+					({ hit } = calcCombatHit({ status: attack.status }, attacker, defender))
+					if (hit) {
+						if (inflictStatus(attack, defender))
+							combatText += `and inflicted ${statusEffect[attack.status.type].name}`
+					}
+				}
+			} else if (attack.status && !_.isEmpty(attack.status)) { // Attack only has a status effect and hit chance was already calculated
+				if (inflictStatus(attack, defender))
+					combatText += `${attack.name} ${defender.name}, inflicting them with ${statusEffect[attack.status.type].name}`
+				else
+					combatText += `Nothing happened, ${defender.name} already has ${statusEffect[attack.status.type].name}`
+			}
+
+			combatLog.push(getHitHTML(combatText)) // Attack hit, notify
+
+			if (!checkHealth(defender)) // Check defender health
+				endCombat(!isPlayer)
+		} else { // Attack missed, notify
+			combatLog.push(getMissHTML(`Missed ${defender.name} with ${attack.name}`))
+		}
+
+		if (!_.isBoolean(temporary().playerDead)) { // Check to see if combat ended
+			let damage = statusDamage(attacker, combatLog) // BUILD statusDamage
+			reduceHealth(attacker, damage)
+			if (!checkHealth(attacker))
+				endCombat(isPlayer)
+		}
+	} else // Attacker has died, notify their combat log
+		combatLog.push(getDmgHTML(`${attacker.name} passed out`))
 }

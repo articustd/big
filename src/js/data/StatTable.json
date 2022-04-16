@@ -11,5 +11,7 @@
     {"name": "Penis","pathName": "penis"},
     {"name": "Balls","pathName": "balls"},
     {"name": "Breasts","pathName": "breasts"},
-    {"name": "Height","pathName": "height"}
+    {"name": "Height","pathName": "height"},
+    {"name": "Hit Chance","pathName": "hit"},
+    {"name": "Damage","pathName": "dmg"}
 ]

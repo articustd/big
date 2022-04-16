@@ -76,7 +76,7 @@ Macro.add('dataEditorMacro', {
         }).appendTo(this.output)
 
         // Use this to get the meta map of a data store
-        let metaMap = getPropMeta([], dataObjs.attackSkill)
+        let metaMap = getPropMeta([], dataObjs.statusEffect)
         let $button = $('<button/>').css({'margin-left': '5px'}).wiki('Copy JSON').click(()=>{
             navigator.clipboard.writeText(`${JSON.stringify(metaMap)}`);
         })
@@ -132,11 +132,10 @@ function formSerialize({ $form, data }) {
         formSerialize({$form:$(this), data:data[$(this).attr('name')]})
     })
     $form.find('> div > input').each(function () {
-        let isNum = parseFloat($(this).val())
-        data[$(this).attr('name')] = isNaN(isNum)?$(this).val():isNum
+        data[$(this).attr('name')] = numify($(this).val())
     })
     $form.find('> div > select').each(function () {
-        data[$(this).attr('name')] = boolify($(this).val())
+        data[$(this).attr('name')] = boolify(numify($(this).val()))
     })
     $form.find('table').each(function ({ arr = [] }) {
         $(this).find('tr.dataRow').each(function () {
@@ -145,6 +144,13 @@ function formSerialize({ $form, data }) {
         data[$(this).attr('name')] = arr
     })
     return data
+}
+
+function numify(value) {
+    let isNum = parseFloat(value)
+    if(isNaN(isNum))
+        return value
+    return isNum
 }
 
 function boolify(value) {

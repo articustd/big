@@ -27,7 +27,7 @@ Macro.add('attackAction', {
             checkDisabled($link, attack)
 
             let attackText = `${attack.name}<br>`
-            if (attack.direct) {
+            if (attack.direct && !_.isEmpty(attack.direct)) {
                 let dmgRange = calcDmgRange(attack, player)
                 attackText += `[${dmgRange.min}-${dmgRange.max}] `
             }

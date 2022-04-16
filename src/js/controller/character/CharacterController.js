@@ -65,7 +65,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
         character.inv = []
 
         // Base Attacks
-        character.attacks = setAttacks([0, 1])
+        character.attacks = setAttacks([0, 1, 2])
         character.learnedAttacks = character.attacks
         character.passives = []
     }

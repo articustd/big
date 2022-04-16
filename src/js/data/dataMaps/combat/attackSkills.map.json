@@ -244,7 +244,11 @@
             "name": "Status Type",
             "propName": "type",
             "type": "Number",
-            "field": {},
+            "field": {
+                "type": "Dropdown",
+                "data": "statusEffect",
+                "displayProp": "name"
+            },
             "header": false,
             "children": []
         }, {
@@ -266,7 +270,8 @@
             "type": "Object",
             "field": {
                 "type": "Section",
-                "sectionLevel": 3
+                "sectionLevel": 3,
+                "hasAdd": true
             },
             "header": false,
             "children": [{
@@ -280,7 +285,12 @@
                 "name": "Type",
                 "propName": "type",
                 "type": "String",
-                "field": {},
+                "field": {
+                    "type": "Dropdown",
+                    "data": "stats",
+                    "displayProp": "name",
+                    "dataProp": "pathName"
+                },
                 "header": false,
                 "children": []
             }, {
