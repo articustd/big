@@ -1,5 +1,5 @@
 import storyConfig from './config.json'
-import { items, loot, stores, species, measurements, attacks, skills, settings, attackSkill } from '@js/data'
+import { items, loot, stores, species, measurements, skills, settings, attackSkill } from '@js/data'
 import * as macros from '@js/macro'
 import * as templates from '@js/template'
 import { sizeArray } from '@controller/character/MeasurementController'
@@ -22,7 +22,6 @@ setup.ImagePath = "assets/";
 	variables().bodyTypes = measurements.bodyTypes;
 	variables().genders = genderArray();
 	variables().time = { day: 1, hour: 0, min: 0 }
-	variables().attacks = attacks;
 	variables().skills = skills;
 	variables().pronouns = pronounArray()
 	variables().debug = storyConfig.debug
