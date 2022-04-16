@@ -3,7 +3,6 @@ import stores from './StoreTable.json'
 
 //Combat Tables
 import loot from './combat/LootTable.json'
-import { attacks } from './combat/AttackTable.js'
 import * as consumeText from './combat/ConsumeTextTable.js'
 import skills from './combat/SkillTable.json'
 import { attackSkill } from './combat/AttackSkillTable'
@@ -26,7 +25,6 @@ export {
         items,
         loot,
         stores,
-        attacks,
         skills,
         consumeText,
         measurements,
