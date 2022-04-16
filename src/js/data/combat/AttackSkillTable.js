@@ -96,7 +96,11 @@ export let attackSkill = [
                     "stat": "Strength"
                 }
             ],
-            "reqs": []
+            "reqs": [
+                {
+                    "req": "None"
+                }
+            ]
         },
         "direct": {
             "hit": 65,
@@ -117,7 +121,11 @@ export let attackSkill = [
                 "stat": "Strength"
             }
         ],
-        "reqs": []
+        "reqs": [
+            {
+                "req": "None"
+            }
+        ]
     },
     {
         "name": "Pepper Spray",
