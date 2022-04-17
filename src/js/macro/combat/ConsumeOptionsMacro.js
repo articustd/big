@@ -1,6 +1,8 @@
 import { logger } from "@util/Logging"
 import { calcWeight, sizeDiff } from "@controller/character/MeasurementController"
 import { popup } from "@util/ModalPopup";
+import { combatReset, getExpText } from "@controller/combat/CombatController";
+import { infoBubble } from "@util/UISugar";
 
 Macro.add('consumeEnemy', {
     skipArgs: false,
@@ -13,7 +15,7 @@ Macro.add('consumeEnemy', {
             { method: 'Eat', gen: '', desc: `You shove the enemy down your gullet.`, capacity: 'stomach' },
             { method: 'Anal', gen: '', desc: `You shove the enemy up your hole`, capacity: 'stomach' },
             { method: 'Unbirth', gen: 'vagina', desc: `You shove the enemy up your lady bits.`, capacity: 'womb' },
-            { method: 'Sound', gen: 'penis', desc: `You shove the enemy in your man bits`, capacity: 'testi' }
+            { method: 'Urethral', gen: 'penis', desc: `You shove the enemy in your man bits`, capacity: 'testi' }
         ]
 
         consume.forEach(function (con) {
@@ -23,16 +25,20 @@ Macro.add('consumeEnemy', {
                         .wiki(con.method)
                         .ariaClick(function (ev) {
                             let consumeAmt = Math.floor(calcWeight(prey.measurements))
-                            if(variables().settings.warning.overConsumeWarning && isOverMaxCapacity(player, consumeAmt, con.capacity)) 
-                                popup(`Over Capacity`,`You are about to go over your max capacity. If you continue you will be attacked randomly until you rest at home. <br><br>Do you wish to consume?`, 
-                                    {"Yes": ()=>{$( '#overConsumeWarning' ).dialog( "destroy" );consumeContinue(con,consumeAmt,player,prey)}, "No": false}, {type: "warning", name: "overConsumeWarning"})
+                            if (variables().settings.warning.overConsumeWarning && isOverMaxCapacity(player, consumeAmt, con.capacity))
+                                popup(`Over Capacity`, `You are about to go over your max capacity. If you continue you will be attacked randomly until you rest at home. <br><br>Do you wish to consume?`,
+                                    { "Yes": () => { $('#overConsumeWarning').dialog("destroy"); consumeContinue(con, consumeAmt, player, prey) }, "No": false }, { type: "warning", name: "overConsumeWarning" })
                             else
-                                consumeContinue(con,consumeAmt,player,prey)
+                                consumeContinue(con, consumeAmt, player, prey)
                         })
                         .css({ 'width': '90%', 'margin-bottom': '10px' })
                 )
             }
         })
+        let $fastConsume = $('<div/>').append($('<label/>').wiki(`Fast Consume `).css('cursor', 'pointer').prepend($(`<input id="fastConsume" type="checkbox" ${variables().settings.skip.consumeText ? 'checked' : ''}/>`).on('input', function (e) {
+            variables().settings.skip.consumeText = $(this)[0].checked
+        })).append(infoBubble(`Skips over consume text.`)))
+        $wrapper.append($fastConsume)
 
         $wrapper
             .attr('id', `macro-${this.name}`)
@@ -68,8 +74,8 @@ function addPoints(points, hunter) {
 }
 
 function isOverMaxCapacity(player, amt, capType) {
-    logger((player.capacity[capType]+amt))
-    if((player.capacity[capType]+amt) >= player.capacity[`${capType}Max`])
+    logger((player.capacity[capType] + amt))
+    if ((player.capacity[capType] + amt) >= player.capacity[`${capType}Max`])
         return true
     return false
 }
@@ -82,6 +88,14 @@ function consumeContinue(con, consumeAmt, player, prey) {
     addCapacity(player, consumeAmt, consumeObj.consume.capacity)
     variables().consumeObj = consumeObj
 
-    
-    Engine.play("consume")
+    if (variables().settings.skip.consumeText) {
+        let textArr = []
+        _.each(getExpText(consumeObj.points), (text) => {
+            textArr.push(text)
+        })
+        variables().consumeText = textArr
+        combatReset()
+        Engine.play(variables().return)
+    } else
+        Engine.play("consume")
 }

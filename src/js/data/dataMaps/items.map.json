@@ -1,0 +1,46 @@
+{
+    "name": "Items",
+    "dataName": "items",
+    "propName": "",
+    "type": "Array",
+    "header": false,
+    "children": [{
+        "name": "Item Name",
+        "propName": "name",
+        "type": "String",
+        "field": {},
+        "header": true,
+        "children": []
+    }, {
+        "name": "Modifier",
+        "propName": "mod",
+        "type": "Number",
+        "field": {},
+        "header": true,
+        "children": []
+    }, {
+        "name": "Type",
+        "propName": "type",
+        "type": "String",
+        "field": {
+            "type": "Dropdown",
+            "data": "statTypes",
+            "displayProp": "name",
+            "dataProp": "pathName"
+        },
+        "header": false,
+        "children": []
+    }, {
+        "name": "Stat",
+        "propName": "stat",
+        "type": "String",
+        "field": {
+            "type": "Dropdown",
+            "data": "stats",
+            "displayProp": "name",
+            "dataProp": "pathName"
+        },
+        "header": true,
+        "children": []
+    }]
+}

@@ -3,9 +3,10 @@ import stores from './StoreTable.json'
 
 //Combat Tables
 import loot from './combat/LootTable.json'
-import { attacks } from './combat/AttackTable.js'
 import * as consumeText from './combat/ConsumeTextTable.js'
 import skills from './combat/SkillTable.json'
+import { attackSkill } from './combat/AttackSkillTable'
+import statusEffect from './combat/StatusEffectTable'
 
 //Character Tables
 import * as measurements from './character/MeasurementTable'
@@ -17,11 +18,13 @@ import * as cityText from './cityTable'
 
 import settings from './SettingsTable.json'
 
+import statTypes from './StatType.json'
+import stats from './StatTable.json'
+
 export {
         items,
         loot,
         stores,
-        attacks,
         skills,
         consumeText,
         measurements,
@@ -30,5 +33,9 @@ export {
         genders,
         pronouns,
         settings,
-        cityText
+        cityText,
+        statTypes,
+        stats,
+        attackSkill,
+        statusEffect
 }

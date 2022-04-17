@@ -1,6 +1,7 @@
 import storyConfig from './config.json'
-import { items, loot, stores, species, measurements, attacks, skills, settings } from '@js/data'
+import { items, loot, stores, species, measurements, skills, settings, attackSkill } from '@js/data'
 import * as macros from '@js/macro'
+import * as templates from '@js/template'
 import { sizeArray } from '@controller/character/MeasurementController'
 import { genderArray } from '@js/controller/character/GenderController'
 import { pronounArray } from '@js/controller/character/PronounController'
@@ -12,7 +13,7 @@ setup.ImagePath = "assets/";
 ((Config, State, Story, Engine, Dialog, $document) => {
 	$(document.head).append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css" integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">')
 	// Set State Variables
-	variables().version = `v0.7.0`
+	variables().version = `v0.8.0`
 	variables().items = items
 	variables().loot = loot;
 	variables().stores = stores;
@@ -21,12 +22,12 @@ setup.ImagePath = "assets/";
 	variables().bodyTypes = measurements.bodyTypes;
 	variables().genders = genderArray();
 	variables().time = { day: 1, hour: 0, min: 0 }
-	variables().attacks = attacks;
 	variables().skills = skills;
 	variables().pronouns = pronounArray()
 	variables().debug = storyConfig.debug
 	variables().settings = settings
 	variables().numberTest = 1
+	variables().attackSkill = attackSkill
 	// Register custom SugarCube macros
 	// registerAlert(Macro, Dialog);
 

@@ -1,0 +1,5 @@
+[
+    {"name":"Stats","pathName":"stats"},
+    {"name":"Experience","pathName":"exp"},
+    {"name":"Gender","pathName":"gender"}
+]

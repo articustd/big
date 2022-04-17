@@ -1,42 +1,48 @@
 import { calcDmgRange, calcHitChance, combatRoll } from "@controller/combat/CombatController";
-import { attacks } from "@js/data"
+import { attackSkill } from "@js/data"
 import { logger } from "@util/Logging";
+import _ from "lodash";
 
 Macro.add('attackAction', {
     skipArgs: false,
     handler: function () {
-        let playerAttacks = this.args[0];
-        let player = variables().player;
-        let enemy = variables().enemy;
-        let $wrapper = $('<div/>').css('display', 'flex').css('flex-direction', 'column')
+        let isSkill = this.args[0]
+        let { player, enemy, player: { attacks } } = variables()
+        let $column = $('<div/>').css('display', 'flex').css('flex-direction', 'column').appendTo(this.output)
 
-        for (let attackId of playerAttacks) {
-            let attack = attacks[attackId]
+        let attackList = _.filter(_.map(attacks, ({ id, currCooldown }) => {
+            return { ...attackSkill[id], currCooldown, id }
+        }), { skill: isSkill })
 
-
+        _.each(attackList, (attack) => {
             let $link = $('<button/>')
-            if (attack.reqs.isDisabled(player, enemy)) {
-                $link.prop('disabled', attack.reqs.isDisabled(player, enemy))
-                    .tooltip({ track: true, hide: { duration: 500 } })
-                    .attr('title', attack.reqs.disabledToolTip)
-            }
-
-            let dmgRange = calcDmgRange(attack, State.variables.player)
-            let attackText = `${attack.name}<br>[${dmgRange.min}-${dmgRange.max}] ${calcHitChance(attack, variables().player, variables().enemy)}%`
-
-            $link
-                .wiki(attackText)
-                .ariaClick(function (ev) {
+                .css({ 'margin-bottom': '10px', 'flex-grow': 1 })
+                .click(function () {
                     combatRoll(attack);
-                    Engine.play(passage(), true)
+                    Engine.play(passage(), true);
                 })
-                .css('margin-bottom', '10px')
-                .css('flex-grow', '1')
-                // .attr('id', `macro-${this.name}-${this.args.join('').replace(/[^A-Za-z0-9]/g, '')}`)
-                .appendTo($wrapper);
-        }
+                .appendTo($column)
 
-        $wrapper
-            .appendTo(this.output);
+            $link.attr('title', attack.desc.atkTooltip)
+            checkDisabled($link, attack)
+
+            let attackText = `${attack.name}<br>`
+            if (attack.direct && !_.isEmpty(attack.direct)) {
+                let dmgRange = calcDmgRange(attack, player)
+                attackText += `[${dmgRange.min}-${dmgRange.max}] `
+            }
+            attackText += (attack.currCooldown>0)?`${attack.currCooldown} turn${(attack.currCooldown > 1 ? 's' : '')}`:`${calcHitChance(attack, player, enemy)}%`
+
+            $link.tooltip({ track: true, hide: { duration: 500 } }).wiki(attackText)
+        })
     }
 })
+
+function checkDisabled($parent, { req, currCooldown, desc }) {
+    if (req && !_.isEmpty(req))
+        $parent.addClass('disabledAttack').attr('title', req.tooltip).off()
+    else if (currCooldown > 0)
+        $parent.addClass('disabledAttack').off()
+    else
+        $parent.removeClass('disabledAttack')
+}

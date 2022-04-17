@@ -1,5 +1,5 @@
 export function characterStats() {
-    let player = State.variables.player
+    let player = variables().player
 
     let $wrapper = $('<span/>').css('flex', '3');
 
@@ -8,7 +8,6 @@ export function characterStats() {
                     Strength: $player.stats.strg
                     Dexterity: $player.stats.dex
                     Constitution: $player.stats.con
-                    Skill Points: $player.skillPoints
 
                     ''__Experience Points__''
                     Muscle: $player.exp.muscle

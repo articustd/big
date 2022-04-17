@@ -11,14 +11,14 @@ Macro.add('tabMacro', {
         let $tabs = $('<div/>').addClass('tab')
 
         let $skillsTab = $('<button/>').addClass('tabLinks').addClass('active').ariaClick(function (ev) {
-            State.variables.charTab = 'skills'
+            variables().charTab = 'skills'
             openTab(ev, 'skills')
         }).text(`Skills`).attr('id', 'skillsTab')
 
         $tabs.append($skillsTab)
 
         // let $attacksTab = $('<button/>').addClass('tabLinks').ariaClick(function (ev) {
-        //     State.variables.charTab = 'attacks'
+        //     variables().charTab = 'attacks'
         //     openTab(ev, 'attacks')
         // }).text(`Attacks`).attr('id', 'attacksTab')
 

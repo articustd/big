@@ -11,5 +11,8 @@
     },
     "tweak": {
         "hyperMode": true
+    },
+    "skip": {
+        "consumeText": false
     }
 }

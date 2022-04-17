@@ -1,18 +1,98 @@
 [
-    {"name": "Little Health Potion", "mod": 5, "type": "stats", "stat": "hlth"},
-    {"name": "Protein Powder", "mod": 3, "type": "exp", "stat": "muscle"},
-    {"name": "Size Elixir", "mod": 10, "type": "exp", "stat": "size"},
-    {"name": "Tub of Grease", "mod": 0.01, "type": "exp", "stat": "fat"},
-    {"name": "Vitamins", "mod": 1, "type": "stats", "stat": "con"},
-    {"name": "Blue Pill", "mod": 0.02, "type": "gender", "stat": "penis"},
-    {"name": "Magnesium Pills", "mod": 0.01, "type": "gender", "stat": "balls"},
-    {"name": "Injection", "mod": 0.01, "type": "gender", "stat": "breasts"},
-    {"name": "Health Potion", "mod": 15, "type": "stats", "stat": "hlth"},
-    {"name": "Muscle Reducer", "mod": -3, "type": "exp", "stat": "muscle"},
-    {"name": "Shrink Elixir", "mod": -10, "type": "exp", "stat": "size"},
-    {"name": "Soybeans", "mod": -0.01, "type": "exp", "stat": "fat"},
-    {"name": "Penis Reducer", "mod": -0.02, "type": "gender", "stat": "penis"},
-    {"name": "Heat Pad", "mod": -0.01, "type": "gender", "stat": "balls"},
-    {"name": "Breast Reducer", "mod": -0.01, "type": "gender", "stat": "breasts"},
-    {"name": "Large Health Potion", "mod": 30, "type": "stats", "stat": "hlth"}
-]
+    {
+     "name": "Little Health Potion",
+     "mod": 5,
+     "type": "stats",
+     "stat": "hlth"
+    },
+    {
+     "name": "Protein Powder",
+     "mod": 3,
+     "type": "exp",
+     "stat": "muscle"
+    },
+    {
+     "name": "Size Elixir",
+     "mod": 10,
+     "type": "exp",
+     "stat": "size"
+    },
+    {
+     "name": "Tub of Grease",
+     "mod": 0.01,
+     "type": "exp",
+     "stat": "fat"
+    },
+    {
+     "name": "Vitamins",
+     "mod": 1,
+     "type": "stats",
+     "stat": "con"
+    },
+    {
+     "name": "Blue Pill",
+     "mod": 0.02,
+     "type": "gender",
+     "stat": "penis"
+    },
+    {
+     "name": "Magnesium Pills",
+     "mod": 0.01,
+     "type": "gender",
+     "stat": "balls"
+    },
+    {
+     "name": "Injection",
+     "mod": 0.01,
+     "type": "gender",
+     "stat": "breasts"
+    },
+    {
+     "name": "Health Potion",
+     "mod": 25,
+     "type": "stats",
+     "stat": "hlth"
+    },
+    {
+     "name": "Muscle Reducer",
+     "mod": -3,
+     "type": "exp",
+     "stat": "muscle"
+    },
+    {
+     "name": "Shrink Elixir",
+     "mod": -10,
+     "type": "exp",
+     "stat": "size"
+    },
+    {
+     "name": "Soybeans",
+     "mod": -0.05,
+     "type": "exp",
+     "stat": "fat"
+    },
+    {
+     "name": "Penis Reducer",
+     "mod": -0.02,
+     "type": "gender",
+     "stat": "penis"
+    },
+    {
+     "name": "Heat Pad",
+     "mod": -0.01,
+     "type": "gender",
+     "stat": "balls"
+    },
+    {
+     "name": "Breast Reducer",
+     "mod": -0.01,
+     "type": "gender",
+     "stat": "breasts"
+    },
+    {
+     "name": "Large Health Potion",
+     "mod": 50,
+     "type": "stats",
+     "stat": "hlth"
+    }
+   ]

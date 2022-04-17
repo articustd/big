@@ -1,0 +1,422 @@
+{
+    "name": "Attack Skills",
+    "dataName": "attackSkill",
+    "propName": "",
+    "type": "Array",
+    "field": {},
+    "header": false,
+    "children": [{
+        "name": "Name",
+        "propName": "name",
+        "type": "String",
+        "field": {},
+        "header": true,
+        "children": []
+    }, {
+        "name": "Skill",
+        "propName": "skill",
+        "type": "Boolean",
+        "field": {
+            "data": [{
+                "selection": "Yes",
+                "value": true
+            }, {
+                "selection": "No",
+                "value": false
+            }],
+            "displayProp": "selection",
+            "dataProp": "value"
+        },
+        "header": true,
+        "children": []
+    }, {
+        "name": "Passive",
+        "propName": "passive",
+        "type": "Boolean",
+        "field": {
+            "data": [{
+                "selection": "Yes",
+                "value": true
+            }, {
+                "selection": "No",
+                "value": false
+            }],
+            "displayProp": "selection",
+            "dataProp": "value"
+        },
+        "header": true,
+        "children": []
+    }, {
+        "name": "Cooldown",
+        "propName": "cooldown",
+        "type": "Number",
+        "field": {},
+        "header": false,
+        "children": []
+    }, {
+        "name": "Skill Points",
+        "propName": "skillPoints",
+        "type": "Number",
+        "field": {},
+        "header": false,
+        "children": []
+    }, {
+        "name": "Descriptions",
+        "propName": "desc",
+        "type": "Object",
+        "deep": true,
+        "field": {
+            "type": "Section",
+            "sectionLevel": 2
+        },
+        "header": false,
+        "children": [{
+            "name": "Base Description",
+            "propName": "baseDesc",
+            "type": "String",
+            "field": {
+                "type": "TextArea"
+            },
+            "header": false,
+            "children": []
+        }, {
+            "name": "Crit Description",
+            "propName": "critDesc",
+            "type": "String",
+            "field": {
+                "type": "TextArea"
+            },
+            "header": false,
+            "children": []
+        }, {
+            "name": "Attack Tooltip",
+            "propName": "atkTooltip",
+            "type": "String",
+            "field": {
+                "type": "TextArea"
+            },
+            "header": false,
+            "children": []
+        }, {
+            "name": "Stat Modifiers",
+            "propName": "statMods",
+            "type": "Array",
+            "field": {},
+            "header": false,
+            "children": [{
+                "name": "Stat Name",
+                "propName": "stat",
+                "type": "String",
+                "field": {},
+                "header": true,
+                "children": []
+            }]
+        }, {
+            "name": "Requirements",
+            "propName": "reqs",
+            "type": "Array",
+            "field": {},
+            "header": false,
+            "children": [{
+                "name": "Requirement",
+                "propName": "req",
+                "type": "String",
+                "field": {},
+                "header": true,
+                "children": []
+            }]
+        }]
+    }, {
+        "name": "Direct Attack",
+        "propName": "direct",
+        "type": "Object",
+        "field": {
+            "type": "Section",
+            "sectionLevel": 2,
+            "hasAdd": true
+        },
+        "header": false,
+        "children": [{
+            "name": "Hit",
+            "propName": "hit",
+            "type": "Number",
+            "field": {},
+            "header": false,
+            "children": []
+        }, {
+            "name": "Stat Modifier",
+            "propName": "stat",
+            "type": "String",
+            "field": {
+                "type": "Dropdown",
+                "data": "stats",
+                "displayProp": "name",
+                "dataProp": "pathName"
+            },
+            "header": false,
+            "children": []
+        }, {
+            "name": "Damage",
+            "propName": "dmg",
+            "deep": true,
+            "type": "Object",
+            "field": {
+                "type": "Section",
+                "sectionLevel": 3
+            },
+            "header": false,
+            "children": [{
+                "name": "Minimum",
+                "propName": "min",
+                "type": "Number",
+                "field": {},
+                "header": false,
+                "children": []
+            }, {
+                "name": "Maximum",
+                "propName": "max",
+                "type": "Number",
+                "field": {},
+                "header": false,
+                "children": []
+            }, {
+                "name": "Crit",
+                "propName": "crit",
+                "deep": true,
+                "type": "Object",
+                "field": {
+                    "type": "Section",
+                    "sectionLevel": 3
+                },
+                "header": false,
+                "children": [{
+                    "name": "Can Crit",
+                    "propName": "canCrit",
+                    "type": "Boolean",
+                    "field": {
+                        "data": [{
+                            "selection": "Yes",
+                            "value": true
+                        }, {
+                            "selection": "No",
+                            "value": false
+                        }],
+                        "displayProp": "selection",
+                        "dataProp": "value"
+                    },
+                    "header": false,
+                    "children": []
+                }, {
+                    "name": "Multiplier",
+                    "propName": "critMulti",
+                    "type": "Number",
+                    "field": {},
+                    "header": false,
+                    "children": []
+                }]
+            }]
+        }]
+    }, {
+        "name": "Status Effect",
+        "propName": "status",
+        "type": "Object",
+        "field": {
+            "type": "Section",
+            "sectionLevel": 2,
+            "hasAdd": true
+        },
+        "header": false,
+        "children": [{
+            "name": "Hit",
+            "propName": "hit",
+            "type": "Number",
+            "field": {},
+            "header": false,
+            "children": []
+        }, {
+            "name": "Duration",
+            "propName": "duration",
+            "type": "Number",
+            "field": {},
+            "header": false,
+            "children": []
+        }, {
+            "name": "Status Type",
+            "propName": "type",
+            "type": "Number",
+            "field": {
+                "type": "Dropdown",
+                "data": "statusEffect",
+                "displayProp": "name"
+            },
+            "header": false,
+            "children": []
+        }, {
+            "name": "Stat Modifier",
+            "propName": "stat",
+            "type": "String",
+            "field": {
+                "type": "Dropdown",
+                "data": "stats",
+                "displayProp": "name",
+                "dataProp": "pathName"
+            },
+            "header": false,
+            "children": []
+        }, {
+            "name": "Modifier",
+            "propName": "mod",
+            "deep": true,
+            "type": "Object",
+            "field": {
+                "type": "Section",
+                "sectionLevel": 3,
+                "hasAdd": true
+            },
+            "header": false,
+            "children": [{
+                "name": "Amount",
+                "propName": "amt",
+                "type": "Number",
+                "field": {},
+                "header": false,
+                "children": []
+            }, {
+                "name": "Type",
+                "propName": "type",
+                "type": "String",
+                "field": {
+                    "type": "Dropdown",
+                    "data": "stats",
+                    "displayProp": "name",
+                    "dataProp": "pathName"
+                },
+                "header": false,
+                "children": []
+            }, {
+                "name": "Is Multiplier",
+                "propName": "multi",
+                "type": "Boolean",
+                "field": {
+                    "data": [{
+                        "selection": "Yes",
+                        "value": true
+                    }, {
+                        "selection": "No",
+                        "value": false
+                    }],
+                    "displayProp": "selection",
+                    "dataProp": "value"
+                },
+                "header": false,
+                "children": []
+            }, {
+                "name": "Effects Minimum",
+                "propName": "min",
+                "type": "Boolean",
+                "field": {
+                    "data": [{
+                        "selection": "Yes",
+                        "value": true
+                    }, {
+                        "selection": "No",
+                        "value": false
+                    }],
+                    "displayProp": "selection",
+                    "dataProp": "value"
+                },
+                "header": false,
+                "children": []
+            }, {
+                "name": "Effects Maximum",
+                "propName": "max",
+                "type": "Boolean",
+                "field": {
+                    "data": [{
+                        "selection": "Yes",
+                        "value": true
+                    }, {
+                        "selection": "No",
+                        "value": false
+                    }],
+                    "displayProp": "selection",
+                    "dataProp": "value"
+                },
+                "header": false,
+                "children": []
+            }]
+        }, {
+            "name": "Damage",
+            "propName": "dmg",
+            "deep": false,
+            "type": "Object",
+            "field": {
+                "type": "Section",
+                "sectionLevel": 3,
+                "hasAdd": true
+            },
+            "header": false,
+            "children": [{
+                "name": "Minimum Damage",
+                "propName": "min",
+                "type": "Number",
+                "field": {},
+                "header": false,
+                "children": []
+            }, {
+                "name": "Maximum Damage",
+                "propName": "max",
+                "type": "Number",
+                "field": {},
+                "header": false,
+                "children": []
+            }, {
+                "name": "Crit",
+                "propName": "crit",
+                "deep": true,
+                "type": "Object",
+                "field": {
+                    "type": "Section",
+                    "sectionLevel": 4
+                },
+                "header": false,
+                "children": [{
+                    "name": "Can Crit",
+                    "propName": "canCrit",
+                    "type": "Boolean",
+                    "field": {
+                        "data": [{
+                            "selection": "Yes",
+                            "value": true
+                        }, {
+                            "selection": "No",
+                            "value": false
+                        }],
+                        "displayProp": "selection",
+                        "dataProp": "value"
+                    },
+                    "header": false,
+                    "children": []
+                }, {
+                    "name": "Multiplier",
+                    "propName": "critMulti",
+                    "type": "Number",
+                    "field": {},
+                    "header": false,
+                    "children": []
+                }]
+            }]
+        }]
+    }, {
+        "name": "Requirements",
+        "propName": "req",
+        "type": "Object",
+        "field": {
+            "type": "Section",
+            "sectionLevel": 2,
+            "hasAdd": true
+        },
+        "header": false,
+        "children": []
+    }]
+}

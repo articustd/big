@@ -1,0 +1,33 @@
+{
+    "name": "Status Effect",
+    "dataName": "statusEffect",
+    "propName": "",
+    "type": "Array",
+    "field": {},
+    "header": false,
+    "children": [{
+        "name": "Name",
+        "propName": "name",
+        "type": "String",
+        "field": {},
+        "header": true,
+        "children": []
+    }, {
+        "name": "Final Effect",
+        "propName": "finalEffect",
+        "type": "Boolean",
+        "field": {
+            "data": [{
+                "selection": "Yes",
+                "value": true
+            }, {
+                "selection": "No",
+                "value": false
+            }],
+            "displayProp": "selection",
+            "dataProp": "value"
+        },
+        "header": true,
+        "children": []
+    }]
+}

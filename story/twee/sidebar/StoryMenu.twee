@@ -5,9 +5,9 @@
 $version
 
 :: StoryCaption {"position":"25,550","size":"100,100"}
-<<if def $gameStarted>>Day: $time.day
-Time: <<clockMacro>>
+<<if def $gameStarted>>
 Credits: $player.credits
+Skill Points: $player.skillPoints
 <br><<nobr>>
 Health: <<healthBarMacro $player>>
 Stomach Capacity: <<capacityBarMacro $player "stomach">>

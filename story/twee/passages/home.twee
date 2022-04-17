@@ -5,7 +5,7 @@ You're home. Nothing here except you, a bed, and the mirror.<<nobr>><<if def $re
 <<restMessageMacro true>>
 <<link "Travel" "travel">><<<<unset $restText>><</link>>
 <<link "Look in the Mirror" "mirror">><</link>>
-<<link "Change Moveset" "moveset">><<<<unset $restText>><</link>>
+<<link "Change Moveset" "moveset">><<unset $restText>><</link>>
 <<timeAction "Rest" 8 0>>
 	<<restMacro true false>>
 <</timeAction>>

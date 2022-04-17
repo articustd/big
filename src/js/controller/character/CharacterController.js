@@ -1,21 +1,18 @@
 import { logger } from "@util/Logging";
-import { species, measurements, genders, loot, skills } from '@js/data'
+import { species, measurements, genders, loot, skills, attackSkill } from '@js/data'
+import _ from "lodash";
 
 export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
-    let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {} };
-    logger(`In char`)
-    let size = measurements.sizes[randomSize(sizeRange)]
-    logger(`After size`)
-    let sizeKey = Object.keys(size)[0]
+    let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {}, statusEffect: [] };
+    let { sizeName, size } = randomSize(sizeRange)
 
-    let bodyType = measurements.bodyTypes[randomBodyType(bodyTypeRange)]
-    let bodyTypeKey = Object.keys(bodyType)[0]
+    let { bodyTypeName, bodyType } = randomBodyType(bodyTypeRange)
 
-    let statMods = bodyType[bodyTypeKey].statMods
-    let expMods = bodyType[bodyTypeKey].expMods
+    let statMods = bodyType.statMods
+    let expMods = bodyType.expMods
 
     // Collect All Potential Loot
-    let rawLoot = [...bodyType[bodyTypeKey].loot, ...size[sizeKey].loot, ...character.gender[Object.keys(character.gender)[0]].loot]
+    let rawLoot = [...bodyType.loot, ...size.loot, ...character.gender[Object.keys(character.gender)[0]].loot]
     // Loop through and count items
     let availableLoot = []
     for (let item of rawLoot) {
@@ -31,13 +28,12 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     }
     // Roll for credits
     var randomPercent = Math.clamp(random(1, 100), 75, 100) / 100
-    var credits = Math.floor(50 * randomPercent);
+    var credits = Math.floor(100 * randomPercent);
 
     // Calculate Measurements
-    logger(`Before height`)
-    character.measurements.height = random(size[sizeKey].range[0], (size[sizeKey].range[1]) ? size[sizeKey].range[1] : 1000000)
-    character.measurements.bodyFat = bodyType[bodyTypeKey].bodyFat //HACK Rudimentary, need to change to ranges
-    logger(`After height`)
+    character.measurements.height = random(size.range[0], (size.range[1]) ? size.range[1] : 1000000)
+    character.measurements.bodyFat = _.round(_.random(bodyType.bodyFat[0], bodyType.bodyFat[1]), 2)
+
     // Default Hyper to no
     let hyper = false
 
@@ -45,12 +41,12 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     character.species = species[speciesId]
 
     // Calculate Stats
-    statPoints = size[sizeKey].statBase
+    statPoints = size.statBase
     calcStats(character, statMods, statPoints)
 
     // Calculate Exp and Name (This was not fun)
     if (!name) {
-        character.name = `${sizeKey} ${bodyTypeKey} ${species[speciesId]}`
+        character.name = `${sizeName} ${bodyTypeName} ${species[speciesId]}`
 
         for (let exp in expMods)
             character.exp[exp] = getExpCalc(character, exp, expMods[exp], statPoints)
@@ -59,19 +55,19 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
         character.credits = credits
 
         // Base Attacks
-        character.attacks = [1, 0]
+        character.attacks = setAttacks([0, 1])
         character.learnedAttacks = character.attacks
     } else {
         character.name = name
         character.exp = blankExp()
         character.credits = 0
-        character.skills = []
         character.skillPoints = 0
         character.inv = []
 
         // Base Attacks
-        character.attacks = [0, 1, 2]
+        character.attacks = setAttacks([0, 1, 2])
         character.learnedAttacks = character.attacks
+        character.passives = []
     }
 
     // Calculate Genitals... Oh boy
@@ -83,19 +79,43 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     // Calculate Capacity
     calcCapacity(character)
 
+    logger(character)
     return character;
 }
 
+function setAttacks(attackIds) {
+    return _.map(attackIds, (id) => {
+        let { cooldown } = attackSkill[id]
+        return { id, cooldown, currCooldown: 0 }
+    })
+}
+
 function randomSize(range) {
+    let sizeIdx
     if (Array.isArray(range))
-        return random(Math.clamp(range[0], 0, measurements.sizes.length - 1), Math.clamp(range[1], 0, measurements.sizes.length - 1))
-    return Math.clamp(range, 0, measurements.sizes.length - 1)
+        sizeIdx = random(Math.clamp(range[0], 0, measurements.sizes.length - 1), Math.clamp(range[1], 0, measurements.sizes.length - 1))
+    else
+        sizeIdx = Math.clamp(range, 0, measurements.sizes.length - 1)
+
+    let sizeObj = measurements.sizes[sizeIdx]
+    let sizeName = Object.keys(sizeObj)[0]
+    let { [sizeName]: size } = sizeObj
+
+    return { sizeName, size }
 }
 
 function randomBodyType(range) {
+    let bodyTypeIdx
     if (Array.isArray(range))
-        return random(Math.clamp(range[0], 0, measurements.bodyTypes.length - 1), Math.clamp(range[1], 0, measurements.bodyTypes.length - 1))
-    return Math.clamp(range, 0, measurements.bodyTypes.length - 1)
+        bodyTypeIdx = random(Math.clamp(range[0], 0, measurements.bodyTypes.length - 1), Math.clamp(range[1], 0, measurements.bodyTypes.length - 1))
+    else
+        bodyTypeIdx = Math.clamp(range, 0, measurements.bodyTypes.length - 1)
+
+    let bodyTypeObj = measurements.bodyTypes[bodyTypeIdx]
+    let bodyTypeName = Object.keys(bodyTypeObj)[0]
+    let { [bodyTypeName]: bodyType } = bodyTypeObj
+
+    return { bodyTypeName, bodyType }
 }
 
 function calcStats(character, statMods, statPoints) {
@@ -134,7 +154,7 @@ function getExpCalc(character, exp, expMod, statPoints) {
         case 'fat':
             return (Math.round(Math.log10(character.stats.con)) * expMod) * hyperMode
         case 'size':
-            return (Math.floor(Math.log(character.measurements.height) ** 2)) * hyperMode
+            return (Math.floor(Math.log10(character.measurements.height) * expMod)) * hyperMode
         case 'skill':
             return (Math.floor(Math.log2(statPoints))) * hyperMode
         case 'pawEye':
@@ -265,4 +285,8 @@ export function rest(character) {
 
 export function getSkillById(id) {
     return skills[id]
+}
+
+export function getAttackSkill(id) {
+    return attackSkill[id]
 }

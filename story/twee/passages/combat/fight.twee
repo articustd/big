@@ -19,9 +19,9 @@
 <<nobr>>
 <div style="display: flex;flex-direction: row">
 <div class="CombatContainer"><u><span class="CombatActionHeader">Attack</span></u>
-<<attackAction $player.attacks>></div>
+<<attackAction false>></div>
 <div class="CombatContainer"><u><span class="CombatActionHeader">Skill</span></u>
-/* <<attackAction $attacks[0]>><br> */</div>
+<<attackAction true>><br></div>
 <div id="LeaveContainer" class="CombatContainer"><<leaveButtonMacro "Run Away!" $return>><<combatReset>><</leaveButtonMacro>></div>
 </div>
 <</nobr>><</if>>/* Combat Win Actions */<<if $win is true>>

@@ -9,6 +9,9 @@ Reduce the enemies health down to 0 to win. Use items to heal or run away if the
 !!Leveling Up
 To level up you must have consumed any amount of enemies and have experience points. You will need to head home and rest to absorb the experience into your permanent base stats. If you go over your consumption, you will encounter random enemies until you get home!
 
+!!Capacity
+As you consume enemies your imediate capacity will fill up. Once you reach your max capacity, enemies will randomly spawn in the station and towns until you make it back home to rest. Once rested, a fourth of the capacity you had consumed will be added to your overall max capacity. If you favor one specific consume over another, you will have a larger capacity for the favored consume type.
+
 !!Stats
 ''__Base Stats__''
 ''Health'' - Current health out of max total health.

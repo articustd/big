@@ -1,0 +1,17 @@
+[
+    {"name": "Strength","pathName": "strg"},
+    {"name": "Constitution","pathName": "con"},
+    {"name": "Dexterity","pathName": "dex"},
+    {"name": "Health","pathName": "hlth"},
+    {"name": "Muscle","pathName": "muscle"},
+    {"name": "Fat","pathName": "fat"},
+    {"name": "Size","pathName": "size"},
+    {"name": "Agility","pathName": "agility"},
+    {"name": "Skill","pathName": "skill"},
+    {"name": "Penis","pathName": "penis"},
+    {"name": "Balls","pathName": "balls"},
+    {"name": "Breasts","pathName": "breasts"},
+    {"name": "Height","pathName": "height"},
+    {"name": "Hit Chance","pathName": "hit"},
+    {"name": "Damage","pathName": "dmg"}
+]

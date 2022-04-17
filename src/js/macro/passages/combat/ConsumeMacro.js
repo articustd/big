@@ -1,7 +1,8 @@
 import { returnStatName } from "@controller/character/CharacterController"
 import { findSize } from "@controller/character/MeasurementController"
+import { getExpText } from "@controller/combat/CombatController"
 import { largerText, muchLargerText, muchSmallerText, sameText, smallerText } from "@js/data/combat/ConsumeTextTable"
-import { lowercaseFirstLetter } from "../home/playerFluffMacro"
+import _ from "lodash"
 
 Macro.add('consumeMacro', {
     skipArgs: false,
@@ -12,7 +13,7 @@ Macro.add('consumeMacro', {
         let $header = $('<h1/>').wiki(`${consumeObj.consume.method}ing ${enemy.name}`)
         let $body = $('<span/>')
         let $exp = $('<span/>')
-        temporary().enemyText = {sizeLC:lowercaseFirstLetter(findSize(enemy.measurements.height))}
+        temporary().enemyText = {sizeLC:_.lowerFirst(findSize(enemy.measurements.height))}
 
         if(consumeObj.consume.method !== 'Eat')
             $body.wiki(consumeObj.consume.desc)
@@ -36,7 +37,7 @@ Macro.add('consumeMacro', {
             }
         }
 
-        $.each(getExpText(consumeObj.points), function (idx, text) {
+        _.each(getExpText(consumeObj.points), (text) => {
             $exp.append($('<span/>').wiki(text + '<br>'))
         })
 
@@ -53,9 +54,3 @@ Macro.add('consumeMacro', {
     }
 })
 
-function getExpText(consumePoints) {
-    let consumeExp = []
-    for (let cp in consumePoints)
-        consumeExp.push(`Gained +${Math.ceil(consumePoints[cp])} ${returnStatName(cp)} to Experience`)
-    return consumeExp
-}

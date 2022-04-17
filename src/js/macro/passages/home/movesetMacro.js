@@ -1,23 +1,23 @@
-import { attacks } from '@js/data'
+import { attackSkill } from '@js/data'
 import { logger } from '@util/Logging'
+import _ from 'lodash'
 
 Macro.add('movesetMacro', {
     skipArgs: false,
     handler: function () {
-        let player = State.variables.player
+        let player = variables().player
         let $wrapper = $('<div/>')
 
         let $columnOne = createLane('equipped', 3)
 
         // $columnOne.append($('<span/>').text('Attacks').css('width','100%').css('float', 'left'))
-        for (let attackId of player.attacks)
-            $columnOne.append(createCard(attackId))
+        _.each(player.attacks, (atk) => { $columnOne.append(createCard(atk)) })
 
         let $columnTwo = createLane('available', 30)
 
-        for (let attackId of player.learnedAttacks)
-            if (!player.attacks.includes(attackId))
-                $columnTwo.append(createCard(attackId))
+        _.each(_.filter(player.learnedAttacks, function ({ id }) {
+            return _.filter(player.attacks, { id }).length === 0
+        }), (atk) => { $columnTwo.append(createCard(atk)) })
 
         $wrapper
             .append($('<span/>').text('Equipped Attacks')
@@ -35,14 +35,15 @@ Macro.add('movesetMacro', {
     }
 })
 
-function createCard(attackId) {
-    let attack = attacks[attackId]
+function createCard(atk) {
+    let { name, desc } = attackSkill[atk.id]
     let $portlet = $('<div/>')
         .addClass('portlet')
         .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
-        .attr('value', attackId)
+        .attr('value', atk.id)
+        .data(atk)
 
-    let $portletHeader = $('<div/>').addClass('portlet-header').text(attack.name)
+    let $portletHeader = $('<div/>').addClass('portlet-header').text(name)
     // let $portletToggle = $("<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>")
     // $portletToggle.on("click", function () {
     //     var icon = $(this);
@@ -53,9 +54,21 @@ function createCard(attackId) {
         .addClass("ui-widget-header ui-corner-all")
     // .append($portletToggle);
     $portlet.append($portletHeader)
-    $portlet.append($('<div/>').addClass('portlet-content').wiki(attack.desc))
 
+    $portlet.append($('<div/>').addClass('portlet-content').wiki(desc.baseDesc))
+    $portlet.append($('<div/>').addClass('portlet-body-header').wiki(`''Crit:'' ${desc.critDesc}`))
+    $portlet.append($('<div/>').addClass('portlet-body-header').wiki(`''Stat Mod:''`))
+    $portlet.append($('<div/>').addClass('portlet-body-content').wiki(getList(desc.statMods)))
+    $portlet.append($('<div/>').addClass('portlet-body-header').wiki(`''Reqs:''`))
+    $portlet.append($('<div/>').addClass('portlet-body-content').wiki(getList(desc.reqs)))
     return $portlet
+}
+
+function getList(desc, response = '') {
+    _.each(desc, (val) => {
+        response += `- ${_.values(val)[0]}<br/>`
+    })
+    return response
 }
 
 function createLane(id, size) {
@@ -67,8 +80,13 @@ function createLane(id, size) {
         cursor: "grabbing",
         update: function (event, ui) {
             if (this.id === 'equipped') {
-                State.variables.player.attacks = $(this).sortable("toArray", { attribute: 'value' }).map(Number);
-                $('#outOf').text(`${State.variables.player.attacks.length}/3`)
+                let newAtks = []
+                $(this).find('> .portlet').each(function () {
+                    let { id, cooldown, currCooldown } = $(this).data()
+                    newAtks.push({ id, cooldown, currCooldown })
+                })
+                variables().player.attacks = newAtks;
+                $('#outOf').text(`${variables().player.attacks.length}/3`)
             }
         },
         receive: function (event, ui) {

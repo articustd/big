@@ -1,0 +1,1 @@
+import PlayerMeasurementTemplate from './character/PlayerMeasurementTemplate'

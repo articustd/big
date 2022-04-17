@@ -1,0 +1,13 @@
+[{
+        "name": "Buff",
+        "finalEffect": false
+    },
+    {
+        "name": "Blind",
+        "finalEffect": true
+    },
+    {
+        "name": "Bleed",
+        "finalEffect": false
+    }
+]

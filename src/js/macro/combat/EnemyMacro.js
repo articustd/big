@@ -13,7 +13,7 @@ Macro.add('enemyMacro', {
         let enemy = genChar(statPoints(player), random(0, species.length - 1), [minSize, maxSize], [0, 4], random(0, 6));
         variables().combat = true
         variables().enemy = enemy
-        checkWilling(player.skills, enemy)
+        // checkWilling(player.skills, enemy)
     }
 })
 
