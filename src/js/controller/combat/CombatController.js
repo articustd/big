@@ -224,14 +224,14 @@ function inflictStatus({ status: { type, duration, mod, dmg } }, defender) {
 }
 
 function reduceStatusEffect({ statusEffect }) {
+	_.remove(statusEffect, (n) => { return n.duration === 0 })
 	_.each(statusEffect, (status) => {
-		statusEffect = _.remove(statusEffect, (n) => { return n.duration === 0 })
 		status.duration -= 1
 	})
 }
 
 function statusDamage({ statusEffect }, combatLog, dmg = 0) {
-	_.each(_.filter(statusEffect, (se)=>{return !_.isEmpty(se.dmg)}), ({name, dmg: {min, max}})=>{
+	_.each(_.filter(statusEffect, (se) => { return !_.isEmpty(se.dmg) }), ({ name, dmg: { min, max } }) => {
 		let damage = _.floor(_.random(min, max))
 		dmg += damage
 		combatLog.push(getDmgHTML(`Took ${damage} damage from ${name}`))
