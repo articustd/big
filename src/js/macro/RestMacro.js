@@ -1,5 +1,5 @@
 import { levelUp, rest } from "@controller/character/CharacterController"
-import { advanceTime } from "@controller/TimeController";
+import { advanceTime, restockStore } from "@controller/TimeController";
 import { logger } from "@util/Logging";
 
 Macro.add('restMacro', {
@@ -8,7 +8,7 @@ Macro.add('restMacro', {
         let level = this.args[0]
         let visible = this.args[1]
         let player = variables().player;
-
+        restockStore(7)
         if (!visible) {
             if (level) {                
                 if (levelUp(player))

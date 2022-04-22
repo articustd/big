@@ -37,10 +37,9 @@ export function advanceTime(advTime) {
     temporary().advanceTime = advTime
 }
 
-function restockStore(day) {
-    if(day%7 == 0) {
+export function restockStore(day) {
+    if(day%7 == 0)
         State.variables.stores = stores
-    }
 }
 
 export {returnTime}
