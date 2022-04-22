@@ -114,19 +114,20 @@ export function calcHitChance(attack, attacker, defender, baseHit = 0, hitPer = 
 
 function calcCombatDmg(attack, attacker, crit) {
 	let { min, max } = calcDmgRange(attack, attacker)
-	return _.floor(_.random(min, max) * ((crit) ? attack.critMulti : 1))
+	return _.floor(_.random(min, max)) * ((crit && attack.direct.dmg.crit.canCrit) ? attack.direct.dmg.crit.critMulti : 1)
 }
 
 export function calcDmgRange({ direct: { dmg, stat } }, attacker) {
 	// Base Stats
-	let dmgRange = { min: Math.floor(Math.pow(attacker.stats[stat], dmg.min)), max: Math.floor(Math.pow(attacker.stats[stat], dmg.max)) }
-
+	let dmgRange = {
+		min: Math.floor(Math.pow(attacker.stats[stat], dmg.min)),
+		max: Math.floor(Math.pow(attacker.stats[stat], dmg.max))
+	}
 	// Skill
 	if (attacker.passives)
 		dmgRange = getDmgSkillMod(attacker, dmgRange)
 
 	// Status Effect
-
 	return dmgRange
 }
 
