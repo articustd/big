@@ -4,7 +4,7 @@ Macro.add('capacityBarMacro', {
         let character = this.args[0]
         let capType = this.args[1]
 
-        let statusPercent = Math.floor((character.capacity[capType] / character.capacity[`${capType}Max`]) * 100)
+        let statusPercent = Math.clamp(Math.floor((character.capacity[capType] / character.capacity[`${capType}Max`]) * 100),0,100)
 
         let $capBar = $('<div/>')
             .addClass(`statusBar`)

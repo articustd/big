@@ -3,6 +3,7 @@ import { calcWeight, sizeDiff } from "@controller/character/MeasurementControlle
 import { popup } from "@util/ModalPopup";
 import { combatReset, getExpText } from "@controller/combat/CombatController";
 import { infoBubble } from "@util/UISugar";
+import _ from "lodash";
 
 Macro.add('consumeEnemy', {
     skipArgs: false,
@@ -18,32 +19,38 @@ Macro.add('consumeEnemy', {
             { method: 'Urethral', gen: 'penis', desc: `You shove the enemy in your man bits`, capacity: 'testi' }
         ]
 
-        consume.forEach(function (con) {
+        _.each(consume, (con) => {
             if (con.gen == '' || player.gender[con.gen]) {
-                $wrapper.append(
-                    $('<button/>')
-                        .wiki(con.method)
-                        .ariaClick(function (ev) {
-                            let consumeAmt = Math.floor(calcWeight(prey.measurements))
-                            if (variables().settings.warning.overConsumeWarning && isOverMaxCapacity(player, consumeAmt, con.capacity))
-                                popup(`Over Capacity`, `You are about to go over your max capacity. If you continue you will be attacked randomly until you rest at home. <br><br>Do you wish to consume?`,
-                                    { "Yes": () => { $('#overConsumeWarning').dialog("destroy"); consumeContinue(con, consumeAmt, player, prey) }, "No": false }, { type: "warning", name: "overConsumeWarning" })
-                            else
-                                consumeContinue(con, consumeAmt, player, prey)
-                        })
-                        .css({ 'width': '90%', 'margin-bottom': '10px' })
-                )
+                let $conBtn = $('<button/>')
+                    .wiki(con.method)
+                    .ariaClick(function (ev) {
+                        let consumeAmt = Math.floor(calcWeight(prey.measurements))
+                        if (variables().settings.warning.overConsumeWarning && isOverMaxCapacity(player, consumeAmt, con.capacity))
+                            popup(`Over Capacity`, `You are about to go over your max capacity. If you continue you will be attacked randomly until you rest at home. <br><br>Do you wish to consume?`,
+                                { "Yes": () => { $('#overConsumeWarning').dialog("destroy"); consumeContinue(con, consumeAmt, player, prey) }, "No": false }, { type: "warning", name: "overConsumeWarning" })
+                        else
+                            consumeContinue(con, consumeAmt, player, prey)
+                    })
+                    .css({ 'height': '50px', 'font-size': '25px', 'margin-bottom': '5px' })
+                if (con.method === 'Eat')
+                    $conBtn.css({ 'border-radius': '3px 0px 0px 0px' })
+
+                $(this.output).append($conBtn)
             }
         })
-        let $fastConsume = $('<div/>').append($('<label/>').wiki(`Fast Consume `).css('cursor', 'pointer').prepend($(`<input id="fastConsume" type="checkbox" ${variables().settings.skip.consumeText ? 'checked' : ''}/>`).on('input', function (e) {
+        let $fastConsume = $('<div/>').append($('<label/>').wiki(`Fast Consume `).css({ 'cursor': 'pointer' }).prepend($(`<input id="fastConsume" type="checkbox" ${variables().settings.skip.consumeText ? 'checked' : ''}/>`).on('input', function (e) {
             variables().settings.skip.consumeText = $(this)[0].checked
-        })).append(infoBubble(`Skips over consume text.`)))
-        $wrapper.append($fastConsume)
+        })).append(infoBubble(`Skips over consume text.`))).css({ 'align-self': 'center' })
 
-        $wrapper
-            .attr('id', `macro-${this.name}`)
-            .addClass('consumes')
-            .appendTo(this.output);
+        let $leaveBtn = $('<button/>').wiki('Leave').css({ 'height': '50px', 'font-size': '25px', 'border-radius': '0px 0px 0px 3px', 'background-color': 'red', 'border-color': 'red' }).click(() => {
+            combatReset()
+            Engine.play(variables().return)
+        })
+
+        $(this.output).append($leaveBtn)
+        $(this.output).append($fastConsume)
+
+        $(this.output).css({ 'display': 'flex', 'flex-direction': 'column' })
     }
 })
 

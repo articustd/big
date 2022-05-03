@@ -6,13 +6,7 @@ import _ from "lodash";
 Macro.add('attackAction', {
     skipArgs: false,
     handler: function () {
-        let isSkill = this.args[0]
         let { player, enemy, player: { attacks } } = variables()
-        let $column = $('<div/>').css('display', 'flex').css('flex-direction', 'column').appendTo(this.output)
-
-        let attackList = _.filter(_.map(attacks, ({ id, currCooldown }) => {
-            return { ...attackSkill[id], currCooldown, id }
-        }), { skill: isSkill })
 
         _.each(attackList, (attack) => {
             let $link = $('<button/>')

@@ -76,3 +76,9 @@ sugarcube-2:
       name: restMessageMacro
     creditMacro:
       name: creditMacro
+    statsMacro:
+      name: statsMacro
+    measurementsMacro:
+      name: measurementsMacro
+    playerActionsMacro:
+      name: playerActionsMacro

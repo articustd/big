@@ -4,11 +4,11 @@ export function rollItems(enemyLoot, credits) {
 	enemyLoot.forEach(function (item) {
 		if (itemChance(item.chnc)) {
 			let qty = addToInventory(item)
-			text.push(`Found ${qty} ${State.variables.items[item.id].name}`)
+			text.push(`${qty} ${State.variables.items[item.id].name}`)
 		}
 	})
 	addCredits(credits)
-	text.push(`Found ${credits} credits`)
+	text.push(`${credits} credits`)
 	return text
 }
 
