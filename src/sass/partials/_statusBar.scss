@@ -1,7 +1,7 @@
 %currentStatusBar-shared {
     top: 0px;
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     height: 100%;
     transition: all 1s;
 }
@@ -28,6 +28,8 @@
 }
 
 .currentStatusText {
+    position:relative;
+    z-index: 2;
     font-weight: bold;
     color: white;
 }

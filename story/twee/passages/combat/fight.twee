@@ -1,7 +1,7 @@
 :: fight [noreturn combat] {"position":"500,0"}
 <h1>Micro Metro - Alleyway</h1>
 <<nobr>>
-<div style="display: flex;flex-direction: row;border: white 1px solid;border-radius: 5px;padding-bottom: 5px">
+<div style="display: flex;flex-direction: row;border: white 1px solid;border-radius: 5px;padding: 5px 0px;justify-content: center;position: relative;background-color: #111">
     <div style="flex:3;margin: 0px 5px">
         $enemy.name
         <<healthBarMacro $enemy>>
@@ -12,9 +12,10 @@
             Status Effects
         </div>
     </div>
+    <<combatMessageMacro $enemyCombatLog "top">>
 </div>
 <div style="height: 400px;display:flex;justify-content: center;align-items: center">Portrait Area</div>
-<div style="display: flex;flex-direction: row;border: white 1px solid;border-radius: 5px">
+<div style="display: flex;flex-direction: row;border: white 1px solid;border-radius: 5px;justify-content: center;position: relative;background-color: #111">
     <div style="flex:2;margin: 0px 5px">
         <<playerActionsMacro>>
     </div>
@@ -40,5 +41,6 @@
     </div>
     <div id="actionPanel" style="display: none;flex-direction: row;flex:3;margin: 0px 5px"></div>
     <div id="lootPanel" style="display: none;flex-direction: column;flex:3;margin: 0px 5px"></div>
+    <<combatMessageMacro $playerCombatLog "bottom">>
 </div>
 <</nobr>>

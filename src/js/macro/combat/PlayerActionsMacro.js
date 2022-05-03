@@ -1,6 +1,7 @@
 import { logger } from "@util/Logging"
 import { attackSkill } from "@js/data"
 import { rest } from "@controller/character/CharacterController"
+import { combatReset } from "@controller/combat/CombatController"
 
 Macro.add('playerActionsMacro', {
     skipArgs: false,
@@ -17,6 +18,8 @@ Macro.add('playerActionsMacro', {
                 Engine.play('home')
             } else
                 Engine.play(variables().return)
+
+            combatReset()
         })
 
         if (playerAlive && enemyAlive) {
@@ -43,7 +46,7 @@ Macro.add('playerActionsMacro', {
             switchPanels('loot')
             $wrapper.wiki(`<<consumeEnemy $enemy>>`)
         }
-        
+
     }
 })
 
@@ -69,7 +72,7 @@ function switchPanels(type) {
     $actionPanel.empty()
     $actionPanel.wiki(`<<playerActionsPanelMacro ${type}>>`)
     $actionPanel.data({ type })
-    
+
     $actionPanel.css({ 'display': 'flex' })
 }
 
