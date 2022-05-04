@@ -44,7 +44,7 @@ export function combatRoll(playerAttack) {
 			setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy.loot, enemy.credits) })
 
 		variables().player.statusEffect = []
-		resetCooldown(player)
+		
 	}
 }
 
@@ -183,6 +183,8 @@ let missText = [
 ]
 
 export function combatReset() {
+	resetCooldown(variables().player)
+
 	deleteState({
 		enemyHitDmg: true,
 		enemyCombatLog: true,

@@ -1,9 +1,9 @@
 :: fight [noreturn combat] {"position":"500,0"}
-<h1>Micro Metro - Alleyway</h1>
+<h1>$fightHeader</h1>
 <<nobr>>
 <div style="display: flex;flex-direction: row;border: white 1px solid;border-radius: 5px;padding: 5px 0px;justify-content: center;position: relative;background-color: #111">
     <div style="flex:3;margin: 0px 5px">
-        $enemy.name
+        ?eName
         <<healthBarMacro $enemy>>
         <<enemyDifficultyMacro>>
     </div>
@@ -15,7 +15,9 @@
     </div>
     <<combatMessageMacro $enemyCombatLog "top">>
 </div>
-<div style="height: 400px;display:flex;justify-content: center;align-items: center">Portrait Area</div>
+<div style="height: 400px;display:flex;justify-content: center;align-items: center;text-align: center">
+<<enemyDescriptionMacro>>
+</div>
 <div style="display: flex;flex-direction: row;border: white 1px solid;border-radius: 5px;justify-content: center;position: relative;background-color: #111">
     <div style="flex:2;margin: 0px 5px">
         <<playerActionsMacro>>

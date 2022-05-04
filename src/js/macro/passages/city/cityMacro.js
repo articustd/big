@@ -5,7 +5,7 @@ import { logger } from "@util/Logging"
 Macro.add('cityMacro', {
     skipArgs: false,
     handler: function () {
-        let player = State.variables.player
+        let player = variables().player
         let cityRangeMin = this.args[0]
         let cityRangeMax = this.args[1]
         let citySize = this.args[2]

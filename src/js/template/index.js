@@ -1,1 +1,1 @@
-import PlayerMeasurementTemplate from './character/PlayerMeasurementTemplate'
+import CharacterMeasurementTemplates from './character'
