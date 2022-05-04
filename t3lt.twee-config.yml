@@ -84,3 +84,7 @@ sugarcube-2:
       name: playerActionsMacro
     combatMessageMacro:
       name: combatMessageMacro
+    enemyDifficultyMacro:
+      name: enemyDifficultyMacro
+    statusDisplayMacro:
+      name: statusDisplayMacro

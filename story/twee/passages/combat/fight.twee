@@ -5,11 +5,12 @@
     <div style="flex:3;margin: 0px 5px">
         $enemy.name
         <<healthBarMacro $enemy>>
-        They seem pretty easy
+        <<enemyDifficultyMacro>>
     </div>
     <div style="display: flex;flex-direction: column;flex:2;margin: 0px 5px">
         <div style="flex:2;margin: 0px 5px">
-            Status Effects
+            Status Effects<br/>
+            <<statusDisplayMacro $enemy>>
         </div>
     </div>
     <<combatMessageMacro $enemyCombatLog "top">>
@@ -25,7 +26,8 @@
         <div><<healthBarMacro $player>></div>
         <div style="display: flex;flex-direction: row">
             <div>
-                Status Effects
+                Status Effects<br/>
+                <<statusDisplayMacro $player>>
             </div>
         </div>
         <<else>>

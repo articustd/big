@@ -1,7 +1,7 @@
 import { logger } from "@util/Logging"
 import { attackSkill } from "@js/data"
 import { rest } from "@controller/character/CharacterController"
-import { combatReset } from "@controller/combat/CombatController"
+import { combatReset, loseExp } from "@controller/combat/CombatController"
 
 Macro.add('playerActionsMacro', {
     skipArgs: false,
@@ -14,6 +14,7 @@ Macro.add('playerActionsMacro', {
         let $leaveBtn = $('<button/>').css({ 'margin-top': '5px', 'height': '50px', 'font-size': '25px', 'border-radius': '0px 0px 0px 3px', 'background-color': 'red', 'border-color': 'red' }).click(() => {
             if (!playerAlive) {
                 rest(player)
+                loseExp()
                 variables().restText = `Your eyes flutter open, a little confused at where you are. Looking around, someone or something has brought you back home. The aches and pains from your fight are gone, but so is anything you had eaten prior.`
                 Engine.play('home')
             } else
