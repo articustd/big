@@ -33,7 +33,7 @@ export let attackSkill = [
             }
         },
         "status": null,
-        "req": null
+        "requirements": {}
     },
     {
         "name": "Bite",
@@ -69,17 +69,7 @@ export let attackSkill = [
             }
         },
         "status": {},
-        "req": {},
-        "statMods": [
-            {
-                "stat": "Strength"
-            }
-        ],
-        "reqs": [
-            {
-                "req": "None"
-            }
-        ]
+        "requirements": {}
     },
     {
         "name": "Stomp",
@@ -98,7 +88,7 @@ export let attackSkill = [
             ],
             "reqs": [
                 {
-                    "req": "None"
+                    "req": "Must be 2x taller than oppenent"
                 }
             ]
         },
@@ -115,17 +105,14 @@ export let attackSkill = [
             }
         },
         "status": {},
-        "req": {},
-        "statMods": [
-            {
-                "stat": "Strength"
-            }
-        ],
-        "reqs": [
-            {
-                "req": "None"
-            }
-        ]
+        "requirements": {
+            "conditions": [
+                {
+                    "reqCondition": "attackerHeight > (defenderHeight * 2)",
+                    "failText": "Not large enough"
+                }
+            ]
+        }
     },
     {
         "name": "Pepper Spray",
@@ -163,17 +150,7 @@ export let attackSkill = [
             "dmg": {},
             "duration": 3
         },
-        "req": {},
-        "statMods": [
-            {
-                "stat": "None"
-            }
-        ],
-        "reqs": [
-            {
-                "req": "None"
-            }
-        ]
+        "requirements": {}
     },
     {
         "name": "Improved Paw-Eye Coordination",
@@ -202,7 +179,7 @@ export let attackSkill = [
             "dmg": null,
             "duration": -1
         },
-        "req": null
+        "requirements": {}
     },
     {
         "name": "Gouge",
@@ -252,16 +229,6 @@ export let attackSkill = [
                 }
             }
         },
-        "req": {},
-        "statMods": [
-            {
-                "stat": "Dexterity"
-            }
-        ],
-        "reqs": [
-            {
-                "req": "None"
-            }
-        ]
+        "requirements": {}
     }
 ]

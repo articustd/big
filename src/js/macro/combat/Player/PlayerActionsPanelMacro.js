@@ -2,6 +2,7 @@ import { logger } from "@util/Logging"
 import { calcDmgRange, calcHitChance, combatRoll } from "@controller/combat/CombatController";
 import { attackSkill } from "@js/data"
 import _ from "lodash"
+import { parseReq } from "@controller/ReqParser";
 
 Macro.add('playerActionsPanelMacro', {
     skipArgs: false,
@@ -82,11 +83,25 @@ function createAction(action, $column) {
     $link.tooltip({ track: true, hide: { duration: 500 } }).wiki(attackText)
 }
 
-function checkDisabled($parent, { req, currCooldown, desc }) {
-    if (req && !_.isEmpty(req))
-        $parent.addClass('disabledAttack').attr('title', req.tooltip).off()
+function checkDisabled($parent, { requirements: {conditions}, currCooldown, desc }) {
+    let failedReq;
+    _.each(conditions, ({reqCondition, failText})=>{
+        if(!boolify(parseReq(reqCondition, variables().player, variables().enemy))) {
+            failedReq = failText
+            return false
+        }
+    }) 
+    
+    if (failedReq && !_.isEmpty(failedReq)) 
+        $parent.addClass('disabledAttack').attr('title', failedReq).off()
     else if (currCooldown > 0)
         $parent.addClass('disabledAttack').off()
     else
         $parent.removeClass('disabledAttack')
+}
+
+function boolify(value) {
+    if(value === 'true' || value === 'false')
+        return JSON.parse(value)
+    return value
 }

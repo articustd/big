@@ -98,7 +98,7 @@
             "header": false,
             "children": []
         }, {
-            "name": "Stat Modifiers",
+            "name": "Stat Modifier Descriptions",
             "propName": "statMods",
             "type": "Array",
             "field": {},
@@ -112,13 +112,13 @@
                 "children": []
             }]
         }, {
-            "name": "Requirements",
+            "name": "Requirement Descriptions",
             "propName": "reqs",
             "type": "Array",
             "field": {},
             "header": false,
             "children": [{
-                "name": "Requirement",
+                "name": "Requirement Desc",
                 "propName": "req",
                 "type": "String",
                 "field": {},
@@ -409,7 +409,7 @@
         }]
     }, {
         "name": "Requirements",
-        "propName": "req",
+        "propName": "requirements",
         "type": "Object",
         "field": {
             "type": "Section",
@@ -417,6 +417,27 @@
             "hasAdd": true
         },
         "header": false,
-        "children": []
+        "children": [{
+            "name": "Conditions",
+            "propName": "conditions",
+            "type": "Array",
+            "field": {},
+            "header": false,
+            "children": [{
+                "name": "Condition",
+                "propName": "reqCondition",
+                "type": "String",
+                "field": {},
+                "header": true,
+                "children": []
+            }, {
+                "name": "Fail Text",
+                "propName": "failText",
+                "type": "String",
+                "field": {},
+                "header": true,
+                "children": []
+            }]
+        }]
     }]
 }
