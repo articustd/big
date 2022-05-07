@@ -41,7 +41,7 @@ task(function configDev() {
 })
 
 task(function configProd() {
-    let config = '{"history": {"controls": false }, "debug": false, "logging": false }'
+    let config = '{"history": {"controls": false, "maxStates": 2 }, "debug": false, "logging": false }'
     return writeConfig(config)
 })
 

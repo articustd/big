@@ -92,3 +92,8 @@ sugarcube-2:
       name: enemyDescriptionMacro
     lexicalMacro:
       name: lexicalMacro
+    progressiveText:
+      name: progressiveText
+      container: true
+    nextText:
+      name: nextText

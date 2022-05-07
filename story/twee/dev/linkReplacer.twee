@@ -1,0 +1,12 @@
+:: linkReplacer [noreturn] {"position":"375,125"}
+<<progressiveText>>
+First Block
+<<nextText "Go To Second Block" 2>>
+Second Block
+<<nextText "Go To Third Block" 2>>
+Third Block
+<<nextText 2>>
+Final Block
+
+[["Return"|$return]]
+<</progressiveText>>
