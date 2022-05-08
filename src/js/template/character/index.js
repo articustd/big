@@ -1,2 +1,2 @@
-import EnemyMeasurementTemplate from './EnemyMeasurementTemplate'
-import PlayerMeasurementTemplate from './PlayerMeasurementTemplate'
+import EnemyTemplates from './EnemyTemplates'
+import PlayerTemplates from './PlayerTemplates'

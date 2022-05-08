@@ -1,0 +1,1 @@
+import ConsumeMacro from './ConsumeMacro'

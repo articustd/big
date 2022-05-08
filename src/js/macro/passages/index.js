@@ -1,0 +1,5 @@
+import CharacterMenuMacros from './characterMenu'
+import CityPassageMacros from './city'
+import CombatPassageMacros from './combat'
+import DevPassageMacros from './dev'
+import HomePassageMacros from './home'

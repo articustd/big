@@ -26,7 +26,6 @@ setup.ImagePath = "assets/";
 	variables().pronouns = pronounArray()
 	variables().debug = storyConfig.debug
 	variables().settings = settings
-	variables().numberTest = 1
 	variables().attackSkill = attackSkill
 	// Register custom SugarCube macros
 	// registerAlert(Macro, Dialog);

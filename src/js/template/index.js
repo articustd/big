@@ -1,1 +1,1 @@
-import CharacterMeasurementTemplates from './character'
+import CharacterTemplates from './character'
