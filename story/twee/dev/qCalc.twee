@@ -1,0 +1,11 @@
+:: qCalc [noreturn]
+
+Runner Dex:<<numberbox "_runnerDex" 15 autofocus>>
+Chaser Dex:<<numberbox "_chaserDex" 10>>
+Chaser Modifier:<<numberbox "_chaserModifier" 200>>
+Chaser Diviser:<<numberbox "_chaserDiviser" 4>>
+
+<<button "Calc">>
+<<run $('#total').text(temporary().runnerDex * (temporary().chaserModifier/temporary().chaserDex)/temporary().chaserDiviser)>>
+<</button>>
+<span id="total"></span>

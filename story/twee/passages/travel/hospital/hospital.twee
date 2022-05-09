@@ -1,0 +1,8 @@
+:: hospital
+<h1>Hospital</h1>
+
+A medical facility for creatures of all shapes and sizes. The medical staff here is trained to assist with any physical needs.
+
+Several of the wings of the hospital have tarps drapped over them with scaffolding and signs saying "Under Construction".
+
+<<link "Return" "travel">><</link>>

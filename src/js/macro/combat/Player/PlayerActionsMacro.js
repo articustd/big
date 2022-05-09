@@ -1,7 +1,7 @@
 import { logger } from "@util/Logging"
 import { attackSkill } from "@js/data"
 import { rest } from "@controller/character/CharacterController"
-import { combatReset, loseExp } from "@controller/combat/CombatController"
+import { combatReset, combatRoll, fleeChance, loseExp } from "@controller/combat/CombatController"
 
 Macro.add('playerActionsMacro', {
     skipArgs: false,
@@ -12,18 +12,24 @@ Macro.add('playerActionsMacro', {
         let $wrapper = $('<div/>').css({ 'display': 'flex', 'flex-direction': 'column', 'margin': '5px 0px' })
 
         let $leaveBtn = $('<button/>').css({ 'margin-top': '5px', 'height': '50px', 'font-size': '25px', 'border-radius': '0px 0px 0px 3px', 'background-color': 'red', 'border-color': 'red' }).click(() => {
+            if (playerAlive && enemyAlive && variables().combat) {
+                combatRoll({runaway: true})
+                Engine.play(passage(), true);
+                return
+            }
+
             if (!playerAlive) {
                 rest(player)
                 loseExp()
                 variables().restText = `Your eyes flutter open, a little confused at where you are. Looking around, someone or something has brought you back home. The aches and pains from your fight are gone, but so is anything you had eaten prior.`
                 Engine.play('home')
-            } else
+            } else 
                 Engine.play(variables().return)
 
             combatReset()
         })
 
-        if (playerAlive && enemyAlive) {
+        if (playerAlive && enemyAlive && variables().combat) {
             let $atkButton = $('<button/>').wiki(`Attacks`).css({ 'margin-bottom': '5px', 'height': '50px', 'font-size': '25px', 'border-radius': '3px 0px 0px 0px', 'position': 'relative' }).click(function () {
                 switchPanels('attack')
             }).appendTo($wrapper)
@@ -36,7 +42,7 @@ Macro.add('playerActionsMacro', {
             if (getAttackSkills(true).length === 0)
                 $skillButton.addClass('disabledAttack').off()
 
-            $leaveBtn.wiki('Run').appendTo($wrapper)
+            $leaveBtn.wiki(`Run`).appendTo($wrapper)
         }
 
         $wrapper.appendTo(this.output)
@@ -46,6 +52,8 @@ Macro.add('playerActionsMacro', {
         else if (!enemyAlive) {
             switchPanels('loot')
             $wrapper.wiki(`<<consumeEnemy $enemy>>`)
+        } else if (!variables().combat) {
+            $leaveBtn.wiki('Leave').appendTo($wrapper)
         }
 
     }
