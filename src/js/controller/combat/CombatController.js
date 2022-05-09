@@ -16,7 +16,7 @@ export function combatRoll(playerAttack) {
 	attackTurn(player, enemy, playerAttack, true, playerCombatLog)
 
 	// Random enemy attack and roll for enemy hit
-	let enemyAttack = getEnemyAttack(enemy)
+	let enemyAttack = getEnemyAttack(enemy, { runaway: true })
 	attackTurn(enemy, player, enemyAttack, false, enemyCombatLog)
 
 	// Reduce Status Effects
@@ -262,9 +262,12 @@ function reduceCooldowns({ attacks }) {
 	})
 }
 
-function getEnemyAttack(enemy) {
-	let atk = _.sample(_.filter(enemy.attacks, { currCooldown: 0 }))
-	return { ...attackSkill[atk.id], ...atk }
+function getEnemyAttack(enemy, atk = {}) {
+	if ((enemy.stats.hlth / enemy.stats.maxHlth) > 0.15 && _.random(0, 100) > 50) {
+		atk = _.sample(_.filter(enemy.attacks, { currCooldown: 0 }))
+		atk = { ...attackSkill[atk.id], ...atk }
+	}
+	return atk
 }
 
 function endCombat(isPlayer) {
