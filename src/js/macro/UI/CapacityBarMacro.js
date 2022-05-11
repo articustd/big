@@ -1,10 +1,12 @@
+import { collectCapacity } from "@controller/character/CapacityController"
+
 Macro.add('capacityBarMacro', {
     skipArgs: false,
     handler: function () {
         let character = this.args[0]
         let capType = this.args[1]
 
-        let statusPercent = Math.clamp(Math.floor((character.capacity[capType] / character.capacity[`${capType}Max`]) * 100),0,100)
+        let statusPercent = Math.clamp(Math.floor((collectCapacity(character, capType) / character.capacity[`${capType}Max`]) * 100),0,100)
 
         let $capBar = $('<div/>')
             .addClass(`statusBar`)
@@ -27,7 +29,7 @@ Macro.add('capacityBarMacro', {
 })
 
 function checkVisible(character, capType) {
-    if (character.capacity[capType] > character.capacity[`${capType}Max`])
+    if (collectCapacity(character, capType) > character.capacity[`${capType}Max`])
         return `Visible`
     return `Not Visible`
 }

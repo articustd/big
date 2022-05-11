@@ -1,4 +1,4 @@
-import { getAttackSkill, getSkillById, returnStatName } from "@controller/character/CharacterController";
+import { returnStatName } from "@controller/character/CharacterController";
 import { rollItems } from "@controller/character/ItemController";
 import { attackSkill, statusEffect } from "@js/data";
 import { logger } from "@util/Logging";
@@ -12,12 +12,16 @@ export function combatRoll(playerAttack) {
 
 	let { player, playerCombatLog, enemy, enemyCombatLog } = variables()
 
-	// Check if player hits
-	attackTurn(player, enemy, playerAttack, true, playerCombatLog)
-
-	// Random enemy attack and roll for enemy hit
+	// Get enemy attack
 	let enemyAttack = getEnemyAttack(enemy, { runaway: true })
-	attackTurn(enemy, player, enemyAttack, false, enemyCombatLog)
+
+	// Who goes first based on dex
+	decideTurnOrder(
+		player,
+		enemy,
+		attackTurn(player, enemy, playerAttack, true, playerCombatLog),
+		attackTurn(enemy, player, enemyAttack, false, enemyCombatLog)
+	)
 
 	// Reduce Status Effects
 	reduceStatusEffect(player)
@@ -44,7 +48,6 @@ export function combatRoll(playerAttack) {
 			setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy.loot, enemy.credits) })
 
 		variables().player.statusEffect = []
-
 	}
 }
 
@@ -69,10 +72,6 @@ function getDmgHTML(text) {
 }
 
 function getMissHTML(text) {
-	return `<span style="color:white">${text}</span>`
-}
-
-function getDodgeHTML(text) {
 	return `<span style="color:white">${text}</span>`
 }
 
@@ -175,13 +174,6 @@ function getPassiveSkills(type, { passives }) {
 	}), { status: { mod: { type } } })
 }
 
-let hitText = [
-	{ give: "You wolloped them good!", take: "You were hit square in the face!" }
-]
-let missText = [
-	{ give: "You swung wide!", take: "You dodged out of the way!" }
-]
-
 export function combatReset() {
 	resetCooldown(variables().player)
 
@@ -263,11 +255,11 @@ function reduceCooldowns({ attacks }) {
 }
 
 function getEnemyAttack(enemy, atk = {}) {
-	if ((enemy.stats.hlth / enemy.stats.maxHlth) > 0.15 && _.random(0, 100) > 50) {
-		atk = _.sample(_.filter(enemy.attacks, { currCooldown: 0 }))
-		atk = { ...attackSkill[atk.id], ...atk }
-	}
-	return atk
+	if ((enemy.stats.hlth / enemy.stats.maxHlth) <= 0.15 && _.random(0, 100) > 50)
+		return atk
+
+	atk = _.sample(_.filter(enemy.attacks, { currCooldown: 0 }))
+	return { ...attackSkill[atk.id], ...atk }
 }
 
 function endCombat(isPlayer) {
@@ -280,6 +272,16 @@ export function fleeChance({ stats: { dex: atkDex } }, { stats: { dex: defDex } 
 
 function attemptFlee(attacker, defender) {
 	return fleeChance(attacker, defender) >= _.random(1, 100)
+}
+
+function decideTurnOrder(player, enemy, playerAttack, enemyAttack) {
+	if (player.stats.dex > enemy.stats.dex) {
+		playerAttack
+		enemyAttack
+	} else {
+		enemyAttack
+		playerAttack
+	}
 }
 
 function attackTurn(attacker, defender, attack, isPlayer, combatLog) {
@@ -316,9 +318,8 @@ function attackTurn(attacker, defender, attack, isPlayer, combatLog) {
 
 				if (!checkHealth(defender)) // Check defender health
 					endCombat(!isPlayer)
-			} else { // Attack missed, notify
+			} else // Attack missed, notify
 				combatLog.push(getMissHTML(`Missed ${defender.name} with ${attack.name}`))
-			}
 		}
 
 		if (!_.isBoolean(temporary().playerDead)) { // Check to see if combat ended

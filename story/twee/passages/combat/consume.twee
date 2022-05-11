@@ -1,3 +1,3 @@
 :: consume [noreturn] {"position":"500,250"}
 <<consumeMacro>>
-<<link "Return" $return>><<combatReset>><</link>>
+<<link "Return" $return>><<unset $consumeText>><<combatReset>><</link>>

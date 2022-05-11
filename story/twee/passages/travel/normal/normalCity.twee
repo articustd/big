@@ -10,6 +10,8 @@
 <</nobr>>
 <<restMessageMacro>>
 <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 3 5 "Variable Village - Alleyway">><<unset $consumeText>><</timeAction>>
+
 <<link "The Maintainer Gym" "train">><<unset $consumeText>><</link>>
 <<link "Store" "store">><<set $storeId to 1>><<unset $consumeText>><</link>>
+
 <<timeAction "Go Back to the Station" "travel" 2 0 "Variable Village - Alleyway">><<unset $consumeText>><</timeAction>>

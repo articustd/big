@@ -4,7 +4,8 @@ import { logger } from '@util/Logging'
 Macro.add('playerFluffMacro', {
     skipArgs: false,
     handler: function () {
-        let player = variables().player
+        let { player } = variables()
+        logger({player})
         let $wrapper = $('<span/>')
         let $general = $('<span/>')
         let $upperBody = $('<span/>')
@@ -38,11 +39,11 @@ Macro.add('playerFluffMacro', {
     }
 })
 
-function getBreastText({gender:{breasts}}) {
+function getBreastText({ gender: { breasts } }) {
     return breasts ? `?pBreast cup breasts and ` : ''
 }
 
-function collectGenitals({gender:{penis,balls,vagina}}) {
+function collectGenitals({ gender: { penis, balls, vagina } }) {
     if (penis)
         penis = `You take your ?pPenis sized member in your paw. `
     if (balls) {

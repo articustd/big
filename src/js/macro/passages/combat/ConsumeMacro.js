@@ -7,18 +7,16 @@ import _ from "lodash"
 Macro.add('consumeMacro', {
     skipArgs: false,
     handler: function () {
-        let player = variables().player
-        let enemy = variables().enemy
-        let consumeObj = variables().consumeObj
+        let { enemy, consumeObj, consumeText } = variables()
         let $header = $('<h1/>').wiki(`${consumeObj.consume.method}ing ${enemy.name}`)
         let $body = $('<span/>')
         let $exp = $('<span/>')
-        temporary().enemyText = {sizeLC:_.lowerFirst(findSize(enemy.measurements.height))}
+        temporary().enemyText = { sizeLC: _.lowerFirst(findSize(enemy.measurements.height)) }
 
-        if(consumeObj.consume.method !== 'Eat')
+        if (consumeObj.consume.method !== 'Eat')
             $body.wiki(consumeObj.consume.desc)
         else {
-            switch(consumeObj.sDiff) {
+            switch (consumeObj.sDiff) {
                 case 2:
                     $body.wiki(muchSmallerText[consumeObj.consume.method])
                     break
@@ -37,7 +35,7 @@ Macro.add('consumeMacro', {
             }
         }
 
-        _.each(getExpText(consumeObj.points), (text) => {
+        _.each(consumeText, (text) => {
             $exp.append($('<span/>').wiki(text + '<br>'))
         })
 

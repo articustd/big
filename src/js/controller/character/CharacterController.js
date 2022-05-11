@@ -4,8 +4,8 @@ import _ from "lodash";
 
 export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
     let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {}, statusEffect: [] };
-    let { sizeName, size } = randomSize(sizeRange)
-
+    let { sizeName, size, sizeIdx } = randomSize(sizeRange)
+    logger({ sizeName, size, sizeIdx })
     let { bodyTypeName, bodyType } = randomBodyType(bodyTypeRange)
 
     let statMods = bodyType.statMods
@@ -53,6 +53,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
 
         character.loot = availableLoot
         character.credits = credits
+        character.capacityAmount = (sizeIdx > 0) ? sizeIdx : 1
 
         // Base Attacks
         character.attacks = setAttacks([0, 1])
@@ -77,7 +78,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     calcMaxHealth(character)
 
     // Calculate Capacity
-    calcCapacity(character)
+    calcCapacity(character, sizeIdx)
 
     logger(character)
     return character;
@@ -101,7 +102,7 @@ function randomSize(range) {
     let sizeName = Object.keys(sizeObj)[0]
     let { [sizeName]: size } = sizeObj
 
-    return { sizeName, size }
+    return { sizeName, size, sizeIdx }
 }
 
 function randomBodyType(range) {
@@ -170,24 +171,25 @@ function calcMaxHealth(character) {
 }
 
 //HACK Changed to BodyFat % temporarily to see how it effects health
-export function getMaxHealth(character) {
-    let hB = Math.ceil(character.measurements.height * character.measurements.bodyFat)
-    let con = character.stats.con
+export function getMaxHealth({ stats: { con }, measurements: { height, bodyFat } }) {
+    let hB = Math.ceil(height * bodyFat)
     return Math.ceil((con * Math.log(hB)) + 5)
 }
 
 //HACK need to finalize stomach capacity calcs
-function calcCapacity(character) {
-    character.capacity.stomachMax = Math.ceil(character.measurements.height / character.measurements.bodyFat)
-    character.capacity.stomach = 0
+function calcCapacity(character, maxCap) {
+    if (maxCap < 2)
+        maxCap = 1
+
+    character.capacity.stomachMax = maxCap
+    character.capacity.stomach = []
     if (character.gender.balls) {
-        let ballSize = character.measurements.height * character.gender.balls
-        character.capacity.testiMax = Math.floor((4 / 3) * Math.PI * (ballSize ** 3)) * 2
-        character.capacity.testi = 0
+        character.capacity.testiMax = maxCap
+        character.capacity.testi = []
     }
     if (character.gender.vagina) {
-        character.capacity.wombMax = Math.ceil(character.measurements.height / character.measurements.bodyFat)
-        character.capacity.womb = 0
+        character.capacity.wombMax = maxCap
+        character.capacity.womb = []
     }
 }
 
@@ -244,37 +246,50 @@ export function capacityChange(player) {
 export function statMapping(stat) {
     switch (stat) {
         case 'muscle':
-            return ['stats', 'strg']
+            return 'stats.strg'
         case 'fat':
-            return ['measurements', 'bodyFat']
+            return 'measurements.bodyFat'
         case 'size':
-            return ['measurements', 'height']
-        case 'skill':
-            return ['skillPoints']
+            return 'measurements.height'
         case 'pawEye':
-            return ['stats', 'acc']
+            return 'stats.acc'
         case 'agility':
-            return ['stats', 'dex']
+            return 'stats.dex'
     }
 }
 
+function getExpKeysNoSkill({ exp }) {
+    return _.filter(_.keys(exp), (key) => { return key !== 'skill' })
+}
+
 export function levelUp(character) {
-    let leveled = false
-    Object.entries(character.exp).forEach(([stat, value]) => {
-        if (value !== 0) {
-            let statMap = statMapping(stat)
-            if (statMap.length == 1)
-                character[statMap[0]] += value
-
-            if (statMap.length == 2)
-                character[statMap[0]][statMap[1]] += value
-
-            character.exp[stat] = 0
-
-            leveled = true
+    _.each(getExpKeysNoSkill(character), (expKey) => {
+        let statPath = statMapping(expKey) // Get path to stat from exp type
+        let origStat = _.get(character, statPath) // Hold onto original stat value
+        while (character.exp[expKey] >= _.get(character, statPath)) { // Loop over exp until all have been added to stats with the increasing amount
+            character.exp[expKey] -= _.get(character, statPath)
+            _.set(character, statPath, _.get(character, statPath) + 1)
         }
-    });
-    return leveled
+
+        if (origStat !== _.get(character, statPath)) { // If we leveled up any
+            let newStat = _.get(character, statPath)
+            statPath = _.split(statPath, '.')[1] // Pull out the stat key
+            switch(returnStatName(statPath)) { // Write specific leveling up text
+                case 'Strength':
+                    variables().restText += `Your muscles feel stronger and feel as though you could hit harder now!<br/>`
+                    break
+                case 'Dexterity':
+                    variables().restText += `Standing up you feel a bit lighter on your paws!<br/>`
+                    break
+                case 'Constitution':
+                    variables().restText += `With a thump of your chest you feel much sturdy now!`
+                    break
+            }
+        }
+    })
+
+    character.skillPoints += character.exp.skill
+    character.exp.skill = 0
 }
 
 export function rest(character) {
