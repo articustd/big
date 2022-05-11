@@ -234,14 +234,7 @@ export function returnStatName(stat) {
     }
 }
 
-export function capacityChange(player) {
-    for (let cap in player.capacity) {
-        if (!cap.contains("Max") && player.capacity[cap] > 0) {
-            player.capacity[`${cap}Max`] += Math.min(Math.ceil(player.capacity[cap]), player.capacity[`${cap}Max`]) / 4
-            player.capacity[cap] = 0
-        }
-    }
-}
+
 
 export function statMapping(stat) {
     switch (stat) {
@@ -295,7 +288,6 @@ export function levelUp(character) {
 export function rest(character) {
     character.stats.maxHlth = getMaxHealth(character)
     character.stats.hlth = character.stats.maxHlth;
-    capacityChange(character)
 }
 
 export function getSkillById(id) {
