@@ -103,7 +103,7 @@ function consumeContinue(con, player, prey) {
         return text
     })
 
-    variables().consumeText.push(`Filled your ${con.capacity} by ${prey.capacityAmount} point${prey.capacityAmount > 1 ? 's' : ''}`)
+    // variables().consumeText.push(`Filled your ${con.capacity} by ${prey.capacityAmount} point${prey.capacityAmount > 1 ? 's' : ''}`)
 
     if (variables().settings.skip.consumeText) {
         combatReset()

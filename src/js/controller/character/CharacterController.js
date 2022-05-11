@@ -144,7 +144,7 @@ function calcGenitals(hyper, height, gender, pronounKey) {
 }
 
 function blankExp() {
-    return { muscle: 0, fat: 0, pawEye: 0, agility: 0, size: 0, skill: 0 }
+    return { muscle: 0, fat: 0, pawEye: 0, physique: 0, agility: 0, size: 0, skill: 0 }
 }
 
 function getExpCalc(character, exp, expMod, statPoints) {
@@ -162,6 +162,8 @@ function getExpCalc(character, exp, expMod, statPoints) {
             return (Math.round(Math.log10(character.stats.acc)) * expMod) * hyperMode
         case 'agility':
             return (Math.round(Math.log10(character.stats.dex)) * expMod) * hyperMode
+        case 'physique':
+            return (Math.round(Math.log10(character.stats.con)) * expMod) * hyperMode
     }
 }
 
@@ -221,6 +223,8 @@ export function returnStatName(stat) {
             return 'Agility'
         case 'pawEye':
             return 'Paw-Eye Coordination'
+        case 'physique':
+            return 'Physique'
         case 'skill':
             return 'Skill'
         case 'penis':
@@ -231,23 +235,25 @@ export function returnStatName(stat) {
             return 'Breasts'
         case 'height':
             return 'Height'
+        case 'bodyFat':
+            return 'Body Fat'
     }
 }
-
-
 
 export function statMapping(stat) {
     switch (stat) {
         case 'muscle':
             return 'stats.strg'
-        case 'fat':
-            return 'measurements.bodyFat'
-        case 'size':
-            return 'measurements.height'
         case 'pawEye':
             return 'stats.acc'
         case 'agility':
             return 'stats.dex'
+        case 'physique':
+            return 'stats.con'
+        case 'fat':
+            return 'measurements.bodyFat'
+        case 'size':
+            return 'measurements.height'
     }
 }
 
@@ -255,7 +261,7 @@ function getExpKeysNoSkill({ exp }) {
     return _.filter(_.keys(exp), (key) => { return key !== 'skill' })
 }
 
-export function levelUp(character) {
+export function levelUp(character, message = '') {
     _.each(getExpKeysNoSkill(character), (expKey) => {
         let statPath = statMapping(expKey) // Get path to stat from exp type
         let origStat = _.get(character, statPath) // Hold onto original stat value
@@ -266,15 +272,21 @@ export function levelUp(character) {
 
         if (origStat !== _.get(character, statPath)) { // If we leveled up any
             statPath = _.split(statPath, '.')[1] // Pull out the stat key
-            switch(returnStatName(statPath)) { // Write specific leveling up text
+            switch (returnStatName(statPath)) { // Write specific leveling up text
                 case 'Strength':
-                    variables().restText += `Your muscles feel stronger and feel as though you could hit harder now!<br/>`
+                    message += `Your muscles feel stronger and feel as though you could hit harder now!<br/>`
                     break
                 case 'Dexterity':
-                    variables().restText += `Standing up you feel a bit lighter on your paws!<br/>`
+                    message += `Standing up you feel a bit lighter on your paws!<br/>`
                     break
                 case 'Constitution':
-                    variables().restText += `With a thump of your chest you feel much more sturdy now!<br/>`
+                    message += `With a thump of your chest you feel much more sturdy now!<br/>`
+                    break
+                case 'Height':
+                    message += `Getting up you're a little dizzy from your new height!`
+                    break
+                case 'Body Fat':
+                    message += `Looking down you find your new girth!`
                     break
             }
         }
@@ -282,6 +294,8 @@ export function levelUp(character) {
 
     character.skillPoints += character.exp.skill
     character.exp.skill = 0
+
+    return message
 }
 
 export function rest(character) {

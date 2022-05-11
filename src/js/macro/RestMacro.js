@@ -13,22 +13,12 @@ Macro.add('restMacro', {
 
         digest(player)
 
-        variables().restText = ''
-        levelUp(player)
+        variables().restText = levelUp(player)
 
         rest(player)
         advanceTime()
 
-        // if (!visible) {
-        //     if (level) {
-        //         if (levelUp(player))
-        //             variables().restText = "You feel the effects of your experience"
-        //         else
-        //             variables().restText = `You feel rested and rejuvenated!`
-        //     }
-
-        //     rest(player)
-        //     advanceTime(true)
-        // }
+        if (variables().restText === '')
+            variables().restText = `You feel rested and rejuvenated!<br/>`
     }
 })
