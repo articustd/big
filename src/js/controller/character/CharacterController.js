@@ -283,10 +283,10 @@ export function levelUp(character, message = '') {
                     message += `With a thump of your chest you feel much more sturdy now!<br/>`
                     break
                 case 'Height':
-                    message += `Getting up you're a little dizzy from your new height!`
+                    message += `Getting up you're a little dizzy from your new height!<br/>`
                     break
                 case 'Body Fat':
-                    message += `Looking down you find your new girth!`
+                    message += `Looking down you find your new girth!<br/>`
                     break
             }
         }
