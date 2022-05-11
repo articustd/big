@@ -265,7 +265,6 @@ export function levelUp(character) {
         }
 
         if (origStat !== _.get(character, statPath)) { // If we leveled up any
-            let newStat = _.get(character, statPath)
             statPath = _.split(statPath, '.')[1] // Pull out the stat key
             switch(returnStatName(statPath)) { // Write specific leveling up text
                 case 'Strength':
@@ -275,7 +274,7 @@ export function levelUp(character) {
                     variables().restText += `Standing up you feel a bit lighter on your paws!<br/>`
                     break
                 case 'Constitution':
-                    variables().restText += `With a thump of your chest you feel much sturdy now!`
+                    variables().restText += `With a thump of your chest you feel much more sturdy now!<br/>`
                     break
             }
         }
