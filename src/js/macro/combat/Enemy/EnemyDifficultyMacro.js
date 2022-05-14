@@ -3,14 +3,17 @@ Macro.add('enemyDifficultyMacro', {
     handler: function () {
         let { player, enemy } = variables()
         let diff = getStatTotal(enemy) - getStatTotal(player)
-        let message =''
+        let message = 'Appears that this will be a fair fight'
 
+        if(diff < -10)
+            message = 'Might not even be worth your time'
         if(diff < -3)
             message = 'Looks like this will be an easier fight than normal'
-        else if(diff > 3)
+        if(diff > 3)
             message = 'Might have some trouble with this fight'
-        else
-            message = 'Appears that this will be a fair fight'
+        if(diff > 10)
+            message = `It's your funeral, I just work here`
+            
 
         $(this.output).wiki(message)
     }
