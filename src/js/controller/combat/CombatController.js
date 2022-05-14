@@ -1,3 +1,4 @@
+import { losePrey } from "@controller/character/CapacityController";
 import { returnStatName } from "@controller/character/CharacterController";
 import { rollItems } from "@controller/character/ItemController";
 import { attackSkill, statusEffect } from "@js/data";
@@ -36,15 +37,12 @@ export function combatRoll(playerAttack) {
 	setCooldown(enemy, enemyAttack)
 
 	if (_.isBoolean(temporary().playerDead)) {
-		if (temporary().playerDead) {
-			for (let exp in player.exp)
-				player.exp[exp] = 0;
-
+		if (temporary().playerDead)
 			setState({
 				combat: false,
 				combatResults: `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
 			})
-		} else
+		else
 			setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy.loot, enemy.credits) })
 
 		variables().player.statusEffect = []

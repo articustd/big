@@ -28,6 +28,8 @@ Macro.add('playerActionsPanelMacro', {
                 else
                     $leftColumn.wiki('No Skills')
                 break
+            case 'dead':
+                break
             default:
                 logger('Default Panel Type')
         }

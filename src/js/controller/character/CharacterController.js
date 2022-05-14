@@ -4,8 +4,7 @@ import _ from "lodash";
 
 export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
     let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {}, statusEffect: [] };
-    let { sizeName, size, sizeIdx } = randomSize(sizeRange)
-    logger({ sizeName, size, sizeIdx })
+    let { sizeName, size, capacityAmount } = randomSize(sizeRange)
     let { bodyTypeName, bodyType } = randomBodyType(bodyTypeRange)
 
     let statMods = bodyType.statMods
@@ -53,7 +52,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
 
         character.loot = availableLoot
         character.credits = credits
-        character.capacityAmount = (sizeIdx > 0) ? sizeIdx : 1
+        character.capacityAmount = capacityAmount
 
         // Base Attacks
         character.attacks = setAttacks([0, 1])
@@ -78,7 +77,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     calcMaxHealth(character)
 
     // Calculate Capacity
-    calcCapacity(character, sizeIdx)
+    calcCapacity(character, capacityAmount)
 
     logger(character)
     return character;
@@ -91,8 +90,7 @@ function setAttacks(attackIds) {
     })
 }
 
-function randomSize(range) {
-    let sizeIdx
+function randomSize(range, sizeIdx) {
     if (Array.isArray(range))
         sizeIdx = random(Math.clamp(range[0], 0, measurements.sizes.length - 1), Math.clamp(range[1], 0, measurements.sizes.length - 1))
     else
@@ -101,8 +99,9 @@ function randomSize(range) {
     let sizeObj = measurements.sizes[sizeIdx]
     let sizeName = Object.keys(sizeObj)[0]
     let { [sizeName]: size } = sizeObj
+    sizeIdx++ // Increment by 1 for capacityAmount
 
-    return { sizeName, size, sizeIdx }
+    return { sizeName, size, capacityAmount: sizeIdx }
 }
 
 function randomBodyType(range) {
@@ -180,8 +179,7 @@ export function getMaxHealth({ stats: { con }, measurements: { height, bodyFat }
 
 //HACK need to finalize stomach capacity calcs
 function calcCapacity(character, maxCap) {
-    if (maxCap < 2)
-        maxCap = 1
+    maxCap++
 
     character.capacity.stomachMax = maxCap
     character.capacity.stomach = []

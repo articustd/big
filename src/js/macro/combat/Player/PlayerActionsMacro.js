@@ -2,6 +2,7 @@ import { logger } from "@util/Logging"
 import { attackSkill } from "@js/data"
 import { rest } from "@controller/character/CharacterController"
 import { combatReset, combatRoll, fleeChance, loseExp } from "@controller/combat/CombatController"
+import { losePrey } from "@controller/character/CapacityController"
 
 Macro.add('playerActionsMacro', {
     skipArgs: false,
@@ -13,17 +14,16 @@ Macro.add('playerActionsMacro', {
 
         let $leaveBtn = $('<button/>').css({ 'margin-top': '5px', 'height': '50px', 'font-size': '25px', 'border-radius': '0px 0px 0px 3px', 'background-color': 'red', 'border-color': 'red' }).click(() => {
             if (playerAlive && enemyAlive && variables().combat) {
-                combatRoll({runaway: true})
+                combatRoll({ runaway: true })
                 Engine.play(passage(), true);
                 return
             }
 
             if (!playerAlive) {
                 rest(player)
-                loseExp()
-                variables().restText = `Your eyes flutter open, a little confused at where you are. Looking around, someone or something has brought you back home. The aches and pains from your fight are gone, but so is anything you had eaten prior.`
+                variables().restText = losePrey(player)
                 Engine.play('home')
-            } else 
+            } else
                 Engine.play(variables().return)
 
             combatReset()
@@ -47,8 +47,10 @@ Macro.add('playerActionsMacro', {
 
         $wrapper.appendTo(this.output)
 
-        if (!playerAlive)
+        if (!playerAlive) {
             $leaveBtn.wiki('Pass Out').appendTo($wrapper)
+            switchPanels('dead')
+        }
         else if (!enemyAlive) {
             switchPanels('loot')
             $wrapper.wiki(`<<consumeEnemy $enemy>>`)
@@ -66,8 +68,11 @@ function switchPanels(type) {
 
     $statPanel.css({ 'display': 'none' })
     if (type === 'loot') {
-        logger('Here')
         $lootPanel.css({ 'display': 'flex' })
+        return
+    }
+
+    if (type === 'dead') {
         return
     }
 

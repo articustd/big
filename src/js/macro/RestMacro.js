@@ -6,7 +6,7 @@ import { logger } from "@util/Logging";
 Macro.add('restMacro', {
     skipArgs: false,
     handler: function () {
-        let { level, visible } = this.args
+        let { dead } = this.args
         let { player } = variables()
 
         restockStore(7)
