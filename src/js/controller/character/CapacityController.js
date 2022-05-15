@@ -1,3 +1,4 @@
+import { measurements } from "@js/data"
 import { logger } from "@util/Logging"
 import _ from "lodash"
 
@@ -48,6 +49,12 @@ export function losePrey({ capacity }, message) {
     } else
         message = `Your eyes flutter open, a little confused at where you are. Looking around, someone or something has brought you back home. <br/><br/>You're covered in goo? No, it's something else. <br/><br/>You decide it's probably not a good idea to think about it and to just take a shower. Getting up you're a bit stiff and slowly make your way to the restroom.<br/><br/>After a quick shower you're feeling a little more refreshed, but could be better.<br/>`
 
+    if(variables().player.credits > 0) {
+        variables().player.credits = (variables().player.credits > 0) ? _.ceil(variables().player.credits * 0.75) : variables().player.credits
+
+        message += `<br/>As you gather yourself you notice that your coin purse is a little lighter as well. Damn cutpurse.<br/>`
+    }
+    
     return message
 }
 

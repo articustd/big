@@ -97,3 +97,5 @@ sugarcube-2:
       container: true
     nextText:
       name: nextText
+    genCharMacro:
+      name: genCharMacro

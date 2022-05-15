@@ -1,0 +1,12 @@
+:: charGen [noreturn]
+
+Species: <<listbox "_species" >><<optionsfrom $species>><</listbox>>
+Gender: <<listbox "_gender" >><<optionsfrom $genders>><</listbox>>
+Pronoun: <<listbox "_pronoun" >><<optionsfrom $pronouns>><</listbox>>
+Body Type: <<listbox "_bodyType" >><<optionsfrom $bodyTypes>><</listbox>>
+Size: <<listbox "_size" >><<optionsfrom $sizes>><</listbox>>
+
+<<button "Gen Char">><<genCharMacro _size _species _pronoun _gender _bodyType>>
+<</button>>
+
+<div id="test"></div>

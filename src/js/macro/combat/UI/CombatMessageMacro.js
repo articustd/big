@@ -6,7 +6,7 @@ Macro.add('combatMessageMacro', {
         let combatLog = this.args[0]
         let topBottom = this.args[1]
 
-        $(this.output).css({ 'display':'flex', 'position': 'absolute', 'border': '1px solid', 'border-radius':'3px', 'width': '90%', 'justify-content': 'center', 'z-index': '-1' })
+        $(this.output).css({ 'display':'flex', 'position': 'absolute', 'border': '1px solid', 'border-radius':'3px', 'width': '90%', 'justify-content': 'center', 'text-align': 'center', 'z-index': '-1' })
         logger(topBottom)
         if(topBottom === 'top')
             $(this.output).css({ 'top': 'calc(100% - 1px)' })

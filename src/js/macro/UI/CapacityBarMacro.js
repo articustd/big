@@ -29,7 +29,7 @@ Macro.add('capacityBarMacro', {
 })
 
 function checkVisible(character, capType) {
-    if (collectCapacity(character, capType) > character.capacity[`${capType}Max`])
+    if (collectCapacity(character, capType) >= character.capacity[`${capType}Max`])
         return `Visible`
     return `Not Visible`
 }

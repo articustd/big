@@ -19,7 +19,7 @@ setup.ImagePath = "assets/";
 	variables().stores = stores;
 	variables().species = species;
 	variables().sizes = sizeArray();
-	variables().bodyTypes = measurements.bodyTypes;
+	variables().bodyTypes = _.map(measurements.bodyTypes, (val)=>{return _.keys(val)[0]})
 	variables().genders = genderArray();
 	variables().time = { day: 1, hour: 0, min: 0 }
 	variables().skills = skills;
