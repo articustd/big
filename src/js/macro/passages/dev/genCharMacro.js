@@ -1,7 +1,4 @@
 import { genChar, statPoints } from "@controller/character/CharacterController"
-import { calcWeight } from "@controller/character/MeasurementController";
-import { rollItems } from "@controller/character/ItemController";
-import { skills, species } from "@js/data";
 import { logger } from "@util/Logging";
 import { genders, measurements } from "@js/data";
 import { getPronounId } from "@controller/character/PronounController";
@@ -14,11 +11,11 @@ Macro.add('genCharMacro', {
         let { player } = variables()
 
         let speciesKey = species.indexOf(species)
-        let sizeKey = findObjIdx(size, measurements.sizes)
+        let sizeKey = _.findIndex(measurements.sizes, {'name': size})
         let bodyTypeKey = findObjIdx(bodyType, measurements.bodyTypes)
         let pronounKey = getPronounId(pronoun)
         let genderKey = findObjIdx(gender, genders)
-
+        
         variables().enemy = genChar(statPoints(player), speciesKey, sizeKey, bodyTypeKey, genderKey)
         $wrapper.empty()
 

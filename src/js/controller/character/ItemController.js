@@ -1,3 +1,5 @@
+import { items } from "@js/data"
+
 /* Item Logic */
 export function rollItems(enemyLoot, credits) {
 	var text = []
@@ -40,7 +42,7 @@ function addCredits(credits) {
 }
 
 export function getItemInfoByIndex(index) {
-	return variables().items[index]
+	return items[index]
 }
 
 export function decreaseCredits(amt) {

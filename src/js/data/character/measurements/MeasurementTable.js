@@ -1,32 +1,33 @@
 let sizes = [
-    { "Micro": { range: [1, 7], sizeMulti: 4, statBase: 2, loot: [7] } },
-    { "Tiny": { range: [7, 30], sizeMulti: 66, statBase: 5, loot: [7] } },
-    { "Mini": { range: [30, 60], sizeMulti: 150, statBase: 7, loot: [7] } },
-    { "Small": { range: [60, 152], sizeMulti: 387, statBase: 10, loot: [7] } },
-    { "Average": { range: [152, 180], sizeMulti: 470, statBase: 15, loot: [7] } },
-    { "Tall": { range: [180, 244], sizeMulti: 600, statBase: 20, loot: [2] } },
-    { "Huge": { range: [244, 457], sizeMulti: 700, statBase: 40, loot: [2] } },
-    { "Massive": { range: [457, 6095], sizeMulti: 800, statBase: 60, loot: [2] } },
-    { "Macro": { range: [6095], sizeMulti: 900, statBase: 80, loot: [2] } }
+    { name: "Micro", range: [1, 7], sizeMulti: 4, statBase: 10, loot: [7] },
+    { name: "Tiny", range: [7, 30], sizeMulti: 66, statBase: 20, loot: [7] },
+    { name: "Mini", range: [30, 60], sizeMulti: 150, statBase: 30, loot: [7] },
+    { name: "Small", range: [60, 152], sizeMulti: 387, statBase: 40, loot: [7] },
+    { name: "Average", range: [152, 180], sizeMulti: 470, statBase: 50, loot: [7] },
+    { name: "Tall", range: [180, 244], sizeMulti: 600, statBase: 60, loot: [2] },
+    { name: "Huge", range: [244, 457], sizeMulti: 700, statBase: 80, loot: [2] },
+    { name: "Massive", range: [457, 6095], sizeMulti: 800, statBase: 100, loot: [2] },
+    { name: "Macro", range: [6095], sizeMulti: 900, statBase: 120, loot: [2] } 
 ];
 
+// Stat mods need to be a range to give more depth to descriptions
 let bodyTypes = [
-    { "Thin": { bodyFat: [0.05,0.07], statMods: { strg: 0.5, dex: 1.5, con: 0.5 }, expMods: { pawEye: 2, size: 1, skill: 1 }, loot: [7] } },
-    { "Normal": { bodyFat: [0.1,0.2], statMods: { strg: 1, dex: 1, con: 1 }, expMods: { size: 1, skill: 1 }, loot: [7] } },
-    { "Fit": { bodyFat: [0.08,0.1], statMods: { strg: 1.2, dex: 1.2, con: 1.2 }, expMods: { agility: 2, physique: 2, size: 1, skill: 1 }, loot: [6] } },
-    { "Muscle": { bodyFat: [0.05,0.08], statMods: { strg: 2, dex: 0.8, con: 1.5 }, expMods: { muscle: 2, physique: 3, size: 1, skill: 1 }, loot: [0] } },
-    { "Fat": { bodyFat: [0.45,0.8], statMods: { strg: 1.5, dex: 0.6, con: 2 }, expMods: { fat: 0.01, physique: 2, size: 1, skill: 1 }, loot: [6] } }
+    { "Thin": { bodyFat: [0.05,0.07], statMods: { strg: [0.25,0.5], dex: [1.25,1.75], con: [0.25,0.5] }, expMods: { pawEye: 2, size: 1, skill: 1 }, loot: [7] } },
+    { "Normal": { bodyFat: [0.1,0.2], statMods: { strg: [0.75,1], dex: [0.75,1], con: [0.75,1] }, expMods: { size: 1, skill: 1 }, loot: [7] } },
+    { "Fit": { bodyFat: [0.08,0.1], statMods: { strg: [1,1.5], dex: [1,1.5], con: [1,1.5] }, expMods: { agility: 2, physique: 2, size: 1, skill: 1 }, loot: [6] } },
+    { "Muscle": { bodyFat: [0.05,0.08], statMods: { strg: [1.5,2.5], dex: [0.6,0.9], con: [1,1.25] }, expMods: { muscle: 2, physique: 3, size: 1, skill: 1 }, loot: [0] } },
+    { "Fat": { bodyFat: [0.45,0.8], statMods: { strg: [1,1.5], dex: [0.3,0.8], con: [1.5,2.5] }, expMods: { fat: 0.01, physique: 2, size: 1, skill: 1 }, loot: [6] } }
 ]
 
 let muscleAmount = [
-    {"Frail": {range:[0,10], singular: 'a', pecs:'no', abs: `your imaginary abs`, arms: 'not much to look at', muscleGut: false, armsSecond: 'are slightly better than twigs'}},
-    {"Weak": {range:[10,30], singular: 'a', pecs:'no', abs: `your flat stomach`, arms: `they're not much to look at`, muscleGut: false, armsSecond: 'are slightly better than twigs'}},
-    {"Average": {range:[30,50], singular: 'an', pecs:'a little amount of', abs: `your singular muscle that is your abs`, muscleGut: false, arms: `they're about what you would expect`, armsSecond: `have a a bit of meat on them`}},
-    {"Healthy": {range:[50,80], singular: 'a', pecs:'a decent amount of', abs: `the start of your soon to be six-pack abs`, muscleGut: false, arms: `they've put on some heft`, armsSecond: `are starting to show more definition`}},
-    {"Modest": {range:[80,100], singular: 'a', pecs:'a modest amount of', abs: `your firm six-pack abs`, muscleGut: true, arms: `they've become bulkier`, armsSecond: `are defined and showing growth`}},
-    {"Large": {range:[100,130], singular: 'a', pecs:'a generous amount of', abs: `your washboard abs`, muscleGut: true, arms: `they're more muscle than anything else`, armsSecond: `have become the size of coconuts`}},
-    {"Herculean": {range:[130,200], singular: 'a', pecs:'near demi-god like', abs: `your mythical abs`, muscleGut: true, arms: `they've become near perfect`, armsSecond: `have become as large as a soccer ball`}},
-    {"Colossal": {range:[200], singular: 'a', pecs:'mountain', abs: `your absolute cheese grater abs`, arms: `even the gods would be jealous`, muscleGut: true, armsSecond: `look like boulders shaped by time and erosion`}},
+    {name: "Frail", range:[0,10], singular: 'a', pecs:'no', abs: `your imaginary abs`, arms: 'not much to look at', muscleGut: false, armsSecond: 'are slightly better than twigs'},
+    {name: "Weak", range:[10,30], singular: 'a', pecs:'no', abs: `your flat stomach`, arms: `they're not much to look at`, muscleGut: false, armsSecond: 'are slightly better than twigs'},
+    {name: "Average", range:[30,50], singular: 'an', pecs:'a little amount of', abs: `your singular muscle that is your abs`, muscleGut: false, arms: `they're about what you would expect`, armsSecond: `have a a bit of meat on them`},
+    {name: "Healthy", range:[50,80], singular: 'a', pecs:'a decent amount of', abs: `the start of your soon to be six-pack abs`, muscleGut: false, arms: `they've put on some heft`, armsSecond: `are starting to show more definition`},
+    {name: "Modest", range:[80,100], singular: 'a', pecs:'a modest amount of', abs: `your firm six-pack abs`, muscleGut: true, arms: `they've become bulkier`, armsSecond: `are defined and showing growth`},
+    {name: "Large", range:[100,130], singular: 'a', pecs:'a generous amount of', abs: `your washboard abs`, muscleGut: true, arms: `they're more muscle than anything else`, armsSecond: `have become the size of coconuts`},
+    {name: "Herculean", range:[130,200], singular: 'a', pecs:'near demi-god like', abs: `your mythical abs`, muscleGut: true, arms: `they've become near perfect`, armsSecond: `have become as large as a soccer ball`},
+    {name: "Colossal", range:[200], singular: 'a', pecs:'mountain', abs: `your absolute cheese grater abs`, arms: `even the gods would be jealous`, muscleGut: true, armsSecond: `look like boulders shaped by time and erosion`},
 ]
 
 let fatAmount = [

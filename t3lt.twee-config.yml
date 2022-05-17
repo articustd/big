@@ -99,3 +99,5 @@ sugarcube-2:
       name: nextText
     genCharMacro:
       name: genCharMacro
+    tempData:
+      name: tempData

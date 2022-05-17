@@ -4,7 +4,7 @@ import _ from "lodash";
 
 export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
     let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {}, statusEffect: [] };
-    let { sizeName, size, capacityAmount } = randomSize(sizeRange)
+    let { size, capacityAmount } = randomSize(sizeRange)
     let { bodyTypeName, bodyType } = randomBodyType(bodyTypeRange)
 
     let statMods = bodyType.statMods
@@ -30,7 +30,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     var credits = Math.floor(100 * randomPercent);
 
     // Calculate Measurements
-    character.measurements.height = random(size.range[0], (size.range[1]) ? size.range[1] : 1000000)
+    character.measurements.height = random(size.range[0], (size.range[1]) ? size.range[1]-1 : 1000000)
     character.measurements.bodyFat = _.round(_.random(bodyType.bodyFat[0], bodyType.bodyFat[1]), 2)
 
     // Default Hyper to no
@@ -45,7 +45,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
 
     // Calculate Exp and Name (This was not fun)
     if (!name) {
-        character.name = `${sizeName} ${bodyTypeName} ${species[speciesId]}`
+        character.name = `${size.name} ${bodyTypeName} ${species[speciesId]}`
 
         for (let exp in expMods)
             character.exp[exp] = getExpCalc(character, exp, expMods[exp], statPoints)
@@ -79,7 +79,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     // Calculate Capacity
     calcCapacity(character, capacityAmount)
 
-    logger(character)
+    // logger(character)
     return character;
 }
 
@@ -97,11 +97,9 @@ function randomSize(range, sizeIdx) {
         sizeIdx = Math.clamp(range, 0, measurements.sizes.length - 1)
 
     let sizeObj = measurements.sizes[sizeIdx]
-    let sizeName = Object.keys(sizeObj)[0]
-    let { [sizeName]: size } = sizeObj
     sizeIdx++ // Increment by 1 for capacityAmount
 
-    return { sizeName, size, capacityAmount: sizeIdx }
+    return { size: sizeObj, capacityAmount: sizeIdx }
 }
 
 function randomBodyType(range) {
@@ -119,9 +117,10 @@ function randomBodyType(range) {
 }
 
 function calcStats(character, statMods, statPoints) {
-    for (let statMod in statMods) {
-        character.stats[statMod] = Math.ceil(statPoints * statMods[statMod])
-    }
+    _.each(statMods, (statRange, statName)=>{
+        let statMod = _.ceil(_.random(statRange[0],statRange[1]),2)
+        character.stats[statName] = Math.ceil(statPoints * statMod)
+    })
 }
 
 function calcGenitals(hyper, height, gender, pronounKey) {
