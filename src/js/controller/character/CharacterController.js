@@ -126,9 +126,9 @@ function calcStats(character, statMods, statPoints) {
 function calcGenitals(gender, pronounKey) {
     let genderKey = Object.keys(gender)[0]
     let response = {
-        penis: (gender[genderKey].penis) ? _.random(0.01,0.7,2) : false,
-        balls: (gender[genderKey].balls) ? _.random(0.01,0.4,2) : false,
-        breasts: (gender[genderKey].breasts) ? _.random(0.001,0.35,3) : false,
+        penis: (gender[genderKey].penis) ? _.round(_.random(0.01,0.7,true),2) : false,
+        balls: (gender[genderKey].balls) ? _.round(_.random(0.01,0.4,true),2) : false,
+        breasts: (gender[genderKey].breasts) ? _.round(_.random(0.001,0.35,true),3) : false,
         vagina: gender[genderKey].vagina
     }
     response.type = gender[genderKey].type
