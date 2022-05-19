@@ -12,7 +12,7 @@ Macro.add('playerFluffMacro', {
         let $lowerBody = $('<span/>')
         let $allAround = $('<span/>')
 
-        let { muscleGut } = Object.values(findMuscle(player.stats.strg))[0]
+        let { muscleGut } = findMuscle(player)
         let { showAbs } = Object.values(findFat(player.measurements.bodyFat))[0]
 
         $general

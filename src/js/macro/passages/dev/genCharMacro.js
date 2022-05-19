@@ -26,6 +26,7 @@ Macro.add('genCharMacro', {
         $wrapper.append($('<span/>').wiki(`Breast: ?eBreast<br/>`))
         $wrapper.append($('<span/>').wiki(`Vagina: ${variables().enemy.gender.vagina}<br/>`))
         $wrapper.append($('<span/>').wiki(`!!!Stats<br/>`))
+        $wrapper.append($('<span/>').wiki(`Health: ${variables().enemy.stats.hlth}<br/>`))
         $wrapper.append($('<span/>').wiki(`Strength: ${variables().enemy.stats.strg}<br/>`))
         $wrapper.append($('<span/>').wiki(`Consititution: ${variables().enemy.stats.con}<br/>`))
         $wrapper.append($('<span/>').wiki(`Dexterity: ${variables().enemy.stats.dex}<br/>`))

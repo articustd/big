@@ -42,9 +42,7 @@ Template.add('eBreast', function() {
 })
 
 Template.add(['eMuscleAbs', 'eMuscleArms', 'eMuscleArmsSecond', 'eMusclePecs', 'eMuscleSingular', 'eMuscle', 'EMuscle'], function() {
-    let muscle = findMuscle(variables().enemy)
-    let {abs, arms, armsSecond, pecs, singular} = Object.values(muscle)[0]
-    let muscleType = muscle.name
+    let {abs, arms, armsSecond, name, pecs, singular} = findMuscle(variables().enemy)
     switch (this.name) {
         case 'eMuscleAbs':
             return abs
@@ -57,9 +55,9 @@ Template.add(['eMuscleAbs', 'eMuscleArms', 'eMuscleArmsSecond', 'eMusclePecs', '
         case 'eMuscleSingular':
             return singular
         case 'eMuscle':
-            return _.lowerFirst(muscleType)
+            return _.lowerFirst(name)
         default:
-            muscleType
+            name
     }
 })
 
