@@ -71,18 +71,16 @@ function heightMeasurements(height, imperial) {
 }
 
 export function findSize(height) { // FIXME IT DON'T WORK NO MOE
-	return _.find(measurements.sizes, ({range})  => {
-		logger({height, range})
+	return _.find(measurements.sizes, ({ range }) => {
 		return (range.length > 1) ? _.inRange(height, range[0], range[1]) : true
 	}).name
 }
 
 export function findMuscle({ stats: { strg }, measurements: { height } }) {
 	let name = findSize(height)
-	let size = _.find(measurements.sizes, {name})
+	let size = _.find(measurements.sizes, { name })
 	return _.find(measurements.muscleAmount, ({ range }) => {
 		let mod = (strg / size.statBase) * 100
-		logger({mod, strg, size, range})
 		return (range.length > 1) ? _.inRange(mod, range[0], range[1]) : true
 	})
 }
@@ -149,15 +147,12 @@ function getSizeIdx(char) {
 	return sizeIdx
 }
 
-export function sizeInRange(min, max, charSize, response = 1) { // FIXME Causing macro to fail
-	measurements.sizes.forEach(function (size, idx) {
-		let sizeKey = Object.keys(size)[0]
-		if (size[sizeKey].range[0] <= charSize && (size[sizeKey].range.length == 1 || size[sizeKey].range[1] > charSize))
-			if (min > idx)
-				response = 0
-			else if (max < idx)
-				response = 2
-	})
+export function sizeInRange(min, max, { measurements: { height } }, response = 1) {
+	let sizeIdx = _.findIndex(measurements.sizes, { name: findSize(height) })
+	if (min > sizeIdx)
+		response = 0
+	if (max < sizeIdx)
+		response = 2
 	return response
 }
 

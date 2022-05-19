@@ -4,7 +4,7 @@ Macro.add('enemyDescriptionMacro', {
         let { enemy } = variables()
         let message = `A ?eHeight tall ?eSpecies weighing in at ?eWeight.`
         message += `<br/>They have ?eMuscle muscles and ?eFatSingular ?eFat amount of fat` 
-        // message += `<br/> They are equipped with ${collectGenitals(enemy)}.`
+        message += `<br/> They are equipped with ${collectGenitals(enemy)}.`
 
         $(this.output).wiki(message)
     }

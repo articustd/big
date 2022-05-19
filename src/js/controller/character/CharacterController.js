@@ -71,7 +71,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     }
 
     // Calculate Genitals... Oh boy
-    character.gender = calcGenitals(hyper, character.measurements.height, character.gender, pronounKey)
+    character.gender = calcGenitals(character.gender, pronounKey)
 
     // Calculate Max Health and Current Health
     calcMaxHealth(character)
@@ -123,18 +123,13 @@ function calcStats(character, statMods, statPoints) {
     })
 }
 
-function calcGenitals(hyper, height, gender, pronounKey) {
-    let hyperMod = hyper ? 2 : 1
+function calcGenitals(gender, pronounKey) {
     let genderKey = Object.keys(gender)[0]
     let response = {
-        penis: Math.floor(((height / random(height - 20, height + 20)) + 1) * hyperMod) / 100,
-        balls: Math.floor(((height / random(height - 5, height + 20)) + 1) * hyperMod) / 100,
-        breasts: Math.floor(((height / random(100, height + 20)) + 1) * hyperMod) / 100,
-        vagina: true
-    }
-    for (let gen in gender[genderKey]) {
-        if (!gender[genderKey][gen])
-            response[gen] = false
+        penis: (gender[genderKey].penis) ? _.random(0.01,0.7,2) : false,
+        balls: (gender[genderKey].balls) ? _.random(0.01,0.4,2) : false,
+        breasts: (gender[genderKey].breasts) ? _.random(0.001,0.35,3) : false,
+        vagina: gender[genderKey].vagina
     }
     response.type = gender[genderKey].type
     response.pronouns = (pronounKey) ? pronounKey : gender[genderKey].pronouns

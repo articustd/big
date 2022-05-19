@@ -43,7 +43,7 @@ export function combatRoll(playerAttack) {
 				combatResults: `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
 			})
 		else
-			setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy.loot, enemy.credits) })
+			setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy, enemy.credits) })
 
 		variables().player.statusEffect = []
 	}
@@ -318,14 +318,14 @@ function attackTurn(attacker, defender, attack, isPlayer, combatLog, combatMessa
 		}
 
 		if (!_.isBoolean(temporary().playerDead)) { // Check to see if combat ended
-			let damage = statusDamage(attacker, combatMessage) // BUILD statusDamage
+			let damage = statusDamage(attacker, combatMessage)
 			reduceHealth(attacker, damage)
 			if (!checkHealth(attacker)) {
 				combatMessage.push(`${attacker.name} passed out!`)
 				endCombat(isPlayer)
 			}
 		}
-	} else if (checkHealth(defender) && !variables().combat) { // Check to see if defender ran
+	} else if (checkHealth(defender) && !variables().combat) { // Check to see if defender ran 
 		combatMessage.push(`Not quick enough to catch up as ${defender.name} runs away.`)
 	} else // Attacker has died, notify their combat log
 		combatMessage.push(`${attacker.name} passed out!`)
