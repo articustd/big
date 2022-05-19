@@ -26,11 +26,11 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
             availableLoot.push({ id: loot[item].id, qty: 1, chnc: loot[item].chnc })
     }
     // Roll for credits
-    var randomPercent = Math.clamp(random(1, 100), 75, 100) / 100
+    var randomPercent = Math.clamp(_.random(1, 100), 75, 100) / 100
     var credits = Math.floor(100 * randomPercent);
 
     // Calculate Measurements
-    character.measurements.height = random(size.range[0], (size.range[1]) ? size.range[1]-1 : 1000000)
+    character.measurements.height = _.random(size.range[0], (size.range[1]) ? size.range[1]-1 : 1000000)
     character.measurements.bodyFat = _.round(_.random(bodyType.bodyFat[0], bodyType.bodyFat[1]), 2)
 
     // Default Hyper to no
