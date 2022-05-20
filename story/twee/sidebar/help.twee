@@ -1,24 +1,42 @@
 :: help [noreturn] {"position":"275,550","size":"100,100"}
 <h1>Help</h1>
 !!Combat
+-----
 Reduce the enemies health down to 0 to win. Use items to heal or run away if the fight is too difficult!
 
 ''Winning'' - Will randomly give you items and credits. After winning you can choose to consume the enemy, doing so will grant a random amount of Experience suited for the enemy type.
-''Losing'' - When you lose a fight you will be knocked out. When knocked out you will lose ALL Experience, be reduced to 1 HP, and sent back home with full health.
+''Losing'' - When you lose a fight you will be knocked out, transported home, and 1/4 of your credit will be removed. If you are currently carrying prey, one of them will be randomly taken.
 
 !!Leveling Up
-To level up you must have consumed any amount of enemies and have experience points. You will need to head home and rest to absorb the experience into your permanent base stats. If you go over your consumption, you will encounter random enemies until you get home!
+-----
+To level up you must have consumed any amount of enemies. You will need to head home and rest to absorb the prey and gain their experience. Experience will be added up and if your experience totals to atleast your level for that stat. Example: Strength = 15, Muscle Experience needs to be 15 or higher.
 
 !!Capacity
-As you consume enemies your imediate capacity will fill up. Once you reach your max capacity, enemies will randomly spawn in the station and towns until you make it back home to rest. Once rested, a fourth of the capacity you had consumed will be added to your overall max capacity. If you favor one specific consume over another, you will have a larger capacity for the favored consume type.
+-----
+As you consume enemies your immediate capacity will fill up. Once you reach your max capacity, enemies will randomly spawn in the station and towns until you make it back home to rest. Once rested, a fourth of the capacity you had consumed will be added to your overall max capacity. If you favor one specific consume over another, you will have a larger capacity for the favored consume type.
+
+Your starting capacity will be your starting size minus one.
+
+Prey capacity amounts are as follows:
+|''Size''|''Amount''|
+|Micro|1|
+|Tiny|2|
+|Mini|3|
+|Small|4|
+|Average|5|
+|Tall|6|
+|Huge|7|
+|Massize|8|
+|Macro|9|
 
 !!Stats
+-----
 ''__Base Stats__''
 ''Health'' - Current health out of max total health.
-''Strength'' - Used to inflict more damage with the Punch attack. Governed by Muscle Experience.
-''Dexterity'' - Used to inflict more damage with the Kick attack. Governed by Agility Experience.
-''Constitution'' - Used to figure out max health.
-''Skill Points'' - Used to purchase skills from the Skills Page. Governed by Skill Experience.
+''Strength'' - Inflict more damage with attacks. Governed by Muscle Experience.
+''Dexterity'' - Dictates attack turn, run chance, and hit chance. Governed by Agility Experience.
+''Constitution'' - Defines how much health a character has. Governed by Physique Experience.
+''Skill Points'' - Used to purchase skills from the trainers. Governed by Skill Experience.
 
 ''__Measurements__''
 ''Height'' - How large you are. Governed by the Size Experience.
@@ -27,6 +45,7 @@ As you consume enemies your imediate capacity will fill up. Once you reach your 
 ''__Experience Points__''
 ''Muscle'' - The amount of Muscle Experience you currently have. Effects Strength when resting.
 ''Agility'' - The amount of Agility Experience you currently have. Effects Dexterity when resting.
+''Physique'' - The amount of Physique Experience you currently have. Effects Constitution when resting.
 ''Size'' - The amount of Size Experience you currently have. Effects Height when resting.
 ''Fat'' - The amount of Fat Experience you currently have. Effects Weight when resting.
 ''Skill'' - The amount of Skill Experience you currently have. Effects Skill Points when resting.
