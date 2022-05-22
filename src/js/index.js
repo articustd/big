@@ -11,7 +11,7 @@ setup.ImagePath = "assets/";
 ((Config, State, Story, Engine, Dialog, $document) => {
 	$(document.head).append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css" integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">')
 	// Set State Variables
-	variables().version = `v0.9.0`
+	variables().version = `v0.9.1`
 	variables().stores = stores;
 	variables().time = { day: 1, hour: 0, min: 0 }
 	variables().debug = storyConfig.debug

@@ -34,6 +34,8 @@ Macro.add('genCharMacro', {
         $wrapper.append($('<span/>').wiki(`Height: ?eHeight<br/>`))
         $wrapper.append($('<span/>').wiki(`Weight: ?eWeight<br/>`))
         $wrapper.append($('<span/>').wiki(`Body Fat: ${variables().enemy.measurements.bodyFat}<br/><br/>`))
+        $wrapper.append($('<span/>').wiki(`!!!EXP<br/>`))
+        $wrapper.append($('<span/>').wiki(`Size: ${variables().enemy.exp.size}<br/>`))
         $wrapper.append($('<span/>').wiki(`<<enemyDescriptionMacro>>`))
     }
 })
