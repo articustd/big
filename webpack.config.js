@@ -19,6 +19,14 @@ module.exports = {
                         presets: ['@babel/preset-env']
                     }
                 }
+            },
+            {
+                test: /\.json5$/i,
+                loader: 'json5-loader',
+                options: {
+                    esModule: true,
+                },
+                type: 'javascript/auto'
             }
         ]
     },

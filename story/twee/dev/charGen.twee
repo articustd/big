@@ -1,0 +1,12 @@
+:: charGen [noreturn]
+<<tempData>>
+Species: <<listbox "_species" >><<optionsfrom _species>><</listbox>>
+Gender: <<listbox "_gender" >><<optionsfrom _genders>><</listbox>>
+Pronoun: <<listbox "_pronoun" >><<optionsfrom _pronouns>><</listbox>>
+Body Type: <<listbox "_bodyType" >><<optionsfrom _bodyTypes>><</listbox>>
+Size: <<listbox "_size" >><<optionsfrom _sizes>><</listbox>>
+
+<<button "Gen Char">><<genCharMacro _size _species _pronoun _gender _bodyType>>
+<</button>>
+
+<div id="test"></div>

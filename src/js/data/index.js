@@ -1,41 +1,17 @@
-import items from './ItemTable.json'
-import stores from './StoreTable.json'
+//Item Tables
+export * as items from './ItemTable.json'
+export * from './StoreTable.js'
 
 //Combat Tables
-import loot from './combat/LootTable.json'
-import * as consumeText from './combat/ConsumeTextTable.js'
-import skills from './combat/SkillTable.json'
-import { attackSkill } from './combat/AttackSkillTable'
-import statusEffect from './combat/StatusEffectTable'
+export * from './combat'
 
 //Character Tables
-import * as measurements from './character/MeasurementTable'
-import { species, speciesDesc } from './character/SpeciesTable'
-import { genders, pronouns } from './character/Genders'
+export * from './character'
 
 //City Tables
-import * as cityText from './cityTable'
+export * as cityText from './cityTable'
 
-import settings from './SettingsTable.json'
+export * from './SettingsTable.js'
 
-import statTypes from './StatType.json'
-import stats from './StatTable.json'
-
-export {
-        items,
-        loot,
-        stores,
-        skills,
-        consumeText,
-        measurements,
-        species,
-        speciesDesc,
-        genders,
-        pronouns,
-        settings,
-        cityText,
-        statTypes,
-        stats,
-        attackSkill,
-        statusEffect
-}
+export * as statTypes from './StatType.json'
+export * as stats from './StatTable.json'

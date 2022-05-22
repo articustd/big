@@ -1,4 +1,4 @@
-{
+export let settings = {
     "units": {
         "imperial": false,
         "twelveHour": false

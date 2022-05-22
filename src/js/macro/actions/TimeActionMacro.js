@@ -41,7 +41,7 @@ Macro.add('timeAction', {
                                 for(let sizeId in measurements.sizes)
                                     (Object.keys(measurements.sizes[sizeId])[0] == sizeIdx)?sizeIdx=sizeId:sizeIdx
                                 let upperSize = (sizeIdx+2)<=(measurements.sizes.length-1)?(sizeIdx+2):measurements.sizes.length-1
-                                $.wiki(`<<enemyMacro ${sizeIdx} ${upperSize}>>`)
+                                $.wiki(`<<enemyMacro ${sizeIdx} ${upperSize} ${args[4]}>>`)
                                 Engine.play("fight")
                             } else
                                 Engine.play(args[1])

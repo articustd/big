@@ -8,7 +8,7 @@ Macro.add('healthBarMacro', {
                             .css(`margin-${align?'left':'right'}`,'auto')
         let $currentHealthBar = $('<div/>')
                     .addClass('currentHealthBar')
-                    .css('width', `${Math.floor((character.stats.hlth/character.stats.maxHlth)*100)}%`)
+                    .css('width', `${Math.clamp(Math.floor((character.stats.hlth/character.stats.maxHlth)*100),0,100)}%`)
         let $currentHealthText = $('<div/>')
                     .addClass('currentStatusText')
                     .text(`${character.stats.hlth}/${character.stats.maxHlth}`)
@@ -18,8 +18,8 @@ Macro.add('healthBarMacro', {
 
         $healthBar
             .attr('id', `macro-${this.name}-${character.name}`)
-            .append($currentHealthBar)
             .append($currentHealthText)
+            .append($currentHealthBar)
             .appendTo(this.output)
     }
 })

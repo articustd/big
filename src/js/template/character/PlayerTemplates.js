@@ -38,9 +38,7 @@ Template.add('pBreast', function() {
 })
 
 Template.add(['pMuscleAbs', 'pMuscleArms', 'pMuscleArmsSecond', 'pMusclePecs', 'pMuscleSingular', 'pMuscle', 'PMuscle'], function() {
-    let muscle = findMuscle(variables().player.stats.strg)
-    let {abs, arms, armsSecond, pecs, singular} = Object.values(muscle)[0]
-    let muscleType = Object.keys(muscle)[0]
+    let {abs, arms, armsSecond, name, pecs, singular} = findMuscle(variables().player)
     switch (this.name) {
         case 'pMuscleAbs':
             return abs
@@ -53,9 +51,9 @@ Template.add(['pMuscleAbs', 'pMuscleArms', 'pMuscleArmsSecond', 'pMusclePecs', '
         case 'pMuscleSingular':
             return singular
         case 'pMuscle':
-            return _.lowerFirst(muscleType)
+            return _.lowerFirst(name)
         default:
-            muscleType
+            name
     }
 })
 

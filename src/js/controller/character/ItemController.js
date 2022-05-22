@@ -1,36 +1,35 @@
+import { items } from "@js/data"
+import { logger } from "@util/Logging"
+import _ from "lodash"
+
 /* Item Logic */
-export function rollItems(enemyLoot, credits) {
-	var text = []
-	enemyLoot.forEach(function (item) {
-		if (itemChance(item.chnc)) {
-			let qty = addToInventory(item)
-			text.push(`Found ${qty} ${State.variables.items[item.id].name}`)
-		}
+export function rollItems({ loot }, credits, text = []) {
+	_.each(loot, ({ id, qty }) => {
+		qty = _.random(1, qty)
+		addToInventory({ id, qty })
+		text.push(`${qty} ${items[id].name}`)
 	})
 	addCredits(credits)
-	text.push(`Found ${credits} credits`)
+	text.push(`${credits} credits`)
 	return text
 }
 
 function itemChance(chance) {
-	if (Math.floor(random(1,100)) <= chance)
+	if (Math.floor(random(1, 100)) <= chance)
 		return true
-	
+
 	return false
 }
 
-export function addToInventory(lootItem) {
-	var found = -1
-	let qty = random(1,lootItem.qty)
-	State.variables.player.inv.forEach(function (item, idx) {
-		if (item.id === lootItem.id)
-			found = idx
-	})
-	if (found > -1) {
-		State.variables.player.inv[found].qty += qty
-	} else {
-		State.variables.player.inv.push({ id: lootItem.id, qty })
-	}
+export function addToInventory({ id, qty }) { // FIXME Let me die father...
+	let { player } = variables()
+	let found = _.findIndex(player.inv, { id })
+
+	if (found > -1)
+		player.inv[found].qty += qty
+	else
+		player.inv.push({ id, qty })
+
 	return qty
 }
 
@@ -40,7 +39,7 @@ function addCredits(credits) {
 }
 
 export function getItemInfoByIndex(index) {
-	return variables().items[index]
+	return items[index]
 }
 
 export function decreaseCredits(amt) {

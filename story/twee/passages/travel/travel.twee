@@ -11,7 +11,10 @@ Where do you want to go?<<nobr>>
     <</if>>
 <</nobr>>
 <<restMessageMacro>>
-<<timeAction "Micro Metro" "microCity" 2 0>><<unset $consumeText>><</timeAction>>
-<<timeAction "Variable Village" "normalCity" 2 0>><<unset $consumeText>><</timeAction>>
-<<timeAction "Macro Megacity" "macroCity" 2 0>><<unset $consumeText>><</timeAction>>
+<<timeAction "Micro Metro" "microCity" 2 0 "Train Station - Outback">><<unset $consumeText>><</timeAction>>
+<<timeAction "Variable Village" "normalCity" 2 0 "Train Station - Outback">><<unset $consumeText>><</timeAction>>
+<<timeAction "Macro Megacity" "macroCity" 2 0 "Train Station - Outback">><<unset $consumeText>><</timeAction>>
+
+<<link "Hospital" "hospital">><<unset $consumeText>><</link>>
+
 <<link "Go Home" "home">><<unset $consumeText>><</link>>

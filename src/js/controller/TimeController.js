@@ -33,7 +33,7 @@ function returnTime(twelveHour) {
     return `${State.variables.time.hour}:${State.variables.time.min>9?State.variables.time.min:'0'+State.variables.time.min}`
 }
 
-export function advanceTime(advTime) {
+export function advanceTime(advTime = true) {
     temporary().advanceTime = advTime
 }
 

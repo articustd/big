@@ -6,9 +6,9 @@ import { logger } from '@util/Logging'
 Macro.add('startGameRoutine', {
     skipArgs: true,
     handler: function () {
-        let player = State.variables.player;
+        let {player} = variables();
         let speciesKey = species.indexOf(player.species)
-        let sizeKey = findObjIdx(player.size, measurements.sizes)
+        let sizeKey = _.findIndex(measurements.sizes, {'name': player.size})
         let bodyTypeKey = findObjIdx("Normal", measurements.bodyTypes)
         let pronounKey = getPronounId(player.pronouns)
         let genderKey = findObjIdx(player.gender, genders)

@@ -12,6 +12,7 @@ export function characterStats() {
                     ''__Experience Points__''
                     Muscle: $player.exp.muscle
                     Agility: $player.exp.agility
+                    Physique: $player.exp.physique
                     Size: $player.exp.size
                     Fat: <<print $player.exp.fat * 100>>
                     Skill: $player.exp.skill

@@ -1,38 +1,50 @@
 :: fight [noreturn combat] {"position":"500,0"}
-<h1>Found some trouble!</h1>
+<h1>$fightHeader</h1>
 <<nobr>>
-<div style="display: flex;flex-direction: row">
-<div id="PlayerContainer" class="CombatContainer">$player.name
-<<healthBarMacro $player>><br>
-<div id="PlayerCombatLog" class="CombatLog">
-<<if def $playerCombatLog>><<for _log range $playerCombatLog>>
-    _log <br>
-<</for>><</if>>
-</div></div>
-<div id="EnemyContainer" class="CombatContainer">$enemy.name
-<<healthBarMacro $enemy "right">><br>
-<div id="EnemyCombatLog" class="CombatLog">
-<<if def $enemyCombatLog>><<for _log range $enemyCombatLog>>
-    _log <br>
-<</for>><</if>></div></div></div>
-<</nobr>>/* Combat Actions */<<if $combat is true>>
-<<nobr>>
-<div style="display: flex;flex-direction: row">
-<div class="CombatContainer"><u><span class="CombatActionHeader">Attack</span></u>
-<<attackAction false>></div>
-<div class="CombatContainer"><u><span class="CombatActionHeader">Skill</span></u>
-<<attackAction true>><br></div>
-<div id="LeaveContainer" class="CombatContainer"><<leaveButtonMacro "Run Away!" $return>><<combatReset>><</leaveButtonMacro>></div>
+<div style="display: flex;flex-direction: row;border: white 1px solid;border-radius: 5px;padding: 5px 0px;justify-content: center;position: relative;background-color: #111">
+    <div style="flex:3;margin: 0px 5px">
+        ?eName
+        <<healthBarMacro $enemy>>
+        <<enemyDifficultyMacro>>
+    </div>
+    <div style="display: flex;flex-direction: column;flex:2;margin: 0px 5px">
+        <div style="flex:2;margin: 0px 5px">
+            Status Effects<br/>
+            <<statusDisplayMacro $enemy>>
+        </div>
+    </div>
+    <<combatMessageMacro $enemyCombatLog "top">>
 </div>
-<</nobr>><</if>>/* Combat Win Actions */<<if $win is true>>
-<<nobr>>
-<div style="display: flex;flex-direction: row">
-<div class="CombatContainer"><u><span class="CombatActionHeader">Consume</span></u>
-<<consumeEnemy $enemy>></div>
-<div class="CombatContainer"><u><span class="CombatActionHeader">Loot</span></u>
-<<for _i, _item range $foundItems>><span class="lootText"><<=_item>></span><</for>>
+<div style="height: 400px;display:flex;justify-content: center;align-items: center;text-align: center">
+<<enemyDescriptionMacro>>
 </div>
-<div id="LeaveContainer" class="CombatContainer"><<leaveButtonMacro "Leave" $return>><<combatReset>><</leaveButtonMacro>></div></div>
-<</nobr>><</if>>/* Combat Lose Actions */<<if $combat is false && (ndef $win || $win is false)>>
-<div id="LeaveContainer" class="CombatContainer" style="width:100%"><<leaveButtonMacro "Pass Out" "home" true>><<combatReset true>><</leaveButtonMacro>></div>
-<</if>>
+<div style="display: flex;flex-direction: row;border: white 1px solid;border-radius: 5px;justify-content: center;position: relative;background-color: #111">
+    <div style="flex:2;margin: 0px 5px">
+        <<playerActionsMacro>>
+    </div>
+    <div id="statPanel" style="display: flex;flex-direction: column;flex:3;margin: 0px 5px">
+        <<if not $win>>
+        $player.name
+        <div><<healthBarMacro $player>></div>
+        <div style="display: flex;flex-direction: row">
+            <div>
+                Status Effects<br/>
+                <<statusDisplayMacro $player>>
+            </div>
+        </div>
+        <<else>>
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center">
+            <h2>__''Loot''__</h2>
+            <div style="text-align: center">
+            <<for _item range $foundItems>>
+                _item<br/>
+            <</for>>
+            </div>
+        </div>
+        <</if>>
+    </div>
+    <div id="actionPanel" style="display: none;flex-direction: row;flex:3;margin: 0px 5px"></div>
+    <div id="lootPanel" style="display: none;flex-direction: column;flex:3;margin: 0px 5px"></div>
+    <<combatMessageMacro $playerCombatLog "bottom">>
+</div>
+<</nobr>>

@@ -76,3 +76,28 @@ sugarcube-2:
       name: restMessageMacro
     creditMacro:
       name: creditMacro
+    statsMacro:
+      name: statsMacro
+    measurementsMacro:
+      name: measurementsMacro
+    playerActionsMacro:
+      name: playerActionsMacro
+    combatMessageMacro:
+      name: combatMessageMacro
+    enemyDifficultyMacro:
+      name: enemyDifficultyMacro
+    statusDisplayMacro:
+      name: statusDisplayMacro
+    enemyDescriptionMacro:
+      name: enemyDescriptionMacro
+    lexicalMacro:
+      name: lexicalMacro
+    progressiveText:
+      name: progressiveText
+      container: true
+    nextText:
+      name: nextText
+    genCharMacro:
+      name: genCharMacro
+    tempData:
+      name: tempData

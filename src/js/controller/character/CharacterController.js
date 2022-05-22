@@ -4,8 +4,7 @@ import _ from "lodash";
 
 export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderId, name, pronounKey) {
     let character = { name: "", stats: {}, exp: {}, measurements: {}, gender: genders[genderId], capacity: {}, statusEffect: [] };
-    let { sizeName, size } = randomSize(sizeRange)
-
+    let { size, capacityAmount } = randomSize(sizeRange)
     let { bodyTypeName, bodyType } = randomBodyType(bodyTypeRange)
 
     let statMods = bodyType.statMods
@@ -27,11 +26,11 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
             availableLoot.push({ id: loot[item].id, qty: 1, chnc: loot[item].chnc })
     }
     // Roll for credits
-    var randomPercent = Math.clamp(random(1, 100), 75, 100) / 100
+    var randomPercent = Math.clamp(_.random(1, 100), 75, 100) / 100
     var credits = Math.floor(100 * randomPercent);
 
     // Calculate Measurements
-    character.measurements.height = random(size.range[0], (size.range[1]) ? size.range[1] : 1000000)
+    character.measurements.height = _.random(size.range[0], (size.range[1]) ? size.range[1]-1 : 1000000)
     character.measurements.bodyFat = _.round(_.random(bodyType.bodyFat[0], bodyType.bodyFat[1]), 2)
 
     // Default Hyper to no
@@ -46,13 +45,14 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
 
     // Calculate Exp and Name (This was not fun)
     if (!name) {
-        character.name = `${sizeName} ${bodyTypeName} ${species[speciesId]}`
+        character.name = `${size.name} ${bodyTypeName} ${species[speciesId]}`
 
         for (let exp in expMods)
             character.exp[exp] = getExpCalc(character, exp, expMods[exp], statPoints)
 
         character.loot = availableLoot
         character.credits = credits
+        character.capacityAmount = capacityAmount
 
         // Base Attacks
         character.attacks = setAttacks([0, 1])
@@ -71,15 +71,15 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     }
 
     // Calculate Genitals... Oh boy
-    character.gender = calcGenitals(hyper, character.measurements.height, character.gender, pronounKey)
+    character.gender = calcGenitals(character.gender, pronounKey)
 
     // Calculate Max Health and Current Health
     calcMaxHealth(character)
 
     // Calculate Capacity
-    calcCapacity(character)
+    calcCapacity(character, capacityAmount)
 
-    logger(character)
+    // logger(character)
     return character;
 }
 
@@ -90,18 +90,16 @@ function setAttacks(attackIds) {
     })
 }
 
-function randomSize(range) {
-    let sizeIdx
+function randomSize(range, sizeIdx) {
     if (Array.isArray(range))
         sizeIdx = random(Math.clamp(range[0], 0, measurements.sizes.length - 1), Math.clamp(range[1], 0, measurements.sizes.length - 1))
     else
         sizeIdx = Math.clamp(range, 0, measurements.sizes.length - 1)
 
     let sizeObj = measurements.sizes[sizeIdx]
-    let sizeName = Object.keys(sizeObj)[0]
-    let { [sizeName]: size } = sizeObj
+    sizeIdx++ // Increment by 1 for capacityAmount
 
-    return { sizeName, size }
+    return { size: sizeObj, capacityAmount: sizeIdx }
 }
 
 function randomBodyType(range) {
@@ -119,23 +117,19 @@ function randomBodyType(range) {
 }
 
 function calcStats(character, statMods, statPoints) {
-    for (let statMod in statMods) {
-        character.stats[statMod] = Math.ceil(statPoints * statMods[statMod])
-    }
+    _.each(statMods, (statRange, statName)=>{
+        let statMod = _.ceil(_.random(statRange[0],statRange[1]),2)
+        character.stats[statName] = Math.ceil(statPoints * statMod)
+    })
 }
 
-function calcGenitals(hyper, height, gender, pronounKey) {
-    let hyperMod = hyper ? 2 : 1
+function calcGenitals(gender, pronounKey) {
     let genderKey = Object.keys(gender)[0]
     let response = {
-        penis: Math.floor(((height / random(height - 20, height + 20)) + 1) * hyperMod) / 100,
-        balls: Math.floor(((height / random(height - 5, height + 20)) + 1) * hyperMod) / 100,
-        breasts: Math.floor(((height / random(100, height + 20)) + 1) * hyperMod) / 100,
-        vagina: true
-    }
-    for (let gen in gender[genderKey]) {
-        if (!gender[genderKey][gen])
-            response[gen] = false
+        penis: (gender[genderKey].penis) ? _.round(_.random(0.01,0.7,true),2) : false,
+        balls: (gender[genderKey].balls) ? _.round(_.random(0.01,0.4,true),2) : false,
+        breasts: (gender[genderKey].breasts) ? _.round(_.random(0.001,0.35,true),3) : false,
+        vagina: gender[genderKey].vagina
     }
     response.type = gender[genderKey].type
     response.pronouns = (pronounKey) ? pronounKey : gender[genderKey].pronouns
@@ -143,7 +137,7 @@ function calcGenitals(hyper, height, gender, pronounKey) {
 }
 
 function blankExp() {
-    return { muscle: 0, fat: 0, pawEye: 0, agility: 0, size: 0, skill: 0 }
+    return { muscle: 0, fat: 0, pawEye: 0, physique: 0, agility: 0, size: 0, skill: 0 }
 }
 
 function getExpCalc(character, exp, expMod, statPoints) {
@@ -161,6 +155,8 @@ function getExpCalc(character, exp, expMod, statPoints) {
             return (Math.round(Math.log10(character.stats.acc)) * expMod) * hyperMode
         case 'agility':
             return (Math.round(Math.log10(character.stats.dex)) * expMod) * hyperMode
+        case 'physique':
+            return (Math.round(Math.log10(character.stats.con)) * expMod) * hyperMode
     }
 }
 
@@ -170,24 +166,24 @@ function calcMaxHealth(character) {
 }
 
 //HACK Changed to BodyFat % temporarily to see how it effects health
-export function getMaxHealth(character) {
-    let hB = Math.ceil(character.measurements.height * character.measurements.bodyFat)
-    let con = character.stats.con
+export function getMaxHealth({ stats: { con }, measurements: { height, bodyFat } }) {
+    let hB = Math.ceil(height * bodyFat)
     return Math.ceil((con * Math.log(hB)) + 5)
 }
 
 //HACK need to finalize stomach capacity calcs
-function calcCapacity(character) {
-    character.capacity.stomachMax = Math.ceil(character.measurements.height / character.measurements.bodyFat)
-    character.capacity.stomach = 0
+function calcCapacity(character, maxCap) {
+    maxCap++
+
+    character.capacity.stomachMax = maxCap
+    character.capacity.stomach = []
     if (character.gender.balls) {
-        let ballSize = character.measurements.height * character.gender.balls
-        character.capacity.testiMax = Math.floor((4 / 3) * Math.PI * (ballSize ** 3)) * 2
-        character.capacity.testi = 0
+        character.capacity.testiMax = maxCap
+        character.capacity.testi = []
     }
     if (character.gender.vagina) {
-        character.capacity.wombMax = Math.ceil(character.measurements.height / character.measurements.bodyFat)
-        character.capacity.womb = 0
+        character.capacity.wombMax = maxCap
+        character.capacity.womb = []
     }
 }
 
@@ -219,6 +215,8 @@ export function returnStatName(stat) {
             return 'Agility'
         case 'pawEye':
             return 'Paw-Eye Coordination'
+        case 'physique':
+            return 'Physique'
         case 'skill':
             return 'Skill'
         case 'penis':
@@ -229,58 +227,72 @@ export function returnStatName(stat) {
             return 'Breasts'
         case 'height':
             return 'Height'
-    }
-}
-
-export function capacityChange(player) {
-    for (let cap in player.capacity) {
-        if (!cap.contains("Max") && player.capacity[cap] > 0) {
-            player.capacity[`${cap}Max`] += Math.min(Math.ceil(player.capacity[cap]), player.capacity[`${cap}Max`]) / 4
-            player.capacity[cap] = 0
-        }
+        case 'bodyFat':
+            return 'Body Fat'
     }
 }
 
 export function statMapping(stat) {
     switch (stat) {
         case 'muscle':
-            return ['stats', 'strg']
-        case 'fat':
-            return ['measurements', 'bodyFat']
-        case 'size':
-            return ['measurements', 'height']
-        case 'skill':
-            return ['skillPoints']
+            return 'stats.strg'
         case 'pawEye':
-            return ['stats', 'acc']
+            return 'stats.acc'
         case 'agility':
-            return ['stats', 'dex']
+            return 'stats.dex'
+        case 'physique':
+            return 'stats.con'
+        case 'fat':
+            return 'measurements.bodyFat'
+        case 'size':
+            return 'measurements.height'
     }
 }
 
-export function levelUp(character) {
-    let leveled = false
-    Object.entries(character.exp).forEach(([stat, value]) => {
-        if (value !== 0) {
-            let statMap = statMapping(stat)
-            if (statMap.length == 1)
-                character[statMap[0]] += value
+function getExpKeysNoSkill({ exp }) {
+    return _.filter(_.keys(exp), (key) => { return key !== 'skill' })
+}
 
-            if (statMap.length == 2)
-                character[statMap[0]][statMap[1]] += value
-
-            character.exp[stat] = 0
-
-            leveled = true
+export function levelUp(character, message = '') {
+    _.each(getExpKeysNoSkill(character), (expKey) => {
+        let statPath = statMapping(expKey) // Get path to stat from exp type
+        let origStat = _.get(character, statPath) // Hold onto original stat value
+        while (character.exp[expKey] >= _.get(character, statPath)) { // Loop over exp until all have been added to stats with the increasing amount
+            character.exp[expKey] -= _.get(character, statPath)
+            _.set(character, statPath, _.get(character, statPath) + 1)
         }
-    });
-    return leveled
+
+        if (origStat !== _.get(character, statPath)) { // If we leveled up any
+            statPath = _.split(statPath, '.')[1] // Pull out the stat key
+            switch (returnStatName(statPath)) { // Write specific leveling up text
+                case 'Strength':
+                    message += `Your muscles feel stronger and feel as though you could hit harder now!<br/>`
+                    break
+                case 'Dexterity':
+                    message += `Standing up you feel a bit lighter on your paws!<br/>`
+                    break
+                case 'Constitution':
+                    message += `With a thump of your chest you feel much more sturdy now!<br/>`
+                    break
+                case 'Height':
+                    message += `Getting up you're a little dizzy from your new height!<br/>`
+                    break
+                case 'Body Fat':
+                    message += `Looking down you find your new girth!<br/>`
+                    break
+            }
+        }
+    })
+
+    character.skillPoints += character.exp.skill
+    character.exp.skill = 0
+
+    return message
 }
 
 export function rest(character) {
     character.stats.maxHlth = getMaxHealth(character)
     character.stats.hlth = character.stats.maxHlth;
-    capacityChange(character)
 }
 
 export function getSkillById(id) {

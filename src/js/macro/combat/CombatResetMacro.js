@@ -6,7 +6,7 @@ Macro.add('combatReset', {
         combatReset()
         if (this.args[0]) {
             loseExp()
-            State.variables.player.stats.hlth = 1
+            variables().player.stats.hlth = 1
         }
     }
 })

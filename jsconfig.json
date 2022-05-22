@@ -2,7 +2,8 @@
     "compilerOptions": {
         "jsx": "react",
         "target": "ES6",
-        "module": "CommonJS",
+        "module": "ES6",
+        "moduleResolution": "Node",
         "allowSyntheticDefaultImports": true,
         "baseUrl": "./",
         "paths": {

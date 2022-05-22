@@ -6,7 +6,6 @@ import { getPropMeta } from "@util/DataMapping"
 import { createButton, createDropdown, createEmpty, createField } from "@util/Input"
 import { createTable, updateRow } from "@util/Table"
 
-
 Macro.add('dataEditorMacro', {
     skipArgs: false,
     handler: function () {
@@ -76,7 +75,7 @@ Macro.add('dataEditorMacro', {
         }).appendTo(this.output)
 
         // Use this to get the meta map of a data store
-        let metaMap = getPropMeta([], dataObjs.statusEffect)
+        let metaMap = getPropMeta([], dataObjs.attackSkill)
         let $button = $('<button/>').css({'margin-left': '5px'}).wiki('Copy JSON').click(()=>{
             navigator.clipboard.writeText(`${JSON.stringify(metaMap)}`);
         })
@@ -137,7 +136,9 @@ function formSerialize({ $form, data }) {
     $form.find('> div > select').each(function () {
         data[$(this).attr('name')] = boolify(numify($(this).val()))
     })
-    $form.find('table').each(function ({ arr = [] }) {
+    $form.find('> table').each(function ({ arr = [] }) {
+        logger($(this).text())
+        logger(data)
         $(this).find('tr.dataRow').each(function () {
             arr.push($(this).data())
         })

@@ -9,6 +9,7 @@ Macro.add('enemyMacro', {
     handler: function () {
         let minSize = this.args[0]
         let maxSize = this.args[1]
+        variables().fightHeader = this.args[2]
         let player = variables().player;
         let enemy = genChar(statPoints(player), random(0, species.length - 1), [minSize, maxSize], [0, 4], random(0, 6));
         variables().combat = true

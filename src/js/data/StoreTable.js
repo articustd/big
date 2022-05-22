@@ -1,4 +1,4 @@
-[
+export let stores = [
     {
      "name": "Micro Marketplace",
      "stock": [

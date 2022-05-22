@@ -1,4 +1,5 @@
-import { getAttackSkill, getSkillById, returnStatName } from "@controller/character/CharacterController";
+import { losePrey } from "@controller/character/CapacityController";
+import { returnStatName } from "@controller/character/CharacterController";
 import { rollItems } from "@controller/character/ItemController";
 import { attackSkill, statusEffect } from "@js/data";
 import { logger } from "@util/Logging";
@@ -12,12 +13,16 @@ export function combatRoll(playerAttack) {
 
 	let { player, playerCombatLog, enemy, enemyCombatLog } = variables()
 
-	// Check if player hits
-	attackTurn(player, enemy, playerAttack, true, playerCombatLog)
+	// Get enemy attack
+	let enemyAttack = getEnemyAttack(enemy, { runaway: true })
 
-	// Random enemy attack and roll for enemy hit
-	let enemyAttack = getEnemyAttack(enemy)
-	attackTurn(enemy, player, enemyAttack, false, enemyCombatLog)
+	// Who goes first based on dex
+	decideTurnOrder(
+		player,
+		enemy,
+		attackTurn(player, enemy, playerAttack, true, playerCombatLog),
+		attackTurn(enemy, player, enemyAttack, false, enemyCombatLog)
+	)
 
 	// Reduce Status Effects
 	reduceStatusEffect(player)
@@ -32,19 +37,15 @@ export function combatRoll(playerAttack) {
 	setCooldown(enemy, enemyAttack)
 
 	if (_.isBoolean(temporary().playerDead)) {
-		if (temporary().playerDead) {
-			for (let exp in player.exp)
-				player.exp[exp] = 0;
-
+		if (temporary().playerDead)
 			setState({
 				combat: false,
 				combatResults: `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
 			})
-		} else
-			setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy.loot, enemy.credits) })
+		else
+			setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy, enemy.credits) })
 
 		variables().player.statusEffect = []
-		resetCooldown(player)
 	}
 }
 
@@ -60,20 +61,8 @@ function deleteState(obj) {
 	})
 }
 
-function getHitHTML(text) {
-	return `<span style="color:green">${text}</span>`
-}
-
-function getDmgHTML(text) {
-	return `<span style="color:red">${text}</span>`
-}
-
-function getMissHTML(text) {
-	return `<span style="color:white">${text}</span>`
-}
-
-function getDodgeHTML(text) {
-	return `<span style="color:white">${text}</span>`
+function getHTML(text, css = { 'color': 'white' }) {
+	return $('<span/>').css(css).wiki(text)
 }
 
 function calcCombatHit(attack, attacker, defender) {
@@ -175,14 +164,9 @@ function getPassiveSkills(type, { passives }) {
 	}), { status: { mod: { type } } })
 }
 
-let hitText = [
-	{ give: "You wolloped them good!", take: "You were hit square in the face!" }
-]
-let missText = [
-	{ give: "You swung wide!", take: "You dodged out of the way!" }
-]
-
 export function combatReset() {
+	resetCooldown(variables().player)
+
 	deleteState({
 		enemyHitDmg: true,
 		enemyCombatLog: true,
@@ -231,11 +215,11 @@ function reduceStatusEffect({ statusEffect }) {
 	})
 }
 
-function statusDamage({ statusEffect }, combatLog, dmg = 0) {
+function statusDamage({ statusEffect }, combatMessage, dmg = 0) {
 	_.each(_.filter(statusEffect, (se) => { return !_.isEmpty(se.dmg) }), ({ name, dmg: { min, max } }) => {
 		let damage = _.floor(_.random(min, max))
 		dmg += damage
-		combatLog.push(getDmgHTML(`Took ${damage} damage from ${name}`))
+		combatMessage.push(`Took ${damage} damage from ${name}!`)
 	})
 	return dmg
 }
@@ -260,57 +244,91 @@ function reduceCooldowns({ attacks }) {
 	})
 }
 
-function getEnemyAttack(enemy) {
-	let atk = _.sample(_.filter(enemy.attacks, { currCooldown: 0 }))
+function getEnemyAttack(enemy, atk = {}) {
+	if ((enemy.stats.hlth / enemy.stats.maxHlth) <= 0.15 && _.random(0, 100) > 50)
+		return atk
+
+	atk = _.sample(_.filter(enemy.attacks, { currCooldown: 0 }))
 	return { ...attackSkill[atk.id], ...atk }
 }
-
-
 
 function endCombat(isPlayer) {
 	temporary().playerDead = isPlayer
 }
 
-function getStatusEffect() {
-
+export function fleeChance({ stats: { dex: atkDex } }, { stats: { dex: defDex } }) {
+	return _.clamp(atkDex * (200 / defDex) / 4, 1, 100)
 }
 
-function attackTurn(attacker, defender, attack, isPlayer, combatLog) {
-	if (checkHealth(attacker) && checkHealth(defender)) { // Check if both are alive
-		let { hit, crit, combatText = "" } = calcCombatHit(attack, attacker, defender)
-		if (hit) { // See if there is a hit
-			if (attack.direct && !_.isEmpty(attack.direct)) { // Attack has direct damage
-				let damage = calcCombatDmg(attack, attacker, isPlayer ? crit : false)
-				reduceHealth(defender, damage)
-				combatText = `Hit ${defender.name} for ${damage} dmg `
-				if (attack.status && !_.isEmpty(attack.status)) { // Attack also has status effect that has it's own hit accuracy (Bleed etc...)
-					({ hit } = calcCombatHit({ status: attack.status }, attacker, defender))
-					if (hit) {
-						if (inflictStatus(attack, defender))
-							combatText += `and inflicted ${statusEffect[attack.status.type].name}`
+function attemptFlee(attacker, defender) {
+	return fleeChance(attacker, defender) >= _.random(1, 100)
+}
+
+function decideTurnOrder(player, enemy, playerAttack, enemyAttack) {
+	if (player.stats.dex > enemy.stats.dex) {
+		playerAttack
+		enemyAttack
+	} else {
+		enemyAttack
+		playerAttack
+	}
+}
+
+function buildCombatMessage(combatMessage, css = {'color':'white'}) {
+	return getHTML(_.join(combatMessage, '<br/>'), css)
+}
+
+function attackTurn(attacker, defender, attack, isPlayer, combatLog, combatMessage = []) {
+	if (checkHealth(attacker) && checkHealth(defender) && variables().combat) { // Check if both are alive and combat is still going
+		if (typeof attack.runaway !== 'undefined') { // Attacker is attempting to run
+			if (attemptFlee(attacker, defender)) {
+				variables().combat = false
+				combatLog.push(getHTML(`${attacker.name} turned tail and fled!`)) // Push directly into the combat log
+				return // No need to do the rest
+			} else
+				combatMessage.push(`${attacker.name} tried to run, but was unable to!`)
+		} else { // Normal attack
+			let { hit, crit, combatText = "" } = calcCombatHit(attack, attacker, defender)
+			if (hit) { // See if there is a hit
+				if (attack.direct && !_.isEmpty(attack.direct)) { // Attack has direct damage
+					let damage = calcCombatDmg(attack, attacker, isPlayer ? crit : false)
+					reduceHealth(defender, damage)
+					combatText = `Hit ${defender.name} for ${damage} damage`
+					if (attack.status && !_.isEmpty(attack.status)) { // Attack also has status effect that has it's own hit accuracy (Bleed etc...)
+						({ hit } = calcCombatHit({ status: attack.status }, attacker, defender))
+						if (hit) {
+							if (inflictStatus(attack, defender))
+								combatText += ` and inflicted ${statusEffect[attack.status.type].name}`
+						}
 					}
+					combatText += '!'
+				} else if (attack.status && !_.isEmpty(attack.status)) { // Attack only has a status effect and hit chance was already calculated
+					if (inflictStatus(attack, defender))
+						combatText += `${attack.name} ${defender.name}, inflicting them with ${statusEffect[attack.status.type].name}`
+					else
+						combatText += `Nothing happened, ${defender.name} already has ${statusEffect[attack.status.type].name}`
 				}
-			} else if (attack.status && !_.isEmpty(attack.status)) { // Attack only has a status effect and hit chance was already calculated
-				if (inflictStatus(attack, defender))
-					combatText += `${attack.name} ${defender.name}, inflicting them with ${statusEffect[attack.status.type].name}`
-				else
-					combatText += `Nothing happened, ${defender.name} already has ${statusEffect[attack.status.type].name}`
-			}
 
-			combatLog.push(getHitHTML(combatText)) // Attack hit, notify
+				combatMessage.push(combatText) // Add to message stack
 
-			if (!checkHealth(defender)) // Check defender health
-				endCombat(!isPlayer)
-		} else { // Attack missed, notify
-			combatLog.push(getMissHTML(`Missed ${defender.name} with ${attack.name}`))
+				if (!checkHealth(defender)) // Check defender health
+					endCombat(!isPlayer)
+			} else // Attack missed, notify
+				combatMessage.push(`Missed ${defender.name} with ${attack.name}!`)
 		}
 
 		if (!_.isBoolean(temporary().playerDead)) { // Check to see if combat ended
-			let damage = statusDamage(attacker, combatLog) // BUILD statusDamage
+			let damage = statusDamage(attacker, combatMessage)
 			reduceHealth(attacker, damage)
-			if (!checkHealth(attacker))
+			if (!checkHealth(attacker)) {
+				combatMessage.push(`${attacker.name} passed out!`)
 				endCombat(isPlayer)
+			}
 		}
+	} else if (checkHealth(defender) && !variables().combat) { // Check to see if defender ran 
+		combatMessage.push(`Not quick enough to catch up as ${defender.name} runs away.`)
 	} else // Attacker has died, notify their combat log
-		combatLog.push(getDmgHTML(`${attacker.name} passed out`))
+		combatMessage.push(`${attacker.name} passed out!`)
+
+	combatLog.push(buildCombatMessage(combatMessage))
 }

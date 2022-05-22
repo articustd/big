@@ -1,5 +1,6 @@
 import { logger } from "../util/Logging"
 import { measurements } from '@js/data'
+import _ from "lodash"
 
 /* Measurment Converts */
 function convertToImperial(entity, weight) {
@@ -69,20 +70,19 @@ function heightMeasurements(height, imperial) {
 	return heights
 }
 
-export function findSize(height) {
-	for (let size of measurements.sizes) {
-		let sizeKey = Object.keys(size)[0]
-		if (height >= size[sizeKey].range[0] && (size[sizeKey].range.length == 1 || height < size[sizeKey].range[1]))
-			return sizeKey
-	}
+export function findSize(height) { // FIXME IT DON'T WORK NO MOE
+	return _.find(measurements.sizes, ({ range }) => {
+		return (range.length > 1) ? _.inRange(height, range[0], range[1]) : true
+	}).name
 }
 
-export function findMuscle(muscle) {
-	for (let ma of measurements.muscleAmount) {
-		let maKey = Object.keys(ma)[0]
-		if (muscle >= ma[maKey].range[0] && (ma[maKey].range.length == 1 || muscle < ma[maKey].range[1]))
-			return ma
-	}
+export function findMuscle({ stats: { strg }, measurements: { height } }) {
+	let name = findSize(height)
+	let size = _.find(measurements.sizes, { name })
+	return _.find(measurements.muscleAmount, ({ range }) => {
+		let mod = (strg / size.statBase) * 100
+		return (range.length > 1) ? _.inRange(mod, range[0], range[1]) : true
+	})
 }
 
 export function findFat(bodyFat) {
@@ -126,9 +126,9 @@ export function findBallSize(character) {
 export function calcWeight(measurement) {
 	let hSrqd = (measurement.height / 100) ** 2
 	let bmi = calcBMI(measurement.bodyFat)
-	logger(`Height Squared: ${hSrqd}`)
-	logger(`BMI: ${bmi}`)
-	logger(`Kg: ${bmi * hSrqd}`)
+	// logger(`Height Squared: ${hSrqd}`)
+	// logger(`BMI: ${bmi}`)
+	// logger(`Kg: ${bmi * hSrqd}`)
 	return (bmi * hSrqd) * 1000
 }
 
@@ -147,18 +147,12 @@ function getSizeIdx(char) {
 	return sizeIdx
 }
 
-export function sizeInRange(min, max, charSize) {
-	let response;
-	measurements.sizes.forEach(function (size, idx) {
-		let sizeKey = Object.keys(size)[0]
-		if (size[sizeKey].range[0] <= charSize && (size[sizeKey].range.length == 1 || size[sizeKey].range[1] > charSize))
-			if (min > idx)
-				response = 0
-			else if (max < idx)
-				response = 2
-			else
-				response = 1
-	})
+export function sizeInRange(min, max, { measurements: { height } }, response = 1) {
+	let sizeIdx = _.findIndex(measurements.sizes, { name: findSize(height) })
+	if (min > sizeIdx)
+		response = 0
+	if (max < sizeIdx)
+		response = 2
 	return response
 }
 
@@ -180,11 +174,9 @@ export function sizeDiff(player, enemy) {
 	return sizeId
 }
 
-export function sizeArray(range) {
-	let sizeArr = []
-	measurements.sizes.forEach(function (size, idx) {
-		if (!range || range.includes(idx))
-			sizeArr.push(Object.keys(size)[0])
+export function sizeArray(range, sizeArr = []) {
+	_.each(measurements.sizes, (size, idx) => {
+		!range || _.includes(range, idx) ? sizeArr.push(size.name) : true
 	})
 	return sizeArr
 }
