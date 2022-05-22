@@ -51,14 +51,20 @@ Macro.add('invMacro', {
 })
 
 function useItem(usedItem) {
+    let {player} = variables()
     if(usedItem.stat === 'hlth') { // HACK This is a stop gap until I can put in prop health checking... this might not be a stop gap anymore
-        if(usedItem.mod + State.variables.player.stats.hlth > State.variables.player.stats.maxHlth) {
-            State.variables.player.stats.hlth = State.variables.player.stats.maxHlth
+        if(usedItem.mod + player.stats.hlth > player.stats.maxHlth) {
+            player.stats.hlth = player.stats.maxHlth
             return false
         }
     }
-    State.variables.player[usedItem.type][usedItem.stat] += usedItem.mod
-    State.variables.player.stats.maxHlth = getMaxHealth(State.variables.player)
+
+    if(usedItem.stat === 'size') {
+        player.measurements.height += usedItem.mod
+        return true
+    }
+    player[usedItem.type][usedItem.stat] += usedItem.mod
+    player.stats.maxHlth = getMaxHealth(player)
     return true
 }
 

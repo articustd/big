@@ -30,7 +30,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     var credits = Math.floor(100 * randomPercent);
 
     // Calculate Measurements
-    character.measurements.height = _.random(size.range[0], (size.range[1]) ? size.range[1]-1 : 1000000)
+    character.measurements.height = _.random(size.range[0], (size.range[1]) ? size.range[1] - 1 : 1000000)
     character.measurements.bodyFat = _.round(_.random(bodyType.bodyFat[0], bodyType.bodyFat[1]), 2)
 
     // Default Hyper to no
@@ -117,8 +117,8 @@ function randomBodyType(range) {
 }
 
 function calcStats(character, statMods, statPoints) {
-    _.each(statMods, (statRange, statName)=>{
-        let statMod = _.ceil(_.random(statRange[0],statRange[1]),2)
+    _.each(statMods, (statRange, statName) => {
+        let statMod = _.ceil(_.random(statRange[0], statRange[1]), 2)
         character.stats[statName] = Math.ceil(statPoints * statMod)
     })
 }
@@ -126,9 +126,9 @@ function calcStats(character, statMods, statPoints) {
 function calcGenitals(gender, pronounKey) {
     let genderKey = Object.keys(gender)[0]
     let response = {
-        penis: (gender[genderKey].penis) ? _.round(_.random(0.01,0.7,true),2) : false,
-        balls: (gender[genderKey].balls) ? _.round(_.random(0.01,0.4,true),2) : false,
-        breasts: (gender[genderKey].breasts) ? _.round(_.random(0.001,0.35,true),3) : false,
+        penis: (gender[genderKey].penis) ? _.round(_.random(0.01, 0.7, true), 2) : false,
+        balls: (gender[genderKey].balls) ? _.round(_.random(0.01, 0.4, true), 2) : false,
+        breasts: (gender[genderKey].breasts) ? _.round(_.random(0.001, 0.35, true), 3) : false,
         vagina: gender[genderKey].vagina
     }
     response.type = gender[genderKey].type
@@ -141,22 +141,23 @@ function blankExp() {
 }
 
 function getExpCalc(character, exp, expMod, statPoints) {
-    let hyperMode = (variables().settings.tweak.hyperMode) ? 4 : 1
+    let { settings: { tweak: { hyperMode } } } = variables()
+    let hyperMod = (hyperMode) ? 4 : 1
     switch (exp) {
         case 'muscle':
-            return (Math.round(Math.log10(character.stats.strg)) * expMod) * hyperMode
+            return (Math.round(Math.log10(character.stats.strg)) * expMod) * hyperMod
         case 'fat':
-            return (Math.round(Math.log10(character.stats.con)) * expMod) * hyperMode
+            return (Math.round(Math.log10(character.stats.con)) * expMod) * hyperMod
         case 'size':
-            return (Math.floor(Math.log10(character.measurements.height) * expMod)) * hyperMode
+            return _.ceil(character.measurements.height / (hyperMode ? 2 : 8))
         case 'skill':
-            return (Math.floor(Math.log2(statPoints))) * hyperMode
+            return (Math.floor(Math.log2(statPoints))) * hyperMod
         case 'pawEye':
-            return (Math.round(Math.log10(character.stats.acc)) * expMod) * hyperMode
+            return (Math.round(Math.log10(character.stats.acc)) * expMod) * hyperMod
         case 'agility':
-            return (Math.round(Math.log10(character.stats.dex)) * expMod) * hyperMode
+            return (Math.round(Math.log10(character.stats.dex)) * expMod) * hyperMod
         case 'physique':
-            return (Math.round(Math.log10(character.stats.con)) * expMod) * hyperMode
+            return (Math.round(Math.log10(character.stats.con)) * expMod) * hyperMod
     }
 }
 
