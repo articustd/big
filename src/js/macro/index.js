@@ -1,5 +1,5 @@
 import ActionMacros from './actions'
-import CombatMacros from './combat'
+export * from './combat'
 import PassageMacros from './passages'
 import UIMacros from './UI'
 
