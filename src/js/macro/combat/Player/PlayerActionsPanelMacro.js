@@ -8,7 +8,7 @@ Macro.add('playerActionsPanelMacro', {
     skipArgs: false,
     handler: function () {
         let panelType = this.args[0]
-        let $wrapper = $('<div/>').css({ 'display': 'flex', 'flex-direction': 'row', 'margin': '5px 0px' })
+        let $wrapper = $('<div/>').css({ 'display': 'flex', 'flex-direction': 'row', 'margin': '5px 0px', 'flex': '1' })
         let $leftColumn = $('<div/>').css({ 'flex': '1', 'margin-right': '5px' })
         let $rightColumn = $('<div/>').css({ 'flex': '1' })
         let actions = []
