@@ -149,7 +149,7 @@ function getExpCalc(character, exp, expMod, statPoints) {
         case 'fat':
             return (Math.round(Math.log10(character.stats.con)) * expMod) * hyperMod
         case 'size':
-            return _.ceil(character.measurements.height / (hyperMode ? 2 : 8))
+            return _.ceil(character.measurements.height * (hyperMode ? 16 : 8))
         case 'skill':
             return (Math.floor(Math.log2(statPoints))) * hyperMod
         case 'pawEye':

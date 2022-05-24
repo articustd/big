@@ -245,7 +245,7 @@ function reduceCooldowns({ attacks }) {
 }
 
 function getEnemyAttack(enemy, atk = {}) {
-	if ((enemy.stats.hlth / enemy.stats.maxHlth) <= 0.15 && _.random(0, 100) > 50)
+	if ((enemy.stats.hlth / enemy.stats.maxHlth) <= 0.15 && _.random(0, 100) > 5)
 		return atk
 
 	atk = _.sample(_.filter(enemy.attacks, { currCooldown: 0 }))
