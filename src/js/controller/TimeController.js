@@ -39,7 +39,7 @@ export function advanceTime(advTime = true) {
 
 export function restockStore(day) {
     if(day%7 == 0)
-        State.variables.stores = stores
+        variables().stores = stores
 }
 
 export {returnTime}

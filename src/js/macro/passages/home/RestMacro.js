@@ -6,11 +6,10 @@ import { logger } from "@util/Logging";
 Macro.add('restMacro', {
     skipArgs: false,
     handler: function () {
-        let { dead } = this.args
         let { player } = variables()
 
         restockStore(7)
-
+        
         digest(player)
 
         variables().restText = levelUp(player)
