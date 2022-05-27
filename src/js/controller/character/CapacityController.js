@@ -65,9 +65,11 @@ function getNonMaxCapacityKeys(capacity) {
 
 function capacityChange(measurements, capacity) {
     let newCap = getSizeIdx(measurements) + 1
+    logger({newCap})
     _.each(capacity, (cap, capKey) => {
+        logger({capKey})
         if(capKey.includes('Max'))
-            cap = newCap
+            capacity[capKey] = newCap
     })
 }
 

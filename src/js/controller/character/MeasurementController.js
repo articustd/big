@@ -126,9 +126,6 @@ export function findBallSize(character) {
 export function calcWeight(measurement) {
 	let hSrqd = (measurement.height / 100) ** 2
 	let bmi = calcBMI(measurement.bodyFat)
-	// logger(`Height Squared: ${hSrqd}`)
-	// logger(`BMI: ${bmi}`)
-	// logger(`Kg: ${bmi * hSrqd}`)
 	return (bmi * hSrqd) * 1000
 }
 
@@ -141,13 +138,6 @@ export function getSizeIdx({ height }) {
 	return _.findIndex(measurements.sizes, ({ range }) => {
 		return (range.length > 1) ? _.inRange(height, range[0], range[1]) : true
 	})
-	let sizeIdx = 0
-	measurements.sizes.forEach(function (size, idx) {
-		let sizeKey = Object.keys(size)[0]
-		if (size[sizeKey].range[0] <= char.measurements.height && size[sizeKey].range[1] > char.measurements.height)
-			sizeIdx = idx
-	})
-	return sizeIdx
 }
 
 export function sizeInRange(min, max, { measurements: { height } }, response = 1) {
