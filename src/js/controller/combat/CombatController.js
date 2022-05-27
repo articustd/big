@@ -98,6 +98,12 @@ export function calcHitChance(attack, attacker, defender, baseHit = 0, hitPer = 
 		hitPer += mod.amt
 		return !finalEffect
 	})
+	_.each(_.filter(defender.statusEffect, { mod: { type: "hit" } }), function ({ name, mod, finalEffect }) {
+		if(name === 'Blind') // FIXME temporary fix for v0.9.2
+			hitPer += 15
+		return !finalEffect
+	})
+
 	return _.clamp(_.floor(hitPer), 0, 100)
 }
 
@@ -245,7 +251,7 @@ function reduceCooldowns({ attacks }) {
 }
 
 function getEnemyAttack(enemy, atk = {}) {
-	if ((enemy.stats.hlth / enemy.stats.maxHlth) <= 0.15 && _.random(0, 100) > 50)
+	if ((enemy.stats.hlth / enemy.stats.maxHlth) <= 0.1 && _.random(0, 100) < 5)
 		return atk
 
 	atk = _.sample(_.filter(enemy.attacks, { currCooldown: 0 }))

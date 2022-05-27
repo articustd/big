@@ -77,6 +77,7 @@ export function genChar(statPoints, speciesId, sizeRange, bodyTypeRange, genderI
     calcMaxHealth(character)
 
     // Calculate Capacity
+    character.capacity = {}
     calcCapacity(character, capacityAmount)
 
     // logger(character)
@@ -149,7 +150,7 @@ function getExpCalc(character, exp, expMod, statPoints) {
         case 'fat':
             return (Math.round(Math.log10(character.stats.con)) * expMod) * hyperMod
         case 'size':
-            return _.ceil(character.measurements.height / (hyperMode ? 2 : 8))
+            return _.ceil(character.measurements.height * (hyperMode ? 16 : 8))
         case 'skill':
             return (Math.floor(Math.log2(statPoints))) * hyperMod
         case 'pawEye':
@@ -173,18 +174,16 @@ export function getMaxHealth({ stats: { con }, measurements: { height, bodyFat }
 }
 
 //HACK need to finalize stomach capacity calcs
-function calcCapacity(character, maxCap) {
-    maxCap++
-
-    character.capacity.stomachMax = maxCap
-    character.capacity.stomach = []
-    if (character.gender.balls) {
-        character.capacity.testiMax = maxCap
-        character.capacity.testi = []
+function calcCapacity({capacity, gender}, maxCap) {
+    capacity.stomachMax = maxCap
+    capacity.stomach = []
+    if (gender.balls) {
+        capacity.testiMax = maxCap
+        capacity.testi = []
     }
-    if (character.gender.vagina) {
-        character.capacity.wombMax = maxCap
-        character.capacity.womb = []
+    if (gender.vagina) {
+        capacity.wombMax = maxCap
+        capacity.womb = []
     }
 }
 
