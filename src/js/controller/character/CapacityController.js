@@ -77,3 +77,10 @@ function returnCapName(cap) {
             return 'womb'
     }
 }
+
+export function checkCapacity(character, response = false) {
+    let {capacity} = character
+    return _.every(getNonMaxCapacityKeys(capacity), (capKey) => { // Loop through all available character capacities that are NOT the max
+        return collectCapacity(character, capKey) < capacity[`${capKey}Max`]
+    })
+}

@@ -1,68 +1,40 @@
+import { checkCapacity } from "@controller/character/CapacityController";
 import { findSize } from "@controller/character/MeasurementController";
 import { incrementTime } from "@controller/TimeController"
 import { measurements } from "@js/data";
+import { logger } from "@util/Logging";
+import _ from "lodash";
 
 Macro.add('timeAction', {
     skipArgs: false,
     tags: null,
     handler: function () {
-        let link = $('<a/>');
+        let [linkText, passageName, hours, minutes, fightLocation] = this.args
+        let { player } = variables()
+        let $link = $('<a/>').wiki(linkText)
 
-        // Stay in place and advance time
-        if (this.args.length == 3) {
-            // $(link).text(`${this.args[0]} - ${this.args[1]}:${(this.args[2] < 10) ? '0' + this.args[2] : this.args[2]}`)
-            $(link).text(`${this.args[0]}`)
-            $(link).ariaClick(
-                (function (args, passage, content) {
-                    return this.createShadowWrapper(
-                        function () {
-                            $.wiki(content);
-                        },
-                        function () {
-                            if (State.temporary.advanceTime) incrementTime(args[1], args[2])
-                            state.display(state.active.title, null, "back")
-                        }
-                    );
-                }).call(this, this.args, passage, this.payload[0].contents.trim())
-            )
-        } else { // Proceed to another screen and advance time
-            // $(link).text(`${this.args[0]} - ${this.args[2]}:${(this.args[3] < 10) ? '0' + this.args[3] : this.args[3]}`)
-            $(link).text(`${this.args[0]}`)
-            $(link).ariaClick(
-                (function (args, passage, content) {
-                    return this.createShadowWrapper(
-                        function () {
-                            $.wiki(content);
-                        },
-                        function () {
-                            incrementTime(args[2], args[3])
-                            if (checkCapacity(State.variables.player) && args[1] !== "fight") {
-                                let sizeIdx = findSize(State.variables.player.measurements.height)
-                                for(let sizeId in measurements.sizes)
-                                    (Object.keys(measurements.sizes[sizeId])[0] == sizeIdx)?sizeIdx=sizeId:sizeIdx
-                                let upperSize = (sizeIdx+2)<=(measurements.sizes.length-1)?(sizeIdx+2):measurements.sizes.length-1
-                                $.wiki(`<<enemyMacro ${sizeIdx} ${upperSize} ${args[4]}>>`)
-                                Engine.play("fight")
-                            } else
-                                Engine.play(args[1])
-                            
-                        }
-                    );
-                }).call(this, this.args, passage, this.payload[0].contents.trim())
-            )
-        }
-        $(this.output).append(link)
+        $link.click(this.createShadowWrapper(
+            () => { // Run payload
+                $.wiki(this.payload[0].contents.trim())
+            },
+            () => { // After payload, either move on or stay in place
+                if (passage() === passageName) { // Stay in place and advance time
+                    if (temporary().advanceTime) incrementTime(hours, minutes)
+                    Engine.play(passageName, true)
+                } else { // Move to passage and advance time
+                    incrementTime(hours, minutes)
+                    if (!checkCapacity(player) && passageName !== 'fight' && _.random(0,100) < 20) { // If full capacity and traveling, 20% random fight chance
+                        let sizeIdx = _.findIndex(measurements.sizes, { name: findSize(player.measurements.height) })
+                        let upperSize = (sizeIdx + 2) <= (measurements.sizes.length - 1) ? (sizeIdx + 2) : measurements.sizes.length - 1
+
+                        $.wiki(`<<enemyMacro ${sizeIdx} ${upperSize} "${fightLocation}">>`)
+                        Engine.play("fight")
+                    } else
+                        Engine.play(passageName)
+                }
+            }
+        ))
+
+        $(this.output).append($link)
     }
 })
-
-function checkCapacity(player) {
-    for(let cap in player.capacity) {
-        if(!cap.includes('Max') && player.capacity[cap] > player.capacity[`${cap}Max`]) {
-            let rand = random(1,100)
-            if(rand < 21)
-                return true
-        }
-    }
-
-    return false
-}
