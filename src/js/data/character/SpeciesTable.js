@@ -1,9 +1,9 @@
-let species = [`Dragon`,`Fox`,`Wolf`,`Snake`,`Rabbit`,`Dog`,`Badger`,`Tiger`,`Bear`,`Mouse`,`Elephant`].sort()
+let species = [`Dragon`, `Fox`, `Wolf`, `Snake`, `Rabbit`, `Dog`, `Badger`, `Tiger`, `Bear`, `Mouse`, `Elephant`, `Crocodile`, `Alligator`].sort()
 
 let speciesDesc = {
-    'Dragon' : {
+    'Dragon': {
 
     }
 }
 
-export {species, speciesDesc}
+export { species, speciesDesc }
