@@ -11,7 +11,7 @@ Time: <<listbox "$settings.units.twelveHour" autoselect>>
 <</listbox>>
 
 ''__Warnings__''
-Over Consumption Warning: <<listbox "$settings.warnings.overConsumeWarning" autoselect>>
+Over Consumption Warning: <<listbox "$settings.warning.overConsumeWarning" autoselect>>
 	<<option "Always" true>>
 	<<option "Never" false>>
 <</listbox>>
