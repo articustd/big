@@ -90,3 +90,18 @@ export function checkCapacity(character, response = false) {
         return collectCapacity(character, capKey) < capacity[`${capKey}Max`]
     })
 }
+
+export function checkNewCapacity(character) {
+    let {penis, balls, vagina} = character.gender
+    let {wombMax, testiMax} = character.capacity
+    if(penis > 0 && balls > 0 && _.isUndefined(testiMax)) {
+        character.capacity.testi = []
+        character.capacity.testiMax = 0
+    }
+    if(vagina && _.isUndefined(wombMax)) {
+        character.capacity.womb = []
+        character.capacity.wombMax = 0
+    }
+
+    capacityChange(character.measurements, character.capacity)
+}
