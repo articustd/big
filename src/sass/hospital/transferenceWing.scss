@@ -1,0 +1,41 @@
+.trans {
+    display: flex;
+
+
+    &-container {
+        @extend .trans;
+        flex-direction: column;
+        flex: 1;
+        align-items: center;
+    }
+
+    &-controls {
+        @extend .trans;
+        flex-direction: column;
+        width: 100px;
+
+        &>button, select{
+            margin: 5px 0px;
+        }
+    }
+
+    &-exchange {
+        @extend .trans;
+        flex: 2;
+        align-items: center;
+        justify-content: center;
+
+        &-side {
+            @extend .trans;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        &>div, button {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            margin: 0px 10px;
+        }
+    }
+}

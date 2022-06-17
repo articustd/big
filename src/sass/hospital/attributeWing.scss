@@ -1,0 +1,45 @@
+.attribute {
+    display: flex;
+
+    &-base {
+        @extend .attribute;
+    }
+
+    &-container {
+        @extend .attribute;
+        flex-direction: column;
+        flex: 1;
+        align-items: center;
+
+        &>.header {
+            font-size: large;
+            font-weight: bold;
+            border-bottom: 1px solid;
+            width: 100%;
+        }
+
+        &>span {
+            text-align: center;
+        }
+
+        &>div,button {
+            margin: 5px 0px;
+        }
+    }
+
+    &-controls {
+        margin: 3px 10px;
+
+        &>button {
+            margin: 0px 2px;
+            padding: 5px 10px;
+        }
+    }
+
+    &-buy {
+        @extend .attribute;
+        flex-direction: column;
+        align-items: center;
+        margin: 30px;
+    }
+}

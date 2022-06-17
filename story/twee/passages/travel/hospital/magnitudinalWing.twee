@@ -1,0 +1,7 @@
+:: magnitudinalWing [noreturn]
+<h1>Magnitudinal Wing</h1>
+Walking into the Magnitudinal Wing you notice it's pretty much an empty warehouse. It's large with walls that look like they have uniform scraping along the beams.
+
+Must be planning something big.
+
+<<link "Return to Lobby" $return>><</link>>

@@ -1,3 +1,4 @@
+import { checkNewCapacity } from "@controller/character/CapacityController";
 import { getMaxHealth, returnStatName } from "@controller/character/CharacterController";
 import { getItemInfoByIndex } from "@controller/character/ItemController"
 
@@ -65,6 +66,7 @@ function useItem(usedItem) {
     }
     player[usedItem.type][usedItem.stat] += usedItem.mod
     player.stats.maxHlth = getMaxHealth(player)
+    checkNewCapacity(player)
     return true
 }
 

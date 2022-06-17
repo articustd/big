@@ -12,28 +12,30 @@ export function popup(title, message, btns, hasNoShow) {
         buttons: getButtons(btns, hasNoShow)
     }).append($('<span/>').wiki(message)).attr('id', 'modalWarning')
 
+
+    function getButtons() {
+        let buttons = {}
+        _.each(btns, (value, key) => {
+            buttons[key] = () => {
+                if (value) {
+                    logger(`In button`)
+                    if (hasNoShow)
+                        setNoShow(hasNoShow)
+                    value()
+                }
+                $modal.dialog("destroy")
+            }
+        })
+    
+        return buttons
+    }
+
     if (hasNoShow)
         $('.ui-dialog-buttonset').after($('<label/>').wiki(`Do not show again`).css('margin-left', '10px').css('cursor', 'pointer').prepend($('<input id="noShow" type="checkbox"/>').css('margin-top', '20px')))
 
     return $modal
 }
 
-function getButtons(btns, hasNoShow) {
-    let buttons = {}
-    _.forEach(btns, (value, key) => {
-        buttons[key] = () => {
-            if (value) {
-                logger(`In button`)
-                if (hasNoShow)
-                    setNoShow(hasNoShow)
-                value()
-            }
-            $('#modalWarning').dialog("destroy")
-        }
-    })
-
-    return buttons
-}
 
 function setNoShow(setting) {
     logger(`In noshow`)

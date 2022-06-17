@@ -1,0 +1,13 @@
+:: geneticsWing [noreturn]
+<h1>Genetics Wing</h1>
+Walking into the Genetics Wing you see tarps drapped over some lab equipment. Most everything looks like it's still in some state of assembly, except one piece of equipment.
+
+Leaning in for a closer look you read:
+"Species Modification. 95% complete, please use under doctor supervision."
+
+Ominous.
+
+Anyway what's the worst that could happen, nothing?
+
+<<GenWingMacro>>
+<<link "Return to Lobby" $return>><</link>>

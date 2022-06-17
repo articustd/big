@@ -1,0 +1,28 @@
+:: attributeWing [noreturn]
+<h1>Attribute Wing</h1><<set _cost to 500>>
+Walking into the Attribute Wing you see a few technicians walking around, but no one seems to notice you. Tarps are covering most of the machinary and lab equipemnt to keep costruction dust off them.
+
+In the corner of the room you see what can only be descriped as a blood pressure testing device like you've seen in malls. Walking over to it you notice instead of a screen there is a tablet connected to it. On the tablet you see three sections, each with a different attribute name and some buttons.
+
+"Attribute changes are permanent and will charge 500 credits for increases. Removing attributes will refund 500 credits."
+
+<<nobr>>
+<div class="attribute-base">
+    <div class="attribute-container">
+        <span class="header">Strength</span>
+        <<AttributeControls 'strg'>>
+    </div>
+    <div class="attribute-container">
+        <span class="header">Constitution</span>
+        <<AttributeControls 'con'>>
+    </div>
+    <div class="attribute-container">
+        <span class="header">Dexterity</span>
+        <<AttributeControls 'dex'>>
+    </div>
+</div>
+<div class="attribute-buy">
+    <<AttributeBuy>>
+</div>
+<</nobr>>
+<<link "Return to Lobby" $return>><</link>>

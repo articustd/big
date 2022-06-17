@@ -101,3 +101,13 @@ sugarcube-2:
       name: genCharMacro
     tempData:
       name: tempData
+    GenWingMacro:
+      name: GenWingMacro
+    AttributeControls:
+      name: AttributeControls
+    AttributeBuy:
+      name: AttributeBuy
+    TransferanceControls:
+      name: TransferanceControls
+    TransferanceBuy:
+      name: TransferanceBuy
