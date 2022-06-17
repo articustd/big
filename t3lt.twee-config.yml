@@ -107,7 +107,7 @@ sugarcube-2:
       name: AttributeControls
     AttributeBuy:
       name: AttributeBuy
-    TransferanceControls:
-      name: TransferanceControls
-    TransferanceBuy:
-      name: TransferanceBuy
+    TransferenceControls:
+      name: TransferenceControls
+    TransferenceBuy:
+      name: TransferenceBuy

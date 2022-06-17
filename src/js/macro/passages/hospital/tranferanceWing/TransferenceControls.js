@@ -1,6 +1,6 @@
 import { logger } from "@util/Logging"
 
-Macro.add('TransferanceControls', {
+Macro.add('TransferenceControls', {
     skipArgs: false,
     handler: function () {
         let [transType, secondTrans] = this.args
