@@ -15,7 +15,7 @@ const   { src, dest, watch, series, task } = require('gulp'),
 
 // Compile SASS into working CSS
 task(function buildSass() {
-    return src('src/sass/**/*.scss')
+    return src('src/sass/main.scss')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(rename('main.min.css'))
         .pipe(dest('story/modules'))

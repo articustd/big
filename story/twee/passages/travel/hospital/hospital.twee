@@ -3,6 +3,13 @@
 
 A medical facility for creatures of all shapes and sizes. The medical staff here is trained to assist with any physical needs.
 
-Several of the wings of the hospital have tarps drapped over them with scaffolding and signs saying "Under Construction".
+Looking left you see the Attribute and Genetics wings, on the right you see the Magnitudinal and Transferance wings.
+
+The Magnitudinal Wing has some caution tape infront of it still, but since when has that stopped you?
+
+<<link "Attribute Wing" "attributeWing">><</link>>
+<<link "Genetics Wing" "geneticsWing">><</link>>
+<<link "Magnitudinal Wing" "magnitudinalWing">><</link>>
+<<link "Transferance Wing" "transferanceWing">><</link>>
 
 <<link "Return" "travel">><</link>>
