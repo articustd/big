@@ -28,7 +28,7 @@ Macro.add('consumeEnemy', {
                             popup(`Over Capacity`,
                                 `You are about to go over your max capacity. If you continue you will be attacked randomly until you rest at home. <br><br>Do you wish to consume?`,
                                 {
-                                    "Yes": () => { $('#overConsumeWarning').dialog("destroy"); consumeContinue(con, player, prey) },
+                                    "Yes": () => { consumeContinue(con, player, prey) },
                                     "No": false
                                 },
                                 { type: "warning", name: "overConsumeWarning" }
