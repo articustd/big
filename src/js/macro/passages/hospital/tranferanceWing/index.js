@@ -1,2 +1,2 @@
-import TransferanceBuy from './TransferanceBuy'
-import TransferanceControls from './TransferanceControls'
+import TransferenceBuy from './TransferenceBuy'
+import TransferenceControls from './TransferenceControls'

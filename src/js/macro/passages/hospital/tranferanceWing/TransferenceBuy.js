@@ -1,6 +1,6 @@
 import { logger } from "@util/Logging"
 
-Macro.add('TransferanceBuy', {
+Macro.add('TransferenceBuy', {
     skipArgs: false,
     handler: function () {
         let { player } = variables()

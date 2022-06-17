@@ -1,10 +1,10 @@
-:: transferanceWing [noreturn]
-<h1>Transferance Wing</h1>
-Walking into the Transferance Wing you see what looks like a giant table with a helmet?
+:: transferenceWing [noreturn]
+<h1>Transference Wing</h1>
+Walking into the Transference Wing you see what looks like a giant table with a helmet?
 
 As you approach the tablet it spring to life. You notice two sides, one with Skill Points and another with Credits. Between the two is a button that looks like it might transfer something?
 
-Reading the heading you see: "Skill Credits Transferance Helmet"
+Reading the heading you see: "Skill Credits Transference Helmet"
 
 Looking at the helmet you notice the tube leading from the top and going into the machine the tablet is connected to. Maybe you could use this to get rid of those extra skill points?
 
@@ -14,15 +14,15 @@ Looking at the helmet you notice the tube leading from the top and going into th
 <div class="trans">
     <div class="trans-container">
         <div class="trans-controls">
-            <<TransferanceControls 'skillPoints' 'credits'>>
+            <<TransferenceControls 'skillPoints' 'credits'>>
         </div>
     </div>
     <div class="trans-exchange">
-        <<TransferanceBuy>>
+        <<TransferenceBuy>>
     </div>
     <div class="trans-container">
         <div class="trans-controls">
-            <<TransferanceControls 'credits' 'skillPoints'>>
+            <<TransferenceControls 'credits' 'skillPoints'>>
         </div>
     </div>
 </div>
