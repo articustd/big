@@ -1,6 +1,7 @@
 import { logger } from "../controllers/util/Logging"
 import _ from "lodash"
 import { attackSkill, genders, loot, measurements, species } from "@js/data"
+import { digest } from "@controller/character/CapacityController"
 
 export class Character {
     constructor(data, load) {
@@ -260,12 +261,65 @@ export class Character {
         }
     }
 
+    expStatPath(expName) {
+        switch (expName) {
+            case 'muscle':
+                return 'stats.strg'
+            case 'pawEye':
+                return 'stats.acc'
+            case 'agility':
+                return 'stats.dex'
+            case 'physique':
+                return 'stats.con'
+            case 'fat':
+                return 'measurements.bodyFat'
+            case 'size':
+                return 'measurements.height'
+        }
+    }
+
     isAlive() {
         return this.stats.hlth > 0
     }
 
+    digest(digestAmt) {
+        digest(this, digestAmt)
+    }
+
     levelUp(message = '') {
         let expNoSkillPoints = _.filter(_.keys(this.exp), (key) => { return key !== 'skill' })
+        _.each(expNoSkillPoints, (expKey) => {
+            let statPath = this.expStatPath(expKey)
+            let origStat = _.get(this, statPath)
+
+            while (this.exp[expKey] >= _.get(this, statPath)) {
+                this.exp[expKey] -= _.get(character, statPath)
+                _.set(this, statPath, _.get(this, statPath) + 1)
+            }
+
+            if (origStat !== _.get(this, statPath)) {
+                switch (expKey) {
+                    case 'muscle':
+                        message += `Your muscles feel stronger and feel as though you could hit harder now!<br/>`
+                        break
+                    case 'agility':
+                        message += `Standing up you feel a bit lighter on your paws!<br/>`
+                        break
+                    case 'physique':
+                        message += `With a thump of your chest you feel much more sturdy now!<br/>`
+                        break
+                    case 'fat':
+                        message += `Looking down you find your new girth!<br/>`
+                        break
+                    case 'size':
+                        message += `Getting up you're a little dizzy from your new height!<br/>`
+                        break
+                }
+            }
+        })
+
+        this.skillPoints += this.exp.skill
+        this.exp.skill = 0
 
         return message
     }

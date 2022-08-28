@@ -3,8 +3,8 @@ const { logger } = require("@util/Logging");
 Macro.add('restMessageMacro', {
     skipArgs: false,
     handler: function () {
-        let home = this.args[0]
-        let player = variables().player;
+        let [home] = this.args
+        let { player } = variables();
         let maxFull = getFullPercentage(player.capacity)
         let $messageDiv = $('<div/>')
         let message;

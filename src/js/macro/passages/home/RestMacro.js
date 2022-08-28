@@ -6,16 +6,14 @@ import { logger } from "@util/Logging";
 Macro.add('restMacro', {
     skipArgs: false,
     handler: function () {
-        // REFACTOR Need to use new character class
         let { player } = variables()
 
         restockStore(7)
         
-        digest(player)
+        player.digest()
+        variables().restText = player.levelUp()
+        player.rest()
 
-        variables().restText = levelUp(player)
-
-        rest(player)
         advanceTime()
 
         if (variables().restText === '')

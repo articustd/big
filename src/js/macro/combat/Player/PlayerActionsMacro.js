@@ -18,8 +18,8 @@ Macro.add('playerActionsMacro', {
             }
 
             // REFACTOR Need to use new character class
-            if (!playerAlive) {
-                rest(player)
+            if (!player.isAlive()) {
+                player.rest()
                 variables().restText = losePrey(player)
                 Engine.play('home')
             } else
@@ -46,11 +46,11 @@ Macro.add('playerActionsMacro', {
 
         $wrapper.appendTo(this.output)
 
-        if (!playerAlive) {
+        if (!player.isAlive()) {
             $leaveBtn.wiki('Pass Out').appendTo($wrapper)
             switchPanels('dead')
         }
-        else if (!enemyAlive) {
+        else if (!enemy.isAlive()) {
             switchPanels('loot')
             $wrapper.wiki(`<<consumeEnemy $enemy>>`)
         } else if (!variables().combat) {
@@ -94,8 +94,4 @@ function getAttackSkills(skill) {
     return _.filter(_.map(attacks, ({ id, currCooldown }) => {
         return { ...attackSkill[id], currCooldown, id }
     }), { skill })
-}
-
-function isAlive({ stats: { hlth } }) {
-    return hlth > 0
 }

@@ -9,5 +9,5 @@ You're home. Nothing here except you, a bed, and the mirror.
 <<link "Change Moveset" "moveset">><<unset $restText>><</link>>
 
 <<timeAction "Rest" "home" 8 0>>
-	<<restMacro true false>>
+	<<restMacro>>
 <</timeAction>>
