@@ -1,5 +1,3 @@
-import { digest } from "@controller/character/CapacityController";
-import { levelUp, rest } from "@controller/character/CharacterController"
 import { advanceTime, restockStore } from "@controller/TimeController";
 import { logger } from "@util/Logging";
 

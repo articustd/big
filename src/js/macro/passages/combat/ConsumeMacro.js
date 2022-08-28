@@ -1,4 +1,3 @@
-import { returnStatName } from "@controller/character/CharacterController"
 import { findSize } from "@controller/character/MeasurementController"
 import { getExpText } from "@controller/combat/CombatController"
 import { largerText, muchLargerText, muchSmallerText, sameText, smallerText } from "@js/data/combat/ConsumeTextTable"

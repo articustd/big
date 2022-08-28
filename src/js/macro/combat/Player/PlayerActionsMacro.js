@@ -1,6 +1,5 @@
 import { logger } from "@util/Logging"
 import { attackSkill } from "@js/data"
-import { rest } from "@controller/character/CharacterController"
 import { combatReset, combatRoll, fleeChance, loseExp } from "@controller/combat/CombatController"
 import { losePrey } from "@controller/character/CapacityController"
 
