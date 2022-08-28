@@ -3,10 +3,20 @@ import { stores, settings } from '@js/data'
 import Macros from '@js/macro'
 import Templates from '@js/template'
 
-import { logger } from '@util/Logging'
-import { migrate } from './migrations'
+import { logger } from '@js/controllers/util/Logging'
+import { loadGameData, saveGameData } from '@util/SaveSystem'
 
-Config = { ...Config, ...storyConfig };
+Config = {
+	...Config,
+	...storyConfig,
+	saves: {
+		id: 'big',
+		autoload: checkAutoload(),
+		autosave: true,
+		slots: 8,
+		isAllowed: function () { return State.passage !== 'start' }
+	}
+};
 setup.ImagePath = "assets/";
 
 ((Config, State, Story, Engine, Dialog, $document) => {
@@ -30,7 +40,20 @@ setup.ImagePath = "assets/";
 	// Config loading
 	Save.onLoad.add(function (save) {
 		logger('Loading...')
-		migrate(save, version)
+		loadGameData(save, version)
+	})
+
+	// Config saving
+	Save.onSave.add(function (save, details) {
+		logger(save)
+		switch (details.type) {
+			case 'serialize':
+				break
+			case 'autosave':
+			case 'disk':
+			default:
+			// save.GameData = saveGameData()
+		}
 	})
 
 	// Setup noreturn
@@ -38,4 +61,15 @@ setup.ImagePath = "assets/";
 		if (!ev.passage.tags.includes('noreturn'))
 			variables().return = ev.passage.title;
 	});
+
+	$(document).on(':storyready', function (ev) {
+		if (checkAutoload()) 
+			Save.autosave.load()
+		else
+			Engine.show()
+	})
 })(Config, State, Story, Engine, Dialog, $(document));
+
+function checkAutoload() {
+	return State.passage !== 'start' && !_.isEmpty(State.passage) && Save.autosave.ok()
+}

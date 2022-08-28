@@ -174,7 +174,7 @@ export function getMaxHealth({ stats: { con }, measurements: { height, bodyFat }
 }
 
 //HACK need to finalize stomach capacity calcs
-function calcCapacity({capacity, gender}, maxCap) {
+function calcCapacity({ capacity, gender }, maxCap) {
     capacity.stomachMax = maxCap
     capacity.stomach = []
     if (gender.balls) {
@@ -290,6 +290,7 @@ export function levelUp(character, message = '') {
     return message
 }
 
+// CONVERTED 
 export function rest(character) {
     character.stats.maxHlth = getMaxHealth(character)
     character.stats.hlth = character.stats.maxHlth;
@@ -302,3 +303,4 @@ export function getSkillById(id) {
 export function getAttackSkill(id) {
     return attackSkill[id]
 }
+

@@ -13,5 +13,12 @@ Macro.add('tempData', {
         temporary().bodyTypes = _.map(measurements.bodyTypes, (val) => { return _.keys(val)[0] }) // Move to temp in charGen
         temporary().genders = genderArray(); // Move to temp in start
         temporary().pronouns = pronounArray() // Move to temp in start and charGen
+        variables().player = {
+            name: "Min",
+            species: "Dragon",
+            gender: "Futa",
+            size: "Average",
+            pronouns: "shi / hir / hirs / hirself"
+        }
     }
 })

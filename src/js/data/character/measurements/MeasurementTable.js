@@ -11,8 +11,9 @@ let sizes = [
 ];
 
 // Stat mods need to be a range to give more depth to descriptions
+// REFACTOR Need to move name into objects
 let bodyTypes = [
-    { "Thin": { bodyFat: [0.05,0.07], statMods: { strg: [0.1,0.4], dex: [1.25,1.75], con: [0.4,0.6] }, expMods: { pawEye: 2, size: 1, skill: 1 }, loot: [7] } },
+    { "Thin": { bodyFat: [0.05,0.07], statMods: { strg: [0.1,0.4], dex: [1.25,1.75], con: [0.4,0.6] }, expMods: { agility: 2, size: 1, skill: 1 }, loot: [7] } },
     { "Normal": { bodyFat: [0.1,0.2], statMods: { strg: [0.6,1], dex: [0.75,1], con: [0.75,1] }, expMods: { size: 1, skill: 1 }, loot: [7] } },
     { "Fit": { bodyFat: [0.08,0.1], statMods: { strg: [0.8,1.4], dex: [1,1.5], con: [1,1.5] }, expMods: { agility: 2, physique: 2, size: 1, skill: 1 }, loot: [6] } },
     { "Muscle": { bodyFat: [0.05,0.08], statMods: { strg: [1.5,2.5], dex: [0.6,0.9], con: [1,1.25] }, expMods: { muscle: 2, physique: 3, size: 1, skill: 1 }, loot: [0] } },

@@ -1,4 +1,4 @@
-import { createButton, createField } from "@util/Input"
+import { createButton, createField } from "@js/controllers/util/Input"
 import * as dataObjs from "@js/data"
 import { logger } from "./Logging"
 

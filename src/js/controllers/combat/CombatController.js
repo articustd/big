@@ -1,6 +1,6 @@
-import { losePrey } from "@controller/character/CapacityController";
-import { returnStatName } from "@controller/character/CharacterController";
-import { rollItems } from "@controller/character/ItemController";
+import { losePrey } from "@js/controllers/character/CapacityController";
+import { returnStatName } from "@js/controllers/character/CharacterController";
+import { rollItems } from "@js/controllers/character/ItemController";
 import { attackSkill, statusEffect } from "@js/data";
 import { logger } from "@util/Logging";
 import _ from "lodash";

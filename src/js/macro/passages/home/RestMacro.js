@@ -6,6 +6,7 @@ import { logger } from "@util/Logging";
 Macro.add('restMacro', {
     skipArgs: false,
     handler: function () {
+        // REFACTOR Need to use new character class
         let { player } = variables()
 
         restockStore(7)

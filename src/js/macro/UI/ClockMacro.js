@@ -1,4 +1,4 @@
-import { returnTime } from '@js/controller/TimeController'
+import { returnTime } from '@controller/TimeController'
 
 Macro.add('clockMacro', {
     skipArgs: false,

@@ -1,17 +1,25 @@
-import { genChar, statPoints } from "@controller/character/CharacterController"
 import { calcWeight } from "@controller/character/MeasurementController";
 import { rollItems } from "@controller/character/ItemController";
 import { skills, species } from "@js/data";
 import { logger } from "@util/Logging";
+import { Character } from "@js/objects/Character";
+import _ from "lodash";
 
 Macro.add('enemyMacro', {
     skipArgs: false,
     handler: function () {
-        let minSize = this.args[0]
-        let maxSize = this.args[1]
-        variables().fightHeader = this.args[2]
-        let player = variables().player;
-        let enemy = genChar(statPoints(player), random(0, species.length - 1), [minSize, maxSize], [0, 4], random(0, 6));
+        let [minSize, maxSize, fightHeader] = this.args
+        
+        let { player } = variables();
+        let enemy = new Character({
+            baseStat: player.getAvgStatPoints(),
+            speciesId: _.random(0, species.length - 1),
+            sizeRange: [minSize, maxSize],
+            bodyTypeRange: [0, 4],
+            genderId: _.random(0,6)
+        })
+
+        variables().fightHeader = fightHeader
         variables().combat = true
         variables().enemy = enemy
         // checkWilling(player.skills, enemy)

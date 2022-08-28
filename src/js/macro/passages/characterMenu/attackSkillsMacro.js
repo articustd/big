@@ -7,10 +7,11 @@ import _ from "lodash";
 Macro.add('attackSkill', {
     skipArgs: false,
     handler: function () {
+        // REFACTOR Need to use new character class
         let $wrapper = $('<span/>');
-        let player = variables().player
+        let { player } = variables()
 
-        $wrapper.append($('<span/>').wiki(`''__Self Defence Class__''`))
+        $wrapper.append($('<span/>').wiki(`''__Self Defense Class__''`))
         let $table = $('<table/>').addClass('skillTable').addClass('skillTable');
         let tableData = [['Attack', 'Description', 'Requirements', 'Points']];
 
@@ -38,10 +39,10 @@ Macro.add('attackSkill', {
                         let notificationText = ''
                         if (variables().player.skillPoints >= r[2]) {
                             let atk = attackSkill[r[3]]
-                            if(atk.passive)
+                            if (atk.passive)
                                 variables().player.passives.push(r[3])
                             else
-                                variables().player.learnedAttacks.push({id: r[3], cooldown: atk.cooldown, currCooldown: 0})
+                                variables().player.learnedAttacks.push({ id: r[3], cooldown: atk.cooldown, currCooldown: 0 })
 
                             variables().player.skillPoints -= r[2]
 

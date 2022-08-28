@@ -32,8 +32,8 @@ module.exports = {
     },
     resolve: {
         alias: {
-            "@util": path.resolve(__dirname, 'src', 'js', 'controller','util'),
-            "@controller": path.resolve(__dirname, 'src', 'js', 'controller'),
+            "@util": path.resolve(__dirname, 'src', 'js', 'controllers','util'),
+            "@controller": path.resolve(__dirname, 'src', 'js', 'controllers'),
             "@js": path.resolve(__dirname, 'src', 'js')
         },
         extensions: ['.js', '.json']

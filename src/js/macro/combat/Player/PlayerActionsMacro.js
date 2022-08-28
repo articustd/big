@@ -7,29 +7,28 @@ import { losePrey } from "@controller/character/CapacityController"
 Macro.add('playerActionsMacro', {
     skipArgs: false,
     handler: function () {
-        let { player, enemy } = variables()
-        let playerAlive = isAlive(player)
-        let enemyAlive = isAlive(enemy)
+        let { player, enemy, combat, return: returnPassage } = variables()
         let $wrapper = $('<div/>').css({ 'display': 'flex', 'flex-direction': 'column', 'margin': '5px 0px' })
 
         let $leaveBtn = $('<button/>').css({ 'margin-top': '5px', 'height': '50px', 'font-size': '25px', 'border-radius': '0px 0px 0px 3px', 'background-color': 'red', 'border-color': 'red' }).click(() => {
-            if (playerAlive && enemyAlive && variables().combat) {
+            if (player.isAlive() && enemy.isAlive() && combat) {
                 combatRoll({ runaway: true })
                 Engine.play(passage(), true);
                 return
             }
 
+            // REFACTOR Need to use new character class
             if (!playerAlive) {
                 rest(player)
                 variables().restText = losePrey(player)
                 Engine.play('home')
             } else
-                Engine.play(variables().return)
+                Engine.play(returnPassage)
 
             combatReset()
         })
 
-        if (playerAlive && enemyAlive && variables().combat) {
+        if (player.isAlive() && enemy.isAlive() && combat) {
             let $atkButton = $('<button/>').wiki(`Attacks`).css({ 'margin-bottom': '5px', 'height': '50px', 'font-size': '25px', 'border-radius': '3px 0px 0px 0px', 'position': 'relative' }).click(function () {
                 switchPanels('attack')
             }).appendTo($wrapper)

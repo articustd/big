@@ -5,6 +5,7 @@ import { getItemInfoByIndex } from "@controller/character/ItemController"
 Macro.add('invMacro', {
     skipArgs: false,
     handler: function () {
+        // REFACTOR Need to use new character class
         let inventory = State.variables.player.inv;
         
         let $table = $('<table/>').addClass('inventoryTable');
