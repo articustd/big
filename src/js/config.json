@@ -1,8 +1,1 @@
-{
-    "history": {
-        "controls": true,
-        "maxStates": 2
-    },
-    "debug": true,
-    "logging": true
-}
+{"history": {"controls": true, "maxStates": 40 }, "debug": true, "logging": true }

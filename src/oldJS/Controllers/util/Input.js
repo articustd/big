@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { logger } from "./Logging"
+import { logger } from "../../../js/Utils/Logging"
 import * as dataObjs from "@js/data"
 import { createTable } from "./Table"
 

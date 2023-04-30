@@ -7,8 +7,9 @@
         "allowSyntheticDefaultImports": true,
         "baseUrl": "./",
         "paths": {
-            "@util/*": ["src/js/controllers/util/*"],
-            "@controller/*": ["src/js/controllers/*"],
+            "@Utils/*": ["src/js/controllers/Utils/*"],
+            "@Controllers/*": ["src/js/Controllers/*"],
+            "@GameObjects/*": ["src/js/GameObjects/*"],
             "@js/*": ["src/js/*"]
         }
     },

@@ -1,6 +1,6 @@
 import { createButton, createField } from "@js/controllers/util/Input"
 import * as dataObjs from "@js/data"
-import { logger } from "./Logging"
+import { logger } from "../../../js/Utils/Logging"
 
 export function createTable({ $parent, dataMap, data, name, title, btns: { hasDelete, hasAdd }, rowCallback, dataCallback, editable }) {
     let $table = $(`<table/>`).attr('id', `${name}-table`).attr('name', name).addClass('dataEditorTable')

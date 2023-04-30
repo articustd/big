@@ -1,4 +1,4 @@
-import { logger } from "./Logging";
+import { logger } from "../../../js/Utils/Logging";
 import _ from 'lodash';
 
 export function stateEditor() {

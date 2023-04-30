@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { logger } from './Logging'
+import { logger } from '../../../js/Utils/Logging'
 
 export function popup(title, message, btns, hasNoShow) {
     let $modal = $('<div/>').dialog({

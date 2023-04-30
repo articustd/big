@@ -1,10 +1,10 @@
 import storyConfig from './config.json'
-import { stores, settings } from '@js/data'
-import Macros from '@js/macro'
-import Templates from '@js/template'
+import _ from 'lodash'
+import Macros from '@js/Macros'
+// import Templates from '@js/Templates'
 
-import { logger } from '@js/controllers/util/Logging'
-import { loadGameData, saveGameData } from '@util/SaveSystem'
+import { logger } from '@Utils/Logging'
+// import { loadGameData, saveGameData } from '@util/SaveSystem'
 
 Config = {
 	...Config,
@@ -24,10 +24,8 @@ setup.ImagePath = "assets/";
 	let version = `v0.10.0`
 	// Set State Variables
 	variables().version = version
-	variables().stores = stores;
-	variables().time = { day: 1, hour: 0, min: 0 }
 	variables().debug = storyConfig.debug
-	variables().settings = settings
+	logger('New log')
 	// Register custom SugarCube macros
 	// registerAlert(Macro, Dialog);
 
@@ -40,7 +38,7 @@ setup.ImagePath = "assets/";
 	// Config loading
 	Save.onLoad.add(function (save) {
 		logger('Loading...')
-		loadGameData(save, version)
+		// loadGameData(save, version)
 	})
 
 	// Config saving

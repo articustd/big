@@ -1,7 +1,7 @@
 import { migrate } from "@js/migrations"
 import { Character } from "@js/objects/Character"
 import _ from "lodash"
-import { logger } from "./Logging"
+import { logger } from "../../../js/Utils/Logging"
 
 export function saveGameData(saveData = {}) {
     return saveData

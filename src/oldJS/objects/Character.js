@@ -1,4 +1,4 @@
-import { logger } from "../controllers/util/Logging"
+import { logger } from "../../js/Utils/Logging"
 import _ from "lodash"
 import { attackSkill, genders, loot, measurements, species } from "@js/data"
 import { digest } from "@controller/character/CapacityController"

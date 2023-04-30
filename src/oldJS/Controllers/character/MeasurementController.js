@@ -1,4 +1,4 @@
-import { logger } from "../util/Logging"
+import { logger } from "../../../js/Utils/Logging"
 import { measurements } from '@js/data'
 import _ from "lodash"
 

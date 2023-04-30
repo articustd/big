@@ -111,3 +111,5 @@ sugarcube-2:
       name: TransferenceControls
     TransferenceBuy:
       name: TransferenceBuy
+    debugCharacters:
+      name: debugCharacters

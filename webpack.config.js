@@ -5,7 +5,8 @@ module.exports = {
     mode: 'production',
     entry: './src/js/index.js',
     output: {
-        filename: 'story.bundle.js'
+        filename: 'story.bundle.js',
+        path: path.resolve(__dirname, 'story/modules')
     },
     target: 'web',
     module: {
@@ -32,8 +33,8 @@ module.exports = {
     },
     resolve: {
         alias: {
-            "@util": path.resolve(__dirname, 'src', 'js', 'controllers','util'),
-            "@controller": path.resolve(__dirname, 'src', 'js', 'controllers'),
+            "@Utils": path.resolve(__dirname, 'src', 'js','Utils'),
+            "@Controller": path.resolve(__dirname, 'src', 'js', 'Controllers'),
             "@js": path.resolve(__dirname, 'src', 'js')
         },
         extensions: ['.js', '.json']

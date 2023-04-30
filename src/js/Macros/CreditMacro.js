@@ -1,4 +1,4 @@
-import { logger } from "@util/Logging";
+import { logger } from "@Utils/Logging";
 
 Macro.add('creditMacro', {
     skipArgs: false,
