@@ -25,15 +25,6 @@ setup.ImagePath = "assets/";
 	// Set State Variables
 	variables().version = version
 	variables().debug = storyConfig.debug
-	logger('New log')
-	// Register custom SugarCube macros
-	// registerAlert(Macro, Dialog);
-
-	// Register plugin modules
-	// registerTitleMatchProperties({ State, Story, $document });
-
-	// Register components
-	// registerHeader($document);
 
 	// Config loading
 	Save.onLoad.add(function (save) {
