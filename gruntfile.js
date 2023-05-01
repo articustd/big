@@ -10,7 +10,7 @@ module.exports = function (grunt) {
             },
             options: {
                 port: 8080,
-                server: "./dist",
+                server: "dist",
                 watchTask: true,
             }
         },
@@ -18,27 +18,21 @@ module.exports = function (grunt) {
             sass: {
                 files: 'src/**/*.scss',
                 tasks: ['buildSass'],
-                options: {
-                    atBegin: true,
-                },
             },
             webpack: {
                 files: 'src/**/*.js',
                 tasks: ['webpack'],
-                options: {
-                    atBegin: true,
-                },
             },
             tweego: {
                 files: 'story/**/*',
                 tasks: ['run:tweego'],
-                options: {
-                    atBegin: true,
-                },
             },
         },
         clean: {
-            sass: ['story/modules/main.min.css.map']
+            sass: ['story/modules/main.*.css*'],
+            sassMap: ['story/modules/main.min.css.map'],
+            dist: ['dist/index.html'],
+            bundle: ['story/modules/story.bundle.js']
         },
         run: {
             tweego: {
@@ -80,9 +74,9 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('buildSass', 'Build SASS file without map file', function () {
-        grunt.task.run('sass', 'clean:sass')
+        grunt.task.run('sass', 'clean:sassMap')
     })
 
-    grunt.registerTask('build', 'Build a working html file with bundle and css', ['buildSass', 'webpack', 'run:tweego'])
-    grunt.registerTask('default', 'Default task launches the watching setup', ['browserSync', 'chokidar'])
+    grunt.registerTask('build', 'Build a working html file with bundle and css', ['clean', 'buildSass', 'webpack', 'run:tweego'])
+    grunt.registerTask('default', 'Default task launches the watching setup', ['build', 'browserSync', 'chokidar'])
 }
