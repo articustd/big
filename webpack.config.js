@@ -35,6 +35,7 @@ module.exports = {
         alias: {
             "@Utils": path.resolve(__dirname, 'src', 'js','Utils'),
             "@Controller": path.resolve(__dirname, 'src', 'js', 'Controllers'),
+            "@GameObjects": path.resolve(__dirname, 'src', 'js', 'GameObjects'),
             "@js": path.resolve(__dirname, 'src', 'js')
         },
         extensions: ['.js', '.json']

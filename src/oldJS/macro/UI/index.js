@@ -1,6 +1,6 @@
 import CapacityBarMacro from './CapacityBarMacro'
 import ClockMacro from './ClockMacro'
-import CreditMacro from '../../../js/Macros/CreditMacro'
+import CreditMacro from '../../../js/Macros/UI/CreditMacro'
 import HealthBarMacro from './HealthBarMacro'
 import RestMessagesMacro from './RestMessagesMacro'
 import TempDataMacro from './TempDataMacro'
