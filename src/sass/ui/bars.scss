@@ -1,0 +1,41 @@
+%currentStatusBar-shared {
+    top: 0px;
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    transition: all 1s;
+}
+
+.statusBar {
+    width: 100%;
+    height: 25px;
+    text-align: center;
+    position: relative;
+}
+
+.currentHealthBar, .currentVisCapBar {
+    @extend %currentStatusBar-shared;
+    background: #ff0000;
+}
+
+.warningFlash {
+    animation: healthFlash 1s alternate ease-in-out infinite;
+}
+
+.currentNotVisCapBar {
+    @extend %currentStatusBar-shared;
+    background-color: green;
+}
+
+.currentStatusText {
+    position:relative;
+    z-index: 2;
+    font-weight: bold;
+    color: white;
+}
+
+@keyframes healthFlash {
+    100% {
+        background: transparent
+    }
+}

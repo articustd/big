@@ -113,3 +113,7 @@ sugarcube-2:
       name: TransferenceBuy
     debugCharacters:
       name: debugCharacters
+    DebugCharacters:
+      name: DebugCharacters
+    HealthBar:
+      name: HealthBar

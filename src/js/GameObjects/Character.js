@@ -24,7 +24,11 @@ export class Character {
     set stats(stats) { this._stats = stats }
 
     calcHealthMax() {
-        this.stats.healthMax = 5
+        this.healthMax = 5
+    }
+
+    calcHealthPercentage() {
+        return Math.clamp(Math.floor((this.health/this.healthMax)*100),0,100)
     }
 
     calcStats() {

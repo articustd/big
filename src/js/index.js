@@ -3,6 +3,7 @@ import _ from 'lodash'
 import Macros from '@js/Macros'
 // import Templates from '@js/Templates'
 
+import { LoadAttacksFromData } from '@Utils/Loaders/AttackLoader'
 import { logger } from '@Utils/Logging'
 // import { loadGameData, saveGameData } from '@util/SaveSystem'
 
@@ -26,6 +27,8 @@ setup.ImagePath = "assets/";
 	variables().version = version
 	variables().debug = storyConfig.debug
 
+	LoadAttacksFromData()
+
 	// Config loading
 	Save.onLoad.add(function (save) {
 		logger('Loading...')
@@ -34,7 +37,7 @@ setup.ImagePath = "assets/";
 
 	// Config saving
 	Save.onSave.add(function (save, details) {
-		logger(save)
+		// logger(save)
 		switch (details.type) {
 			case 'serialize':
 				break
@@ -52,7 +55,7 @@ setup.ImagePath = "assets/";
 	});
 
 	$(document).on(':storyready', function (ev) {
-		if (checkAutoload()) 
+		if (checkAutoload())
 			Save.autosave.load()
 		else
 			Engine.show()

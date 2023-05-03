@@ -1,2 +1,8 @@
 :: debugRoom [noreturn]
 <h1>Debug Room</h1>
+
+$player.name
+<<HealthBar $player>>
+
+$enemy.name
+<<HealthBar $enemy>>
