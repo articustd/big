@@ -6,3 +6,5 @@ $player.name
 
 $enemy.name
 <<HealthBar $enemy>>
+
+<<CombatAction $player.attacks[0]>>

@@ -5,7 +5,7 @@ import Macros from '@js/Macros'
 
 import { LoadAttacksFromData } from '@Utils/Loaders/AttackLoader'
 import { logger } from '@Utils/Logging'
-// import { loadGameData, saveGameData } from '@util/SaveSystem'
+import { loadGameData, saveGameData } from '@Utils/SaveSystem'
 
 Config = {
 	...Config,
@@ -27,12 +27,12 @@ setup.ImagePath = "assets/";
 	variables().version = version
 	variables().debug = storyConfig.debug
 
-	LoadAttacksFromData()
+	// LoadAttacksFromData()
 
 	// Config loading
 	Save.onLoad.add(function (save) {
 		logger('Loading...')
-		// loadGameData(save, version)
+		loadGameData(save, version)
 	})
 
 	// Config saving
@@ -44,7 +44,7 @@ setup.ImagePath = "assets/";
 			case 'autosave':
 			case 'disk':
 			default:
-			// save.GameData = saveGameData()
+			save.GameData = saveGameData()
 		}
 	})
 

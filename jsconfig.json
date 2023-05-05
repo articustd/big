@@ -9,7 +9,7 @@
         "paths": {
             "@Utils/*": ["src/js/controllers/Utils/*"],
             "@Controllers/*": ["src/js/Controllers/*"],
-            "@GameObjects/*": ["src/js/GameObjects/*"],
+            "@GameObjects/*": ["src/js/GameEngine/GameObjects/*"],
             "@js/*": ["src/js/*"]
         }
     },

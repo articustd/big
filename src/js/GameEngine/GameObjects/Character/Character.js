@@ -1,9 +1,12 @@
 import { logger } from "@Utils/Logging"
+import AttackData from "@js/Data/Attacks.json"
 import _ from "lodash"
+import { Attack } from "../Attack/Attack"
 
 // Character Obj
 // {stats:{muscle,fat,pawEye,size},capacity,health,healthMax}
 export class Character {
+    // #attacks
     constructor(data, load) {
         if (load) {
             this.load(load)
@@ -23,14 +26,25 @@ export class Character {
     get stats() { return this._stats }
     set stats(stats) { this._stats = stats }
 
+    // Health Funcs
     calcHealthMax() {
-        this.healthMax = 5
+        this.healthMax = 999
     }
 
     calcHealthPercentage() {
         return Math.clamp(Math.floor((this.health/this.healthMax)*100),0,100)
     }
 
+    isAlive() {
+        return this.stats.health > 0
+    }
+
+    resetHealth() {
+        this.calcHealthMax()
+        this.health = this.healthMax
+    }
+
+    // Stat Funcs
     calcStats() {
         if (this._stats)
             return
@@ -44,13 +58,23 @@ export class Character {
         })
     }
 
-    isAlive() {
-        return this.stats.hlth > 0
+    // get attacks() {return this.#attacks}
+    // getAttacks() {return this.#attacks}
+
+    // Attack Funcs    
+    loadAttacks() {
+        this.attacks = []
+
+        _.each(this.equippedAttacks, (name) => {
+            this.attacks.push(new Attack(this, _.find(AttackData, {name})))
+        })
+
+        logger(this.attacks)
     }
 
-    resetHealth() {
-        this.calcHealthMax()
-        this.health = this.healthMax
+    findAttack(name) {
+        logger(this.attacks)
+        return _.find(this.attacks, {name})
     }
 
     load(data) {

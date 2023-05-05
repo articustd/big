@@ -1,5 +1,8 @@
+import { logger } from "@js/Utils/Logging"
+
 export class Attack {
-    constructor(data, load) {
+    constructor(owner, data, load) {
+        this.owner = owner
         _.each(data, (val, key) => {
             this[`${key}`] = val
         })
