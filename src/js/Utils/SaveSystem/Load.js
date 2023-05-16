@@ -1,12 +1,12 @@
 import _ from "lodash"
 import { logger } from "@Utils/Logging"
-import { Character } from "@GameObjects/Character/Character"
+// import { Character } from "@GameObjects/Character/Character"
 
 export function loadGameData(save, version) {
     // logger(save)
 
     _.each(save.state.history, ({ variables }) => {
-        hydrateClasses(variables)
+        // hydrateClasses(variables)
     })
 }
 

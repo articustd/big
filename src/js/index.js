@@ -1,9 +1,9 @@
 import storyConfig from './config.json'
 import _ from 'lodash'
 import Macros from '@js/Macros'
-// import Templates from '@js/Templates'
+import Templates from '@js/Templates'
 
-import { LoadAttacksFromData } from '@Utils/Loaders/AttackLoader'
+// import { LoadAttacksFromData } from '@Utils/Loaders/AttackLoader'
 import { logger } from '@Utils/Logging'
 import { loadGameData, saveGameData } from '@Utils/SaveSystem'
 
@@ -13,7 +13,7 @@ Config = {
 	saves: {
 		id: 'big',
 		autoload: checkAutoload(),
-		autosave: true,
+		autosave: false,
 		slots: 8,
 		isAllowed: function () { return State.passage !== 'start' }
 	}

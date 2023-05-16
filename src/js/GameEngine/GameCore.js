@@ -1,6 +1,7 @@
 import { logger } from '@Utils/Logging';
 import { WEBGL, Game } from 'phaser'
 import { MainLoop } from './Scenes/MainLoop';
+import { CharacterPlugin } from './GameObjects/Character/CharacterPlugin'
 
 const myCustomCanvas = document.createElement('canvas');
 
@@ -33,6 +34,7 @@ let phaserConfig = {
     // },
     plugins: {
         global: [
+            { key: 'CharacterPlugin', plugin: CharacterPlugin, start: true },
         ]
     },
     scene: MainLoop

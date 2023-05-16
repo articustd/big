@@ -1,7 +1,12 @@
+import { getScene } from "@js/GameEngine/GameCore"
+import { logger } from "@js/Utils/Logging"
+
 Macro.add('HealthBar', {
     skipArgs: false,
     handler: function () {
-        let character = this.args[0]
+        let mainLoop = getScene('MainLoop')
+        let character = this.args[0] ? mainLoop.player : mainLoop.enemy
+        
         let align = this.args[1] ? 'left' : 'right'
 
         let $healthBar = $('<div/>')

@@ -1,10 +1,10 @@
 :: debugRoom [noreturn]
 <h1>Debug Room</h1>
 
-$player.name
-<<HealthBar $player>>
+?PlayerName
+<<HealthBar true>>
 
-$enemy.name
-<<HealthBar $enemy>>
+?EnemyName
+<<HealthBar false>>
 
-<<CombatAction $player.attacks[0]>>
+/* <<CombatAction $player.attacks[0]>> */
