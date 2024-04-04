@@ -1,5 +1,6 @@
 import { logger } from "@util/Logging"
 import _ from "lodash"
+//import { RecalcStats } from "@controller/character/CharacterController"
 
 Macro.add('AttributeBuy', {
     skipArgs: false,
@@ -15,6 +16,7 @@ Macro.add('AttributeBuy', {
                 stats[stat] += change
             })
             variables().player.credits -= totalCost()
+            //RecalcStats(player) //WIP we need to recalculate before resting
             Engine.show()
         })
 

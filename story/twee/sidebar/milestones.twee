@@ -1,0 +1,40 @@
+:: milestones [noreturn] {"position":"275,550","size":"100,100"}
+<h1>$player.name's milestones</h1>
+The more you grow, the more your form bestows you with power. Break these limits to reap the benefits.
+<table>
+    <thead>
+        <tr>
+            <th>Achievement</th>
+            <th>Description</th>
+            <th>Effect</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Ahead of the crowd</td>
+            <td>Become taller than average and reach two meters in height.</td>
+            <td>+5 strength +5 constitution +5 dexterity</td>
+        </tr>
+        <tr>
+            <td>Toned form</td>
+            <td>Grow some muscles on your form by reaching 60 strength.</td>
+            <td>+10 strength</td>
+        </tr>
+        <tr>
+            <td>Trained legs</td>
+            <td>Outrun the micro metro and reach 60 dexterity.</td>
+            <td>+10 dexterity</td>
+        </tr>
+        <tr>
+            <td>Resilient body</td>
+            <td>Train to withstand some blows after reaching 60 constitution.</td>
+            <td>+10 constitution</td>
+        </tr>
+    </tbody>
+</table>
+<div class="travel-link">
+    <div>\
+        <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>keyboard-backspace</title><path d="M21,11H6.83L10.41,7.41L9,6L3,12L9,18L10.41,16.58L6.83,13H21V11Z" /></svg>\
+        <<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
+    </div>\
+</div>

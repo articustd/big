@@ -302,3 +302,7 @@ export function getSkillById(id) {
 export function getAttackSkill(id) {
     return attackSkill[id]
 }
+
+export function RecalcStats(){
+    calcStats(character, statMods, statPoints)   
+}

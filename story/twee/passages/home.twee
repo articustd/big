@@ -1,13 +1,16 @@
 :: home {"position":"375,250"}
 <h1>Home</h1>
-<<restMessageMacro true>>
+<<restMessageMacro true>>\
 You're home. Nothing here except you, a bed, and the mirror.
-<<if def $restText>><br/>$restText<</if>>
-<<link "Travel" "travel">><<unset $restText>><</link>>
-
-<<link "Look in the Mirror" "mirror">><</link>>
-<<link "Change Moveset" "moveset">><<unset $restText>><</link>>
-
-<<timeAction "Rest" "home" 8 0>>
-	<<restMacro true false>>
-<</timeAction>>
+<<if def $restText>><br/>$restText<</if>>\
+<div class="travel-link">\
+	<button class="full-width" data-passage="travel"><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>map-marker</title><path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" /></svg> Travel<<unset $restText>></button>
+	<button class="full-width" data-passage="mirror"><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>mirror-variant</title><path d="M8.29 10.28L11.53 7.03L12.59 8.09L9.35 11.34L8.29 10.28M8.7 14.61L14.36 8.95L15.42 10L9.76 15.67L8.7 14.61M14.17 3L18 6.83V17.17L14.17 21H9.83L6 17.17V6.83L9.83 3H14.17M15 1H9L4 6V18L9 23H15L20 18V6L15 1Z" /></svg> Look in the Mirror<<unset $restText>></button>
+	<button class="full-width" data-passage="moveset"><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>sword</title><path d="M6.92,5H5L14,14L15,13.06M19.96,19.12L19.12,19.96C18.73,20.35 18.1,20.35 17.71,19.96L14.59,16.84L11.91,19.5L10.5,18.09L11.92,16.67L3,7.75V3H7.75L16.67,11.92L18.09,10.5L19.5,11.91L16.83,14.58L19.95,17.7C20.35,18.1 20.35,18.73 19.96,19.12Z" /></svg> Change Moveset<<unset $restText>></button>
+	<div>\
+		<svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>bed</title><path d="M19,7H11V14H3V5H1V20H3V17H21V20H23V11A4,4 0 0,0 19,7M7,13A3,3 0 0,0 10,10A3,3 0 0,0 7,7A3,3 0 0,0 4,10A3,3 0 0,0 7,13Z" /></svg>\
+		<<timeAction "Rest" "home" 8 0>>\
+			<<restMacro true false>>\
+		<</timeAction>>\
+	</div>\
+</div>\

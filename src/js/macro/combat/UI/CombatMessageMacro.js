@@ -4,8 +4,9 @@ Macro.add('combatMessageMacro', {
     skipArgs: false,
     handler: function () {
         let [combatLog, topBottom] = this.args
-
-        let $container = $('<div/>').css({ 'display':'flex', 'position': 'absolute', 'border': '1px solid', 'border-radius':'3px', 'width': '90%', 'justify-content': 'center', 'text-align': 'center', 'z-index': '-1', [topBottom]: 'calc(100% - 1px)' })
+        
+        //Results in adding class combat-message-top or -bottom as a CSS class along with combat-message
+        let $container = $('<div/>').addClass('combat-message combat-message-' + [topBottom] ) 
 
         if (combatLog) {
             $container.append(_.last(combatLog))

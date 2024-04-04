@@ -18,38 +18,64 @@ As you consume enemies your immediate capacity will fill up. Once you reach your
 Your starting capacity will be your starting size minus one.
 
 Prey capacity amounts are as follows:
-|''Size''|''Amount''|
-|Micro|1|
-|Tiny|2|
-|Mini|3|
-|Small|4|
-|Average|5|
-|Tall|6|
-|Huge|7|
-|Massize|8|
-|Macro|9|
-
+<table class="Stat-table">
+    <thead>
+        <tr><th>''Size''</th><th>''Amount''</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>Micro	</td><td>1</td></tr>
+        <tr><td>Tiny	</td><td>2</td></tr>
+        <tr><td>Mini	</td><td>3</td></tr>
+        <tr><td>Small	</td><td>4</td></tr>
+        <tr><td>Average	</td><td>5</td></tr>
+        <tr><td>Tall	</td><td>6</td></tr>
+        <tr><td>Huge	</td><td>7</td></tr>
+        <tr><td>Massize	</td><td>8</td></tr>
+        <tr><td>Macro	</td><td>9</td></tr>
+    </tbody>
+</table>
 !!Stats
 -----
-''__Base Stats__''
-''Health'' - Current health out of max total health.
-''Strength'' - Inflict more damage with attacks. Governed by Muscle Experience.
-''Dexterity'' - Dictates attack turn, run chance, and hit chance. Governed by Agility Experience.
-''Constitution'' - Defines how much health a character has. Governed by Physique Experience.
-''Skill Points'' - Used to purchase skills from the trainers. Governed by Skill Experience.
-
-''__Measurements__''
-''Height'' - How large you are. Governed by the Size Experience.
-''Weight'' - How heavy you are. Governed by the Fat Experience.
-
-''__Experience Points__''
-''Muscle'' - The amount of Muscle Experience you currently have. Effects Strength when resting.
-''Agility'' - The amount of Agility Experience you currently have. Effects Dexterity when resting.
-''Physique'' - The amount of Physique Experience you currently have. Effects Constitution when resting.
-''Size'' - The amount of Size Experience you currently have. Effects Height when resting.
-''Fat'' - The amount of Fat Experience you currently have. Effects Weight when resting.
-''Skill'' - The amount of Skill Experience you currently have. Effects Skill Points when resting.
-
-''Credits'' - Current amount of credits you have.
-
-<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
+<table class="Stat-table">
+    <thead>
+        <tr><th colspan="2">''__Base Stats__''</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>''Health''</td><td>Current health out of max total health.</td></tr>
+        <tr><td>''Strength''</td><td>Inflict more damage with attacks. Governed by Muscle Experience.</td></tr>
+        <tr><td>''Dexterity''</td><td>Dictates attack turn, run chance, and hit chance. Governed by Agility Experience.</td></tr>
+        <tr><td>''Constitution''</td><td>Defines how much health a character has. Governed by Physique Experience.</td></tr>
+        <tr><td>''Skill Points''</td><td>Used to purchase skills from the trainers. Governed by Skill Experience.</td></tr>
+    </tbody>
+</table>
+<table class="Stat-table">
+    <thead>
+        <tr><th colspan="2">''__Measurements__''</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>''Height''</td><td>How large you are. Governed by the Size Experience.</td></tr>
+        <tr><td>''Weight''</td><td>How heavy you are. Governed by the Fat Experience.</td></tr>
+    </tbody>
+</table>
+<table class="Stat-table">
+    <thead>
+        <tr><th colspan="2">''__Experience Points__''</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>''Muscle''</td><td>The amount of Muscle Experience you currently have. Effects Strength when resting.</td></tr>
+        <tr><td>''Agility''</td><td>The amount of Agility Experience you currently have. Effects Dexterity when resting.</td></tr>
+        <tr><td>''Physique''</td><td>The amount of Physique Experience you currently have. Effects Constitution when resting.</td></tr>
+        <tr><td>''Size''</td><td>The amount of Size Experience you currently have. Effects Height when resting.</td></tr>
+        <tr><td>''Fat''</td><td>The amount of Fat Experience you currently have. Effects Weight when resting.</td></tr>
+        <tr><td>''Skill''</td><td>The amount of Skill Experience you currently have. Effects Skill Points when resting.</td></tr>
+    </tbody>
+</table>
+<table>
+    <tr><td>''Credits''</td><td>Current amount of credits you have.</td></tr>
+</table>
+<div class="travel-link">
+    <div>\
+		<svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>keyboard-backspace</title><path d="M21,11H6.83L10.41,7.41L9,6L3,12L9,18L10.41,16.58L6.83,13H21V11Z" /></svg>\
+		<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
+	</div>\
+</div>

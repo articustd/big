@@ -1,5 +1,8 @@
 # Bigger is Better
-Bigger is Better (BiB) is an 18+ furry Twine RPG
+Bigger is Better (BiB) is an 18+ furry Twine RPG by articustd. 
+This branch aims to expand on the work that's already been done. The main focus is quality of life and expanding the combat system.
+Later additions may include a storyline.
+
 ## ⚠️ WARNING ⚠️
 This repo contains adult and furry content. Proceeding into this repo you are confirming you are the appropriate age to be consuming this content. All characters in this work of fiction are 18+
 
@@ -20,6 +23,8 @@ For extra development tools: `npm run config:dev`
 For production: `npm run config:prod`
 
 ### Build
+Windows batch files have been added to this project to build the project in one click and open the compiled file in the browser.
+
 To build an HTML file run: `npm run build`
 HTML file will be output to the `dist` folder and can be run in place.
 
