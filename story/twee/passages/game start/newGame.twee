@@ -1,61 +1,48 @@
 :: newGame {"position":"150,675","size":"100,100"}
 <h1>Create Character</h1><<tempData>>
-Welcome to the character creater! 
+Welcome to the character creator! 
 
 Here you can pick your name, starting species, gender, size, and how you want measurements displayed.
 
 Size effects your starting stats, smaller characters will have a harder time starting out. So choose wisely!
-\
-<table class='settings-table'>
-	<tr class="settings-row">
-		<td class="settings-name">Name:</td>
-		<td class="settings-value"><<textbox "$player.name" "Min">></td>
-	</tr>
-	<tr class="settings-row">
-		<td class="settings-name">Species:</td><td class="settings-value"><<listbox "$player.species" autoselect>><<optionsfrom _species>><</listbox>></td>
-	</tr>
-	<tr class="settings-row">
-		<td class="settings-name">Gender:</td><td class="settings-value"><<listbox "$player.gender" autoselect>><<optionsfrom _genders>><</listbox>></td>
-	</tr>
-	<tr class="settings-row">
-		<td class="settings-name">Pronouns:</td>
-		<td class="settings-value"><<listbox "$player.pronouns" autoselect>><<optionsfrom _pronouns>><</listbox>></td>
-	</tr>
-	<tr class="settings-row">
-		<td class="settings-name">Size:</td>
-		<td class="settings-value"><<listbox "$player.size" autoselect>><<optionsfrom _playerSizes>><</listbox>></td>
-	</tr>
-</table> 
-''__Game Settings__''
-<table class='settings-table'>
-	<tr class="settings-row">
-		<td class="settings-name">Units of Measure:</td>
-		<td class="settings-value">\
-			<<listbox "$settings.units.imperial" autoselect>>
-				<<option "Imperial" true>>
-				<<option "Metric" false>>
-			<</listbox>>
-		</td>
-	</tr>
-	<tr class="settings-row">
-		<td class="settings-name">Time:</td>
-		<td class="settings-value">\
-			<<listbox "$settings.units.twelveHour" autoselect>>
-				<<option "12 Hour" true>>
-				<<option "24 Hour" false>>
-			<</listbox>>
-		</td>
-	</tr>
-	<tr class="settings-row">
-		<td class="settings-name">Hyper EXP Mode: <<script>>infoBubble("Increases experience gain by 4x from fights.").appendTo(this.output);<</script>></td>
-		<td class="settings-value">\
-			<<listbox "$settings.tweak.hyperMode" autoselect>>
-				<<option "On" true>>
-				<<option "Off" false>>
-			<</listbox>>
-		</td>
-	</tr>
-</table>
-<div class="travel-link">\
-	<<button "Next" "welcome">><</button>>\
-</div>\
+
+<<nobr>>
+<div class="settings-grid">
+	<div class="grid-header">''__Character information__''</div>
+	<div >Name:</div>
+	<div ><<textbox "$player.name" "Min">></div>
+	<div >Species:</div><div ><<listbox "$player.species" autoselect>><<optionsfrom _species>><</listbox>></div>
+	<div >Gender:</div><div ><<listbox "$player.gender" autoselect>><<optionsfrom _genders>><</listbox>></div>
+	<div >Pronouns:</div>
+	<div ><<listbox "$player.pronouns" autoselect>><<optionsfrom _pronouns>><</listbox>></div>
+	<div >Size:</div>
+	<div ><<listbox "$player.size" autoselect>><<optionsfrom _playerSizes>><</listbox>></div>
+
+	<div class="grid-header">''__Game Settings__''</div>
+	<div >Units of Measure:</div>
+	<div >
+		<<listbox "$settings.units.imperial" autoselect>>
+			<<option "Imperial" true>>
+			<<option "Metric" false>>
+		<</listbox>>
+	</div>	
+	<div >Time:</div>
+	<div >
+		<<listbox "$settings.units.twelveHour" autoselect>>
+			<<option "12 Hour" true>>
+			<<option "24 Hour" false>>
+		<</listbox>>
+	</div>	
+	<div >Hyper EXP Mode: <<script>>infoBubble("Increases experience gain by 4x from fights.").appendTo(this.output);<</script>></div>
+	<div >
+		<<listbox "$settings.tweak.hyperMode" autoselect>>
+			<<option "On" true>>
+			<<option "Off" false>>
+		<</listbox>>
+	</div>
+</div>
+<div class="travel-link">
+	<<button "Next" "welcome">><</button>>
+</div>
+<br />
+<</nobr>>

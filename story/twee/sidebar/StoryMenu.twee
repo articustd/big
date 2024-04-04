@@ -1,70 +1,81 @@
 :: StoryBanner {"position":"250,125"}
 <img class="logo" id="logoImage" @src="setup.ImagePath+'bigCard.png'"> 
-
 :: StorySubtitle {"position":"375,0"}
 $version
-
 :: StoryCaption {"position":"25,550","size":"100,100"}
+<<nobr>>
 <<if def $gameStarted>>
-    <table class="Stat-table">
-        <tr><td style="width: 2em;"><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>circle-multiple</title><path d="M15 4A8 8 0 1 1 7 12A8 8 0 0 1 15 4M3 12A6 6 0 0 0 7 17.65V19.74A8 8 0 0 1 7 4.26V6.35A6 6 0 0 0 3 12Z" /></svg></td><td>Credits:     </td><td>$player.credits</td></tr>
-        <tr><td style="width: 2em;"><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>school</title><path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z" /></svg></td><td>Skill Points:    </td><td>$player.skillPoints</td></tr>
-    </table>
-    <svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>heart</title><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" /></svg> Health: <<healthBarMacro $player>>
-    Stomach Capacity: <<capacityBarMacro $player "stomach">>
-    <<if def $player.capacity.womb>>Womb Capacity: <<capacityBarMacro $player "womb">><</if>>
-    <<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><</if>>
-    <table class="Stat-table">
-        <thead><tr><th colspan="3">__Base Stats__</th></tr></thead>
-        <tbody>
-            <tr><td><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>dumbbell</title><path d="M20.57,14.86L22,13.43L20.57,12L17,15.57L8.43,7L12,3.43L10.57,2L9.14,3.43L7.71,2L5.57,4.14L4.14,2.71L2.71,4.14L4.14,5.57L2,7.71L3.43,9.14L2,10.57L3.43,12L7,8.43L15.57,17L12,20.57L13.43,22L14.86,20.57L16.29,22L18.43,19.86L19.86,21.29L21.29,19.86L19.86,18.43L22,16.29L20.57,14.86Z" /></svg></td><td> Strength:       </td><td>$player.stats.strg</td></tr>
-            <tr><td><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>run-fast</title><path d="M16.5,5.5A2,2 0 0,0 18.5,3.5A2,2 0 0,0 16.5,1.5A2,2 0 0,0 14.5,3.5A2,2 0 0,0 16.5,5.5M12.9,19.4L13.9,15L16,17V23H18V15.5L15.9,13.5L16.5,10.5C17.89,12.09 19.89,13 22,13V11C20.24,11.03 18.6,10.11 17.7,8.6L16.7,7C16.34,6.4 15.7,6 15,6C14.7,6 14.5,6.1 14.2,6.1L9,8.3V13H11V9.6L12.8,8.9L11.2,17L6.3,16L5.9,18L12.9,19.4M4,9A1,1 0 0,1 3,8A1,1 0 0,1 4,7H7V9H4M5,5A1,1 0 0,1 4,4A1,1 0 0,1 5,3H10V5H5M3,13A1,1 0 0,1 2,12A1,1 0 0,1 3,11H7V13H3Z" /></svg></td><td> Dexterity:      </td><td>$player.stats.dex</td></tr>
-            <tr><td><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>wall</title><path d="M3,16H12V21H3V16M2,10H8V15H2V10M9,10H15V15H9V10M16,10H22V15H16V10M13,16H21V21H13V16M3,4H11V9H3V4M12,4H21V9H12V4Z" /></svg></td><td> Constitution:   </td><td>$player.stats.con</td></tr>
-        </tbody>
-    </table>
-    <table class="Stat-table">
-        <thead><tr><th  colspan="2">__Experience Points__</th></tr></thead>
-        <tbody>
-            <tr><td>Muscle:     </td><td><<expBarMacro $player "left" "muscle">></td></tr>
-            <tr><td>Agility:    </td><td><<expBarMacro $player "left" "agility">></td></tr>
-            <tr><td>Physique:   </td><td><<expBarMacro $player "left" "physique">></td></tr>
-            <tr><td>Size:       </td><td><<expBarMacro $player "left" "size">></td></tr>
-            <tr><td>Fat:        </td><td><<print $player.exp.fat * 100>></td></tr>
-            <tr><td>Skill:      </td><td>$player.exp.skill</td></tr>
-        </tbody>
-    </table>
+    
+    <div class="stats-grid">
+        <svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>circle-multiple</title><path d="M15 4A8 8 0 1 1 7 12A8 8 0 0 1 15 4M3 12A6 6 0 0 0 7 17.65V19.74A8 8 0 0 1 7 4.26V6.35A6 6 0 0 0 3 12Z" /></svg>
+        <div>Credits:       </div>
+        <div>$player.credits</div>
+
+        <svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>school</title><path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z" /></svg>
+        <div>Skill Points:          </div>
+        <div>$player.skillPoints    </div>
+    </div><br />
+    <svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>heart</title><path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" /></svg> Health: <<healthBarMacro $player>><br />
+    Stomach Capacity: <<capacityBarMacro $player "stomach">><br />
+    <<if def $player.capacity.womb>>Womb Capacity: <<capacityBarMacro $player "womb">><br /><</if>>
+    <<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><br /><</if>>
+    <div class="stats-grid">
+        <div class="grid grid-header">__Base Stats__</div>
+        <svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>dumbbell</title><path d="M20.57,14.86L22,13.43L20.57,12L17,15.57L8.43,7L12,3.43L10.57,2L9.14,3.43L7.71,2L5.57,4.14L4.14,2.71L2.71,4.14L4.14,5.57L2,7.71L3.43,9.14L2,10.57L3.43,12L7,8.43L15.57,17L12,20.57L13.43,22L14.86,20.57L16.29,22L18.43,19.86L19.86,21.29L21.29,19.86L19.86,18.43L22,16.29L20.57,14.86Z" /></svg>
+        <div>Strength:          </div>
+        <div>$player.stats.strg     </div>
+
+        <svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>run-fast</title><path d="M16.5,5.5A2,2 0 0,0 18.5,3.5A2,2 0 0,0 16.5,1.5A2,2 0 0,0 14.5,3.5A2,2 0 0,0 16.5,5.5M12.9,19.4L13.9,15L16,17V23H18V15.5L15.9,13.5L16.5,10.5C17.89,12.09 19.89,13 22,13V11C20.24,11.03 18.6,10.11 17.7,8.6L16.7,7C16.34,6.4 15.7,6 15,6C14.7,6 14.5,6.1 14.2,6.1L9,8.3V13H11V9.6L12.8,8.9L11.2,17L6.3,16L5.9,18L12.9,19.4M4,9A1,1 0 0,1 3,8A1,1 0 0,1 4,7H7V9H4M5,5A1,1 0 0,1 4,4A1,1 0 0,1 5,3H10V5H5M3,13A1,1 0 0,1 2,12A1,1 0 0,1 3,11H7V13H3Z" /></svg>
+        <div> Dexterity:        </div>
+        <div>$player.stats.dex  </div>
+
+        <svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>wall</title><path d="M3,16H12V21H3V16M2,10H8V15H2V10M9,10H15V15H9V10M16,10H22V15H16V10M13,16H21V21H13V16M3,4H11V9H3V4M12,4H21V9H12V4Z" /></svg>
+        <div>Constitution:      </div>
+        <div>$player.stats.con  </div>
+    </div>
+    <br />
+    <div class="exp-grid">
+        <div class="grid grid-header">__Experience Points__</div>
+            <div>Muscle:     </div><div><<expBarMacro $player "left" "muscle">>   </div>
+            <div>Agility:    </div><div><<expBarMacro $player "left" "agility">>  </div>
+            <div>Physique:   </div><div><<expBarMacro $player "left" "physique">> </div>
+            <div>Size:       </div><div><<expBarMacro $player "left" "size">>     </div>
+            <div>Fat:        </div><div><<print $player.exp.fat * 100>>           </div>
+            <div>Skill:      </div><div>$player.exp.skill                         </div>
+    </div><br />
 <</if>>
-<div class="travel-link full-width" style="max-width: 100%;">\
-    <<if def $gameStarted>>\
-        <div>\
-            <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>account</title><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" /></svg>\
-            <<link $player.name "character">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>\
-        </div>\
-        <div>\
-            <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>treasure-chest</title><path d="M5,4H19A3,3 0 0,1 22,7V11H15V10H9V11H2V7A3,3 0 0,1 5,4M11,11H13V13H11V11M2,12H9V13L11,15H13L15,13V12H22V20H2V12Z" /></svg>\
-            <<link "Inventory" "inv">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>\
-        </div>\
-         <div>\
-            <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>cog</title><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" /></svg>\
-            <<link "Settings" "settings">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>\
-        </div>\
-        <<if $debug>>\
-            <div>\
-                <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>code-braces</title><path d="M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z" /></svg>\
-                <<link "Dev" "debugPassage">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>\
-            </div>\
-            <div>\
-                <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>code-braces</title><path d="M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z" /></svg>\
-                <<link "Milestones" "milestones">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>\
-            </div>\
-        <</if>>\
-    <</if>>\
-    <div>\
-        <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>list-box</title><path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M7 7H9V9H7V7M7 11H9V13H7V11M7 15H9V17H7V15M17 17H11V15H17V17M17 13H11V11H17V13M17 9H11V7H17V9Z" /></svg>\
-        <<link "Credits" "credits">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>\
-    </div>\
-    <div>\
-        <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>help</title><path d="M10,19H13V22H10V19M12,2C17.35,2.22 19.68,7.62 16.5,11.67C15.67,12.67 14.33,13.33 13.67,14.17C13,15 13,16 13,17H10C10,15.33 10,13.92 10.67,12.92C11.33,11.92 12.67,11.33 13.5,10.67C15.92,8.43 15.32,5.26 12,5A3,3 0 0,0 9,8H6A6,6 0 0,1 12,2Z" /></svg>\
-        <<link "Help" "help">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>\
-    </div>\
-</div>\
+<div class="travel-link full-width" style="max-width: 100%;">
+    <<if def $gameStarted>>
+        <div>
+            <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>account</title><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" /></svg>
+            <<link $player.name "character">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+        </div>
+        <div>
+            <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>treasure-chest</title><path d="M5,4H19A3,3 0 0,1 22,7V11H15V10H9V11H2V7A3,3 0 0,1 5,4M11,11H13V13H11V11M2,12H9V13L11,15H13L15,13V12H22V20H2V12Z" /></svg>
+            <<link "Inventory" "inv">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+        </div>
+         <div>
+            <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>cog</title><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" /></svg>
+            <<link "Settings" "settings">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+        </div>
+        <<if $debug>>
+            <div>
+                <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>code-braces</title><path d="M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z" /></svg>
+                <<link "Dev" "debugPassage">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+            </div>
+            <div>
+                <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>code-braces</title><path d="M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z" /></svg>
+                <<link "Milestones" "milestones">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+            </div>
+        <</if>>
+    <</if>>
+    <div>
+        <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>list-box</title><path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M7 7H9V9H7V7M7 11H9V13H7V11M7 15H9V17H7V15M17 17H11V15H17V17M17 13H11V11H17V13M17 9H11V7H17V9Z" /></svg>
+        <<link "Credits" "credits">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+    </div>
+    <div>
+        <svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>help</title><path d="M10,19H13V22H10V19M12,2C17.35,2.22 19.68,7.62 16.5,11.67C15.67,12.67 14.33,13.33 13.67,14.17C13,15 13,16 13,17H10C10,15.33 10,13.92 10.67,12.92C11.33,11.92 12.67,11.33 13.5,10.67C15.92,8.43 15.32,5.26 12,5A3,3 0 0,0 9,8H6A6,6 0 0,1 12,2Z" /></svg>
+        <<link "Help" "help">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+    </div>
+</div>
+<</nobr>>

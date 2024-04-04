@@ -371,11 +371,50 @@ table, tr, td, th{
     vertical-align: middle;
 }
 
-th
+th, .grid-header
 {
     background-color: $Twine-Blue;
     padding-left: 0.4em;
     padding-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.settings-grid{
+    display:grid;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: auto;
+
+    select, input{
+        width: 100%;
+    }
+
+    .grid-header{
+        grid-column-start: 1;
+        grid-column-end: 3;    
+        margin-top: 1em;
+    }
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns: 30% 50% 20%;
+    grid-template-rows: auto;
+
+    .grid-header{
+        grid-column-start:1;
+        grid-column-end: 4;
+    }
+}
+
+.exp-grid{
+    display:grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto;
+
+    .grid-header{
+        grid-column-start:1;
+        grid-column-end: 3;
+    }
 }
 
 td.settings-name,
