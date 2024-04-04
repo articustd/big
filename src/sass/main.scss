@@ -310,7 +310,15 @@ a.ui-button:active,
     $this: &;
     width: 150px;
     height: 150px;
+    width: 150px;
+    height: 150px;
     position: relative;
+    float:left;
+    margin: 0.5em;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
     float:left;
     margin: 0.5em;
     text-align: center;
@@ -332,6 +340,9 @@ a.ui-button:active,
     background: #4e4c4cb9;
     visibility: hidden;
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     display: flex;
     justify-content: center;
     align-items: center;
