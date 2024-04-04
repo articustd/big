@@ -2,24 +2,37 @@
 <h1>Gym</h1>
 Welcome to the gym! Cost to use the equipment is 100 credits a session.
 
-<<nobr>>
-<<if def $trainText>>
-$trainText
-<</if>>
-<</nobr>>
-
-<<timeAction "Lift Weights" "train" 1 0>>
-	<<trainMacro "muscle" "You pumped some iron and gain " 100 1>>
-<</timeAction>>
-<<timeAction "Squat Rack""train" 1 0>>
-	<<trainMacro "size" "You went deep with deep squats and gain " 100 1>>
-<</timeAction>>
-<<timeAction "Run on Treadmill" "train" 1 0>>
-	<<trainMacro "agility" "You hauled butt and gain " 100 1>>
-<</timeAction>>
-
+<<nobr>>\
+<<if def $trainText>>\
+$trainText\
+<</if>>\
+<</nobr>>\
+<div class="travel-link">\
+	<div>\
+		<svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>dumbbell</title><path d="M20.57,14.86L22,13.43L20.57,12L17,15.57L8.43,7L12,3.43L10.57,2L9.14,3.43L7.71,2L5.57,4.14L4.14,2.71L2.71,4.14L4.14,5.57L2,7.71L3.43,9.14L2,10.57L3.43,12L7,8.43L15.57,17L12,20.57L13.43,22L14.86,20.57L16.29,22L18.43,19.86L19.86,21.29L21.29,19.86L19.86,18.43L22,16.29L20.57,14.86Z" /></svg>\
+		<<timeAction "Lift Weights" "train" 1 0>>
+			<<trainMacro "muscle" "You pumped some iron and gain " 100 1>>
+		<</timeAction>>
+	</div>\
+	<div>\
+		<svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>format-paragraph-spacing</title><path d="M3 17H21V19H3V17M3 2H21V4H3V2M3 20H21V22H3V20M13 8H15L12 5L9 8H11V13H9L12 16L15 13H13V8Z" /></svg>\
+		<<timeAction "Squat Rack""train" 1 0>>
+			<<trainMacro "size" "You went deep with deep squats and gain " 100 1>>
+		<</timeAction>>
+	</div>\
+	<div>\
+		<svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>shoe-sneaker</title><path d="M2 15C2 15 2 12 4 12C4.68 12 5.46 11.95 6.28 11.82C7.2 12.54 8.5 13 10 13H10.25L8.56 11.29C8.91 11.18 9.25 11.05 9.59 10.91L11.5 12.82C11.89 12.74 12.25 12.63 12.58 12.5L10.55 10.45C10.85 10.28 11.14 10.11 11.43 9.91L13.5 12C13.8 11.79 14.04 11.56 14.25 11.32L12.22 9.29C12.46 9.07 12.7 8.83 12.92 8.58L14.79 10.45C14.91 10.14 15 9.83 15 9.5C15 8.65 14.55 7.89 13.84 7.28C13.89 7.19 13.95 7.1 14 7L15.53 6.23C16.38 7.17 18.14 7.84 20.25 7.97L20.3 8H21C21 8 22 9 22 12.5C22 13.07 22 13.57 21.96 14H19C17.9 14 16.58 14.26 15.3 14.5C14.12 14.76 12.9 15 12 15H2M21 17C21 17 21.58 17 21.86 15H19C17 15 14 16 12 16H2.28C2.62 16.6 3.26 17 4 17H21Z" /></svg>\
+		<<timeAction "Run on Treadmill" "train" 1 0>>
+			<<trainMacro "agility" "You hauled butt and gain " 100 1>>
+		<</timeAction>>
+	</div>\
+</div>\
 <<attackSkill>>
-
-<<link [[Go Back|$return]]>>
-	<<unset $trainText>>
-<</link>>
+<div class="travel-link">\
+	<div>\
+		<svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>keyboard-backspace</title><path d="M21,11H6.83L10.41,7.41L9,6L3,12L9,18L10.41,16.58L6.83,13H21V11Z" /></svg>\
+		<<link [[Go Back|$return]]>>
+			<<unset $trainText>>
+		<</link>>
+	</div>\	
+</div>

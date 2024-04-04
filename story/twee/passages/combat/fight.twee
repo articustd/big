@@ -33,12 +33,19 @@
             </div>
         </div>
         <<else>>
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center">
-            <h2>__''Loot''__</h2>
+        <div class="combat-results">
+            <div>
+                Stomach Capacity: <<capacityBarMacro $player "stomach">>
+                <<if def $player.capacity.womb>>Womb Capacity: <<capacityBarMacro $player "womb">><</if>>
+                <<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><</if>>
+            </div>
             <div style="text-align: center">
-            <<for _item range $foundItems>>
-                _item<br/>
-            <</for>>
+                <h2>__''Loot''__</h2>
+                <div>
+                <<for _item range $foundItems>>
+                    _item<br/>
+                <</for>>
+                </div>
             </div>
         </div>
         <</if>>

@@ -14,7 +14,7 @@ Macro.add('storeItem', {
         
         let $table = $('<table/>').addClass('storeTable');
         let $wrapper = $('<span/>')
-        let tableData = [['Item','Quantity','Price']]
+        let tableData = [['Item','Description','Quantity','Price', '', '']]
         storeStock.forEach(function (item, idx) {
             tableData.push([item.id,item.qty,item.price, idx])
         })
@@ -23,15 +23,15 @@ Macro.add('storeItem', {
             var $row = $('<tr/>')
             if (rowIndex > 0) {
                 $row.append($('<td/>').wiki(getItemInfoByIndex(r[0]).name))
+                $row.append($('<td/>').wiki(getItemInfoByIndex(r[0]).desc))
                 $row.append($('<td/>').wiki(r[1]))
                 $row.append($('<td/>').wiki(r[2]))
+                //Single buy button
                 var $button = $(document.createElement('button')).wiki(`Buy`).ariaClick(function (ev) {
                     let storeText = ``
                     if(r[1] > 0) { // If the item is in stock
                         if(State.variables.player.credits >= r[2]) { // Can the player afford it
-                            addToInventory({id:r[0],qty:1})
-                            decreaseCredits(r[2])
-                            decreaseStock(r[3],storeStock)
+                            BuyItem(r, storeStock)
                             storeText = `Bought 1 ${getItemInfoByIndex(r[0]).name}!`
                         } else
                             storeText = `Not enough credits for ${getItemInfoByIndex(r[0]).name}`
@@ -43,6 +43,31 @@ Macro.add('storeItem', {
                     Engine.play(passage(), true)
                 })
                 $row.append($(`<td/>`).append($button))
+
+                //Max buy button
+                var $MaxButton = $(document.createElement('button')).wiki(`Buy max`).ariaClick(function (ev) {
+                    let storeText = ``
+                    let SuccessCount = 0
+                    //console.log(r[1])
+                    if(r[1] > 0) { // If the item is in stock
+                        for(let x = 0; x < r[1]; x++){
+                            if(State.variables.player.credits >= r[2]) { // Can the player afford it
+                                BuyItem(r, storeStock)
+                                SuccessCount++;
+                            } 
+                        }  
+                        storeText = `Bought ` + SuccessCount + ` ${r[0].name}(s)`                                        
+                    } 
+                    
+                    else {
+                        storeText = `${getItemInfoByIndex(r[0]).name} is not in stock`
+                    }                    
+                    State.variables.storeText = storeText
+                    Engine.play(passage(), true)
+                })
+
+
+                $row.append($(`<td/>`).append($MaxButton))
             } else {
                 $.each(r, function(colIndex, c) {
                     $row.append($(`<th/>`).wiki(c))
@@ -60,4 +85,10 @@ Macro.add('storeItem', {
 
 function decreaseStock(id,storeStock) {
     storeStock[id].qty -= 1
+}
+
+function BuyItem(r, storeStock){
+    addToInventory({id:r[0],qty:1})
+    decreaseCredits(r[2])
+    decreaseStock(r[3],storeStock)
 }

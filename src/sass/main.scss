@@ -4,6 +4,8 @@
 @import "partials/buttons";
 @import "partials/moveset";
 
+$Twine-Blue: #3355aa;
+
 .flex-container {
     flex-direction: row;
     display: flex;
@@ -24,9 +26,11 @@ td>button {
     width: 100%;
 }
 
+/*
 td>button {
     height: 100%;
 }
+*/
 
 #story-caption {
     text-align: left;
@@ -304,9 +308,15 @@ a.ui-button:active,
 
 .creditWrapper {
     $this: &;
-    max-width: 150px;
-    max-height: 150px;
+    width: 150px;
+    height: 150px;
     position: relative;
+    float:left;
+    margin: 0.5em;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
     &:hover {
         cursor: pointer;
     }
@@ -322,8 +332,9 @@ a.ui-button:active,
     background: #4e4c4cb9;
     visibility: hidden;
     position: absolute;
-    line-height: 150px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .creditImg {
@@ -338,4 +349,174 @@ a.ui-button:active,
             background-color: #333;
         }
     }
+}
+
+/*SETTINGS SCREEN*/
+// Give the info button a little splash of color
+i.info{
+    font-size: 2.2em;
+    color: #FFF;
+}
+
+i.info-letter{
+    font-size: 1.5em;
+}
+
+i.info-back{
+    color: $Twine-Blue;
+}
+
+table, tr, td, th{
+    border: none;
+    vertical-align: middle;
+}
+
+th
+{
+    background-color: $Twine-Blue;
+    padding-left: 0.4em;
+    padding-bottom: 0.2em;
+}
+
+td.settings-name,
+table.Stat-table td
+{
+    min-width: 20%;
+}
+
+td.settings-value input, 
+td.settings-value select
+{
+    min-width: 50%;
+}
+
+
+//Make the selects a bit more noticeable
+input, select, textarea {
+    color: #eee;
+    background-color: #595858;
+    border: 3px solid #444;
+    border-radius: 5px;
+}
+
+//Moved from JS script add
+.combat-message{
+    left: 5%;
+    display: flex;
+    position: absolute;
+    border: 1px solid;
+    border-radius: 3px;
+    width: 90%;
+    justify-content: center;
+    text-align: center;
+    z-index: -1;
+    font-size: 1.5em;
+}
+
+.combat-message-top{
+    top: calc(100% - 1px)
+}
+
+.combat-message-bottom{
+    bottom: calc(100% - 1px)
+}
+
+
+@keyframes BlinkingAlert {
+    from {
+        color: rgba(255, 255, 0, 0);
+    }
+
+    to{
+        color: rgb(255, 255, 0);
+    }
+}
+.consume-alert{
+    float: right;
+    color: yellow;
+    margin-left: -1em;
+    animation: BlinkingAlert 1s alternate ease-in-out infinite;
+}
+
+
+.combat-results{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-left: 5%;
+    flex-wrap: wrap;
+    
+}
+
+.combat-results > div{
+    min-width: 40%;
+}
+
+.full-width{
+    width: 100%;
+}
+
+.half-width{
+    max-width: 50%;
+}
+
+.clear-both{
+    clear:both;
+}
+
+.trans-exchange{
+    justify-content: space-evenly;
+}
+
+//Icons are from Material design icons https://pictogrammers.com/library/mdi/
+.inline-icon{
+    height: 1.5em;
+    width: 1.5em;
+    fill: white;
+    background: none;
+}
+
+//Allows for an icon to be place on top of something if it's in an enclosing DIV, apply to icon itself
+.inline-icon-overlay{
+    position: relative;
+    top: 0.5em;
+    left: 0.5em;
+}
+
+.travel-link{
+    max-width: 50%;
+}
+
+.travel-link a, 
+.travel-link button,
+#menu-core li{
+    display: block;
+    background: $Twine-Blue;
+    padding: .4em;
+    border: 1px solid #57c;
+    color: white;
+    text-align: center;
+}
+
+.travel-link button span{
+    margin-top: 0.25em;
+    display: block;
+    padding-left: 2em;
+}
+
+.travel-link a:hover, 
+.travel-link button:hover,
+#menu-core li:hover,
+#menu li a:hover{
+    background-color: #57c;
+    border-color: #79e;
+}
+
+#menu li a:hover{
+    border:none;
+}
+
+.travel-link svg{
+    float: left;
 }

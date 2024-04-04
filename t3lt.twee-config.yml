@@ -41,6 +41,8 @@ sugarcube-2:
       name: startGameRoutine
     enemyMacro:
       name: enemyMacro
+    expBarMacro:
+      name: expBarMacro
     healthBarMacro:
       name: healthBarMacro
     leaveButtonMacro:

@@ -5,11 +5,12 @@ Welcome to Bigger is Better!
 
 A game about fighting, consuming, and growing. As you consume fallen enemies you will be growing various body parts and your overall size. Ontop of the physical attributes, you will be growing stats to be stronger in fights.
 
-Contributing Writer Credits:
+<h1>Credits</h1>
 <<creditMacro>>
-Thanks to you, the player. Without your support this would not be possible!
+<div class="clear-both">Thanks to you, the player. Without your support this would not be possible!</div>
 @@color:red;
 !!WARNING
 This game contains furry adult content, if you've gotten here by mistake now is your chance to turn back. By clicking the "New Game" you are confirming you are the appropriate age to be consuming this content.@@
-
-<<button "New Game" "newGame">><</button>>
+<div class="travel-link">
+    <<button "New Game" "newGame">><</button>>\
+</div>\

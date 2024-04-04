@@ -3,96 +3,112 @@
      "name": "Little Health Potion",
      "mod": 5,
      "type": "stats",
-     "stat": "hlth"
+     "stat": "hlth",
+     "desc": "Restores 5% of health, 5 health minimum"
     },
     {
      "name": "Protein Powder",
      "mod": 3,
      "type": "exp",
-     "stat": "muscle"
+     "stat": "muscle",
+     "desc": "Increases muscle experience by 3"
     },
     {
      "name": "Size Elixir",
      "mod": 10,
      "type": "exp",
-     "stat": "size"
+     "stat": "size",
+     "desc": "Increases size experience by 3"
     },
     {
      "name": "Tub of Grease",
      "mod": 0.01,
      "type": "exp",
-     "stat": "fat"
+     "stat": "fat",
+     "desc": "Increases fat experience by 1%"
     },
     {
      "name": "Vitamins",
      "mod": 1,
      "type": "stats",
-     "stat": "con"
+     "stat": "con",
+     "desc": "Increases constitution by 1"
     },
     {
      "name": "Blue Pill",
      "mod": 0.02,
      "type": "gender",
-     "stat": "penis"
+     "stat": "penis",
+     "desc": "Increases penis size by 2%"
     },
     {
      "name": "Magnesium Pills",
      "mod": 0.01,
      "type": "gender",
-     "stat": "balls"
+     "stat": "balls",
+     "desc": "Increases ball size by 1%"
     },
     {
      "name": "Injection",
      "mod": 0.01,
      "type": "gender",
-     "stat": "breasts"
+     "stat": "breasts",
+     "desc": "Increases breast size by 1%"
     },
     {
      "name": "Health Potion",
      "mod": 25,
      "type": "stats",
-     "stat": "hlth"
+     "stat": "hlth",
+     "desc": "Restores 10% of health, 25 health minimum"
     },
     {
      "name": "Muscle Reducer",
      "mod": -3,
      "type": "exp",
-     "stat": "muscle"
+     "stat": "muscle",
+     "desc": "Decreases muscle experience by 3"
     },
     {
      "name": "Shrink Elixir",
      "mod": -10,
      "type": "exp",
-     "stat": "size"
+     "stat": "size",
+     "desc": "Decreases size experience by 10"
     },
     {
      "name": "Soybeans",
      "mod": -0.05,
      "type": "exp",
-     "stat": "fat"
+     "stat": "fat",
+     "desc": "Decreases fat experience by 5%"
     },
     {
      "name": "Penis Reducer",
      "mod": -0.02,
      "type": "gender",
-     "stat": "penis"
+     "stat": "penis",
+     "desc": "Decreases penis size by 2%"
     },
     {
      "name": "Heat Pad",
      "mod": -0.01,
      "type": "gender",
-     "stat": "balls"
+     "stat": "balls",
+     "desc": "Decreases ball size by 1%"
     },
     {
      "name": "Breast Reducer",
      "mod": -0.01,
      "type": "gender",
-     "stat": "breasts"
+     "stat": "breasts",
+     "desc": "Decreases breast size by 1%"
     },
     {
      "name": "Large Health Potion",
      "mod": 50,
      "type": "stats",
-     "stat": "hlth"
+     "stat": "hlth",
+     "desc": "Restores 20% of health, 50 health minimum"
     }
    ]

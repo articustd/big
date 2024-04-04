@@ -16,6 +16,8 @@ $workText
 <<else>>
 Cannot work outside of work hours
 <</if>>
+<div class="travel-link">
 <<link [[Go Back|$return]]>>
 	<<unset $workText>>
 <</link>>
+</div>

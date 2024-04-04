@@ -1,31 +1,65 @@
 :: settings [noreturn] {"position":"275,425","size":"100,100"}
 <h1>Settings</h1>
 ''__Measurements__''
-Units of Measure: <<listbox "$settings.units.imperial" autoselect>>
-	<<option "Imperial" true>>
-	<<option "Metric" false>>
-<</listbox>>
-Time: <<listbox "$settings.units.twelveHour" autoselect>>
-	<<option "12 Hour" true>>
-	<<option "24 Hour" false>>
-<</listbox>>
-
+<table class='settings-table'>\
+	<tr class="settings-row">\
+		<td class="settings-name">Units of Measure:</td>\
+		<td class="settings-value">\
+			<<listbox "$settings.units.imperial" autoselect>>\
+				<<option "Imperial" true>>\
+				<<option "Metric" false>>\
+			<</listbox>>\
+		</td>\
+	</tr>\
+	<tr class="settings-row">\
+		<td class="settings-name">Time:</td>\
+		<td class="settings-value">\
+			<<listbox "$settings.units.twelveHour" autoselect>>\
+				<<option "12 Hour" true>>\
+				<<option "24 Hour" false>>\
+			<</listbox>>\
+		</td>\
+	</tr>\
+</table>\
 ''__Warnings__''
-Over Consumption Warning: <<listbox "$settings.warning.overConsumeWarning" autoselect>>
-	<<option "Always" true>>
-	<<option "Never" false>>
-<</listbox>>
-
+<table class='settings-table'>\
+	<tr class="settings-row">\
+		<td class="settings-name">Over Consumption Warning:</td>\
+		<td class="settings-value">\
+			<<listbox "$settings.warning.overConsumeWarning" autoselect>>\
+				<<option "Always" true>>\
+				<<option "Never" false>>\
+			<</listbox>>\
+		</td>\
+	</tr>\
+</table>\
 ''__Info__''
-Learn Attack Informational: <<listbox "$settings.info.learnedAttackInfo" autoselect>>
-	<<option "Always" true>>
-	<<option "Never" false>>
-<</listbox>>
-
+<table class='settings-table'>\
+	<tr class="settings-row">\
+		<td class="settings-name">Learn Attack Informational:</td>\
+		<td class="settings-value">\
+			<<listbox "$settings.info.learnedAttackInfo" autoselect>>\
+				<<option "Always" true>>\
+				<<option "Never" false>>\
+			<</listbox>>\
+		</td>\
+	</tr>\
+</table>\
 ''__Gameplay Tweaks__''
-Hyper EXP Mode <<script>>$('<i class="fa fa-info-circle" aria-hidden="true"/>').tooltip({ track: true, hide: { delay: 100 } }).attr('title', `Increases experience gain by 4x from fights.`).appendTo(this.output)<</script>>: <<listbox "$settings.tweak.hyperMode" autoselect>>
-	<<option "On" true>>
-	<<option "Off" false>>
-<</listbox>>
-
-<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
+<table class='settings-table'>\
+	<tr class="settings-row">\
+		<td class="settings-name">Hyper EXP Mode <<script>>infoBubble("Increases experience gain by 4x from fights.").appendTo(this.output);<</script>>:</td>\
+		<td class="settings-value">\
+			<<listbox "$settings.tweak.hyperMode" autoselect>>\
+				<<option "On" true>>\
+				<<option "Off" false>>\
+			<</listbox>>\
+		</td>\
+	</tr>\
+</table>\
+<div class="travel-link">\
+	<div>\
+		<svg class="inline-icon inline-icon-overlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>keyboard-backspace</title><path d="M21,11H6.83L10.41,7.41L9,6L3,12L9,18L10.41,16.58L6.83,13H21V11Z" /></svg>\
+		<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>\
+	</div>\
+</div>

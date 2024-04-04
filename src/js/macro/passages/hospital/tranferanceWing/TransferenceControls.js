@@ -8,9 +8,9 @@ Macro.add('TransferenceControls', {
         let total = temporary()[transType]
         let secondTotal = temporary()[secondTrans]
 
-        let $addBtn = $('<button/>').append($('<i/>').addClass(`fa fa-plus`)).click(() => { changeTotals(false) })
-        let $subBtn = $('<button/>').append($('<i/>').addClass(`fa fa-minus`)).click(() => { changeTotals(true) })
-        let $dropdown = createDropdown({ '1': 1, '10': 10, '50': 50, '100': 100, '1000': 1000 }, `${transType}Select`, "1")
+        let $addBtn = $('<button/>').addClass('full-width').append($('<i/>').addClass(`fa fa-plus`)).click(() => { changeTotals(false) })
+        let $subBtn = $('<button/>').addClass('full-width').append($('<i/>').addClass(`fa fa-minus`)).click(() => { changeTotals(true) })
+        let $dropdown = createDropdown({ '1': 1, '10': 10, '50': 50, '100': 100, '1000': 1000 }, `${transType}Select`, "1").addClass('full-width')
         $dropdown.change(()=>{
             checkDisabled()
             logger($('.trans').data('counters'))
