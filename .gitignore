@@ -6,3 +6,4 @@ package-lock.json
 /story/modules/story.bundle.js
 Git big-main.lnk
 log.txt
+src/js/config.json

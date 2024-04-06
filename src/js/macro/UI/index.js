@@ -1,4 +1,5 @@
 import CapacityBarMacro from './CapacityBarMacro'
+import IconMacro from '../IconMacro'
 import ClockMacro from './ClockMacro'
 import CreditMacro from './CreditMacro'
 import HealthBarMacro from './HealthBarMacro'

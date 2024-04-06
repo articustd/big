@@ -1,16 +1,27 @@
 :: hospital
 <h1>Hospital</h1>
-
 A medical facility for creatures of all shapes and sizes. The medical staff here is trained to assist with any physical needs.
 
 Looking left you see the Attribute and Genetics wings, on the right you see the Magnitudinal and Transference wings.
 
 The Magnitudinal Wing has some caution tape infront of it still, but since when has that stopped you?
+
+<<nobr>>
 <div class="travel-link">
-    <button class="full-width" data-passage="attributeWing"><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>plus-minus-variant</title><path d="M3 7H6V4H8V7H11V9H8V12H6V9H3V7M13 15H21V17H13V15M16.04 3H18.35L7.96 21H5.65L16.04 3Z" /></svg> Attribute Wing</button>
-    <button class="full-width" data-passage="geneticsWing"><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>dna</title><path d="M4,2H6V4C6,5.44 6.68,6.61 7.88,7.78C8.74,8.61 9.89,9.41 11.09,10.2L9.26,11.39C8.27,10.72 7.31,10 6.5,9.21C5.07,7.82 4,6.1 4,4V2M18,2H20V4C20,6.1 18.93,7.82 17.5,9.21C16.09,10.59 14.29,11.73 12.54,12.84C10.79,13.96 9.09,15.05 7.88,16.22C6.68,17.39 6,18.56 6,20V22H4V20C4,17.9 5.07,16.18 6.5,14.79C7.91,13.41 9.71,12.27 11.46,11.16C13.21,10.04 14.91,8.95 16.12,7.78C17.32,6.61 18,5.44 18,4V2M14.74,12.61C15.73,13.28 16.69,14 17.5,14.79C18.93,16.18 20,17.9 20,20V22H18V20C18,18.56 17.32,17.39 16.12,16.22C15.26,15.39 14.11,14.59 12.91,13.8L14.74,12.61M7,3H17V4L16.94,4.5H7.06L7,4V3M7.68,6H16.32C16.08,6.34 15.8,6.69 15.42,7.06L14.91,7.5H9.07L8.58,7.06C8.2,6.69 7.92,6.34 7.68,6M9.09,16.5H14.93L15.42,16.94C15.8,17.31 16.08,17.66 16.32,18H7.68C7.92,17.66 8.2,17.31 8.58,16.94L9.09,16.5M7.06,19.5H16.94L17,20V21H7V20L7.06,19.5Z" /></svg> Genetics Wing</button>
-    <button class="full-width" data-passage="magnitudinalWing"><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>exponent-box</title><path d="M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3H5M13.76,6H15.39L16.5,8.6L17.59,6H19.24C19.24,6 17.5,10.57 16.46,12.32C16.08,12.89 15.35,13.27 14.5,13.25V11.75C14.96,11.76 15.25,11.5 15.5,11.13C15.61,11 15.68,10.8 15.74,10.64L13.76,6M6.41,9.59L9.21,12.38L12,9.59L13.41,11L10.62,13.79L13.41,16.59L12,18L9.21,15.21L6.41,18L5,16.59L7.79,13.79L5,11L6.41,9.59Z" /></svg> Magnitudinal Wing</button>
-    <button class="full-width" data-passage="transferenceWing"><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>transfer</title><path d="M8 4A2 2 0 0 0 6 6V10H8V6H16V9H13.5L17 12.5L20.5 9H18V6A2 2 0 0 0 16 4H8M3 12V14H11V12H3M3 15V17H11V15H3M13 15V17H21V15H13M3 18V20H11V18H3M13 18V20H21V18H13Z" /></svg> Transference Wing</button>
-    
-    <button class="full-width" data-passage="travel"><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>keyboard-backspace</title><path d="M21,11H6.83L10.41,7.41L9,6L3,12L9,18L10.41,16.58L6.83,13H21V11Z" /></svg> Return</button>
+    <button class="full-width" data-passage="attributeWing">
+        <<iconMacro "plus minus" "inline-icon">> Attribute Wing
+    </button><br />
+    <button class="full-width" data-passage="geneticsWing">
+        <<iconMacro "dna" "inline-icon">> Genetics Wing
+    </button><br />
+    <button class="full-width" data-passage="magnitudinalWing">
+        <<iconMacro "exponent" "inline-icon">> Magnitudinal Wing
+    </button><br />
+    <button class="full-width" data-passage="transferenceWing">
+        <<iconMacro "transfer" "inline-icon">> Transference Wing
+    </button><br />    
+    <button class="full-width" data-passage="travel">
+        <<iconMacro "back" "inline-icon">> Return
+    </button>
 </div>
+<</nobr>>

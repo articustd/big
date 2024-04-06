@@ -1,0 +1,6 @@
+:: _consumeText      
+<<nobr>>  
+    <<for _i, _exp range $consumeText>>
+        <br/>_exp
+    <</for>><br />
+<</nobr>>
