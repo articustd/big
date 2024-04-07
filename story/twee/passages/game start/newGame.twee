@@ -40,8 +40,8 @@ Size effects your starting stats, smaller characters will have a harder time sta
 			<<option "Off" false>>
 		<</listbox>>
 	</div>
-</div>
-<div class="travel-link">
+</div><br/>
+<div class="travel-link full-width">
 	<<button "Next" "welcome">><</button>>
 </div>
 <br />
