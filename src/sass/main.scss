@@ -3,8 +3,9 @@
 @import "partials/tabs";
 @import "partials/buttons";
 @import "partials/moveset";
-
-$Twine-Blue: #3355aa;
+@import "partials/combat";
+@import "partials/themes/default";
+@import "partials/themes/brownGreen";
 
 .flex-container {
     flex-direction: row;
@@ -18,19 +19,13 @@ $Twine-Blue: #3355aa;
 table,
 th,
 td {
-    border: 1px solid white;
+    border: 1px solid;
 }
 
 table,
 td>button {
     width: 100%;
 }
-
-/*
-td>button {
-    height: 100%;
-}
-*/
 
 #story-caption {
     text-align: left;
@@ -115,59 +110,6 @@ img#logoImage {
     display: none;
 }
 
-.CombatContainer {
-    padding: 5px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-#EnemyContainer {
-    text-align: right;
-}
-
-#EnemyCombatLog {
-    direction: rtl;
-}
-
-.CombatLog {
-    border-radius: 7px;
-    padding: 5px;
-    border: solid;
-    height: 400px;
-    overflow: hidden;
-}
-
-/* On Hover */
-.CombatLog:hover {
-    overflow-y: scroll;
-}
-
-.CombatActionContainer {
-    padding: 1px;
-    float: left;
-    width: 32%;
-    /* border: solid; */
-    height: 100px;
-}
-
-.CombatActionHeader {
-    justify-content: center;
-    display: flex;
-    font-size: x-large;
-}
-
-#LeaveContainer {
-    display: block;
-    text-align: center;
-    padding-top: 35px;
-}
-
-.lootText {
-    display: block;
-    text-align: center;
-}
-
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
@@ -214,7 +156,6 @@ img#logoImage {
 .ui-widget-content {
 	border: 1px solid #4e4c4c;
 	background: #2c2b2b;
-	color: #fff;
 }
 .ui-menu {
     border: 1px solid #4e4c4c!important
@@ -222,17 +163,10 @@ img#logoImage {
 .ui-menu-item {
     background: #4e4c4c;
 }
-.ui-widget-content a {
-	color: #fff;
-}
 .ui-widget-header {
 	border: 1px solid #2c2b2b;
 	background: #4e4c4c;
-	color: #fff;
 	font-weight: bold;
-}
-.ui-widget-header a {
-	color: #fff;
 }
 
 .ui-state-default,
@@ -244,7 +178,6 @@ html .ui-button.ui-state-disabled:active {
 	border: 1px solid #2c2b2b;
 	background: #4e4c4c;
 	font-weight: normal;
-	color: #fff;
 }
 .ui-state-default a,
 .ui-state-default a:link,
@@ -253,7 +186,6 @@ a.ui-button,
 a:link.ui-button,
 a:visited.ui-button,
 .ui-button {
-	color: #fff;
 	text-decoration: none;
 }
 .ui-state-hover,
@@ -267,7 +199,6 @@ a:visited.ui-button,
 	border: 1px solid #4e4c4c;;
 	background: #2c2b2b;
 	font-weight: normal;
-	color: #fff;
 }
 .ui-state-hover a,
 .ui-state-hover a:hover,
@@ -279,7 +210,6 @@ a:visited.ui-button,
 .ui-state-focus a:visited,
 a.ui-button:hover,
 a.ui-button:focus {
-	color: #fff;
 	text-decoration: none;
 }
 
@@ -292,7 +222,6 @@ a.ui-button:active,
 	border: 1px solid #2c2b2b;
 	background: #2c2b2b;
 	font-weight: normal;
-	color: #ffffff;
 }
 .ui-icon-background,
 .ui-state-active .ui-icon-background {
@@ -302,7 +231,6 @@ a.ui-button:active,
 .ui-state-active a,
 .ui-state-active a:link,
 .ui-state-active a:visited {
-	color: #ffffff;
 	text-decoration: none;
 }
 
@@ -366,16 +294,12 @@ a.ui-button:active,
 // Give the info button a little splash of color
 i.info{
     font-size: 2.2em;
-    color: #FFF;
 }
 
 i.info-letter{
     font-size: 1.5em;
 }
 
-i.info-back{
-    color: $Twine-Blue;
-}
 
 table, tr, td, th{
     border: none;
@@ -384,7 +308,6 @@ table, tr, td, th{
 
 th, .grid-header
 {
-    background-color: $Twine-Blue;
     padding-left: 0.4em;
     padding-bottom: 0.2em;
     font-weight: 600;
@@ -407,7 +330,7 @@ th, .grid-header
 }
 
 .stats-grid{
-    display:grid;
+    display: grid;
     grid-template-columns: 30% 50% 20%;
     grid-template-rows: auto;
 
@@ -418,7 +341,7 @@ th, .grid-header
 }
 
 .exp-grid{
-    display:grid;
+    display: grid;
     grid-template-columns: 50% 50%;
     grid-template-rows: auto;
 
@@ -443,64 +366,8 @@ td.settings-value select
 
 //Make the selects a bit more noticeable
 input, select, textarea {
-    color: #eee;
-    background-color: #595858;
-    border: 3px solid #444;
+    border: 2px solid ;
     border-radius: 5px;
-}
-
-//Moved from JS script add
-.combat-message{
-    left: 5%;
-    display: flex;
-    position: absolute;
-    border: 1px solid;
-    border-radius: 3px;
-    width: 90%;
-    justify-content: center;
-    text-align: center;
-    z-index: -1;
-    font-size: 1.5em;
-}
-
-.combat-message-top{
-    top: calc(100% - 1px)
-}
-
-.combat-message-bottom{
-    bottom: calc(100% - 1px)
-}
-
-
-@keyframes BlinkingAlert {
-    from {
-        color: rgba(255, 255, 0, 0);
-    }
-
-    to{
-        color: rgb(255, 255, 0);
-    }
-}
-.consume-alert{
-    float: right;
-    color: yellow;
-    margin-left: -1em;
-    animation: BlinkingAlert 1s alternate ease-in-out infinite;
-}
-
-
-.combat-results{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-    margin-left: 5%;
-    flex-wrap: wrap;
-    
-}
-
-.combat-results > div{
-    min-width: 40%;
 }
 
 .full-width{
@@ -522,7 +389,6 @@ input, select, textarea {
 .inline-icon{
     height: 1.5em;
     width: 1.5em;
-    fill: white;
     background: none;
 }
 
@@ -533,39 +399,103 @@ input, select, textarea {
     left: 0.5em;
 }
 
-.travel-link{
+.button-menu{
     max-width: 50%;
 }
 
-.travel-link a, 
-.travel-link button,
-#menu-core li{
-    display: block;
-    background: $Twine-Blue;
-    padding: .4em;
-    border: 1px solid #57c;
-    color: white;
-    text-align: center;
+.button-menu.full-width button{
+    width: 100%;
 }
 
-.travel-link button span{
+.button-menu a, 
+.button-menu button,
+#menu-core li,
+.button-menu.full-width button
+{
+    display: block;
+    padding: .4em;
+    border: 1px solid ;
+    text-align: center;
+    line-height: unset;
+}
+
+.button-menu a:hover{
+    text-decoration: none;
+}
+
+.button-menu button span{
     margin-top: 0.25em;
     display: block;
     padding-left: 2em;
-}
-
-.travel-link a:hover, 
-.travel-link button:hover,
-#menu-core li:hover,
-#menu li a:hover{
-    background-color: #57c;
-    border-color: #79e;
 }
 
 #menu li a:hover{
     border:none;
 }
 
-.travel-link svg{
+.button-menu svg{
     float: left;
+}
+
+.system-message{
+    padding: 1em;
+}
+
+.disable-popup-checkbox input {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  .button-delete{
+    background-color: red; 
+    border-color: red;
+  }
+
+  #delete-column{
+    width: 35px;
+  }
+
+  .red-text{
+    color: #F00;
+  }
+
+  .twine-editor{
+    padding: 5px;
+    border: solid 2px;
+    border-radius: 5px;
+}
+
+#preview{
+    padding: 5px;
+    border: solid 2px;
+    border-radius: 5px;
+}
+
+.skills-grid{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto;
+
+    .grid-header{
+        grid-column-start:1;
+        grid-column-end: 3;
+    }
+}
+
+.genital-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.moveset-equipped, .moveset-available, .moveset-equip-count{
+    font-size: 2em;
+}
+
+.moveset-equip-count{
+    padding-left: 0.5em;
+}
+
+.moveset-available{
+    border-bottom: 2px dotted white;
+    cursor: help; 
 }

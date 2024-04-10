@@ -6,7 +6,7 @@
         <<include "_consumeText">>
     <</if>>
 <<restMessageMacro>><br /><br />
-<div class="travel-link">
+<div class="button-menu">
     <div>
         <<iconMacro "fight" "inline-icon inline-icon-overlay">>
         <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 0 2 "Micro Metroplex - Alleyway">>

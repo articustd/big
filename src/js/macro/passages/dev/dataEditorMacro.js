@@ -76,7 +76,7 @@ Macro.add('dataEditorMacro', {
 
         // Use this to get the meta map of a data store
         let metaMap = getPropMeta([], dataObjs.attackSkill)
-        let $button = $('<button/>').css({'margin-left': '5px'}).wiki('Copy JSON').click(()=>{
+        let $button = $('<button/>').wiki('Copy JSON').click(()=>{
             navigator.clipboard.writeText(`${JSON.stringify(metaMap)}`);
         })
 

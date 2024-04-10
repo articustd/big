@@ -7,74 +7,53 @@ $version
 <<if def $gameStarted>>
     
     <div class="stats-grid">
-        <<iconMacro "credits" "inline-icon">>
+        <<iconMacro "credits" "inline-icon  sidebar-icon">>
         <div>Credits:       </div>
         <div>$player.credits</div>
 
-        <<iconMacro "study hat" "inline-icon">>
+        <<iconMacro "study hat" "inline-icon  sidebar-icon">>
         <div>Skill Points:          </div>
         <div>$player.skillPoints    </div>
     </div><br />
-    <<iconMacro "heart" "inline-icon">> Health: <<healthBarMacro $player>><br />
+    <<iconMacro "heart" "inline-icon  sidebar-icon">> Health: <<healthBarMacro $player>><br />
     Stomach Capacity: <<capacityBarMacro $player "stomach">><br />
     <<if def $player.capacity.womb>>Womb Capacity: <<capacityBarMacro $player "womb">><br /><</if>>
     <<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><br /><</if>>
-    <div class="stats-grid">
-        <div class="grid grid-header">__Base Stats__</div>
-        <<iconMacro "dumbbell" "inline-icon">>
-        <div>Strength:          </div>
-        <div>$player.stats.strg     </div>
-
-        <<iconMacro "running person" "inline-icon">>
-        <div> Dexterity:        </div>
-        <div>$player.stats.dex  </div>
-
-        <<iconMacro "wall" "inline-icon">>
-        <div>Constitution:      </div>
-        <div>$player.stats.con  </div>
-    </div>
+    <<include "_stats">>
+    
     <br />
-    <div class="exp-grid">
-        <div class="grid grid-header">__Experience Points__</div>
-            <div>Muscle:     </div><div><<expBarMacro $player "left" "muscle">>   </div>
-            <div>Agility:    </div><div><<expBarMacro $player "left" "agility">>  </div>
-            <div>Physique:   </div><div><<expBarMacro $player "left" "physique">> </div>
-            <div>Size:       </div><div><<expBarMacro $player "left" "size">>     </div>
-            <div>Fat:        </div><div><<print $player.exp.fat * 100>>           </div>
-            <div>Skill:      </div><div>$player.exp.skill                         </div>
-    </div><br />
 <</if>>
-<div class="travel-link full-width" style="max-width: 100%;">
+<div class="button-menu full-width" style="max-width: 100%;">
     <<if def $gameStarted>>
         <div>
-            <<iconMacro "person" "inline-icon inline-icon-overlay">>
+            <<iconMacro "person" " inline-icon inline-icon-overlay">>
             <<link $player.name "character">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
         </div>
         <div>
-            <<iconMacro "chest" "inline-icon inline-icon-overlay">>
+            <<iconMacro "chest" " inline-icon inline-icon-overlay">>
             <<link "Inventory" "inv">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
         </div>
          <div>
-            <<iconMacro "cog" "inline-icon inline-icon-overlay">>
+            <<iconMacro "cog" " inline-icon inline-icon-overlay">>
             <<link "Settings" "settings">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
         </div>
         <<if $debug>>
             <div>
-                <<iconMacro "braces" "inline-icon inline-icon-overlay">>
+                <<iconMacro "braces" " inline-icon inline-icon-overlay">>
                 <<link "Dev" "debugPassage">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
             </div>
             <div>
-                <<iconMacro "braces" "inline-icon inline-icon-overlay">>
+                <<iconMacro "braces" " inline-icon inline-icon-overlay">>
                 <<link "Milestones" "milestones">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
             </div>
         <</if>>
     <</if>>
     <div>
-        <<iconMacro "list" "inline-icon inline-icon-overlay">>
+        <<iconMacro "list" " inline-icon inline-icon-overlay">>
         <<link "Credits" "credits">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
     </div>
     <div>
-        <<iconMacro "help" "inline-icon inline-icon-overlay">>
+        <<iconMacro "help" " inline-icon inline-icon-overlay">>
         <<link "Help" "help">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
     </div>
 </div>

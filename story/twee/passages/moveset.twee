@@ -3,7 +3,7 @@
 <<movesetMacro>>
 /* <<button "Save" "moveset">><</button>> */
 <<nobr>>
-<div class="travel-link" style="margin-top: calc(400px - 1em);">
+<div class="button-menu" style="margin-top: calc(400px - 1em);">
     <<iconMacro "back" "inline-icon inline-icon-overlay">>
     <<link "Return" $return>><</link>>
 </div>

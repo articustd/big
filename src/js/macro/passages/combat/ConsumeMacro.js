@@ -36,19 +36,13 @@ Macro.add('consumeMacro', {
         }
 
         _.each(consumeText, (text) => {
-            $exp.append($('<span/>').wiki(text + '<br>'))
+            $exp.append($('<span/>'))
         })
-
-        $header
-            .appendTo(this.output)
-        $('<br>')
-            .appendTo(this.output)
-        $body
-            .appendTo(this.output)
-        $('<br><br>')
-            .appendTo(this.output)
-        $exp
-            .appendTo(this.output)
+        
+        $header.appendTo(this.output)
+        //$('<br>').appendTo(this.output)
+        $body.appendTo(this.output)
+        $exp.appendTo(this.output)
     }
 })
 

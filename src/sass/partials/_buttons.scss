@@ -1,24 +1,15 @@
 .inactiveButton {
     cursor: default;
-    background-color: #111;
-    border-color: #111;
-}
-
-.inactiveButton:hover {
-    background-color: #111;
-    border-color: #111;
 }
 
 .disabledAttack {
     $this: &;
 
-    background-color: #444;
-    border: 1px solid #666;
+    border: 1px solid;
     cursor: default;
 
     &:hover {
-        background-color: #444;
-        border: 1px solid #666;
+        border: 1px solid;
         cursor: default;
     }
 }

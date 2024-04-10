@@ -11,7 +11,7 @@ Anyway what's the worst that could happen, nothing?
 
 <<nobr>>
 <<GenWingMacro>><br />
-<div class="travel-link">
+<div class="button-menu">
     <div>
         <<iconMacro "back" "inline-icon inline-icon-overlay">>
         <<link "Return to Lobby" $return>><</link>>

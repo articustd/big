@@ -41,7 +41,7 @@ Size effects your starting stats, smaller characters will have a harder time sta
 		<</listbox>>
 	</div>
 </div><br/>
-<div class="travel-link full-width">
+<div class="button-menu full-width">
 	<<button "Next" "welcome">><</button>>
 </div>
 <br />

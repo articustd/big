@@ -5,8 +5,7 @@ You look at yourself in the mirror...
 /* General Description */
 <<nobr>>
 <<playerFluffMacro>><br /><br />
-<div class="travel-link">
-    <div class="travel-link">
+<div class="button-menu">
 	<div>
 		<<iconMacro "back" "inline-icon inline-icon-overlay">>
         <<link "Return" $return>><</link>>

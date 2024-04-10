@@ -8,7 +8,7 @@
         <</for>>
     <</if>>
 <<restMessageMacro>><br /><br />
-<div class="travel-link">
+<div class="button-menu">
     <div>
         <<iconMacro "fight" "inline-icon inline-icon-overlay">>
        <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 3 5 "Variable Village - Alleyway">><<unset $consumeText>><</timeAction>>

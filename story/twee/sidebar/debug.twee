@@ -1,15 +1,16 @@
 :: debugPassage [noreturn] {"position":"375,125"}
-<<script>>console.log(convertToLargerUnits(State.variables.player.measurements, State.variables.imperial))<</script>>
-<<devMacro>>
-<div class="travel-link">
-  <<button "Data Editor" "dataEditor">><</button>>
-  <<button "Passage Previewer" "passagePreviewer">><</button>>
-  <<button "Quick Calc" "qCalc">><</button>>
-  <<button "Character Gen" "charGen">><</button>>
-  <div>\
+<<nobr>><<script>>console.log(convertToLargerUnits(State.variables.player.measurements, State.variables.imperial))<</script>>
+<div class="button-menu full-width">
+<<devMacro>><br />
+  <<button "Data Editor" "dataEditor">><</button>><br />
+  <<button "Passage Previewer" "passagePreviewer">><</button>><br />
+  <<button "Quick Calc" "qCalc">><</button>><br />
+  <<button "Character Gen" "charGen">><</button>><br />
+  <div>
     <<iconMacro "back" "inline-icon inline-icon-overlay">>
-    <<link "Return" $menuReturn>>\
-    <<unset $menuReturn $skillText>>\
-    <</link>>\
-  </div>\    
-</div>\
+    <<link "Return" $menuReturn>>
+    <<unset $menuReturn $skillText>>
+    <</link>>
+  </div>    
+</div>
+<</nobr>>

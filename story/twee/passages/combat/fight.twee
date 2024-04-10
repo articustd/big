@@ -1,57 +1,59 @@
 :: fight [noreturn combat] {"position":"500,0"}
 <h1>$fightHeader</h1>
 <<nobr>>
-<div style="display: flex;flex-direction: row;border: white 1px solid;border-radius: 5px;padding: 5px 0px;justify-content: center;position: relative;background-color: #111">
-    <div style="flex:3;margin: 0px 5px">
+<div class="combat-info combat-info-enemy">
+    <div class="combat-healthbar-enemy">
         ?eName
         <<healthBarMacro $enemy>>
         <<enemyDifficultyMacro>>
     </div>
-    <div style="display: flex;flex-direction: column;flex:2;margin: 0px 5px">
-        <div style="flex:2;margin: 0px 5px">
+    <div class="combat-status-wrapper-enemy">
+        <div class="combat-status-enemy">
             Status Effects<br/>
             <<statusDisplayMacro $enemy>>
         </div>
     </div>
     <<combatMessageMacro $enemyCombatLog "top">>
 </div>
-<div style="height: 400px;display:flex;justify-content: center;align-items: center;text-align: center">
-<<enemyDescriptionMacro>>
+<div class="combat-description-enemy">
+    <<enemyDescriptionMacro>>
 </div>
-<div style="display: flex;flex-direction: row;border: white 1px solid;border-radius: 5px;justify-content: center;position: relative;background-color: #111">
-    <div style="flex:2;margin: 0px 5px">
+<div  class="combat-info combat-info-player">
+    <div class="combat-actions-player">
         <<playerActionsMacro>>
     </div>
-    <div id="statPanel" style="display: flex;flex-direction: column;flex:3;margin: 0px 5px">
+    <div id="statPanel">
         <<if not $win>>
-        $player.name
-        <div><<healthBarMacro $player>></div>
-        <div style="display: flex;flex-direction: row">
+            $player.name
             <div>
-                Status Effects<br/>
-                <<statusDisplayMacro $player>>
+                <<healthBarMacro $player>>
             </div>
-        </div>
-        <<else>>
-        <div class="combat-results">
-            <div>
-                Stomach Capacity: <<capacityBarMacro $player "stomach">>
-                <<if def $player.capacity.womb>>Womb Capacity: <<capacityBarMacro $player "womb">><</if>>
-                <<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><</if>>
-            </div>
-            <div style="text-align: center">
-                <h2>__''Loot''__</h2>
+            <div class="combat-status-player">
                 <div>
-                <<for _item range $foundItems>>
-                    _item<br/>
-                <</for>>
+                    Status Effects<br/>
+                    <<statusDisplayMacro $player>>
                 </div>
             </div>
-        </div>
+        <<else>>
+            <div class="combat-results">
+                <div>
+                    Stomach Capacity: <<capacityBarMacro $player "stomach">>
+                    <<if def $player.capacity.womb>>Womb Capacity: <<capacityBarMacro $player "womb">><</if>>
+                    <<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><</if>>
+                </div>
+                <div class="combat-loot">
+                    <h2>__''Loot''__</h2>
+                    <div>
+                        <<for _item range $foundItems>>
+                            _item<br/>
+                        <</for>>
+                    </div>
+                </div>
+            </div>
         <</if>>
     </div>
-    <div id="actionPanel" style="display: none;flex-direction: row;flex:3;margin: 0px 5px"></div>
-    <div id="lootPanel" style="display: none;flex-direction: column;flex:3;margin: 0px 5px"></div>
+    <div id="actionPanel"></div>
+    <div id="lootPanel"></div>
     <<combatMessageMacro $playerCombatLog "bottom">>
 </div>
 <</nobr>>

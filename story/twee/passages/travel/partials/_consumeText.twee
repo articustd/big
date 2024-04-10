@@ -1,6 +1,9 @@
-:: _consumeText      
+:: _consumeText 
 <<nobr>>  
-    <<for _i, _exp range $consumeText>>
-        <br/>_exp
-    <</for>><br />
+    <br />
+    <div class="system-message">
+        <<for _i, _exp range $consumeText>>
+            _exp<br/>
+        <</for>>
+    </div>
 <</nobr>>

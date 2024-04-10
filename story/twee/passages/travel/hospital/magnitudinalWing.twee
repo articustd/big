@@ -5,7 +5,7 @@ Walking into the Magnitudinal Wing you notice it's pretty much an empty warehous
 Must be planning something big.
 
 <<nobr>>
-<div class="travel-link">
+<div class="button-menu">
     <div>
         <<iconMacro "back" "inline-icon inline-icon-overlay">>
         <<link "Return to Lobby" $return>><</link>>

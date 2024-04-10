@@ -6,7 +6,7 @@ Welcome to the gym! Cost to use the equipment is 100 credits a session.
 <<if def $trainText>>
 $trainText
 <</if>>
-<div class="travel-link">
+<div class="button-menu">
 	<div>
 		<<iconMacro "dumbbell" "inline-icon inline-icon-overlay">>
 		<<timeAction "Lift Weights" "train" 1 0>>
@@ -27,7 +27,7 @@ $trainText
 	</div>
 </div><br />
 <<attackSkill>><br />
-<div class="travel-link">
+<div class="button-menu">
 	<div>
 		<<iconMacro "back" "inline-icon inline-icon-overlay">>
 		<<link [[Go Back|$return]]>>

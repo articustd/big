@@ -1,3 +1,8 @@
 :: consume [noreturn] {"position":"500,250"}
 <<consumeMacro>>
-<<link "Return" $return>><<unset $consumeText>><<combatReset>><</link>>
+<<nobr>>
+    <div class="button-menu">
+        <<iconMacro "back" "inline-icon inline-icon-overlay">>
+        <<link "Return" $return>><<unset $consumeText>><<combatReset>><</link>>
+    </div>
+<</nobr>>

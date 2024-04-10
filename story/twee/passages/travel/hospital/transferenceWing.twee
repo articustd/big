@@ -26,7 +26,7 @@ Looking at the helmet you notice the tube leading from the top and going into th
         </div>
     </div>
 </div><br />
-<div class="travel-link">
+<div class="button-menu">
     <div>
         <<iconMacro "back" "inline-icon inline-icon-overlay">>
         <<link "Return to Lobby" $return>><</link>>

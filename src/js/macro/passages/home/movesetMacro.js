@@ -25,13 +25,13 @@ Macro.add('movesetMacro', {
 
         $wrapper
             .append($('<span/>').text('Equipped Attacks')
-                .css({ "font-size": "x-large", "border-bottom": "2px dotted white", "cursor": "help" })
+                .addClass('moveset-equipped-count')
                 .tooltip({ track: true, hide: { duration: 500 } })
                 .attr('title', `Drag attacks to either equip or unquip them. Equipped attacks will appear in order from left to right.`))
-            .append($('<span/>').text(`${player.attacks.length}/3`).attr('id', 'outOf').css({ "font-size": "x-large", "padding-left": "0.5em" }))
+            .append($('<span/>').text(`${player.attacks.length}/3`).attr('id', 'outOf').addClass('moveset-equipped-count'))
             .append($columnOne)
             .append($('<br>'))
-            .append($('<span/>').text('Available Attacks').css({ "font-size": "x-large" }))
+            .append($('<span/>').text('Available Attacks').addClass('moveset-available'))
             .append($columnTwo)
             .appendTo(this.output)
 

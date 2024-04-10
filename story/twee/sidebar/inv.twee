@@ -3,7 +3,7 @@
 
 <<nobr>><<if def $invText>>$invText<</if>>
 <<invMacro>>
-<div class="travel-link">
+<div class="button-menu">
 	<div>
 		<<iconMacro "back" "inline-icon inline-icon-overlay">>
 		<<link "Return" $menuReturn>><<unset $menuReturn $invText>><</link>>

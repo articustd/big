@@ -17,7 +17,7 @@ Macro.add('GenWingMacro', {
         $speciesContainer.append($('<label for="species"/>').wiki('Species: '))
         $speciesContainer.append($dropdown)
 
-        let $genitalContainer = $('<div/>').css({ display: 'flex', 'flex-direction': 'column' })
+        let $genitalContainer = $('<div/>').addClass('genital-container')
 
         $genitalContainer.append($('<h3/>').wiki('Gentials'))
         let $penisContainer = $('<div/>').appendTo($genitalContainer)

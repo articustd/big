@@ -40,6 +40,13 @@
         @extend .attribute;
         flex-direction: column;
         align-items: center;
-        margin: 30px;
+        //margin: 30px;
+        margin-top: 1em;
+        margin-bottom: 1em;
     }
 }
+
+.attribute-wrapper {
+    padding-bottom: 1em;
+    margin-bottom: 2em;
+  }

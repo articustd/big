@@ -4,7 +4,7 @@
 <<restMessageMacro true>>
 You're home. Nothing here except you, a bed, and the mirror.<br /><br />
 <<if def $restText>><br/>$restText<br /><br /><</if>>
-<div class="travel-link">
+<div class="button-menu">
 	<button class="full-width" data-passage="travel">
 		<<iconMacro "map marker" "inline-icon">> Travel<<unset $restText>>
 	</button><br/>

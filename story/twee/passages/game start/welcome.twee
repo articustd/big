@@ -8,7 +8,7 @@ Welcome to the world! This page is still a WIP, but please proceed with the game
 Having just moved to the area you're unsure what you may find. Are the residents friendly? What are they like?
 
 As you arrive at the station,  */
-<div class="travel-link">
+<div class="button-menu">
 	<<link "Start Game" "home">>
 		<<set $gameStarted to true>>
 	<</link>>

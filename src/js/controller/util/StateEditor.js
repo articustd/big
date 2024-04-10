@@ -28,7 +28,7 @@ function createDropdown($parent, label, id) {
     let $label = $(`<label for="${id}"/>`).wiki(`${label}: `)
     let $dropDown = $(`<select id="${id}" name="${id}"/>`)
 
-    let $wrapper = $('<div/>').append($label).append($dropDown).css({ width: '100%', "margin-bottom": '10px' })
+    let $wrapper = $('<div/>').append($label).append($dropDown)
 
     $parent.append($wrapper)
     $dropDown.selectmenu({
@@ -50,7 +50,7 @@ function addField($parent, varPath, varVal, noLabel, rowId) {
         varName = `${varName}-${rowId}`
 
     if (typeof varVal == "string") {
-        let $wrapper = $('<div/>').css('margin-bottom', '5px')
+        let $wrapper = $('<div/>')
         if (!noLabel)
             $wrapper.append($(`<label for="${varName}-text"/>`).wiki(`${varName}: `))
         $wrapper.append($(`<input type="text" id="${varName}-text" name="${varName}-text" value="${varVal}"/>`).on('input', function (e) {
@@ -60,7 +60,7 @@ function addField($parent, varPath, varVal, noLabel, rowId) {
         $parent.append($wrapper)
     }
     if (typeof varVal == "boolean") {
-        let $wrapper = $('<div/>').css('margin-bottom', '5px')
+        let $wrapper = $('<div/>')
         if (!noLabel)
             $wrapper.append($(`<label for="${varName}-text"/>`).wiki(`${varName}: `))
         $wrapper.append($(`<input type="checkbox" id="${varName}-text" ${varVal ? 'checked' : ''}/>`).on('input', function (e) {
@@ -71,7 +71,7 @@ function addField($parent, varPath, varVal, noLabel, rowId) {
         $parent.append($wrapper)
     }
     if (typeof varVal == "number") {
-        let $wrapper = $('<div/>').css('margin-bottom', '5px')
+        let $wrapper = $('<div/>')
         if (!noLabel)
             $wrapper.append($(`<label for="${varName}-text"/>`).wiki(`${varName}: `))
         $wrapper.append($(`<input type="text" id="${varName}-text" name="${varName}-text" value="${varVal}"/>`).on('input', function (e) {

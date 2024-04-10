@@ -7,7 +7,7 @@ These are the people who worked hard on this game!
 <<include "_credits">>
 <<nobr>>
 <div class="clear-both">And thanks to you, the player! I hope you have enjoyed/will enjoy the game!</div><br />
-<div class="travel-link"> 
+<div class="button-menu"> 
     <div>
         <<iconMacro "bug" "inline-icon inline-icon-overlay">>
         <<link "Bug Report" "bugReport">><</link>>

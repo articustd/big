@@ -74,7 +74,7 @@ Prey capacity amounts are as follows:
     <tr><td>''Credits''</td><td>Current amount of credits you have.</td></tr>
 </table>
 <<nobr>>
-<div class="travel-link">
+<div class="button-menu">
     <div>
 		<<iconMacro "back" "inline-icon inline-icon-overlay">>
 		<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

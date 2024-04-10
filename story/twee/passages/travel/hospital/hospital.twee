@@ -7,7 +7,7 @@ Looking left you see the Attribute and Genetics wings, on the right you see the 
 The Magnitudinal Wing has some caution tape infront of it still, but since when has that stopped you?
 
 <<nobr>>
-<div class="travel-link">
+<div class="button-menu">
     <button class="full-width" data-passage="attributeWing">
         <<iconMacro "plus minus" "inline-icon">> Attribute Wing
     </button><br />

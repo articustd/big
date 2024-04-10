@@ -67,7 +67,7 @@ Macro.add('attackSkill', {
         });
 
         $wrapper
-            .append($('<p/>').attr('id', 'notificationText').css('color', 'red').hide())
+            .append($('<p/>').attr('id', 'notificationText').addClass('red-text').hide())
             .append($table)
             .appendTo(this.output)
 

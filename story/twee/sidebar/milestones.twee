@@ -33,7 +33,7 @@ The more you grow, the more your form bestows you with power. Break these limits
     </tbody>
 </table>
 <<nobr>>
-<div class="travel-link">
+<div class="button-menu">
     <div>
         <<iconMacro "back" "inlince-icon inlince-icon-overlay">>
         <<link "Return" $menuReturn>><<unset $menuReturn>><</link>>

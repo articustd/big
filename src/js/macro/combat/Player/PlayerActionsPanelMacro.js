@@ -8,9 +8,9 @@ Macro.add('playerActionsPanelMacro', {
     skipArgs: false,
     handler: function () {
         let panelType = this.args[0]
-        let $wrapper = $('<div/>').css({ 'display': 'flex', 'flex-direction': 'row', 'margin': '5px 0px', 'flex': '1' })
-        let $leftColumn = $('<div/>').css({ 'flex': '1', 'margin-right': '5px' })
-        let $rightColumn = $('<div/>').css({ 'flex': '1' })
+        let $wrapper = $('<div/>').addClass('combat-actions-panel-wrapper')
+        let $leftColumn = $('<div/>').addClass('combat-actions-panel-left')
+        let $rightColumn = $('<div/>').addClass('combat-actions-panel-right')
         let actions = []
 
         switch (panelType) {
@@ -39,7 +39,7 @@ Macro.add('playerActionsPanelMacro', {
             .append($rightColumn)
             .appendTo(this.output)
 
-        $(this.output).css({ 'width': '100%' })
+        $(this.output).addClass('full-width')
     }
 })
 
@@ -65,7 +65,7 @@ function createColumns(actions, $leftColumn, $rightColumn) {
 function createAction(action, $column) {
     let { player, enemy } = variables()
     let $link = $('<button/>')
-        .css({ 'margin-bottom': '5px', 'width': '100%', 'height': '50px' })
+        .addClass('combat-actions-panel-button')
         .click(function () {
             combatRoll(action);
             Engine.play(passage(), true);

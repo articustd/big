@@ -10,9 +10,9 @@ Macro.add('playerActionsMacro', {
         let { player, enemy } = variables()
         let playerAlive = isAlive(player)
         let enemyAlive = isAlive(enemy)
-        let $wrapper = $('<div/>').css({ 'display': 'flex', 'flex-direction': 'column', 'margin': '5px 0px' })
+        let $wrapper = $('<div/>').addClass("combat-actions-wrapper") 
 
-        let $leaveBtn = $('<button/>').css({ 'margin-top': '5px', 'height': '50px', 'font-size': '25px', 'border-radius': '0px 0px 0px 3px', 'background-color': 'red', 'border-color': 'red' }).click(() => {
+        let $leaveBtn = $('<button/>').addClass('combat-actions-button combat-actions-leave').click(() => {
             if (playerAlive && enemyAlive && variables().combat) {
                 combatRoll({ runaway: true })
                 Engine.play(passage(), true);
@@ -30,13 +30,13 @@ Macro.add('playerActionsMacro', {
         })
 
         if (playerAlive && enemyAlive && variables().combat) {
-            let $atkButton = $('<button/>').wiki(`Attacks`).css({ 'margin-bottom': '5px', 'height': '50px', 'font-size': '25px', 'border-radius': '3px 0px 0px 0px', 'position': 'relative' }).click(function () {
+            let $atkButton = $('<button/>').addClass('combat-actions-button combat-actions-attack').wiki(`Attacks`).click(function () {
                 switchPanels('attack')
             }).appendTo($wrapper)
             if (getAttackSkills(false).length === 0)
                 $atkButton.addClass('disabledAttack').off()
 
-            let $skillButton = $('<button/>').wiki(`Skills`).css({ 'height': '50px', 'font-size': '25px' }).click(function () {
+            let $skillButton = $('<button/>').addClass('combat-actions-button combat-actions-skills').wiki(`Skills`).click(function () {
                 switchPanels('skill')
             }).appendTo($wrapper)
             if (getAttackSkills(true).length === 0)
