@@ -1,5 +1,3 @@
 import attackSkillsMacro from './attackSkillsMacro'
-import characterStats from './characterStats'
 import InventoryMacro from './InventoryMacro'
 import skillPassage from './skillPassage'
-import tabsMacro from './tabsMacro'
