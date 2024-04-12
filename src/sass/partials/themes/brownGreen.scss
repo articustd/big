@@ -1,18 +1,38 @@
 $Main-Color: #D7F171;
 $Background-Color: #65524D;
 $Background-Color-Dark: #3e3331;
+$Background-Color-Dark-transparent: #3e3331bf;
 $Accent-Color: #afc948;
 $Dark-Text: #000;
 $Light-Text: #FFF;
 $Warning-color: rgb(255, 125, 0);
 $Shadow-size: 5px;
 
+//SASS sadly does NOT pick up on the color variables within CSS formatted backgrounds
+//Made with https://10015.io/tools/css-background-pattern-generator
 body{
     background-color: $Background-Color;
+    background: 
+        linear-gradient(135deg,#0000 20.5%,#65524d 0 29.5%,#0000 0) 0 32.5px, 
+        linear-gradient( 45deg,#0000 8%,#65524d 0 17%, #0000 0 58%) 65px 0, 
+        linear-gradient(135deg,#0000 8%,#65524d 0 17%, #0000 0 58%,#65524d 0 67%,#0000 0), 
+        linear-gradient( 45deg,#0000 8%,#65524d 0 17%, #0000 0 58%,#65524d 0 67%,#0000 0 83%,#65524d 0 92%,#0000 0), 
+        #3e3331;
+    background-size: auto, auto, auto, auto, auto;
+  background-size: 130px 130px;
 }
 
-#ui-bar, .system-message{
-    background-color: $Background-Color-Dark;
+#passages {
+	background: #000A;
+	padding: 2rem;    
+}
+
+#passages, .system-message{
+    border: 5px $Light-Text solid;
+}
+
+.system-message, #ui-bar{
+    background: $Background-Color-Dark-transparent
 }
 
 #menu li a, i.info, .button-menu svg{
@@ -65,7 +85,9 @@ button, #restart-ok, #restart-cancel, #ui-dialog-title,
 .button-menu button:hover,
 #menu-core li:hover,
 #menu li a:hover,
-#restart-ok:hover, #restart-cancel:hover, button:hover{
+#restart-ok:hover, #restart-cancel:hover, button:hover,
+#ui-bar .exp-grid .grid-header:hover, #ui-bar .stats-grid .grid-header:hover
+{
     background-color: $Accent-Color;
     border-color: $Main-Color;
     color:$Light-Text;
@@ -158,7 +180,7 @@ input, select, textarea {
 }
 
 .portlet{
-    background-color: $Background-Color-Dark !important;
+    background-color: $Background-Color-Dark-transparent !important;
     border-color: transparent; //!important;
 }
 
@@ -204,7 +226,7 @@ button#ui-bar-toggle, button[disabled=""]{
 }
 
 .combat-info{
-    background-color: #4d4442;
+    background-color: $Background-Color-Dark-transparent;
 }
 
 .button-delete{
@@ -217,3 +239,6 @@ button#ui-bar-toggle, button[disabled=""]{
     border-color: red;
 }
 
+#ui-bar{
+    border-right: 5px solid $Light-Text;
+}

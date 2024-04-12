@@ -25,7 +25,7 @@ Macro.add('movesetMacro', {
 
         $wrapper
             .append($('<span/>').text('Equipped Attacks')
-                .addClass('moveset-equipped-count')
+                .addClass('moveset-equipped')
                 .tooltip({ track: true, hide: { duration: 500 } })
                 .attr('title', `Drag attacks to either equip or unquip them. Equipped attacks will appear in order from left to right.`))
             .append($('<span/>').text(`${player.attacks.length}/3`).attr('id', 'outOf').addClass('moveset-equipped-count'))

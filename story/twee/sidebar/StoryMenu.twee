@@ -6,7 +6,7 @@ $version
 <<nobr>>
 <<if def $gameStarted>>
     
-    <div class="stats-grid">
+    <div class="money-grid">
         <<iconMacro "credits" "inline-icon  sidebar-icon">>
         <div>Credits:       </div>
         <div>$player.credits</div>
@@ -19,7 +19,9 @@ $version
     Stomach Capacity: <<capacityBarMacro $player "stomach">><br />
     <<if def $player.capacity.womb>>Womb Capacity: <<capacityBarMacro $player "womb">><br /><</if>>
     <<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><br /><</if>>
-    <<include "_stats">>
+    
+    <<include "_baseStats">><br />
+    <<include "_expStats">>
     
     <br />
 <</if>>

@@ -2,7 +2,7 @@
 <<nobr>>
 <h1>Settings</h1>
 <div class="settings-grid">
-	<div class="grid grid-header">''__Measurements__''</div>
+	<div class="grid grid-header">''Measurements''</div>
 	<div>Units of Measure:</div>
 	<div>
 		<<listbox "$settings.units.imperial" autoselect>>
@@ -18,7 +18,7 @@
 		<</listbox>>
 	</div>
 
-	<div class="grid grid-header">''__Warnings__''</div>
+	<div class="grid grid-header">''Warnings''</div>
 	<div>Over Consumption Warning:</div>
 	<div>
 		<<listbox "$settings.warning.overConsumeWarning" autoselect>>
@@ -26,7 +26,7 @@
 			<<option "Never" false>>
 		<</listbox>>
 	</div>
-	<div class="grid grid-header">''__Info__''</div>
+	<div class="grid grid-header">''Info''</div>
 	<div>Learn Attack Informational:</div>
 	<div>
 		<<listbox "$settings.info.learnedAttackInfo" autoselect>>
@@ -34,7 +34,7 @@
 			<<option "Never" false>>
 		<</listbox>>
 	</div>
-	<div class="grid grid-header">''__Gameplay Tweaks__''</div>
+	<div class="grid grid-header">''Gameplay Tweaks''</div>
 	<div>Hyper EXP Mode <<script>>infoBubble("Increases experience gain by 4x from fights.").appendTo(this.output);<</script>>:</div>
 	<div>
 		<<listbox "$settings.tweak.hyperMode" autoselect>>

@@ -8,7 +8,7 @@ Size effects your starting stats, smaller characters will have a harder time sta
 
 <<nobr>>
 <div class="settings-grid">
-	<div class="grid-header">''__Character information__''</div>
+	<div class="grid-header">''Character information''</div>
 	<div >Name:</div>
 	<div ><<textbox "$player.name" "Min">></div>
 	<div >Species:</div><div ><<listbox "$player.species" autoselect>><<optionsfrom _species>><</listbox>></div>
@@ -18,7 +18,7 @@ Size effects your starting stats, smaller characters will have a harder time sta
 	<div >Size:</div>
 	<div ><<listbox "$player.size" autoselect>><<optionsfrom _playerSizes>><</listbox>></div>
 
-	<div class="grid-header">''__Game Settings__''</div>
+	<div class="grid-header">''Game Settings''</div>
 	<div >Units of Measure:</div>
 	<div >
 		<<listbox "$settings.units.imperial" autoselect>>

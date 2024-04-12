@@ -8,23 +8,21 @@ Macro.add('playerActionsPanelMacro', {
     skipArgs: false,
     handler: function () {
         let panelType = this.args[0]
-        let $wrapper = $('<div/>').addClass('combat-actions-panel-wrapper')
-        let $leftColumn = $('<div/>').addClass('combat-actions-panel-left')
-        let $rightColumn = $('<div/>').addClass('combat-actions-panel-right')
+        let $wrapper = $('<div/>').addClass('combat-actions-panel-wrapper full-width')
         let actions = []
 
         switch (panelType) {
             case 'attack':
                 actions = getAttackSkills(false)
                 if (actions.length > 0)
-                    createColumns(actions, $leftColumn, $rightColumn)
+                    createColumns(actions, $wrapper)
                 else
                     $leftColumn.wiki('No Attacks')
                 break
             case 'skill':
                 actions = getAttackSkills(true)
                 if (actions.length > 0)
-                    createColumns(actions, $leftColumn, $rightColumn)
+                    createColumns(actions, $wrapper)
                 else
                     $leftColumn.wiki('No Skills')
                 break
@@ -35,8 +33,6 @@ Macro.add('playerActionsPanelMacro', {
         }
 
         $wrapper
-            .append($leftColumn)
-            .append($rightColumn)
             .appendTo(this.output)
 
         $(this.output).addClass('full-width')
@@ -50,13 +46,10 @@ function getAttackSkills(skill) {
     }), { skill })
 }
 
-function createColumns(actions, $leftColumn, $rightColumn) {
+function createColumns(actions, $wrapper) {
     _.each(actions, (action, key) => {
         if (key < 4) {
-            if ((key + 1) % 2)
-                createAction(action, $leftColumn)
-            else
-                createAction(action, $rightColumn)
+            createAction(action, $wrapper)
         } else
             return false
     })
@@ -65,7 +58,7 @@ function createColumns(actions, $leftColumn, $rightColumn) {
 function createAction(action, $column) {
     let { player, enemy } = variables()
     let $link = $('<button/>')
-        .addClass('combat-actions-panel-button')
+        .addClass('combat-actions-panel-button full-width')
         .click(function () {
             combatRoll(action);
             Engine.play(passage(), true);

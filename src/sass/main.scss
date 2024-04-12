@@ -329,7 +329,7 @@ th, .grid-header
     }
 }
 
-.stats-grid{
+.stats-grid, .money-grid{
     display: grid;
     grid-template-columns: 30% 50% 20%;
     grid-template-rows: auto;
@@ -487,15 +487,19 @@ input, select, textarea {
     flex-direction: column;
 }
 
-.moveset-equipped, .moveset-available, .moveset-equip-count{
+.moveset-equipped, .moveset-available, .moveset-equipped-count{
     font-size: 2em;
 }
 
-.moveset-equip-count{
+.moveset-equipped-count{
     padding-left: 0.5em;
 }
 
 .moveset-available{
     border-bottom: 2px dotted white;
     cursor: help; 
+}
+
+#ui-bar .exp-grid .grid-header, #ui-bar .stats-grid .grid-header{
+    cursor: pointer;
 }

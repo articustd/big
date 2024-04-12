@@ -1,22 +1,12 @@
-:: _stats
+:: _expStats
 <<nobr>>
-<div class="stats-grid">
-    <div class="grid grid-header">__Base Stats__</div>
-    <<iconMacro "dumbbell" "inline-icon  sidebar-icon">>
-    <div>Strength:          </div>
-    <div>$player.stats.strg     </div>
-
-    <<iconMacro "running person" "inline-icon  sidebar-icon">>
-    <div> Dexterity:        </div>
-    <div>$player.stats.dex  </div>
-
-    <<iconMacro "wall" "inline-icon  sidebar-icon">>
-    <div>Constitution:      </div>
-    <div>$player.stats.con  </div>
-</div>
-<br />
+<script>
+$("#ui-bar .exp-grid .grid-header").on("click", function(){
+    $("#ui-bar .exp-grid *:not(:first-child)").toggle("slow");
+});
+</script>
 <div class="exp-grid">
-    <div class="grid grid-header">__Experience Points__</div>
+    <div class="grid grid-header">Experience Points</div>
         <div>Muscle:     </div><div><<expBarMacro $player "left" "muscle">>   </div>
         <div>Agility:    </div><div><<expBarMacro $player "left" "agility">>  </div>
         <div>Physique:   </div><div><<expBarMacro $player "left" "physique">> </div>

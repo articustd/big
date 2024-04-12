@@ -1,0 +1,23 @@
+:: _baseStats
+<<nobr>>
+<script>
+    $("#ui-bar .stats-grid .grid-header").on("click", function(){
+        $("#ui-bar .stats-grid *:not(:first-child)").toggle("slow");
+    });
+</script>
+
+<div class="stats-grid">
+    <div class="grid grid-header">Base Stats</div>
+    <<iconMacro "dumbbell" "inline-icon  sidebar-icon">>
+    <div>Strength:          </div>
+    <div>$player.stats.strg     </div>
+
+    <<iconMacro "running person" "inline-icon  sidebar-icon">>
+    <div> Dexterity:        </div>
+    <div>$player.stats.dex  </div>
+
+    <<iconMacro "wall" "inline-icon  sidebar-icon">>
+    <div>Constitution:      </div>
+    <div>$player.stats.con  </div>
+</div>
+<</nobr>>
