@@ -1,0 +1,107 @@
+// Very common grid CSS, mostly for table-like layouts
+.grid{
+    display:grid;
+    grid-template-rows: auto;
+    padding-bottom: 1rem;
+    align-items: center;
+
+    div:not(.grid-header){
+        padding-left:1rem;
+        padding-right: 1rem;
+        gap: 1rem;
+    }
+
+    select, input{
+        width: 100%;
+    }
+}
+
+// More compact layout, reset some stuff for size
+.money-grid, .stats-grid, .exp-grid{
+    padding-bottom: 0;
+
+    div:not(.grid-header){
+        padding-left:0;
+        padding-right: 0;
+        gap: 0;
+    }
+}
+
+//Generic layout for a header for a grid. Use within a grid for best results
+.grid-header{
+    padding-left: 0.4em;
+    padding-bottom: 0.2em;
+    font-weight: 600;
+}
+
+
+.settings-grid{
+    grid-template-columns: [setting]1fr [options]2fr;    
+
+    .grid-header{
+        grid-column-start: 1;
+        grid-column-end: 3;    
+    }
+}
+
+.stats-grid, .money-grid{
+    grid-template-columns: [icon]3fr [name]5fr [amount]2fr;
+
+    .grid-header{
+        grid-column-start:1;
+        grid-column-end: 4;
+    }
+}
+
+.exp-grid{
+    grid-template-columns: [name]1fr [amount]1fr;
+    gap: 0;
+
+    .grid-header{
+        grid-column-start:1;
+        grid-column-end: 3;
+    }
+
+}
+
+.learned-skills-grid{
+    grid-template-columns: [name]1fr [description]1fr;
+
+    .grid-header{
+        grid-column-start:1;
+        grid-column-end: 3;
+    }
+}
+
+//Pointer for sidebar stats to indicate toggleability
+#ui-bar .exp-grid .grid-header,
+#ui-bar .stats-grid .grid-header{
+    cursor: pointer;
+}
+
+.warning-grid{
+    grid-template-columns: [icon-left]3rem [text]1fr [icon-right]3rem;
+    color: red;
+    gap: 1rem;
+    font-weight: 900;  
+    justify-items: center;  
+
+    svg{
+        height: 3rem;
+        width: 3rem;
+        fill: red;
+    }
+}
+
+.skill-grid{
+    grid-template-columns: [attack]3fr [description]4fr [requirements]2fr [cost]1fr;
+}
+
+.store-grid{
+    grid-template-columns: 
+    [item]3fr [description]4fr [quantity]2fr [price]2fr [single-buy]2fr [multi-buy]2fr;
+
+    .grid-header{
+        min-height: 1.75em;
+    }
+}

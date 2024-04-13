@@ -1,10 +1,9 @@
 :: store [noreturn] {"position":"750,125"}
-<h1>$stores[$storeId].name</h1>
-
-Welcome to the $stores[$storeId].name!
 <<nobr>>
+<h1>$stores[$storeId].name</h1>
+Welcome to the $stores[$storeId].name!<br/><br />
 <<if def $storeText>>$storeText<</if>>
-<<storeItem $stores[$storeId]>>
+<<storeItem $stores[$storeId]>><br /> <br />
 <div class="button-menu">
     <div>
         <<iconMacro "back" "inline-icon inline-icon-overlay">>

@@ -14,7 +14,7 @@ Macro.add('GenWingMacro', {
             $dropdown.append($('<option/>').attr('value', type).prop('selected', player.species === type).wiki(type))
         })
 
-        $speciesContainer.append($('<label for="species"/>').wiki('Species: '))
+        $speciesContainer.append($('<label for="species"/>').wiki('Species: ')).addClass('genetics-species-wrapper')
         $speciesContainer.append($dropdown)
 
         let $genitalContainer = $('<div/>').addClass('genital-container')
@@ -44,16 +44,18 @@ Macro.add('GenWingMacro', {
         // $genitalContainer.append($('<div/>').wiki('Testicals: $player.gender.balls'))
         // $genitalContainer.append($('<div/>').wiki('Vagina: $player.gender.vagina'))
 
-        let $changeBtn = $('<div/>').append($('<button/>').wiki('Change').prop('disabled', player.credits < cost).click(() => {
+        let $changeBtn = /*$('<div/>').append*/($('<button/>').wiki('Change').prop('disabled', player.credits < cost).click(() => {
             let newSpecies = $dropdown.find(':selected').text()
             player.species = newSpecies
             Engine.show()
         }))
 
+        $speciesContainer.append($changeBtn)
+
         $(this.output)
             .append($speciesContainer)
             // .append($genitalContainer)
-            .append($changeBtn)
+            //.append($changeBtn)
     }
 })
 

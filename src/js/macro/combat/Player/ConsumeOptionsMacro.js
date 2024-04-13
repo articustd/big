@@ -40,7 +40,7 @@ Macro.add('consumeEnemy', {
                 
                 //Add the exclamation mark to the button, much more user friendly than a popup
                 if(isOverMaxCapacity(player, prey.capacityAmount, con.capacity))
-                    $conBtn.append("<i class='fa fa-exclamation-triangle consume-alert'></i>")
+                    $conBtn.append("<i class='fa fa-exclamation-triangle consume-alert blinking'></i>")
 
                 $(this.output).append($conBtn)
             }

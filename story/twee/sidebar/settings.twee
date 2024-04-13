@@ -1,7 +1,7 @@
 :: settings [noreturn] {"position":"275,425","size":"100,100"}
 <<nobr>>
 <h1>Settings</h1>
-<div class="settings-grid">
+<div class="grid settings-grid">
 	<div class="grid grid-header">''Measurements''</div>
 	<div>Units of Measure:</div>
 	<div>

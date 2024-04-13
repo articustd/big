@@ -32,7 +32,7 @@ body{
 }
 
 .system-message, #ui-bar{
-    background: $Background-Color-Dark-transparent
+    background: $Background-Color-Dark-transparent;
 }
 
 #menu li a, i.info, .button-menu svg{
@@ -54,12 +54,15 @@ body{
 
 
 .trans, .attribute-wrapper, .battle-message, #ui-bar-history [id|="history"], #ui-bar-toggle{
-    background: $Background-Color-Dark;
+    background: $Background-Color-Dark-transparent;
 }
 
 .passage table,
-.settings-grid div{
-    background-color: $Background-Color-Dark;
+.settings-grid,
+.passage .stats-grid,
+.passage .exp-grid,
+.learned-skills-grid{
+    background-color: $Background-Color-Dark-transparent;
     color: $Light-Text;
 }
 
@@ -144,16 +147,6 @@ th, div.grid-header{
     color: $Dark-Text;
     filter: drop-shadow($Shadow-size $Shadow-size);
     margin-bottom: calc($Shadow-size * 2);
-}
-
-@keyframes BlinkingAlert {
-    from {
-        color: rgba(0, 0, 0, 0);
-    }
-
-    to{
-        color: $Warning-color;
-    }
 }
 
 .consume-alert{
@@ -241,4 +234,8 @@ button#ui-bar-toggle, button[disabled=""]{
 
 #ui-bar{
     border-right: 5px solid $Light-Text;
+}
+
+.skill-grid, .store-grid{
+    background: $Background-Color-Dark-transparent;
 }

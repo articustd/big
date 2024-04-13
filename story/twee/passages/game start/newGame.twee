@@ -7,7 +7,7 @@ Here you can pick your name, starting species, gender, size, and how you want me
 Size effects your starting stats, smaller characters will have a harder time starting out. So choose wisely!
 
 <<nobr>>
-<div class="settings-grid">
+<div class="grid settings-grid">
 	<div class="grid-header">''Character information''</div>
 	<div >Name:</div>
 	<div ><<textbox "$player.name" "Min">></div>

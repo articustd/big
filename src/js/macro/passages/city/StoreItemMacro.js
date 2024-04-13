@@ -12,7 +12,7 @@ Macro.add('storeItem', {
         // }
         var storeStock = this.args[0].stock;
         
-        let $table = $('<table/>').addClass('storeTable');
+        let $table = $('<div/>').addClass('grid store-grid');
         let $wrapper = $('<span/>')
         let tableData = [['Item','Description','Quantity','Price', '', '']]
         storeStock.forEach(function (item, idx) {
@@ -20,14 +20,16 @@ Macro.add('storeItem', {
         })
 
         $.each(tableData, function(rowIndex,r) {
-            var $row = $('<tr/>')
             if (rowIndex > 0) {
-                $row.append($('<td/>').wiki(getItemInfoByIndex(r[0]).name))
-                $row.append($('<td/>').wiki(getItemInfoByIndex(r[0]).desc))
-                $row.append($('<td/>').wiki(r[1]))
-                $row.append($('<td/>').wiki(r[2]))
+                $table.append($('<div/>').wiki(getItemInfoByIndex(r[0]).name))
+                $table.append($('<div/>').wiki(getItemInfoByIndex(r[0]).desc))
+                $table.append($('<div/>').wiki(r[1]))
+                $table.append($('<div/>').wiki(r[2]))
                 //Single buy button
-                var $button = $(document.createElement('button')).wiki(`Buy`).ariaClick(function (ev) {
+                var $button = $(document.createElement('button'))
+                    .wiki(`Buy`)
+                    .addClass('full-width')
+                    .ariaClick(function (ev) {
                     let storeText = ``
                     if(r[1] > 0) { // If the item is in stock
                         if(State.variables.player.credits >= r[2]) { // Can the player afford it
@@ -42,10 +44,13 @@ Macro.add('storeItem', {
                     State.variables.storeText = storeText
                     Engine.play(passage(), true)
                 })
-                $row.append($(`<td/>`).append($button))
+                $table.append($(`<div/>`).append($button))
 
                 //Max buy button
-                var $MaxButton = $(document.createElement('button')).wiki(`Buy max`).ariaClick(function (ev) {
+                var $MaxButton = $(document.createElement('button'))
+                    .wiki(`Buy max`)
+                    .addClass('full-width')
+                    .ariaClick(function (ev) {
                     let storeText = ``
                     let SuccessCount = 0
                     //console.log(r[1])
@@ -67,13 +72,12 @@ Macro.add('storeItem', {
                 })
 
 
-                $row.append($(`<td/>`).append($MaxButton))
+                $table.append($(`<div/>`).append($MaxButton))
             } else {
                 $.each(r, function(colIndex, c) {
-                    $row.append($(`<th/>`).wiki(c))
+                    $table.append($(`<div/>`).wiki(c).addClass('grid-header'))
                 })
             }
-            $table.append($row)
         })
 
         $wrapper

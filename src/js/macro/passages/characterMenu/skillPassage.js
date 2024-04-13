@@ -6,9 +6,9 @@ import _ from 'lodash';
 Macro.add('skillPassage', {
     skipArgs: false,
     handler: function () {
-    let $wrapper = $('<div/>').addClass('skills-grid');
+    let $wrapper = $('<div/>').addClass('grid learned-skills-grid');
 
-    $wrapper.append($('<div/>').wiki(`''__Learned Skills__''`).addClass('grid-header'))
+    $wrapper.append($('<div/>').wiki(`''Learned Skills''`).addClass('grid-header'))
     let { passives } = variables().player
     
     _.each(passives, (skillId) => {

@@ -5,7 +5,7 @@ $("#ui-bar .exp-grid .grid-header").on("click", function(){
     $("#ui-bar .exp-grid *:not(:first-child)").toggle("slow");
 });
 </script>
-<div class="exp-grid">
+<div class="grid exp-grid">
     <div class="grid grid-header">Experience Points</div>
         <div>Muscle:     </div><div><<expBarMacro $player "left" "muscle">>   </div>
         <div>Agility:    </div><div><<expBarMacro $player "left" "agility">>  </div>

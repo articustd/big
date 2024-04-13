@@ -26,8 +26,7 @@ a.ui-button,  a.ui-button:active, a.ui-button:focus, a.ui-button:hover, a:link.u
 }
 
 
-.passage table,
-.settings-grid div{
+.passage table{
     background-color: $Background-Color-Dark;
     color: $Light-Text;
 }
@@ -112,16 +111,6 @@ table, th, td {
 th, div.grid-header{
     background-color: $Main-Color;
     color: $Light-Text;
-}
-
-@keyframes BlinkingAlert {
-    from {
-        color: rgba(0, 0, 0, 0);
-    }
-
-    to{
-        color: $Warning-color;
-    }
 }
 
 .consume-alert{

@@ -10,8 +10,8 @@ Macro.add('attackSkill', {
         let $wrapper = $('<span/>');
         let player = variables().player
 
-        $wrapper.append($('<span/>').wiki(`''__Self Defence Class__''`))
-        let $table = $('<table/>').addClass('skillTable').addClass('skillTable');
+        $wrapper.append($('<span/>').wiki(`''__Self-defense class__''`))
+        let $table = $('<div/>').addClass('skillTable').addClass('grid skill-grid');
         let tableData = [['Attack', 'Description', 'Requirements', 'Points']];
 
         _.each(attackSkill, ({ name, desc: { baseDesc }, skillPoints, reqs }, idx) => {
@@ -20,17 +20,16 @@ Macro.add('attackSkill', {
         })
 
         $.each(tableData, function (rowIndex, r) {
-            var $row = $('<tr/>').attr('id', `attack-${r[3]}`)
             if (rowIndex > 0) {
-                $row.append($(`<td/>`).wiki(r[0]))
-                $row.append($(`<td/>`).wiki(r[1]))
+                $table.append($(`<div/>`).wiki(r[0]).addClass(`attack-${r[3]}`))
+                $table.append($(`<div/>`).wiki(r[1]).addClass(`attack-${r[3]}`))
                 let reqText = ``
                 $.each(r[4], function (reqName, reqValue) {
                     if (reqText !== ``)
                         reqText += `<br>`
                     reqText += `${returnStatName(reqName)}: ${reqName === 'height' ? findSize(reqValue) : reqValue}`
                 })
-                $row.append($(`<td/>`).wiki(reqText !== `` ? reqText : `None`))
+                $table.append($(`<div/>`).wiki(reqText !== `` ? reqText : `None`).addClass(`attack-${r[3]}`))
 
                 var $button = $(document.createElement('button')).wiki(r[2]).addClass('inactiveButton')
                 if (player.skillPoints >= r[2] && checkStatReqs(r[4], player)) { // Enough Skill Points and reqs
@@ -45,7 +44,7 @@ Macro.add('attackSkill', {
 
                             variables().player.skillPoints -= r[2]
 
-                            $(`#attack-${r[3]}`).remove()
+                            $(`.attack-${r[3]}`).remove()
                             $('<li/>').wiki(`''${r[0]}'' - ${r[1]}`).hide().appendTo(`ul.no-bullets`).fadeIn(1000).fadeOut(1000).fadeIn(1000)
                             if (variables().settings.info.learnedAttackInfo && !atk.passive)
                                 popup(`Learned ${r[0]}`, `You learned ${r[0]}! <br><br>To equip you'll need to go Home and change your moveset.`, { 'Ok': () => { } }, { type: "info", name: 'learnedAttackInfo' })
@@ -57,13 +56,13 @@ Macro.add('attackSkill', {
                 }
 
 
-                $row.append($(`<td/>`).addClass('fullSizeTableButton').append($button))
+                $table.append($(`<div/>`).append($button).addClass(`attack-${r[3]}`))
             } else {
                 $.each(r, function (colIndex, c) {
-                    $row.append($(`<th/>`).wiki(c))
+                    $table.append($(`<div/>`).wiki(c).addClass('grid-header'))
                 })
             }
-            $table.append($row)
+            $table.append($table)
         });
 
         $wrapper

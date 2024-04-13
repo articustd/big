@@ -24,10 +24,6 @@ $bar-height: 25px;
     background: #ff0000;
 }
 
-.warningFlash {
-    animation: healthFlash 1s alternate ease-in-out infinite;
-}
-
 .currentNotVisCapBar {
     @extend %currentStatusBar-shared;
     background-color: green;
