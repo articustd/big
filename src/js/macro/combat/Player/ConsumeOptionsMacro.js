@@ -22,7 +22,7 @@ Macro.add('consumeEnemy', {
         _.each(consume, (con) => {
             if (con.gen === '' || player.gender[con.gen]) {
                 let $conBtn = $('<button/>')
-                    .addClass('combat-actions-button')
+                    .addClass('combat-actions-button full-width')
                     .wiki(con.method)
                     .click(() => {
                         if (warning.overConsumeWarning && isOverMaxCapacity(player, prey.capacityAmount, con.capacity))
@@ -56,7 +56,7 @@ Macro.add('consumeEnemy', {
 
         let $leaveBtn = $('<button/>')
             .wiki('Leave')
-            .addClass('combat-actions-button  combat-actions-leave')            
+            .addClass('combat-actions-button full-width combat-actions-leave')            
             .click(() => {
                 combatReset()
                 Engine.play(passageReturn)

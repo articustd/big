@@ -1,3 +1,4 @@
+@use "partials/variables" as var;
 .combat-message{
     left: 5%;
     display: flex;
@@ -137,6 +138,10 @@
 	grid-template-rows: 1fr 1fr 1fr auto;
 	grid-column-gap: 1rem;
 	grid-row-gap: 1rem;
+
+    @media (max-width: var.$tablet) {
+        grid-template-columns: 1fr;        
+    }
 }
 
 .combat-actions-panel-left, .combat-actions-panel-right{

@@ -1,3 +1,4 @@
+@use "partials/variables" as var;
 $Main-Color: #D7F171;
 $Background-Color: #65524D;
 $Background-Color-Dark: #3e3331;
@@ -24,7 +25,11 @@ body{
 
 #passages {
 	background: #000A;
-	padding: 2rem;    
+	padding: 2rem;   
+    
+    @media screen and (max-width: var.$tablet) {
+        padding: 1rem
+    }
 }
 
 #passages, .system-message{
@@ -33,6 +38,12 @@ body{
 
 .system-message, #ui-bar{
     background: $Background-Color-Dark-transparent;
+}
+
+@media screen and (max-width: var.$tablet) {
+    #ui-bar{
+        background: $Background-Color-Dark
+    }    
 }
 
 #menu li a, i.info, .button-menu svg{

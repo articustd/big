@@ -1,6 +1,6 @@
 :: character [noreturn] {"position":"275,550","size":"100,100"}
 <<nobr>><h1>$player.name</h1>
-<div class="half-width">
+<div>
     <<include "_baseStats">><br />
     <<include "_expStats">>
 </div> <br />

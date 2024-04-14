@@ -21,15 +21,15 @@ Macro.add('attackSkill', {
 
         $.each(tableData, function (rowIndex, r) {
             if (rowIndex > 0) {
-                $table.append($(`<div/>`).wiki(r[0]).addClass(`attack-${r[3]}`))
-                $table.append($(`<div/>`).wiki(r[1]).addClass(`attack-${r[3]}`))
+                $table.append($(`<div/>`).wiki(r[0]).addClass(`skill-grid-name attack-${r[3]}`))
+                $table.append($(`<div/>`).wiki(r[1]).addClass(`skill-grid-description attack-${r[3]}`))
                 let reqText = ``
                 $.each(r[4], function (reqName, reqValue) {
                     if (reqText !== ``)
                         reqText += `<br>`
                     reqText += `${returnStatName(reqName)}: ${reqName === 'height' ? findSize(reqValue) : reqValue}`
                 })
-                $table.append($(`<div/>`).wiki(reqText !== `` ? reqText : `None`).addClass(`attack-${r[3]}`))
+                $table.append($(`<div/>`).wiki(reqText !== `` ? reqText : `None`).addClass(`skill-grid-requirements attack-${r[3]}`))
 
                 var $button = $(document.createElement('button')).wiki(r[2]).addClass('inactiveButton')
                 if (player.skillPoints >= r[2] && checkStatReqs(r[4], player)) { // Enough Skill Points and reqs
@@ -56,7 +56,8 @@ Macro.add('attackSkill', {
                 }
 
 
-                $table.append($(`<div/>`).append($button).addClass(`attack-${r[3]}`))
+                $table.append($(`<div/>`).append($button).addClass(`skill-grid-buy attack-${r[3]}`))
+                $table.append($(`<hr/>`))
             } else {
                 $.each(r, function (colIndex, c) {
                     $table.append($(`<div/>`).wiki(c).addClass('grid-header'))

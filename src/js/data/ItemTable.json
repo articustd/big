@@ -4,7 +4,7 @@
      "mod": 5,
      "type": "stats",
      "stat": "hlth",
-     "desc": "Restores 5% of health, 5 health minimum"
+     "desc": "Restores 5 health"
     },
     {
      "name": "Protein Powder",
@@ -60,7 +60,7 @@
      "mod": 25,
      "type": "stats",
      "stat": "hlth",
-     "desc": "Restores 10% of health, 25 health minimum"
+     "desc": "Restores 25 health"
     },
     {
      "name": "Muscle Reducer",
@@ -109,6 +109,6 @@
      "mod": 50,
      "type": "stats",
      "stat": "hlth",
-     "desc": "Restores 20% of health, 50 health minimum"
+     "desc": "Restores 50 health"
     }
    ]

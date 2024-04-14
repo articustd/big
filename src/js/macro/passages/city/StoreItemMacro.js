@@ -21,10 +21,26 @@ Macro.add('storeItem', {
 
         $.each(tableData, function(rowIndex,r) {
             if (rowIndex > 0) {
-                $table.append($('<div/>').wiki(getItemInfoByIndex(r[0]).name))
-                $table.append($('<div/>').wiki(getItemInfoByIndex(r[0]).desc))
-                $table.append($('<div/>').wiki(r[1]))
-                $table.append($('<div/>').wiki(r[2]))
+                $table.append(
+                    $('<div/>')
+                    .wiki(getItemInfoByIndex(r[0]).name)
+                    .addClass('store-item-name')
+                )
+                $table.append(
+                    $('<div/>')
+                    .wiki(getItemInfoByIndex(r[0]).desc)
+                    .addClass('store-item-description')
+                )
+                $table.append(
+                    $('<div/>')
+                    .wiki(r[1] + "x")
+                    .addClass('store-item-quantity')
+                )
+                $table.append(
+                    $('<div/>')
+                    .wiki(r[2] + "<<iconMacro 'credits' 'inline-icon light-text'>>")
+                    .addClass('store-item-price')
+                )
                 //Single buy button
                 var $button = $(document.createElement('button'))
                     .wiki(`Buy`)
@@ -44,7 +60,7 @@ Macro.add('storeItem', {
                     State.variables.storeText = storeText
                     Engine.play(passage(), true)
                 })
-                $table.append($(`<div/>`).append($button))
+                $table.append($(`<div/>`).addClass('store-item-buy-single').append($button))
 
                 //Max buy button
                 var $MaxButton = $(document.createElement('button'))
@@ -72,7 +88,8 @@ Macro.add('storeItem', {
                 })
 
 
-                $table.append($(`<div/>`).append($MaxButton))
+                $table.append($(`<div/>`).addClass('store-item-buy-max').append($MaxButton))
+                $table.append($('<hr/>'))
             } else {
                 $.each(r, function(colIndex, c) {
                     $table.append($(`<div/>`).wiki(c).addClass('grid-header'))

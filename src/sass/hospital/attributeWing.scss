@@ -1,3 +1,4 @@
+@use "partials/variables" as var;
 .attribute {
     display: flex;
 
@@ -49,4 +50,29 @@
 .attribute-wrapper {
     padding-bottom: 1em;
     margin-bottom: 2em;
+
+    @media screen and (max-width: var.$tablet) {
+        display: flex;
+        flex-direction: column;
+    }
   }
+
+.attribute-base{
+
+    @media screen and (max-width: var.$mobile) {
+        display: flex;
+        flex-direction: column;
+
+    }
+}
+
+@media screen and (max-width: var.$mobile) {
+    .attribute-container button {
+        margin-bottom: 1rem;
+    }
+}
+
+  .attribute-controls{
+    display: flex;
+    flex-direction: row;
+}

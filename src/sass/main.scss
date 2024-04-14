@@ -1,12 +1,17 @@
+@use "partials/variables" as var;
 @use './hospital/hospital';
-@import "partials/statusBar";
-@import "partials/tabs";
-@import "partials/buttons";
-@import "partials/moveset";
-@import "partials/combat";
-@import "partials/grids";
-@import "partials/themes/default";
-@import "partials/themes/brownGreen";
+@use "partials/statusBar";
+@use "partials/tabs";
+@use "partials/buttons";
+@use "partials/moveset";
+@use "partials/combat";
+@use "partials/grids";
+//@use "partials/themes/default";
+@use "partials/themes/brownGreen";
+
+input[type="text"]{
+    min-width: unset;
+}
 
 .flex-container {
     flex-direction: row;
@@ -30,6 +35,32 @@ td>button {
 
 #story-caption {
     text-align: left;
+}
+
+
+//Claw back every single inch from Twine and make the layout as compact as possible on mobile
+@media screen and (max-width: var.$mobile) {
+    #story{
+        margin-right: 0.5em;
+        margin-left: 0.5em;
+    }
+
+    #ui-bar.stowed ~ #story {
+        margin-left: 0.5em
+    }
+    
+    #ui-bar.stowed{
+        margin-left: -1.5em;
+        border: none;
+        background: none;
+    }
+    
+    #ui-bar-toggle {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 90000;
+    }
 }
 
 .text-fade-in {
@@ -369,6 +400,10 @@ input, select, textarea {
 
 .button-menu{
     max-width: 50%;
+
+    @media screen and (max-width: var.$tablet) {
+        max-width: 100%;
+    }
 }
 
 .button-menu.full-width button{

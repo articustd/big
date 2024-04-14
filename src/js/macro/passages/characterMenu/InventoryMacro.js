@@ -19,7 +19,7 @@ Macro.add('invMacro', {
             if (rowIndex > 0) {
                 $row.append($('<td/>').wiki(r[0].name))
                 $row.append($('<td/>').wiki((r[0].desc)))
-                $row.append($('<td/>').wiki(r[1])) //Quantity
+                $row.append($('<td/>').wiki(r[1] + "x")) //Quantity
                 
                 //Single use button 
                 var $button = $(document.createElement('button')).wiki(`Use`).ariaClick(function (ev) {

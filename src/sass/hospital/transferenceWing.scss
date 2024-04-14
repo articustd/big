@@ -1,6 +1,12 @@
+@use "partials/variables" as var;
 .trans {
     display: flex;
 
+    @media screen and (max-width: var.$mobile) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
     &-container {
         @extend .trans;

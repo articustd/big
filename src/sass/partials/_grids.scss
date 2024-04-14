@@ -1,3 +1,4 @@
+@use "partials/variables" as var;
 // Very common grid CSS, mostly for table-like layouts
 .grid{
     display:grid;
@@ -41,6 +42,14 @@
     .grid-header{
         grid-column-start: 1;
         grid-column-end: 3;    
+    }
+
+    div:not(.grid-header){
+        margin-bottom: 1rem;
+    }
+
+    @media screen and (max-width: var.$tablet) {
+        grid-template-columns: [setting]5em [options]2fr;
     }
 }
 
@@ -91,10 +100,48 @@
         width: 3rem;
         fill: red;
     }
+
+    @media screen and (max-width: var.$tablet) {
+        grid-template-columns: 1fr;
+    }
 }
 
 .skill-grid{
     grid-template-columns: [attack]3fr [description]4fr [requirements]2fr [cost]1fr;
+
+    .skill-grid-name{
+        font-weight: 900;
+    }
+
+    hr{
+        grid-column-start: 1;
+        grid-column-end: 5;
+    }
+
+    @media screen and (max-width: var.$tablet) {
+        grid-template-columns: [attack-requirements]1fr [description-cost]1fr;
+
+        .skill-grid-name{
+            grid-column-start: 1;
+            grid-column-end: 2;
+            font-weight: 900;
+        }
+
+        .skill-grid-description{
+            grid-column-start: 2;
+            grid-column-end: 3;
+        }
+
+        .skill-grid-buy{
+            grid-column-start: 2;
+        }    
+
+        hr{
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+
+    }
 }
 
 .store-grid{
@@ -103,5 +150,52 @@
 
     .grid-header{
         min-height: 1.75em;
+    }
+
+    hr{
+        grid-column-start: 1;
+        grid-column-end: 7;
+    }
+
+    .store-item-name{
+        font-weight: 900;
+    }
+    
+
+    @media screen and (max-width: var.$tablet) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+
+        //This is a hack to make the header blank by taking the fifth column's text and just spreading it out over the table
+        .grid-header:not(.grid-header:nth-child(5)){
+            display:none;
+        }
+        .grid-header:nth-child(5){
+            grid-column-start: 1;
+            grid-column-end: 5;
+        }
+
+        .store-item-name {
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+        .store-item-description {
+            grid-column-start: 3;
+            grid-column-end: 5;
+        }
+
+        //.store-item-quantity {}
+        //.store-item-price {}
+
+        .store-item-buy-single {
+            grid-column-start: 3;
+        }
+        .store-item-buy-max {
+            grid-column-start: 4;
+        }
+
+        hr{
+            grid-column-start: 1;
+            grid-column-end: 5;
+        }
     }
 }
