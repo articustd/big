@@ -11,6 +11,7 @@ Looking at the helmet you notice the tube leading from the top and going into th
 <<nobr>>
 <<set _skillPoints to 0>>
 <<set _credits to 0>>
+<<if def $transferText>><div class="system-message">$transferText</div><br /><br /><</if>>
 <div class="trans">
     <div class="trans-container">
         <div class="trans-controls">
@@ -32,4 +33,5 @@ Looking at the helmet you notice the tube leading from the top and going into th
         <<link "Return to Lobby" $return>><</link>>
     </div>    
 </div>
+<<unset $transferText>>
 <</nobr>>

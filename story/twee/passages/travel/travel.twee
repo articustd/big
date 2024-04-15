@@ -14,19 +14,19 @@ Where do you want to go?<<nobr>>
 <<nobr>>
 <div>
     <<iconMacro "metro" "inline-icon inline-icon-overlay">>
-    <<timeAction "Micro Metro" "microCity" 2 0 "Train Station - Outback">><<unset $consumeText>><</timeAction>>
+    <<timeAction "Micro Metro" "microCity" 2 0 "Train Station - Outback">><</timeAction>>
 </div><br />
 <div>
     <<iconMacro "village" "inline-icon inline-icon-overlay">>
-    <<timeAction "Variable Village" "normalCity" 2 0 "Train Station - Outback">><<unset $consumeText>><</timeAction>>
+    <<timeAction "Variable Village" "normalCity" 2 0 "Train Station - Outback">><</timeAction>>
 </div><br />
 <div>
     <<iconMacro "city" "inline-icon inline-icon-overlay">>
-    <<timeAction "Macro Megacity" "macroCity" 2 0 "Train Station - Outback">><<unset $consumeText>><</timeAction>>
+    <<timeAction "Macro Megacity" "macroCity" 2 0 "Train Station - Outback">><</timeAction>>
 </div><br />
 <div>
     <button class="full-width" data-passage="hospital">
-        <<iconMacro "hospital" "inline-icon">>Hospital<<unset $consumeText>>
+        <<iconMacro "hospital" "inline-icon">>Hospital
     </button>
 </div><br />
 <div>
@@ -35,4 +35,5 @@ Where do you want to go?<<nobr>>
         Go Home
     </button>
 </div>
+<<unset $consumeText>>
 <</nobr>>

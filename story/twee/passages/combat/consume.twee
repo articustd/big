@@ -3,6 +3,7 @@
 <<nobr>>
     <div class="button-menu">
         <<iconMacro "back" "inline-icon inline-icon-overlay">>
-        <<link "Return" $return>><<unset $consumeText>><<combatReset>><</link>>
+        <<link "Return" $return>><<combatReset>><</link>>
     </div>
+<<unset $consumeText>>
 <</nobr>>

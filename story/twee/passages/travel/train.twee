@@ -30,9 +30,8 @@ Welcome to the gym! Cost to use the equipment is 100 credits a session.<br /><br
 <div class="button-menu">
 	<div>
 		<<iconMacro "back" "inline-icon inline-icon-overlay">>
-		<<link [[Go Back|$return]]>>
-			<<unset $trainText>>
-		<</link>>
+		<<link [[Go Back|$return]]>><</link>>
 	</div>	
 </div>
+<<unset $trainText>>
 <</nobr>>

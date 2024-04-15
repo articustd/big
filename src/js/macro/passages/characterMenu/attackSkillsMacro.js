@@ -57,7 +57,7 @@ Macro.add('attackSkill', {
 
 
                 $table.append($(`<div/>`).append($button).addClass(`skill-grid-buy attack-${r[3]}`))
-                $table.append($(`<hr/>`))
+                $table.append($(`<hr/>`).addClass(`attack-${r[3]}`))
             } else {
                 $.each(r, function (colIndex, c) {
                     $table.append($(`<div/>`).wiki(c).addClass('grid-header'))

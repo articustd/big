@@ -9,13 +9,13 @@ You're home. Nothing here except you, a bed, and the mirror.<br /><br />
 <</if>>
 <div class="button-menu">
 	<button class="full-width" data-passage="travel">
-		<<iconMacro "map marker" "inline-icon">> Travel<<unset $restText>>
+		<<iconMacro "map marker" "inline-icon">> Travel
 	</button><br/>
 	<button class="full-width" data-passage="mirror">
-		<<iconMacro "mirror" "inline-icon">> Look in the Mirror<<unset $restText>>
+		<<iconMacro "mirror" "inline-icon">> Look in the Mirror
 	</button><br/>
 	<button class="full-width" data-passage="moveset">
-		<<iconMacro "sword" "inline-icon">> Change Moveset<<unset $restText>>
+		<<iconMacro "sword" "inline-icon">> Change Moveset
 	</button><br/>
 	<div>
 		<<iconMacro "bed" "inline-icon inline-icon-overlay">>
@@ -25,3 +25,4 @@ You're home. Nothing here except you, a bed, and the mirror.<br /><br />
 	</div>
 </div>
 <</nobr>>
+<<unset $restText>>

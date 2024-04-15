@@ -1,6 +1,6 @@
 :: macroCity {"position":"125,125"}
-<h1>Macro Megacity - Downtown</h1>
 <<nobr>>
+<h1>Macro Megacity - Downtown</h1>
 <<cityMacro 6 8 "megaCity">>
     <<if def $consumeText>><br/>
         <<include "_consumeText">>
@@ -9,19 +9,20 @@
 <div class="button-menu">
     <div>
         <<iconMacro "fight" "inline-icon inline-icon-overlay">>
-        <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 6 8 "Macro Megacity - Alleyway">>
-        <<unset $consumeText>><</timeAction>>
+        <<timeAction "Look for Trouble" "fight" 0 30>>
+            <<enemyMacro 6 8 "Macro Megacity - Alleyway">>
+        <</timeAction>>
     </div><br />
     <button class="full-width" data-passage="train">
         <<iconMacro "dumbbell" "inline-icon">> Titan Triceps Gym
-        <<unset $consumeText>>
     </button><br />
     <button class="full-width" data-passage="store">
         <<iconMacro "store" "inline-icon">> Store
-        <<set $storeId to 2>><<unset $consumeText>></button>
+        <<set $storeId to 2>></button>
     <div><br />
         <<iconMacro "back" "inline-icon inline-icon-overlay">>
-        <<timeAction "Go Back to the Station" "travel" 2 0 "Macro Megacity - Alleyway">><<unset $consumeText>><</timeAction>>
+        <<timeAction "Go Back to the Station" "travel" 2 0 "Macro Megacity - Alleyway">><</timeAction>>
     </div>
 </div>
+<<unset $consumeText>>
 <</nobr>>

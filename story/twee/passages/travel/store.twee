@@ -2,7 +2,7 @@
 <<nobr>>
 <h1>$stores[$storeId].name</h1>
 Welcome to the $stores[$storeId].name!<br/><br />
-<<if def $storeText>>$storeText<</if>>
+<<if def $storeText>><div class="system-message">$storeText</div><br /><br /><</if>>
 <<storeItem $stores[$storeId]>><br /> <br />
 <div class="button-menu">
     <div>

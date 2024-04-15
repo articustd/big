@@ -18,6 +18,6 @@ Cannot work outside of work hours
 <</if>>
 <div class="button-menu">
 <<link [[Go Back|$return]]>>
-	<<unset $workText>>
 <</link>>
 </div>
+<<unset $workText>>

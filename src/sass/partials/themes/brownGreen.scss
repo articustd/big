@@ -84,7 +84,7 @@ button,
 .button-menu.full-width button,
 button, #restart-ok, #restart-cancel, #ui-dialog-title,
 #saves-save-0, #saves-save-1, #saves-save-2, #saves-save-3, #saves-save-4, #saves-save-5, #saves-save-6, #saves-save-7, #saves-export, #saves-import,
-.attribute-base .header, .ui-button
+.attribute-base .header, .ui-button, .ui-button:focus
 {
     background-color: $Main-Color;
     color: $Dark-Text;
@@ -100,7 +100,7 @@ button, #restart-ok, #restart-cancel, #ui-dialog-title,
 #menu-core li:hover,
 #menu li a:hover,
 #restart-ok:hover, #restart-cancel:hover, button:hover,
-#ui-bar .exp-grid .grid-header:hover, #ui-bar .stats-grid .grid-header:hover
+#ui-bar .exp-grid .grid-header:hover, #ui-bar .stats-grid .grid-header:hover, .ui-button:hover
 {
     background-color: $Accent-Color;
     border-color: $Main-Color;

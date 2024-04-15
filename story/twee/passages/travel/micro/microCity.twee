@@ -9,19 +9,20 @@
 <div class="button-menu">
     <div>
         <<iconMacro "fight" "inline-icon inline-icon-overlay">>
-        <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 0 2 "Micro Metroplex - Alleyway">>
-        <<unset $consumeText>><</timeAction>>
+        <<timeAction "Look for Trouble" "fight" 0 30>>
+            <<enemyMacro 0 2 "Micro Metroplex - Alleyway">>
+        <</timeAction>>
     </div><br />
     <button class="full-width" data-passage="train">
         <<iconMacro "dumbbell" "inline-icon">>Micro Muscle Gym
-        <<unset $consumeText>>
     </button><br />
     <button class="full-width" data-passage="store">
-        <<iconMacro "store" "inline-icon">>Store<<set $storeId to 0>><<unset $consumeText>>
+        <<iconMacro "store" "inline-icon">>Store<<set $storeId to 0>>
     </button><br />
     <div>
         <<iconMacro "back" "inline-icon inline-icon-overlay">>
-        <<timeAction "Go Back to the Station" "travel" 2 0 "Micro Metroplex - Alleyway">><<unset $consumeText>><</timeAction>>
+        <<timeAction "Go Back to the Station" "travel" 2 0 "Micro Metroplex - Alleyway">><</timeAction>>
     </div>
 </div>
+<<unset $consumeText>>
 <</nobr>>

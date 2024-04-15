@@ -7,22 +7,20 @@ Macro.add('invMacro', {
     handler: function () {
         let inventory = State.variables.player.inv;
         
-        let $table = $('<table/>').addClass('inventoryTable');
-        let $wrapper = $('<span/>')
+        let $table = $('<div/>').addClass('grid inventory-grid');
         let tableData = [['Item','Description','Quantity','','']]
         inventory.forEach(function (item, idx) {
             tableData.push([getItemInfoByIndex(item.id), item.qty, idx])
         })
 
         $.each(tableData, function(rowIndex,r) {
-            var $row = $('<tr/>')
             if (rowIndex > 0) {
-                $row.append($('<td/>').wiki(r[0].name))
-                $row.append($('<td/>').wiki((r[0].desc)))
-                $row.append($('<td/>').wiki(r[1] + "x")) //Quantity
+                $table.append($('<div/>').wiki(r[0].name).addClass('inventory-item-name'))
+                $table.append($('<div/>').wiki((r[0].desc)).addClass('inventory-item-description'))
+                $table.append($('<div/>').wiki(r[1] + "x").addClass('inventory-item-quantity'))
                 
                 //Single use button 
-                var $button = $(document.createElement('button')).wiki(`Use`).ariaClick(function (ev) {
+                var $button = $(document.createElement('button')).addClass('full-width').wiki(`Use`).ariaClick(function (ev) {
                     let invText = ``
                     if(r[1] > 0) { // If the item is in inventory
                         if(useItem(r[0])) {
@@ -36,10 +34,10 @@ Macro.add('invMacro', {
                     State.variables.invText = invText
                     Engine.play(passage(), true)
                 })
-                $row.append($(`<td/>`).append($button))
+                $table.append($(`<div/>`).addClass('inventory-item-single-use').append($button))
                 
                 //Max use button
-                var $MaxButton = $(document.createElement('button')).wiki(`Use All`).ariaClick(function (ev) {
+                var $MaxButton = $(document.createElement('button')).wiki(`Use All`).addClass('full-width').ariaClick(function (ev) {
                     let invText = ``
                     let SuccessCount = 0
                     //console.log(r[1])
@@ -61,20 +59,18 @@ Macro.add('invMacro', {
                     State.variables.invText = invText
                     Engine.play(passage(), true)
                 })
-                $row.append($(`<td/>`).append($MaxButton))
-
+                $table.append($(`<div/>`).addClass('inventory-item-multi-use').append($MaxButton))
+                $table.append('<hr/>')
             } else {
                 $.each(r, function(colIndex, c) {
-                    $row.append($(`<th/>`).wiki(c))
+                    $table.append($(`<div/>`).wiki(c).addClass('grid-header'))
                 })
             }
-            $table.append($row)
+
+            
         })
 
-        $wrapper
-            .attr('id', `macro-${this.name}`)
-            .append($table)
-            .appendTo(this.output);
+            $table.appendTo(this.output);
     }
 })
 

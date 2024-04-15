@@ -3,27 +3,26 @@
 <h1>Variable Village - Downtown</h1>
 <<cityMacro 3 5 "normalCity">>
     <<if def $consumeText>><br/>
-        <<for _i, _exp range $consumeText>>
-            <<include "_consumeText">>
-        <</for>>
+        <<include "_consumeText">>
     <</if>>
 <<restMessageMacro>><br /><br />
 <div class="button-menu">
     <div>
         <<iconMacro "fight" "inline-icon inline-icon-overlay">>
-       <<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 3 5 "Variable Village - Alleyway">><<unset $consumeText>><</timeAction>>
+       <<timeAction "Look for Trouble" "fight" 0 30>>
+            <<enemyMacro 3 5 "Variable Village - Alleyway">>
+        <</timeAction>>
     </div><br/>
     <button class="full-width" data-passage="train">
         <<iconMacro "dumbbell" "inline-icon">>The Maintainer Gym
-        <<unset $consumeText>>
     </button><br />
     <button class="full-width" data-passage="store">
         <<iconMacro "store" "inline-icon">>Store<<set $storeId to 1>>
-        <<unset $consumeText>>
     </button><br />
     <div>
         <<iconMacro "back" "inline-icon inline-icon-overlay">>
-        <<timeAction "Go Back to the Station" "travel" 2 0 "Variable Village - Alleyway">><<unset $consumeText>><</timeAction>>
+        <<timeAction "Go Back to the Station" "travel" 2 0 "Variable Village - Alleyway">><</timeAction>>
     </div>
 </div>
+<<unset $consumeText>>
 <</nobr>>

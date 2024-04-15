@@ -15,6 +15,14 @@
     select, input{
         width: 100%;
     }
+
+    .grid-header{
+        min-height: 1.75em;
+    }
+
+    button{
+        margin: 0
+    }
 }
 
 // More compact layout, reset some stuff for size
@@ -148,10 +156,6 @@
     grid-template-columns: 
     [item]3fr [description]4fr [quantity]2fr [price]2fr [single-buy]2fr [multi-buy]2fr;
 
-    .grid-header{
-        min-height: 1.75em;
-    }
-
     hr{
         grid-column-start: 1;
         grid-column-end: 7;
@@ -197,5 +201,50 @@
             grid-column-start: 1;
             grid-column-end: 5;
         }
+    }
+}
+
+.inventory-grid{
+    grid-template-columns: [item]2fr [description]4fr [quantity]1fr [use-single]2fr [use-all]2fr;
+
+    hr{
+        grid-column-start: 1;
+        grid-column-end: 6;
+    }
+
+    @media screen and (max-width: var.$mobile) {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+        .grid-header:not(.grid-header:nth-child(5)){
+            display:none;
+        }
+        .grid-header:nth-child(5){
+            grid-column-start: 1;
+            grid-column-end: 6;
+        }
+
+        .inventory-item-name{
+            grid-column-start: 1;
+            grid-column-end: 3;
+            font-weight: 900;
+        }
+        .inventory-item-description{
+            grid-column-start: 3;
+            grid-column-end: 6;
+        }
+
+        .inventory-item-quantity{
+            grid-column-start: 1;
+        }
+
+        .inventory-item-single-use{
+            grid-column-start: 2;
+            grid-column-end: 4;
+        }
+        .inventory-item-multi-use{
+            grid-column-start: 4;
+            grid-column-end: 6
+        }
+
     }
 }

@@ -77,7 +77,7 @@ Macro.add('storeItem', {
                                 SuccessCount++;
                             } 
                         }  
-                        storeText = `Bought ` + SuccessCount + ` ${r[0].name}(s)`                                        
+                        storeText = `Bought ` + SuccessCount + ` ${getItemInfoByIndex(r[0]).name}(s)`                                        
                     } 
                     
                     else {
