@@ -279,10 +279,6 @@ input, select, textarea {
     clear:both;
 }
 
-.trans-exchange{
-    justify-content: space-evenly;
-}
-
 .inline-icon{
     height: 1.5em;
     width: 1.5em;
@@ -389,4 +385,10 @@ input, select, textarea {
 .moveset-available{
     border-bottom: 2px dotted white;
     cursor: help; 
+}
+
+@media screen and (max-width: var.$mobile) {
+    .portlet{
+        width: 40%;
+    }
 }
