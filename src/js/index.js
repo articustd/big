@@ -11,7 +11,7 @@ setup.ImagePath = "assets/";
 
 ((Config, State, Story, Engine, Dialog, $document) => {
 	$(document.head).append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css" integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">')
-	let version = `v0.10.0`
+	let version = `v0.11.0`
 	// Set State Variables
 	variables().version = version
 	variables().stores = stores;
