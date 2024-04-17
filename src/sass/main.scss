@@ -1,4 +1,4 @@
-@use "partials/variables" as var;
+@use "partials/_variables.scss" as var;
 @use "partials/jqueryUI";
 @use './hospital/hospital';
 @use "partials/statusBar";

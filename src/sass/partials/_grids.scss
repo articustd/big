@@ -1,4 +1,4 @@
-@use "partials/variables" as var;
+@use "../partials/_variables.scss" as var;
 // Very common grid CSS, mostly for table-like layouts
 .grid{
     display:grid;
@@ -111,6 +111,10 @@
 
     @media screen and (max-width: var.$tablet) {
         grid-template-columns: 1fr;
+    }
+
+    .grid div:not(.grid-header) {
+        padding: 0;
     }
 }
 
@@ -247,4 +251,18 @@
         }
 
     }
+}
+
+.credits-grid{
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    justify-items: center;
+
+    @media screen and (max-width: var.$mobile) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.credits-grid div:not(.grid-header) {
+    padding: 0;
 }

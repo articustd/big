@@ -1,4 +1,4 @@
-@use "partials/variables" as var;
+@use "../partials/_variables.scss" as var;
 .combat-message{
     left: 5%;
     display: flex;

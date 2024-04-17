@@ -1,24 +1,26 @@
 :: _credits
 <<nobr>>
-    <div class="creditWrapper" onClick='window.location = "https://www.furaffinity.net/user/gunpoint/"'>
+    <div class="grid credits-grid">
+        <div class="creditWrapper" onClick='window.location = "https://www.furaffinity.net/user/gunpoint/"'>
+                <div class="creditOverlay">
+                    Articus/Gunpoint<br>
+                    Developer
+                </div>
+                <img class="creditImg" src="assets/credits/gunpoint.png">
+        </div>
+        <div class="creditWrapper" onClick='window.location = "https://www.furaffinity.net/user/randomwolfguy/"'>
             <div class="creditOverlay">
-                Articus/Gunpoint<br>
-                Initial programmer
+                Ruweg<br>
+                Developer
             </div>
-            <img class="creditImg" src="assets/credits/gunpoint.png">
-    </div>
-    <div class="creditWrapper" onClick='window.location = "https://www.furaffinity.net/user/randomwolfguy/"'>
-        <div class="creditOverlay">
-            Ruweg<br>
-            Programmer
+            <img class="creditImg" src="assets/credits/ruweg.png">
         </div>
-        <img class="creditImg" src="assets/credits/ruweg.png">
-    </div>
-    <div class="creditWrapper" onClick='window.location = "https://www.furaffinity.net/user/dragonien/"'>
-        <div class="creditOverlay">
-            Rain/Dragonien<br>
-            Guest writer
+        <div class="creditWrapper" onClick='window.location = "https://www.furaffinity.net/user/dragonien/"'>
+            <div class="creditOverlay">
+                Rain/Dragonien<br>
+                Guest writer
+            </div>
+            <img class="creditImg" src="assets/credits/raindrago.jpg">
         </div>
-        <img class="creditImg" src="assets/credits/raindrago.jpg">
     </div>
 <</nobr>>
