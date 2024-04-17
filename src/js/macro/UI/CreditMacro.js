@@ -4,7 +4,7 @@ Macro.add('creditMacro', {
     skipArgs: false,
     handler: function () {
         //Articus credits
-        $image = $('<img/>').addClass('creditImg').attr('src', 'assets/credits/gunpoint.gif')
+        $image = $('<img/>').addClass('creditImg').attr('src', 'assets/credits/gunpoint.png')
         $overlay = $('<div/>').addClass('creditOverlay').wiki('Articus/Gunpoint<br />Initial programmer') //Text on hover
         $wrapper = $('<div/>').addClass('creditWrapper').click(()=>{
             window.location = "https://www.furaffinity.net/user/gunpoint/", "_blank"

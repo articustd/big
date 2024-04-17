@@ -5,7 +5,8 @@ module.exports = {
     mode: 'production',
     entry: './src/js/index.js',
     output: {
-        filename: 'story.bundle.js'
+        filename: 'story.bundle.js',
+        path: path.resolve(__dirname, 'story/modules')
     },
     target: 'web',
     module: {
