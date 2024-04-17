@@ -77,6 +77,6 @@ module.exports = function (grunt) {
         grunt.task.run('sass', 'clean:sassMap')
     })
 
-    grunt.registerTask('build', 'Build a working html file with bundle and css', ['clean', 'buildSass', 'webpack', 'run:tweego'])
-    grunt.registerTask('default', 'Default task launches the watching setup', ['build', 'browserSync', 'chokidar'])
+    grunt.registerTask('build', 'Build a working html file with bundle and css', ['clean', 'webpack', 'buildSass', 'run:tweego'])
+    grunt.registerTask('default', 'Default task launches the watching setup', ['configDev', 'build', 'browserSync', 'chokidar'])
 }
