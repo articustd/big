@@ -5,7 +5,7 @@
                 Articus/Gunpoint<br>
                 Initial programmer
             </div>
-            <img class="creditImg" src="assets/credits/gunpoint.gif">
+            <img class="creditImg" src="assets/credits/gunpoint.png">
     </div>
     <div class="creditWrapper" onClick='window.location = "https://www.furaffinity.net/user/randomwolfguy/"'>
         <div class="creditOverlay">
