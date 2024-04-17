@@ -201,7 +201,7 @@ export function loseExp() {
 export function getExpText(consumePoints) {
 	let consumeExp = []
 	for (let cp in consumePoints)
-		consumeExp.push(`Gained +${Math.ceil(consumePoints[cp])} ${returnStatName(cp)} to Experience`)
+		consumeExp.push(`Gained +${Math.ceil(consumePoints[cp])} ${returnStatName(cp)} experience`)
 	return consumeExp
 }
 

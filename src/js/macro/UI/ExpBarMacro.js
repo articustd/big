@@ -1,10 +1,20 @@
+/*
+    Creates a generic experience bar. Uses the following arguments:
+    
+    First: character (usually $player)
+    Second: indicates if the bar should float left or right
+    Third: The type of capacity, currently used for the ID
+    Fourth: integer/Float for the starting number and starting point of the bar
+    Fifth: Integer/float for the end value
+*/
 Macro.add('expBarMacro', {
     skipArgs: false,
     handler: function () {
         let character = this.args[0]
         let align = this.args[1]
         let capType = this.args[2]
-
+        let startPoint = this.args[3]
+        let endPoint = this.args[4]
 
         let $Bar = $('<div/>')
             .addClass(`statusBar`)
@@ -16,28 +26,11 @@ Macro.add('expBarMacro', {
         let $currentText = $('<div/>')
             .addClass('currentStatusText')
 
-        switch(capType){
-            case "muscle":
-                $currentBar.css('width', `${Math.clamp(Math.floor((character.exp.muscle/character.stats.strg)*100),0,100)}%`)
-                $currentText.text(`${character.exp.muscle}/${character.stats.strg}`)
-                break;
-            case "agility":
-                $currentBar.css('width', `${Math.clamp(Math.floor((character.exp.agility/character.stats.dex)*100),0,100)}%`)
-                $currentText.text(`${character.exp.agility}/${character.stats.dex}`)
-                break;
-            case "physique":
-                $currentBar.css('width', `${Math.clamp(Math.floor((character.exp.physique/character.stats.con)*100),0,100)}%`)
-                $currentText.text(`${character.exp.physique}/${character.stats.con}`)
-                break;
-            case "size":
-                $currentBar.css('width', `${Math.clamp(Math.floor((character.exp.size/character.measurements.height)*100),0,100)}%`)
-                $currentText.text(`${character.exp.size}/${character.measurements.height}`)
-                break;
-            case "fat":
-                break;
-            case "skill":
-                break;
-        }
+        $currentBar.css(
+            'width', 
+            `${Math.clamp(Math.floor((startPoint/endPoint)*100),0,100)}%`
+        )
+        $currentText.text(`${startPoint}/${endPoint}`)
 
         if(this.args[1])
             $Bar.css('float', this.args[1])

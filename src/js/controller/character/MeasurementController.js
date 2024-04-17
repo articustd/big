@@ -5,7 +5,7 @@ import _ from "lodash"
 /* Measurment Converts */
 function convertToImperial(entity, weight) {
 	if (weight)
-		return Math.floor(entity / 28.35) //1OZ in 28.35 G
+		return Math.floor(entity / 28.34952) //1OZ in 28.35 G
 	return Math.floor(entity / 2.54) //1IN in 2.54 CM
 }
 

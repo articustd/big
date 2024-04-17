@@ -19,5 +19,9 @@
     <<iconMacro "wall" "inline-icon  sidebar-icon">>
     <div>Constitution:      </div>
     <div>$player.stats.con  </div>
+
+    <!--<<iconMacro "weight" "inline-icon  sidebar-icon">>
+    <div>Body fat:      </div>
+    <div><<print($player.measurements.bodyFat * 100 ).toFixed(0)>></div>-->   
 </div>
 <</nobr>>
