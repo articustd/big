@@ -14,13 +14,13 @@ In the corner of the room you see what can only be descriped as a blood pressure
             <<AttributeControls 'strg'>>
         </div>
         <div class="attribute-container">
-            <span class="header">Constitution</span>
-            <<AttributeControls 'con'>>
-        </div>
-        <div class="attribute-container">
             <span class="header">Dexterity</span>
             <<AttributeControls 'dex'>>
         </div>
+        <div class="attribute-container">
+            <span class="header">Constitution</span>
+            <<AttributeControls 'con'>>
+        </div>   
     </div>
     <div class="attribute-buy">
         <<AttributeBuy>>
