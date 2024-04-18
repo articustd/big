@@ -259,7 +259,7 @@
     justify-items: center;
 
     @media screen and (max-width: var.$mobile) {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
     }
 }
 
