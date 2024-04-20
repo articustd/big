@@ -20,7 +20,7 @@ module.exports = function (grunt) {
                 tasks: ['buildSass'],
             },
             webpack: {
-                files: 'src/**/*.js',
+                files: ['src/**/*.js', 'src/**/*.json'],
                 tasks: ['webpack'],
             },
             tweego: {
