@@ -15,32 +15,32 @@ let genders = [
 		breasts:	true, 
 		pronouns:	1, 
 		loot:		[5] } },
-    { "Futa": { 
-		type:		"Futa", 
+    { "Intersex": { 
+		type:		"Intersex", 
 		penis:		true, 
 		balls:		true, 
 		vagina:		true, 
 		breasts:	true, 
 		pronouns:	3, 
 		loot:		[3, 4, 5] } },
-    { "Futa No Balls": { 
-		type:		"Futa", 
+    { "Intersex No Balls": { 
+		type:		"Intersex", 
 		penis:		true, 
 		balls:		false, 
 		vagina:		true, 
 		breasts:	true, 
 		pronouns:	3, 
 		loot:		[3, 5] } },
-    { "Futa No Breasts": { 
-		type:		"Futa", 
+    { "Intersex No Breasts": { 
+		type:		"Intersex", 
 		penis:		true, 
 		balls:		true, 
 		vagina:		true, 
 		breasts:	false, 
 		pronouns:	3, 
 		loot:		[3, 4] } },
-    { "Futa No Breasts & No Balls": { 
-		type:		"Futa", 
+    { "Intersex No Breasts & No Balls": { 
+		type:		"Intersex", 
 		penis:		true, 
 		balls:		false, 
 		vagina:		true, 
