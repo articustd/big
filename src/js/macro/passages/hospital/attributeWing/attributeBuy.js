@@ -1,13 +1,20 @@
 import { logger } from "@util/Logging"
+import { RecalcStats } from "@controller/character/CharacterController"
 import _ from "lodash"
 
 Macro.add('AttributeBuy', {
     skipArgs: false,
     handler: function () {
         let totalChange = 0
-        let statChange = [{ stat: 'strg', change: 0 }, { stat: 'con', change: 0 }, { stat: 'dex', change: 0 }]
+        let statChange = [
+            {stat: 'strg', change: 0}
+            ,{stat: 'con',  change: 0} 
+            ,{stat: 'dex',  change: 0}
+
+        ]
         let { cost } = temporary()
         let { player: { credits, stats } } = variables()
+        let { player } = variables()
 
         let $total = $('<div/>').text(`Awaiting Changes`)
         let $buyBtn = $('<button/>').wiki('Waiting...').prop('disabled', true).click(() => {
@@ -15,6 +22,9 @@ Macro.add('AttributeBuy', {
                 stats[stat] += change
             })
             variables().player.credits -= totalCost()
+            
+            //From CharacterController, necessary to set the stats to the proper values (currently only health)
+            RecalcStats(player)
             Engine.show()
         })
 

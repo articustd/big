@@ -14,7 +14,7 @@ Macro.add('capacityBarMacro', {
             $capBar.tooltip({ track: true, hide: { delay: 100 } })
                 .attr('title', `Over capacity, get home and rest asap!`)
         let $currentCap = $('<div/>')
-            .addClass(`${statusPercent < 100 ? 'currentNotVisCapBar' : 'currentVisCapBar warningFlash'}`)
+            .addClass(`${statusPercent < 100 ? 'currentNotVisCapBar' : 'currentVisCapBar blinking'}`)
             .css('width', `${statusPercent}%`)
         let $currentCapText = $('<div/>')
             .addClass('currentStatusText')

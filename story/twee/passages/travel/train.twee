@@ -1,25 +1,37 @@
 :: train [noreturn] {"position":"625,125"}
-<h1>Gym</h1>
-Welcome to the gym! Cost to use the equipment is 100 credits a session.
-
 <<nobr>>
+<h1>Gym</h1>
+Welcome to the gym! Cost to use the equipment is 100 credits a session.<br /><br />
 <<if def $trainText>>
-$trainText
+	<div class="system-message">$trainText</div>
+	<br /><br />
 <</if>>
+<div class="button-menu">
+	<div>
+		<<iconMacro "dumbbell" "inline-icon inline-icon-overlay">>
+		<<timeAction "Lift Weights" "train" 1 0>>
+			<<trainMacro "muscle" "You pumped some iron and gain " 100 1>>
+		<</timeAction>>
+	</div><br />
+	<div>
+		<<iconMacro "lift" "inline-icon inline-icon-overlay">>
+		<<timeAction "Squat Rack""train" 1 0>>
+			<<trainMacro "size" "You went deep with deep squats and gain " 100 1>>
+		<</timeAction>>
+	</div><br />
+	<div>
+		<<iconMacro "shoe" "inline-icon inline-icon-overlay">>
+		<<timeAction "Run on Treadmill" "train" 1 0>>
+			<<trainMacro "agility" "You hauled butt and gain " 100 1>>
+		<</timeAction>>
+	</div>
+</div><br />
+<<attackSkill>><br />
+<div class="button-menu">
+	<div>
+		<<iconMacro "back" "inline-icon inline-icon-overlay">>
+		<<link [[Go Back|$return]]>><</link>>
+	</div>	
+</div>
+<<unset $trainText>>
 <</nobr>>
-
-<<timeAction "Lift Weights" "train" 1 0>>
-	<<trainMacro "muscle" "You pumped some iron and gain " 100 1>>
-<</timeAction>>
-<<timeAction "Squat Rack""train" 1 0>>
-	<<trainMacro "size" "You went deep with deep squats and gain " 100 1>>
-<</timeAction>>
-<<timeAction "Run on Treadmill" "train" 1 0>>
-	<<trainMacro "agility" "You hauled butt and gain " 100 1>>
-<</timeAction>>
-
-<<attackSkill>>
-
-<<link [[Go Back|$return]]>>
-	<<unset $trainText>>
-<</link>>

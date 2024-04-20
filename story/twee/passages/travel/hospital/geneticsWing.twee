@@ -9,5 +9,12 @@ Ominous.
 
 Anyway what's the worst that could happen, nothing?
 
-<<GenWingMacro>>
-<<link "Return to Lobby" $return>><</link>>
+<<nobr>>
+<<GenWingMacro>><br />
+<div class="button-menu">
+    <div>
+        <<iconMacro "back" "inline-icon inline-icon-overlay">>
+        <<link "Return to Lobby" $return>><</link>>
+    </div>    
+</div>
+<</nobr>>

@@ -31,7 +31,7 @@ export function popup(title, message, btns, hasNoShow) {
     }
 
     if (hasNoShow)
-        $('.ui-dialog-buttonset').after($('<label/>').wiki(`Do not show again`).css('margin-left', '10px').css('cursor', 'pointer').prepend($('<input id="noShow" type="checkbox"/>').css('margin-top', '20px')))
+        $('.ui-dialog-buttonset').after($('<label/>').wiki(`Do not show again`).addClass('disable-popup-checkbox').prepend($('<input id="noShow" type="checkbox"/>')))
 
     return $modal
 }

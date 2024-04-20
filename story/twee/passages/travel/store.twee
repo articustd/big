@@ -1,8 +1,13 @@
 :: store [noreturn] {"position":"750,125"}
+<<nobr>>
 <h1>$stores[$storeId].name</h1>
-
-Welcome to the $stores[$storeId].name!
-
-<<nobr>><<if def $storeText>>$storeText<</if>><</nobr>>
-<<storeItem $stores[$storeId]>>
-<<link [[Go Back|$return]]>><<unset $storeText>><</link>>
+Welcome to the $stores[$storeId].name!<br/><br />
+<<if def $storeText>><div class="system-message">$storeText</div><br /><br /><</if>>
+<<storeItem $stores[$storeId]>><br /> <br />
+<div class="button-menu">
+    <div>
+        <<iconMacro "back" "inline-icon inline-icon-overlay">>
+         <<link [[Go Back|$return]]>><<unset $storeText>><</link>>
+    </div>
+</div>
+<</nobr>>

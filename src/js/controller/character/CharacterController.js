@@ -302,3 +302,8 @@ export function getSkillById(id) {
 export function getAttackSkill(id) {
     return attackSkill[id]
 }
+
+//Recalculate health after changing CON. May need to be expanded if other stats don't seem to update either
+export function RecalcStats(player){
+    calcMaxHealth(player)
+}

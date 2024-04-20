@@ -1,6 +1,12 @@
 :: inv [noreturn] {"position":"275,550","size":"100,100"}
+<<nobr>>
 <h1>Inventory</h1>
-
-<<nobr>><<if def $invText>>$invText<</if>><</nobr>>
+<<if def $invText>><div class="system-message">$invText</div><br /><br /><</if>>
 <<invMacro>>
-<<link "Return" $menuReturn>><<unset $menuReturn $invText>><</link>>
+<div class="button-menu">
+	<div>
+		<<iconMacro "back" "inline-icon inline-icon-overlay">>
+		<<link "Return" $menuReturn>><<unset $menuReturn $invText>><</link>>
+	</div>
+</div>
+<</nobr>>

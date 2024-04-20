@@ -1,0 +1,268 @@
+@use "../partials/_variables.scss" as var;
+// Very common grid CSS, mostly for table-like layouts
+.grid{
+    display:grid;
+    grid-template-rows: auto;
+    padding-bottom: 1rem;
+    align-items: center;
+
+    div:not(.grid-header){
+        padding-left:1rem;
+        padding-right: 1rem;
+        gap: 1rem;
+    }
+
+    select, input{
+        width: 100%;
+    }
+
+    .grid-header{
+        min-height: 1.75em;
+    }
+
+    button{
+        margin: 0
+    }
+}
+
+// More compact layout, reset some stuff for size
+.money-grid, .stats-grid, .exp-grid{
+    padding-bottom: 0;
+
+    div:not(.grid-header){
+        padding-left:0;
+        padding-right: 0;
+        gap: 0;
+    }
+}
+
+//Generic layout for a header for a grid. Use within a grid for best results
+.grid-header{
+    padding-left: 0.4em;
+    padding-bottom: 0.2em;
+    font-weight: 600;
+}
+
+
+.settings-grid{
+    grid-template-columns: [setting]1fr [options]2fr;    
+
+    .grid-header{
+        grid-column-start: 1;
+        grid-column-end: 3;    
+    }
+
+    div:not(.grid-header){
+        margin-bottom: 1rem;
+    }
+
+    @media screen and (max-width: var.$tablet) {
+        grid-template-columns: [setting]5em [options]2fr;
+    }
+}
+
+.stats-grid, .money-grid{
+    grid-template-columns: [icon]3fr [name]5fr [amount]2fr;
+
+    .grid-header{
+        grid-column-start:1;
+        grid-column-end: 4;
+    }
+}
+
+.exp-grid{
+    grid-template-columns: [name]1fr [amount]1fr;
+    gap: 0;
+
+    .grid-header{
+        grid-column-start:1;
+        grid-column-end: 3;
+    }
+
+}
+
+.learned-skills-grid{
+    grid-template-columns: [name]1fr [description]1fr;
+
+    .grid-header{
+        grid-column-start:1;
+        grid-column-end: 3;
+    }
+}
+
+//Pointer for sidebar stats to indicate toggleability
+#ui-bar .exp-grid .grid-header,
+#ui-bar .stats-grid .grid-header{
+    cursor: pointer;
+}
+
+.warning-grid{
+    grid-template-columns: [icon-left]3rem [text]1fr [icon-right]3rem;
+    color: red;
+    gap: 1rem;
+    font-weight: 900;  
+    justify-items: center;  
+
+    svg{
+        height: 3rem;
+        width: 3rem;
+        fill: red;
+    }
+
+    @media screen and (max-width: var.$tablet) {
+        grid-template-columns: 1fr;
+    }
+
+    .grid div:not(.grid-header) {
+        padding: 0;
+    }
+}
+
+.skill-grid{
+    grid-template-columns: [attack]3fr [description]4fr [requirements]2fr [cost]1fr;
+
+    .skill-grid-name{
+        font-weight: 900;
+    }
+
+    hr{
+        grid-column-start: 1;
+        grid-column-end: 5;
+    }
+
+    @media screen and (max-width: var.$tablet) {
+        grid-template-columns: [attack-requirements]1fr [description-cost]1fr;
+
+        .skill-grid-name{
+            grid-column-start: 1;
+            grid-column-end: 2;
+            font-weight: 900;
+        }
+
+        .skill-grid-description{
+            grid-column-start: 2;
+            grid-column-end: 3;
+        }
+
+        .skill-grid-buy{
+            grid-column-start: 2;
+        }    
+
+        hr{
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+
+    }
+}
+
+.store-grid{
+    grid-template-columns: 
+    [item]3fr [description]4fr [quantity]2fr [price]2fr [single-buy]2fr [multi-buy]2fr;
+
+    hr{
+        grid-column-start: 1;
+        grid-column-end: 7;
+    }
+
+    .store-item-name{
+        font-weight: 900;
+    }
+    
+
+    @media screen and (max-width: var.$tablet) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+
+        //This is a hack to make the header blank by taking the fifth column's text and just spreading it out over the table
+        .grid-header:not(.grid-header:nth-child(5)){
+            display:none;
+        }
+        .grid-header:nth-child(5){
+            grid-column-start: 1;
+            grid-column-end: 5;
+        }
+
+        .store-item-name {
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+        .store-item-description {
+            grid-column-start: 3;
+            grid-column-end: 5;
+        }
+
+        //.store-item-quantity {}
+        //.store-item-price {}
+
+        .store-item-buy-single {
+            grid-column-start: 3;
+        }
+        .store-item-buy-max {
+            grid-column-start: 4;
+        }
+
+        hr{
+            grid-column-start: 1;
+            grid-column-end: 5;
+        }
+    }
+}
+
+.inventory-grid{
+    grid-template-columns: [item]2fr [description]4fr [quantity]1fr [use-single]2fr [use-all]2fr;
+
+    hr{
+        grid-column-start: 1;
+        grid-column-end: 6;
+    }
+
+    @media screen and (max-width: var.$mobile) {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+        .grid-header:not(.grid-header:nth-child(5)){
+            display:none;
+        }
+        .grid-header:nth-child(5){
+            grid-column-start: 1;
+            grid-column-end: 6;
+        }
+
+        .inventory-item-name{
+            grid-column-start: 1;
+            grid-column-end: 3;
+            font-weight: 900;
+        }
+        .inventory-item-description{
+            grid-column-start: 3;
+            grid-column-end: 6;
+        }
+
+        .inventory-item-quantity{
+            grid-column-start: 1;
+        }
+
+        .inventory-item-single-use{
+            grid-column-start: 2;
+            grid-column-end: 4;
+        }
+        .inventory-item-multi-use{
+            grid-column-start: 4;
+            grid-column-end: 6
+        }
+
+    }
+}
+
+.credits-grid{
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    justify-items: center;
+
+    @media screen and (max-width: var.$mobile) {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.credits-grid div:not(.grid-header) {
+    padding: 0;
+}

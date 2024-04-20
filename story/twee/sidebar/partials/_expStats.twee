@@ -1,0 +1,39 @@
+:: _expStats
+<<nobr>>
+<<set $fatReal = ($player.exp.fat * 100).toFixed(0)>>
+<<set $bodyFatReal = ($player.measurements.bodyFat * 100 ).toFixed(0)>>
+<script>
+$("#ui-bar .exp-grid .grid-header").on("click", function(){
+    $("#ui-bar .exp-grid *:not(:first-child)").toggle("slow");
+});
+</script>
+<div class="grid exp-grid">
+    <div class="grid grid-header">Experience Points</div>
+        <div>Muscle:</div>
+        <div>
+            <<expBarMacro $player "left" "muscle" $player.exp.muscle $player.stats.strg>>
+        </div>
+        <div>Agility:</div>
+        <div>
+            <<expBarMacro $player "left" "agility" $player.exp.agility $player.stats.dex>>
+        </div>
+        <div>Physique:</div>
+        <div>
+            <<expBarMacro $player "left" "physique" $player.exp.physique $player.stats.con>>
+        </div>
+        <div>Size:</div>
+        <div>
+            <<expBarMacro $player "left" "size" $player.exp.size $player.measurements.height>>
+        </div>
+        <div>Fat:</div>
+        <div>
+            <<expBarMacro $player "left" "fat" $fatReal $bodyFatReal>>
+        </div>
+        <!--<div>Skill:</div>
+        <div>
+            $player.exp.skill
+        </div>-->
+</div>
+<<unset $fatReal>>
+<<unset $bodyFatReal>>
+<</nobr>>

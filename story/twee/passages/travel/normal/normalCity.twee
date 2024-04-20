@@ -1,17 +1,28 @@
 :: normalCity {"position":"500,125"}
+<<nobr>>
 <h1>Variable Village - Downtown</h1>
-
-<<cityMacro 3 5 "normalCity">><<nobr>>
+<<cityMacro 3 5 "normalCity">>
     <<if def $consumeText>><br/>
-        <<for _i, _exp range $consumeText>>
-            <br/>_exp
-        <</for>>
+        <<include "_consumeText">>
     <</if>>
+<<restMessageMacro>><br /><br />
+<div class="button-menu">
+    <div>
+        <<iconMacro "fight" "inline-icon inline-icon-overlay">>
+       <<timeAction "Look for Trouble" "fight" 0 30>>
+            <<enemyMacro 3 5 "Variable Village - Alleyway">>
+        <</timeAction>>
+    </div><br/>
+    <button class="full-width" data-passage="train">
+        <<iconMacro "dumbbell" "inline-icon">>The Maintainer Gym
+    </button><br />
+    <button class="full-width" data-passage="store">
+        <<iconMacro "store" "inline-icon">>Store<<set $storeId to 1>>
+    </button><br />
+    <div>
+        <<iconMacro "back" "inline-icon inline-icon-overlay">>
+        <<timeAction "Go Back to the Station" "travel" 2 0 "Variable Village - Alleyway">><</timeAction>>
+    </div>
+</div>
+<<unset $consumeText>>
 <</nobr>>
-<<restMessageMacro>>
-<<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 3 5 "Variable Village - Alleyway">><<unset $consumeText>><</timeAction>>
-
-<<link "The Maintainer Gym" "train">><<unset $consumeText>><</link>>
-<<link "Store" "store">><<set $storeId to 1>><<unset $consumeText>><</link>>
-
-<<timeAction "Go Back to the Station" "travel" 2 0 "Variable Village - Alleyway">><<unset $consumeText>><</timeAction>>

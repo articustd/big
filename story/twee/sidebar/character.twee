@@ -1,4 +1,14 @@
 :: character [noreturn] {"position":"275,550","size":"100,100"}
-<h1>$player.name</h1>
-<<tabMacro>>
-<<link "Return" $menuReturn>><<unset $menuReturn $skillText>><</link>>
+<<nobr>><h1>$player.name</h1>
+<div>
+    <<include "_baseStats">><br />
+    <<include "_expStats">>
+</div> <br />
+<<skillPassage>><br />
+<div class="button-menu">
+    <div>
+        <<iconMacro "back" "inline-icon inline-icon-overlay">>
+        <<link "Return" $menuReturn>><<unset $menuReturn $skillText>><</link>>
+    </div>
+</div>
+<</nobr>>

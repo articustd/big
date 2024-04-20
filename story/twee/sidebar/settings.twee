@@ -1,31 +1,53 @@
 :: settings [noreturn] {"position":"275,425","size":"100,100"}
+<<nobr>>
 <h1>Settings</h1>
-''__Measurements__''
-Units of Measure: <<listbox "$settings.units.imperial" autoselect>>
-	<<option "Imperial" true>>
-	<<option "Metric" false>>
-<</listbox>>
-Time: <<listbox "$settings.units.twelveHour" autoselect>>
-	<<option "12 Hour" true>>
-	<<option "24 Hour" false>>
-<</listbox>>
+<div class="grid settings-grid">
+	<div class="grid grid-header">''Measurements''</div>
+	<div>Units of Measure:</div>
+	<div>
+		<<listbox "$settings.units.imperial" autoselect>>
+			<<option "Imperial" true>>
+			<<option "Metric" false>>
+		<</listbox>>
+	</div>
+	<div>Time:</div>
+	<div>
+		<<listbox "$settings.units.twelveHour" autoselect>>
+			<<option "12 Hour" true>>
+			<<option "24 Hour" false>>
+		<</listbox>>
+	</div>
 
-''__Warnings__''
-Over Consumption Warning: <<listbox "$settings.warning.overConsumeWarning" autoselect>>
-	<<option "Always" true>>
-	<<option "Never" false>>
-<</listbox>>
-
-''__Info__''
-Learn Attack Informational: <<listbox "$settings.info.learnedAttackInfo" autoselect>>
-	<<option "Always" true>>
-	<<option "Never" false>>
-<</listbox>>
-
-''__Gameplay Tweaks__''
-Hyper EXP Mode <<script>>$('<i class="fa fa-info-circle" aria-hidden="true"/>').tooltip({ track: true, hide: { delay: 100 } }).attr('title', `Increases experience gain by 4x from fights.`).appendTo(this.output)<</script>>: <<listbox "$settings.tweak.hyperMode" autoselect>>
-	<<option "On" true>>
-	<<option "Off" false>>
-<</listbox>>
-
-<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
+	<div class="grid grid-header">''Warnings''</div>
+	<div>Over Consumption Warning:</div>
+	<div>
+		<<listbox "$settings.warning.overConsumeWarning" autoselect>>
+			<<option "Always" true>>
+			<<option "Never" false>>
+		<</listbox>>
+	</div>
+	<div class="grid grid-header">''Info''</div>
+	<div>Learn Attack Informational:</div>
+	<div>
+		<<listbox "$settings.info.learnedAttackInfo" autoselect>>
+			<<option "Always" true>>
+			<<option "Never" false>>
+		<</listbox>>
+	</div>
+	<div class="grid grid-header">''Gameplay Tweaks''</div>
+	<div>Hyper EXP Mode <<script>>infoBubble("Increases experience gain by 4x from fights.").appendTo(this.output);<</script>>:</div>
+	<div>
+		<<listbox "$settings.tweak.hyperMode" autoselect>>
+			<<option "On" true>>
+			<<option "Off" false>>
+		<</listbox>>
+	</div>
+</div>
+<br/>
+<div class="button-menu">
+	<div>
+		<<iconMacro "back" "inline-icon inline-icon-overlay">>
+		<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
+	</div>
+</div>
+<</nobr>>

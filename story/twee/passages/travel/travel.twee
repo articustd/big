@@ -2,7 +2,7 @@
 <h1>Train Station</h1>
 
 You find yourself surrounded by a busy metropolitan area that could have almost passed for any other town. That is, if there weren’t signs in shop windows and on billboards advertising everything from pills that could grow your dick to the size of a canoe or a sports drink that would shrink you to the size of a Lego-man almost everywhere in sight. It also didn’t help the façade of normalcy that the skyline to the west was filled with massive buildings each dozens of stories tall! Anywhere else they would have been unremarkable. Every big city had a few huge office buildings or hotels like that. But what made these stand out was that they were obviously single-story buildings sized for someone many times larger than normal rather than multi-story office buildings. Though you couldn’t see it from here you knew the space to the east was the district catering to those of a miniscule size rather than a massive one. 
-
+<div class="button-menu">
 Where do you want to go?<<nobr>>
     <<if def $consumeText>><br/>
         <<for _i, _exp range $consumeText>>
@@ -11,10 +11,29 @@ Where do you want to go?<<nobr>>
     <</if>>
 <</nobr>>
 <<restMessageMacro>>
-<<timeAction "Micro Metro" "microCity" 2 0 "Train Station - Outback">><<unset $consumeText>><</timeAction>>
-<<timeAction "Variable Village" "normalCity" 2 0 "Train Station - Outback">><<unset $consumeText>><</timeAction>>
-<<timeAction "Macro Megacity" "macroCity" 2 0 "Train Station - Outback">><<unset $consumeText>><</timeAction>>
-
-<<link "Hospital" "hospital">><<unset $consumeText>><</link>>
-
-<<link "Go Home" "home">><<unset $consumeText>><</link>>
+<<nobr>>
+<div>
+    <<iconMacro "metro" "inline-icon inline-icon-overlay">>
+    <<timeAction "Micro Metro" "microCity" 2 0 "Train Station - Outback">><</timeAction>>
+</div><br />
+<div>
+    <<iconMacro "village" "inline-icon inline-icon-overlay">>
+    <<timeAction "Variable Village" "normalCity" 2 0 "Train Station - Outback">><</timeAction>>
+</div><br />
+<div>
+    <<iconMacro "city" "inline-icon inline-icon-overlay">>
+    <<timeAction "Macro Megacity" "macroCity" 2 0 "Train Station - Outback">><</timeAction>>
+</div><br />
+<div>
+    <button class="full-width" data-passage="hospital">
+        <<iconMacro "hospital" "inline-icon">>Hospital
+    </button>
+</div><br />
+<div>
+    <button class="full-width" data-passage="home">
+        <<iconMacro "home" "inline-icon">>
+        Go Home
+    </button>
+</div>
+<<unset $consumeText>>
+<</nobr>>

@@ -1,0 +1,154 @@
+@use "../partials/_variables.scss" as var;
+$Main-Color: #35a;
+$Background-Color: #000;
+$Background-Color-Dark: #222;
+$Accent-Color: #57c;
+$Dark-Text: #000;
+$Light-Text: #FFF;
+$Warning-color: rgb(255, 255, 0);
+
+body{
+    background-color: $Background-Color;
+}
+
+#ui-bar, .system-message{
+    background-color: $Background-Color-Dark;
+}
+
+.portlet-body-content .portlet-body-header,
+.ui-button, .ui-button.ui-state-active:hover, .ui-button:active, .ui-button:focus, .ui-button:hover, .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited, .ui-state-active, .ui-state-default a:link, .ui-state-default a:visited, .ui-state-default, .ui-state-focus a, .ui-state-focus a:hover, .ui-state-focus a:link, .ui-state-focus a:visited, .ui-state-focus,
+.ui-state-hover a, .ui-state-hover a:hover, .ui-state-hover a:link, .ui-state-hover a:visited, .ui-state-hover, .ui-widget-content .ui-state-active,
+.ui-widget-content .ui-state-default, .ui-widget-content .ui-state-focus, .ui-widget-content .ui-state-hover, .ui-widget-content a, .ui-widget-content,
+.ui-widget-header .ui-state-active, .ui-widget-header .ui-state-default, .ui-widget-header .ui-state-focus, .ui-widget-header .ui-state-hover, .ui-widget-header a, .ui-widget-header,
+a.ui-button,  a.ui-button:active, a.ui-button:focus, a.ui-button:hover, a:link.ui-button, a:visited.ui-button, html .ui-button.ui-state-disabled:active, html .ui-button.ui-state-disabled:hover, .ui-state-default a, #menu li a, i.info, .sidebar-icon, .inline-icon
+{
+    color: $Light-Text;
+    fill: $Light-Text;
+}
+
+
+.passage table{
+    background-color: $Background-Color-Dark;
+    color: $Light-Text;
+}
+
+button, #restart-ok, #restart-cancel, #ui-dialog-title,
+#saves-save-0, #saves-save-1, #saves-save-2, #saves-save-3, #saves-save-4, #saves-save-5, #saves-save-6, #saves-save-7, #saves-export, #saves-import,
+.attribute-base .header, .ui-button
+{
+    background-color: $Main-Color;
+    color: $Light-Text;
+    border-color: $Accent-Color;
+}
+
+.button-menu a:hover, 
+.button-menu button:hover,
+.button-menu div:hover,
+.button-menu button:hover,
+#menu-core li:hover,
+#menu li a:hover,
+#restart-ok:hover, #restart-cancel:hover, button:hover{
+    background-color: $Accent-Color;
+    border-color: $Main-Color;
+    color:$Light-Text;
+    svg{
+        fill:$Light-Text;
+    }    
+}
+
+.ui-widget-header, .portlet-header {
+    background-color: $Main-Color !important;
+    color: $Dark-Text !important;
+}
+
+.inactiveButton {
+    background-color: $Background-Color-Dark;
+    border-color: #111;
+}
+
+.inactiveButton:hover {
+    background-color: #111;
+    border-color: #111;
+}
+
+.disabledAttack {
+    $this: &;
+
+    background-color: $Background-Color-Dark;
+    border: #666;
+    color: $Dark-Text;
+
+    &:hover {
+        background-color: $Background-Color-Dark;
+        border-color: #666;
+        color: $Dark-Text;
+    }
+}
+
+#ui-dialog-close{
+    background-color: $Accent-Color;
+    color: $Dark-Text;
+}
+
+button:disabled{
+    background-color: $Background-Color-Dark;
+    color: $Light-Text;
+}
+
+table, th, td {
+    border-color: $Light-Text;
+}
+
+.button-menu a, 
+.button-menu button,
+#menu-core li,
+.button-menu.full-width button
+{
+    background-color: $Main-Color;
+    border: $Accent-Color;
+    color: $Light-Text;
+}
+
+th, div.grid-header{
+    background-color: $Main-Color;
+    color: $Light-Text;
+}
+
+.consume-alert{
+    color: $Warning-color;
+}
+
+input, select, textarea {
+    color:#eee;
+    background: #595858;
+    border: #444;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: rgb(44, 43, 43);
+}
+
+.tab button.active {
+    background-color: rgb(44, 43, 43);
+}
+
+#sortable-container, .chart-tab{
+    border-color: #000;
+}
+
+.portlet{
+    background-color: $Background-Color-Dark !important;
+    border-color: transparent; //!important;
+}
+
+.portlet-header {
+    background-color: #4e4c4c; //!important;
+    border-color: transparent; //!important;
+}
+
+i.info-back{
+    color: $Main-Color;
+}
+
+

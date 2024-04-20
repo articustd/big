@@ -1,2 +1,4 @@
+@use "../partials/_variables.scss" as var;
 @forward './attributeWing';
-@forward './transferenceWing.scss';
+@forward './transferenceWing';
+@forward './genWing';

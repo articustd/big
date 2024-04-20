@@ -3,9 +3,18 @@
 
 Thank you to everyone that's provided feedback and encouragement!
 
-Contributing Writer Credits:
-<<creditMacro>>
-And thanks to you, the player! I hope you have enjoyed/will enjoy the game!
-
-<<link "Bug Report" "bugReport">><</link>>
-<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
+These are the people who worked hard on this game!
+<<include "_credits">>
+<<nobr>>
+<div class="clear-both">And thanks to you, the player! I hope you have enjoyed/will enjoy the game!</div><br />
+<div class="button-menu"> 
+    <div>
+        <<iconMacro "bug" "inline-icon inline-icon-overlay">>
+        <<link "Bug Report" "bugReport">><</link>>
+    </div><br />
+    <div>
+        <<iconMacro "back" "inline-icon inline-icon-overlay">>
+        <<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
+    </div>
+</div>
+<</nobr>>

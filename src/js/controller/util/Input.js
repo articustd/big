@@ -10,7 +10,7 @@ export function createDropdown({ $parent, $menuParent, label, name, data, prop, 
     if (label)
         $wrapper.append($(`<label for=${name}/>`).wiki(label))
 
-    $wrapper.append($dropDown).css(wrapper || { width: '100%', "margin-bottom": '10px', "margin-top": '10px' })
+    $wrapper.append($dropDown)
     $wrapper.appendTo($parent)
     $dropDown.selectmenu({
         appendTo: $menuParent,
@@ -49,7 +49,7 @@ export function createButton({ type, icon, text, style, callback }) {
 
     switch (type) {
         case 'Delete':
-            $btn.css({ 'background-color': 'red', 'border-color': 'red' })
+            $btn.addClass('button-delete')
             break
     }
 
@@ -57,9 +57,8 @@ export function createButton({ type, icon, text, style, callback }) {
 }
 
 export function createInputField({ type, label, prop, data, style: { wrapper, input }, callback }) {
-    let $wrapper = $('<div/>').css(wrapper || { 'margin-top': '10px', 'margin-bottom': '10px' })
-    let $inputField = $('<input/>').attr('type', type).attr('name', prop).css(input || { 'margin-top': '0px' })
-
+    let $wrapper = $('<div/>')
+    let $inputField = $('<input/>').attr('type', type).attr('name', prop)
     if (data || data === 0)
         $inputField.val(data)
 
@@ -75,14 +74,14 @@ export function createInputField({ type, label, prop, data, style: { wrapper, in
 }
 
 export function createTextArea({ label, prop, data, style: { wrapper, input }, callback }) {
-    let $wrapper = $('<div/>').css(wrapper || { 'margin-top': '10px', 'margin-bottom': '10px' })
-    let $inputArea = $('<textarea/>').attr('name', prop).css(input || { 'margin-top': '0px' })
+    let $wrapper = $('<div/>')
+    let $inputArea = $('<textarea/>').attr('name', prop)
 
     if (data || data === 0)
         $inputArea.text(data)
 
     if (label)
-        $wrapper.append($('<label/>').css({ "display": "block" }).attr('for', prop).wiki(label))
+        $wrapper.append($('<label/>').attr('for', prop).wiki(label))
 
     if (callback)
     $inputArea.change(function () {
@@ -93,13 +92,12 @@ export function createTextArea({ label, prop, data, style: { wrapper, input }, c
 }
 
 export function createSection({ label, map, prop, data, field: { sectionLevel }, field }) {
-    let $sectionTitle = $('<div/>').css({ 'display': 'flex', 'flex-direction': 'row', 'align-items': 'center' }).wiki(`${_.repeat('!', sectionLevel)}__${label}__`)
+    let $sectionTitle = $('<div/>').wiki(`${_.repeat('!', sectionLevel)}__${label}__`)
     let $wrapper = $('<div/>').attr('name', prop).append($sectionTitle).data(data)
     if (field.hasAdd) {
         let $addBtn = createButton({
             type: 'Add',
             icon: 'fa-plus',
-            style: { "width": "35px", "height": "35px", "border-radius": "5px", "margin-left": "10px", "display": (data && !_.isEmpty(data)) ? 'none' : 'block' },
             callback: function () {
                 let data = createEmpty({ children: map.children, deep: true })
                 $wrapper.data(data)
@@ -124,7 +122,6 @@ export function createSection({ label, map, prop, data, field: { sectionLevel },
         let $delBtn = createButton({
             type: 'Delete',
             icon: 'fa-times',
-            style: { "width": "35px", "height": "35px", "border-radius": "5px", "margin-left": "10px", "display": (data && !_.isEmpty(data)) ? 'block' : 'none' },
             callback: function () {
                 $wrapper.removeData()
                 $sectionTitle.siblings().remove()

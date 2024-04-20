@@ -1,35 +1,48 @@
 :: newGame {"position":"150,675","size":"100,100"}
 <h1>Create Character</h1><<tempData>>
-Welcome to the character creater! 
+Welcome to the character creator! 
 
 Here you can pick your name, starting species, gender, size, and how you want measurements displayed.
 
 Size effects your starting stats, smaller characters will have a harder time starting out. So choose wisely!
 
-Name:
-<<textbox "$player.name" "Min">>
+<<nobr>>
+<div class="grid settings-grid">
+	<div class="grid-header">''Character information''</div>
+	<div >Name:</div>
+	<div ><<textbox "$player.name" "Min">></div>
+	<div >Species:</div><div ><<listbox "$player.species" autoselect>><<optionsfrom _species>><</listbox>></div>
+	<div >Gender:</div><div ><<listbox "$player.gender" autoselect>><<optionsfrom _genders>><</listbox>></div>
+	<div >Pronouns:</div>
+	<div ><<listbox "$player.pronouns" autoselect>><<optionsfrom _pronouns>><</listbox>></div>
+	<div >Size:</div>
+	<div ><<listbox "$player.size" autoselect>><<optionsfrom _playerSizes>><</listbox>></div>
 
-Species: <<listbox "$player.species" autoselect>><<optionsfrom _species>><</listbox>>
-
-Gender: <<listbox "$player.gender" autoselect>><<optionsfrom _genders>><</listbox>>
-
-Pronouns: <<listbox "$player.pronouns" autoselect>><<optionsfrom _pronouns>><</listbox>>
-
-Size: <<listbox "$player.size" autoselect>><<optionsfrom _playerSizes>><</listbox>>
-
-''__Game Settings__''
-Units of Measure: <<listbox "$settings.units.imperial" autoselect>>
-	<<option "Imperial" true>>
-	<<option "Metric" false>>
-<</listbox>>
-Time: <<listbox "$settings.units.twelveHour" autoselect>>
-	<<option "12 Hour" true>>
-	<<option "24 Hour" false>>
-<</listbox>>
-Hyper EXP Mode <<script>>infoBubble("Increases experience gain by 4x from fights.").appendTo(this.output);<</script>>: <<listbox "$settings.tweak.hyperMode" autoselect>>
-	<<option "On" true>>
-	<<option "Off" false>>
-<</listbox>>
-
-<<button "Next" "welcome">><</button>>
-
+	<div class="grid-header">''Game Settings''</div>
+	<div >Units of Measure:</div>
+	<div >
+		<<listbox "$settings.units.imperial" autoselect>>
+			<<option "Imperial" true>>
+			<<option "Metric" false>>
+		<</listbox>>
+	</div>	
+	<div >Time:</div>
+	<div >
+		<<listbox "$settings.units.twelveHour" autoselect>>
+			<<option "12 Hour" true>>
+			<<option "24 Hour" false>>
+		<</listbox>>
+	</div>	
+	<div >Hyper EXP Mode: <<script>>infoBubble("Increases experience gain by 4x from fights.").appendTo(this.output);<</script>></div>
+	<div >
+		<<listbox "$settings.tweak.hyperMode" autoselect>>
+			<<option "On" true>>
+			<<option "Off" false>>
+		<</listbox>>
+	</div>
+</div><br/>
+<div class="button-menu full-width">
+	<<button "Next" "welcome">><</button>>
+</div>
+<br />
+<</nobr>>

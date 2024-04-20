@@ -1,8 +1,18 @@
+@use "partials/_variables.scss" as var;
+@use "partials/jqueryUI";
 @use './hospital/hospital';
-@import "partials/statusBar";
-@import "partials/tabs";
-@import "partials/buttons";
-@import "partials/moveset";
+@use "partials/statusBar";
+@use "partials/tabs";
+@use "partials/buttons";
+@use "partials/moveset";
+@use "partials/combat";
+@use "partials/grids";
+//@use "partials/themes/default";
+@use "partials/themes/brownGreen";
+
+input[type="text"]{
+    min-width: unset;
+}
 
 .flex-container {
     flex-direction: row;
@@ -16,7 +26,7 @@
 table,
 th,
 td {
-    border: 1px solid white;
+    border: 1px solid;
 }
 
 table,
@@ -24,12 +34,34 @@ td>button {
     width: 100%;
 }
 
-td>button {
-    height: 100%;
-}
-
 #story-caption {
     text-align: left;
+}
+
+
+//Claw back every single inch from Twine and make the layout as compact as possible on mobile
+@media screen and (max-width: var.$mobile) {
+    #story{
+        margin-right: 0.5em;
+        margin-left: 0.5em;
+    }
+
+    #ui-bar.stowed ~ #story {
+        margin-left: 0.5em
+    }
+    
+    #ui-bar.stowed{
+        margin-left: -1.5em;
+        border: none;
+        background: none;
+    }
+    
+    #ui-bar-toggle {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 90000;
+    }
 }
 
 .text-fade-in {
@@ -38,6 +70,10 @@ td>button {
     -moz-animation: fadeIn 1s;
     -o-animation: fadeIn 1s;
     -ms-animation: fadeIn 1s;
+}
+
+.blinking {
+    animation: fadeIn 1s alternate ease-in-out infinite;
 }
 
 ul.no-bullets {
@@ -111,59 +147,6 @@ img#logoImage {
     display: none;
 }
 
-.CombatContainer {
-    padding: 5px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-#EnemyContainer {
-    text-align: right;
-}
-
-#EnemyCombatLog {
-    direction: rtl;
-}
-
-.CombatLog {
-    border-radius: 7px;
-    padding: 5px;
-    border: solid;
-    height: 400px;
-    overflow: hidden;
-}
-
-/* On Hover */
-.CombatLog:hover {
-    overflow-y: scroll;
-}
-
-.CombatActionContainer {
-    padding: 1px;
-    float: left;
-    width: 32%;
-    /* border: solid; */
-    height: 100px;
-}
-
-.CombatActionHeader {
-    justify-content: center;
-    display: flex;
-    font-size: x-large;
-}
-
-#LeaveContainer {
-    display: block;
-    text-align: center;
-    padding-top: 35px;
-}
-
-.lootText {
-    display: block;
-    text-align: center;
-}
-
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
@@ -185,128 +168,21 @@ img#logoImage {
     background: #555;
 }
 
-.ui-widget-overlay {
-    background: #000000;
-    opacity: 0.5;
-}
-
-.ui-widget {
-	font-family: Arial,Helvetica,sans-serif;
-	font-size: 1em;
-}
-.ui-widget .ui-widget {
-	font-size: 1em;
-}
-.ui-widget input,
-.ui-widget select,
-.ui-widget textarea,
-.ui-widget button {
-	font-family: Arial,Helvetica,sans-serif;
-	font-size: 1em;
-}
-.ui-widget.ui-widget-content {
-	border: 1px solid #2c2b2b;
-}
-.ui-widget-content {
-	border: 1px solid #4e4c4c;
-	background: #2c2b2b;
-	color: #fff;
-}
-.ui-menu {
-    border: 1px solid #4e4c4c!important
-}
-.ui-menu-item {
-    background: #4e4c4c;
-}
-.ui-widget-content a {
-	color: #fff;
-}
-.ui-widget-header {
-	border: 1px solid #2c2b2b;
-	background: #4e4c4c;
-	color: #fff;
-	font-weight: bold;
-}
-.ui-widget-header a {
-	color: #fff;
-}
-
-.ui-state-default,
-.ui-widget-content .ui-state-default,
-.ui-widget-header .ui-state-default,
-.ui-button,
-html .ui-button.ui-state-disabled:hover,
-html .ui-button.ui-state-disabled:active {
-	border: 1px solid #2c2b2b;
-	background: #4e4c4c;
-	font-weight: normal;
-	color: #fff;
-}
-.ui-state-default a,
-.ui-state-default a:link,
-.ui-state-default a:visited,
-a.ui-button,
-a:link.ui-button,
-a:visited.ui-button,
-.ui-button {
-	color: #fff;
-	text-decoration: none;
-}
-.ui-state-hover,
-.ui-widget-content .ui-state-hover,
-.ui-widget-header .ui-state-hover,
-.ui-state-focus,
-.ui-widget-content .ui-state-focus,
-.ui-widget-header .ui-state-focus,
-.ui-button:hover,
-.ui-button:focus {
-	border: 1px solid #4e4c4c;;
-	background: #2c2b2b;
-	font-weight: normal;
-	color: #fff;
-}
-.ui-state-hover a,
-.ui-state-hover a:hover,
-.ui-state-hover a:link,
-.ui-state-hover a:visited,
-.ui-state-focus a,
-.ui-state-focus a:hover,
-.ui-state-focus a:link,
-.ui-state-focus a:visited,
-a.ui-button:hover,
-a.ui-button:focus {
-	color: #fff;
-	text-decoration: none;
-}
-
-.ui-state-active,
-.ui-widget-content .ui-state-active,
-.ui-widget-header .ui-state-active,
-a.ui-button:active,
-.ui-button:active,
-.ui-button.ui-state-active:hover {
-	border: 1px solid #2c2b2b;
-	background: #2c2b2b;
-	font-weight: normal;
-	color: #ffffff;
-}
-.ui-icon-background,
-.ui-state-active .ui-icon-background {
-	border: #2c2b2b;
-	background-color: #ffffff;
-}
-.ui-state-active a,
-.ui-state-active a:link,
-.ui-state-active a:visited {
-	color: #ffffff;
-	text-decoration: none;
-}
-
 .creditWrapper {
     $this: &;
-    max-width: 150px;
-    max-height: 150px;
     position: relative;
+    float:left;
+    margin: 0.5em;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    float:left;
+    margin: 0.5em;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
     &:hover {
         cursor: pointer;
     }
@@ -314,21 +190,25 @@ a.ui-button:active,
         animation: fadeIn 0.5s;
         visibility: visible;
     }
+
+    img{
+        width: 100%;
+        max-width: 500px;
+    }
 }
 
 .creditOverlay {
-    width: 151px;
-    height: 151px;
+    width: 100%;
+    height: 100%;
     background: #4e4c4cb9;
     visibility: hidden;
     position: absolute;
-    line-height: 150px;
-    text-align: center;
-}
-
-.creditImg {
-    max-width: 150px;
-    max-height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .dataEditorTable {
@@ -337,5 +217,174 @@ a.ui-button:active,
             cursor: pointer;
             background-color: #333;
         }
+    }
+}
+
+/*SETTINGS SCREEN*/
+// Give the info button a little splash of color
+i.info{
+    font-size: 2.2em;
+}
+
+i.info-letter{
+    font-size: 1.5em;
+}
+
+
+table, tr, td, th{
+    border: none;
+    vertical-align: middle;
+}
+
+th
+{
+    padding-left: 0.4em;
+    padding-bottom: 0.2em;
+    font-weight: 600;
+}
+
+
+td.settings-name,
+table.Stat-table td
+{
+    min-width: 20%;
+}
+
+td.settings-value input, 
+td.settings-value select
+{
+    min-width: 50%;
+}
+
+
+//Make the selects a bit more noticeable
+input, select, textarea {
+    border: 2px solid ;
+    border-radius: 5px;
+}
+
+.full-width{
+    width: 100%;
+}
+
+.half-width{
+    max-width: 50%;
+}
+
+.clear-both{
+    clear:both;
+}
+
+.inline-icon{
+    height: 1.5em;
+    width: 1.5em;
+    background: none;
+}
+
+//Allows for an icon to be place on top of something if it's in an enclosing DIV, apply to icon itself
+.inline-icon-overlay{
+    position: relative;
+    top: 0.5em;
+    left: 0.5em;
+}
+
+.button-menu{
+    max-width: 50%;
+
+    @media screen and (max-width: var.$tablet) {
+        max-width: 100%;
+    }
+}
+
+.button-menu.full-width button{
+    width: 100%;
+}
+
+.button-menu a, 
+.button-menu button,
+#menu-core li,
+.button-menu.full-width button
+{
+    display: block;
+    padding: .4em;
+    border: 1px solid ;
+    text-align: center;
+    line-height: unset;
+}
+
+.button-menu a:hover{
+    text-decoration: none;
+}
+
+.button-menu button span{
+    margin-top: 0.25em;
+    display: block;
+    padding-left: 2em;
+}
+
+#menu li a:hover{
+    border:none;
+}
+
+.button-menu svg{
+    float: left;
+}
+
+.system-message{
+    padding: 1em;
+}
+
+.disable-popup-checkbox input {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  .button-delete{
+    background-color: red; 
+    border-color: red;
+  }
+
+  #delete-column{
+    width: 35px;
+  }
+
+  .red-text{
+    color: #F00;
+  }
+
+  .twine-editor{
+    padding: 5px;
+    border: solid 2px;
+    border-radius: 5px;
+}
+
+#preview{
+    padding: 5px;
+    border: solid 2px;
+    border-radius: 5px;
+}
+
+
+.genital-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.moveset-equipped, .moveset-available, .moveset-equipped-count{
+    font-size: 2em;
+}
+
+.moveset-equipped-count{
+    padding-left: 0.5em;
+}
+
+.moveset-available{
+    border-bottom: 2px dotted white;
+    cursor: help; 
+}
+
+@media screen and (max-width: var.$mobile) {
+    .portlet{
+        width: 40%;
     }
 }

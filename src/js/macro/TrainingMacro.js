@@ -28,7 +28,7 @@ Macro.add('trainMacro', {
             decreaseCredits(cost);
             advanceTime(true)
         } else {
-            variables().trainText = `You don't have enought credits!`;
+            variables().trainText = `You don't have enough credits!`;
             advanceTime(false)
         }
     }

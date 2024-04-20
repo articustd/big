@@ -7,22 +7,29 @@ In the corner of the room you see what can only be descriped as a blood pressure
 "Attribute changes are permanent and will charge 500 credits for increases. Removing attributes will refund 500 credits."
 
 <<nobr>>
-<div class="attribute-base">
-    <div class="attribute-container">
-        <span class="header">Strength</span>
-        <<AttributeControls 'strg'>>
+<div class="attribute-wrapper">
+    <div class="attribute-base">
+        <div class="attribute-container">
+            <span class="header">Strength</span>
+            <<AttributeControls 'strg'>>
+        </div>
+        <div class="attribute-container">
+            <span class="header">Dexterity</span>
+            <<AttributeControls 'dex'>>
+        </div>
+        <div class="attribute-container">
+            <span class="header">Constitution</span>
+            <<AttributeControls 'con'>>
+        </div>   
     </div>
-    <div class="attribute-container">
-        <span class="header">Constitution</span>
-        <<AttributeControls 'con'>>
-    </div>
-    <div class="attribute-container">
-        <span class="header">Dexterity</span>
-        <<AttributeControls 'dex'>>
+    <div class="attribute-buy">
+        <<AttributeBuy>>
     </div>
 </div>
-<div class="attribute-buy">
-    <<AttributeBuy>>
+<div class="button-menu">
+    <div>
+        <<iconMacro "back" "inline-icon inline-icon-overlay">>
+        <<link "Return to Lobby" $return>><</link>>
+    </div>    
 </div>
 <</nobr>>
-<<link "Return to Lobby" $return>><</link>>

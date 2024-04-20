@@ -19,9 +19,9 @@ Macro.add('passagePreviewerMacro', {
             $('#preview').wiki(editor.getText())
         })
         $('<div/>').wiki('Twine Preview').appendTo(this.output)
-        $('<div id="preview"/>').wiki(defaultText).css({padding: '5px', border: 'solid 2px', "border-radius": "5px"}).appendTo(this.output)
+        $('<div id="preview"/>').wiki(defaultText).appendTo(this.output)
         $('<br/>').appendTo(this.output)
         $('<div/>').wiki('Twine Editor').appendTo(this.output)
-        $('<div/>').css({padding: '5px', border: 'solid 2px', "border-radius": "5px"}).append(editor.options.element).appendTo(this.output)
+        $('<div/>').addClass('twine-editor').append(editor.options.element).appendTo(this.output)
     }
 })

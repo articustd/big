@@ -22,6 +22,7 @@ Macro.add('consumeEnemy', {
         _.each(consume, (con) => {
             if (con.gen === '' || player.gender[con.gen]) {
                 let $conBtn = $('<button/>')
+                    .addClass('combat-actions-button full-width')
                     .wiki(con.method)
                     .click(() => {
                         if (warning.overConsumeWarning && isOverMaxCapacity(player, prey.capacityAmount, con.capacity))
@@ -35,26 +36,27 @@ Macro.add('consumeEnemy', {
                             )
                         else
                             consumeContinue(con, player, prey)
-                    })
-                    .css({ 'height': '50px', 'font-size': '25px', 'margin-bottom': '5px' })
-                if (con.method === 'Eat')
-                    $conBtn.css({ 'border-radius': '3px 0px 0px 0px' })
+                    })                    
+                
+                //Add the exclamation mark to the button, much more user friendly than a popup
+                if(isOverMaxCapacity(player, prey.capacityAmount, con.capacity))
+                    $conBtn.append("<i class='fa fa-exclamation-triangle consume-alert blinking'></i>")
 
                 $(this.output).append($conBtn)
             }
         })
         let $fastConsume = $('<div/>').append(
-            $('<label/>').wiki(`Fast Consume `).css({ 'cursor': 'pointer' }).prepend(
+            $('<label/>').wiki(`Fast Consume `).addClass('combat-fast-consume-label').prepend(
                 $(`<input id="fastConsume" type="checkbox" ${skip.consumeText ? 'checked' : ''}/>`)
                     .on('input', function (e) {
                         skip.consumeText = $(this)[0].checked
                     })
             ).append(infoBubble(`Skips over consume text.`))
-        ).css({ 'align-self': 'center' })
+        ).addClass('combat-fast-consume')
 
         let $leaveBtn = $('<button/>')
             .wiki('Leave')
-            .css({ 'height': '50px', 'font-size': '25px', 'border-radius': '0px 0px 0px 3px', 'background-color': 'red', 'border-color': 'red' })
+            .addClass('combat-actions-button full-width combat-actions-leave')            
             .click(() => {
                 combatReset()
                 Engine.play(passageReturn)
@@ -63,7 +65,7 @@ Macro.add('consumeEnemy', {
         $(this.output).append($leaveBtn)
         $(this.output).append($fastConsume)
 
-        $(this.output).css({ 'display': 'flex', 'flex-direction': 'column' })
+        //$(this.output).addClass('combat-buttons-wrapper')
     }
 })
 

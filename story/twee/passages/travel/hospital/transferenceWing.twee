@@ -11,7 +11,10 @@ Looking at the helmet you notice the tube leading from the top and going into th
 <<nobr>>
 <<set _skillPoints to 0>>
 <<set _credits to 0>>
-<div class="trans">
+<<if def $transferText>><div class="system-message">$transferText</div><br /><br /><</if>>
+
+<div class="trans grid transference-grid">
+    <div class="grid-header">Skill point exchange</div>
     <div class="trans-container">
         <div class="trans-controls">
             <<TransferenceControls 'skillPoints' 'credits'>>
@@ -25,7 +28,12 @@ Looking at the helmet you notice the tube leading from the top and going into th
             <<TransferenceControls 'credits' 'skillPoints'>>
         </div>
     </div>
+</div><br />
+<div class="button-menu">
+    <div>
+        <<iconMacro "back" "inline-icon inline-icon-overlay">>
+        <<link "Return to Lobby" $return>><</link>>
+    </div>    
 </div>
+<<unset $transferText>>
 <</nobr>>
-
-<<link "Return to Lobby" $return>><</link>>

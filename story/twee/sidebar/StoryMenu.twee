@@ -1,26 +1,62 @@
 :: StoryBanner {"position":"250,125"}
 <img class="logo" id="logoImage" @src="setup.ImagePath+'bigCard.png'"> 
-
 :: StorySubtitle {"position":"375,0"}
 $version
-
 :: StoryCaption {"position":"25,550","size":"100,100"}
+<<nobr>>
 <<if def $gameStarted>>
-Credits: $player.credits
-Skill Points: $player.skillPoints
-<br><<nobr>>
-Health: <<healthBarMacro $player>>
-Stomach Capacity: <<capacityBarMacro $player "stomach">>
-<<if def $player.capacity.womb>>Womb Capacity: <<capacityBarMacro $player "womb">><</if>>
-<<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><</if>><</nobr>>
-<</if>>
+    
+    <div class="grid money-grid">
+        <<iconMacro "credits" "inline-icon  sidebar-icon">>
+        <div>Credits:       </div>
+        <div>$player.credits</div>
 
-:: StoryMenu {"position":"25,675","size":"100,100"}
-<<if def $gameStarted>>
-<<link $player.name "character">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
-<<link "Inventory" "inv">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
-<<link "Settings" "settings">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
-<<if $debug>><<link "Dev" "debugPassage">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>><</if>>
+        <<iconMacro "study hat" "inline-icon  sidebar-icon">>
+        <div>Skill Points:          </div>
+        <div>$player.skillPoints    </div>
+    </div><br />
+    <<iconMacro "heart" "inline-icon  sidebar-icon">> Health: <<healthBarMacro $player>><br />
+    Stomach Capacity: <<capacityBarMacro $player "stomach">><br />
+    <<if def $player.capacity.womb>>Womb Capacity: <<capacityBarMacro $player "womb">><br /><</if>>
+    <<if def $player.capacity.testi>>Testicle Capacity: <<capacityBarMacro $player "testi">><br /><</if>>
+    
+    <<include "_baseStats">><br />
+    <<include "_expStats">>
+    
+    <br />
 <</if>>
-<<link "Credits" "credits">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
-<<link "Help" "help">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+<div class="button-menu full-width" style="max-width: 100%;">
+    <<if def $gameStarted>>
+        <div>
+            <<iconMacro "person" " inline-icon inline-icon-overlay">>
+            <<link $player.name "character">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+        </div>
+        <div>
+            <<iconMacro "chest" " inline-icon inline-icon-overlay">>
+            <<link "Inventory" "inv">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+        </div>
+         <div>
+            <<iconMacro "cog" " inline-icon inline-icon-overlay">>
+            <<link "Settings" "settings">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+        </div>
+        <<if $debug>>
+            <div>
+                <<iconMacro "braces" " inline-icon inline-icon-overlay">>
+                <<link "Dev" "debugPassage">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+            </div>
+            <div>
+                <<iconMacro "braces" " inline-icon inline-icon-overlay">>
+                <<link "Milestones" "milestones">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+            </div>
+        <</if>>
+    <</if>>
+    <div>
+        <<iconMacro "list" " inline-icon inline-icon-overlay">>
+        <<link "Credits" "credits">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+    </div>
+    <div>
+        <<iconMacro "help" " inline-icon inline-icon-overlay">>
+        <<link "Help" "help">><<if ndef $menuReturn>><<set $menuReturn to passage()>><</if>><</link>>
+    </div>
+</div>
+<</nobr>>

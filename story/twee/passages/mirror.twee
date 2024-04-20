@@ -1,8 +1,13 @@
 :: mirror [noreturn] {"position":"125,250"}
+<<nobr>>
 <h1>Mirror</h1>
-
 You look at yourself in the mirror...
 /* General Description */
-<<playerFluffMacro>>
-
-<<link "Return" $return>><</link>>
+<<playerFluffMacro>><br /><br />
+<div class="button-menu">
+	<div>
+		<<iconMacro "back" "inline-icon inline-icon-overlay">>
+        <<link "Return" $return>><</link>>
+    </div>
+</div>
+<</nobr>>

@@ -1,13 +1,28 @@
 :: home {"position":"375,250"}
+<<nobr>>
 <h1>Home</h1>
 <<restMessageMacro true>>
-You're home. Nothing here except you, a bed, and the mirror.
-<<if def $restText>><br/>$restText<</if>>
-<<link "Travel" "travel">><<unset $restText>><</link>>
-
-<<link "Look in the Mirror" "mirror">><</link>>
-<<link "Change Moveset" "moveset">><<unset $restText>><</link>>
-
-<<timeAction "Rest" "home" 8 0>>
-	<<restMacro true false>>
-<</timeAction>>
+You're home. Nothing here except you, a bed, and the mirror.<br /><br />
+<<if def $restText>>
+	<br/>
+		<div class="system-message">$restText</div><br /><br />
+<</if>>
+<div class="button-menu">
+	<button class="full-width" data-passage="travel">
+		<<iconMacro "map marker" "inline-icon">> Travel
+	</button><br/>
+	<button class="full-width" data-passage="mirror">
+		<<iconMacro "mirror" "inline-icon">> Look in the Mirror
+	</button><br/>
+	<button class="full-width" data-passage="moveset">
+		<<iconMacro "sword" "inline-icon">> Change Moveset
+	</button><br/>
+	<div>
+		<<iconMacro "bed" "inline-icon inline-icon-overlay">>
+		<<timeAction "Rest" "home" 8 0>>
+			<<restMacro true false>>
+		<</timeAction>>
+	</div>
+</div>
+<<unset $restText>>
+<</nobr>>

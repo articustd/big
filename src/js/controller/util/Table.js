@@ -12,7 +12,7 @@ export function createTable({ $parent, dataMap, data, name, title, btns: { hasDe
     })
 
     if (hasDelete)
-        $headerRow.append($(`<th/>`).attr('id', 'delete-column').css({ width: "35px" }))
+        $headerRow.append($(`<th/>`).attr('id', 'delete-column'))
 
     _.each(data, (d) => {
         addTableRow({

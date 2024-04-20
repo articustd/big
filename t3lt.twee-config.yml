@@ -41,6 +41,8 @@ sugarcube-2:
       name: startGameRoutine
     enemyMacro:
       name: enemyMacro
+    expBarMacro:
+      name: expBarMacro
     healthBarMacro:
       name: healthBarMacro
     leaveButtonMacro:
@@ -56,8 +58,6 @@ sugarcube-2:
       name: bugMacro
     attackSkillsMacro:
       name: attackSkillsMacro
-    tabMacro:
-      name: tabMacro
     movesetMacro:
       name: movesetMacro
     cityMacro:
@@ -111,3 +111,7 @@ sugarcube-2:
       name: TransferenceControls
     TransferenceBuy:
       name: TransferenceBuy
+    iconMacro:
+      name: iconMacro
+    skillPassage:
+      name: skillPassage

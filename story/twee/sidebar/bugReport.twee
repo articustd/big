@@ -3,6 +3,12 @@
 
 Please copy the contents below and message Articus (gunpoint) on FA [["Here"|"https://www.furaffinity.net/user/gunpoint/"]] the issue
 
-<<bugMacro>>
-
-<<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
+<div class="system-menu"><<bugMacro>></div>
+<<nobr>>
+<div class="button-menu">
+    <div>
+        <<iconMacro "back" "inline-icon inline-icon-overlay">>
+        <<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
+    </div>
+</div>
+<</nobr>>

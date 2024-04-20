@@ -10,7 +10,7 @@ Macro.add('attackAction', {
 
         _.each(attackList, (attack) => {
             let $link = $('<button/>')
-                .css({ 'margin-bottom': '10px', 'flex-grow': 1 })
+                .class('combat-attack-list')                
                 .click(function () {
                     combatRoll(attack);
                     Engine.play(passage(), true);

@@ -1,17 +1,28 @@
 :: macroCity {"position":"125,125"}
+<<nobr>>
 <h1>Macro Megacity - Downtown</h1>
-
-<<cityMacro 6 8 "megaCity">><<nobr>>
+<<cityMacro 6 8 "megaCity">>
     <<if def $consumeText>><br/>
-        <<for _i, _exp range $consumeText>>
-            <br/>_exp
-        <</for>>
+        <<include "_consumeText">>
     <</if>>
+<<restMessageMacro>><br /><br />
+<div class="button-menu">
+    <div>
+        <<iconMacro "fight" "inline-icon inline-icon-overlay">>
+        <<timeAction "Look for Trouble" "fight" 0 30>>
+            <<enemyMacro 6 8 "Macro Megacity - Alleyway">>
+        <</timeAction>>
+    </div><br />
+    <button class="full-width" data-passage="train">
+        <<iconMacro "dumbbell" "inline-icon">> Titan Triceps Gym
+    </button><br />
+    <button class="full-width" data-passage="store">
+        <<iconMacro "store" "inline-icon">> Store
+        <<set $storeId to 2>></button>
+    <div><br />
+        <<iconMacro "back" "inline-icon inline-icon-overlay">>
+        <<timeAction "Go Back to the Station" "travel" 2 0 "Macro Megacity - Alleyway">><</timeAction>>
+    </div>
+</div>
+<<unset $consumeText>>
 <</nobr>>
-<<restMessageMacro>>
-<<timeAction "Look for Trouble" "fight" 0 30>><<enemyMacro 6 8 "Macro Megacity - Alleyway">><<unset $consumeText>><</timeAction>>
-
-<<link "Titan Triceps Gym" "train">><<unset $consumeText>><</link>>
-<<link "Store" "store">><<set $storeId to 2>><<unset $consumeText>><</link>>
-
-<<timeAction "Go Back to the Station" "travel" 2 0 "Macro Megacity - Alleyway">><<unset $consumeText>><</timeAction>>

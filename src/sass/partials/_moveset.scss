@@ -1,69 +1,17 @@
-// .column {
-//     float: left;
-//     padding-bottom: 100px;
-//     border: solid white;
-// 	overflow: auto;
-// 	width: 85%;
-// 	min-height: 100px;
-// }
-
-// .portlet {
-//     display: inline-block;
-//     margin: 1em;
-//     padding: 0.3em;
-//     background-color: #2c2b2b !important;
-//     border-radius: 10px;
-//     border-color: transparent !important;
-// }
-
-// .portlet-header {
-//     padding: 0.2em 0.3em;
-//     margin-bottom: 0.5em;
-//     background-color: #4e4c4c !important;
-//     position: relative;
-//     color: #FFFFFF !important;
-//     border-color: transparent !important;
-// }
-
-// .portlet-header:hover {
-//     cursor: grab;
-// }
-
-// .portlet-toggle {
-//     position: absolute !important;
-//     top: 50%;
-//     right: 5px;
-//     margin-top: -8px !important;
-// }
-
-// .portlet-toggle:hover {
-//     cursor: pointer;
-// }
-
-// .portlet-content {
-//     padding: 0.4em;
-//     color: white;
-// }
-
-// .portlet-placeholder {
-//     border: 1px dotted black;
-//     margin: 0 1em 1em 0;
-//     height: 50px;
-// }
-
+@use "../partials/_variables.scss" as var;
 .ui-icon {
     background-image: url(images/ui-icons_ffffff_256x240.png) !important;
 }
 
 #sortable-container {
-    border: 1px dotted black;
+    border: 1px dotted;
     width: 450px;
     font-size: 10px; // base font size
     overflow: auto;
 }
 
 .chart-tab {
-    border: 1px dotted black;
+    border: 1px dotted;
     width: 10%;
     float: left;
     font-size: 2em;
@@ -84,18 +32,13 @@
     float: left;
     margin: 0.3em 0.3em 0.3em 0.3em;
     padding: 0.3em;
-    background-color: #2c2b2b !important;
     border-radius: 10px;
-    border-color: transparent !important;
 }
 
 .portlet-header {
     padding: 0.2em 0.3em;
     margin-bottom: 0.5em;
     position: relative;
-    background-color: #4e4c4c !important;
-    color: #FFFFFF !important;
-    border-color: transparent !important;
 }
 
 .portlet-header:hover {
@@ -115,15 +58,12 @@
 
 .portlet-content {
     padding: 0.4em;
-    color: white;
 }
 
 .portlet-body-header {
     padding: 0.4em 0.4em 0px 0.4em;
-    color: white;
 }
 
 .portlet-body-content {
     padding: 0px 0.4em 0.4em 0.4em;
-    color: white;
 }
