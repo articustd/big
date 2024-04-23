@@ -4,14 +4,14 @@ import Macros from '@js/macro'
 import Templates from '@js/template'
 
 import { logger } from '@util/Logging'
-import { migrate } from './migrations' //Migrates save files from a prior version. NOTE make a new file in this folder per version
+import { migrateSave } from './migrations' //Migrates save files from a prior version. NOTE make a new file in this folder per version
 
 Config = { ...Config, ...storyConfig };
 setup.ImagePath = "assets/";
 
 ((Config, State, Story, Engine, Dialog, $document) => {
 	$(document.head).append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css" integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">')
-	let version = `v0.11.0`
+	let version = `v0.13.0`
 	// Set State Variables
 	variables().version = version
 	variables().stores = stores;
@@ -30,7 +30,7 @@ setup.ImagePath = "assets/";
 	// Config loading
 	Save.onLoad.add(function (save) {
 		logger('Loading...')
-		migrate(save, version)
+		migrateSave(save, version)
 	})
 
 	// Setup noreturn
