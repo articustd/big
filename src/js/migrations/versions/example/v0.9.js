@@ -1,4 +1,4 @@
-import { Migration } from "./Migration";
+import { Migration } from "../../Migration";
 import { v010 } from ".";
 
 export class v09 extends Migration {

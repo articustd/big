@@ -36,6 +36,11 @@ export class Migration {
             this._nextVersion.migrate(twineVariables)
     }
 
+    // Return a string of the version
+    stringifiedVersion() {
+        return `v${this._major}.${this._minor}.${this.hotfix}`
+    }
+
     get major() { return this._major }
     set major(major) { this._major = major }
 
@@ -49,9 +54,4 @@ export class Migration {
     set nextVersion(nextVersion) { this._nextVersion = nextVersion }
 
     get version() { return { major: this._major, minor: this._minor, hotfix: this._hotfix } }
-
-    // Return a string of the version
-    stringifiedVersion() {
-        return `v${this._major}.${this._minor}.${this.hotfix}`
-    }
 }

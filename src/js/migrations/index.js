@@ -2,7 +2,7 @@ import { logger } from "@util/Logging";
 import _ from "lodash";
 
 import * as versions from './versions'
-import { Migration } from "./versions/Migration";
+import { Migration } from "./Migration";
 
 export function migrateSave(save, currentVersion) {
     // Get JSON version from the current version string
