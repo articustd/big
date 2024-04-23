@@ -4,7 +4,9 @@ import Macros from '@js/macro'
 import Templates from '@js/template'
 
 import { logger } from '@util/Logging'
-import { migrateSave } from './migrations' //Migrates save files from a prior version. NOTE make a new file in this folder per version
+
+// Migrates save files from a prior version. NOTE make a new file in this folder per version that needs data format changes
+import { migrateSave } from './migrations' 
 
 Config = { ...Config, ...storyConfig };
 setup.ImagePath = "assets/";
