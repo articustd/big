@@ -1,3 +1,4 @@
-export * as v09 from './v0.9'
-export * as v010 from './v0.10'
-export * as v011 from './v0.11'
+// Add version migration to versions directory
+// Label migration as 'vMajor#.Minor#'
+// See example version using version v0.9.0
+// export * from './v0.9'
