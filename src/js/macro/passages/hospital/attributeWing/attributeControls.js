@@ -4,15 +4,34 @@ import _, { set } from "lodash"
 Macro.add('AttributeControls', {
     skipArgs: false,
     handler: function () {
-        let [stat] = this.args
+        let stat = this.args[0]
+        let type = this.args[1]
         let { player } = variables()
-        let newStat = player.stats[stat]
+        let newStat 
+        
+        //Determine what we're actually adjusting. A core stat, or the player's measurements?
+        if(type == 'measurement'){
+            newStat = player.measurements[stat]
+            
+            //Body fat is a special case, which needs to be multiplied by 100
+            if (stat =='bodyFat'){
+                newStat =  Math.round(stat * 100, 0)
+            }                
+        }
+        else
+            newStat = player.stats[stat]
 
-        let $statContainer = $('<div/>').attr('id', stat).data(stat, newStat).append(player.stats[stat])
-
+        //Make a new container housing the stat and any changes. Measurements are special, more types might follow
+        let $statContainer = $('<div/>').attr('id', stat).data(stat, newStat)
+        if(type == 'measurement')
+            $statContainer.append(player.measurements[stat])
+        else
+            $statContainer.append(player.stats[stat])
+        
+        //Prep the number controls, which, left to right, are subtact, multiplier, and add. Surrounding it is a wrapping element to group them
         let $controlContainer = $('<div/>').addClass('attribute-controls')
         let $removeButton = $('<button/>').append($('<i/>').addClass(`fa fa-minus`)).click(() => { statChange(true) })
-        let $addButton = $('<button/>').append($('<i/>').addClass(`fa fa-plus`)).click(() => { statChange(false) })
+        let $addButton = $('<button/>').append($('<i/>').addClass(`fa fa-plus`)).click(() => { statChange() })
         let $dropdown = createDropdown({ '1': 1, '2': 2, '5': 5, '10': 10 }, `${stat}Select`)
 
         $controlContainer
@@ -20,46 +39,73 @@ Macro.add('AttributeControls', {
             .append($dropdown)
             .append($addButton)
 
+        //Prep the reset button, once again measurements are specific, and need to be handled separately
         let $resetButton = $('<button/>').prop('disabled', true).wiki('Reset').click(() => {
-            let change = player.stats[stat] - newStat
-            newStat = player.stats[stat]
-            setData(change)
+            let change            
+            if(type == 'measurement'){
+                player.measurements[stat] - newStat
+                newStat = player.measurements[stat]
+            }
+            else{
+                player.stats[stat] - newStat
+                newStat = player.stats[stat]
+            }
+            
+            setData()
             $dropdown.find(`option[value="1"]`).prop('selected', true)
             updateControls()
         })
 
+        //Put all elements on the page
         $(this.output)
             .append($statContainer)
             .append($controlContainer)
             .append($resetButton)
 
-        function statChange(negative) {
+        //Subtracts or adds the amount to the temporary value, defaults to false
+        function statChange(negative = false) {
             let selectedVal = _.toInteger($dropdown.find(':selected').text())
             if (negative)
                 selectedVal = -selectedVal
 
             newStat += selectedVal
-            setData(selectedVal)
-            updateControls()
+            setData()
+            updateControls(stat, type)
         }
 
         function updateControls() {
             let selectedVal = _.toInteger($dropdown.find(':selected').text())
             $statContainer.empty()
-            if (newStat !== player.stats[stat]) {
+
+            if (newStat !== player.stats[stat] && type == 'stat') {
                 $resetButton.prop('disabled', false)
-                $statContainer.wiki(`${player.stats[stat]} <i class="fa fa-arrow-right"/> ${newStat}`)
-            } else {
+
+                if(newStat !== player.measurements[stat] &&type == 'measurement')
+                    $statContainer.wiki(`${player.measurements[stat]} <i class="fa fa-arrow-right"/> ${newStat}`)
+                else
+                    $statContainer.wiki(`${player.stats[stat]} <i class="fa fa-arrow-right"/> ${newStat}`)
+            } 
+
+            else {
                 $resetButton.prop('disabled', true)
-                $statContainer.append(player.stats[stat])
+                if (type == 'measurement')
+                    $statContainer.append(player.measurements[stat])
+                else
+                    $statContainer.append(player.stats[stat])
             }
+
             $removeButton.prop('disabled', false)
             if ((newStat - selectedVal) < 1)
                 $removeButton.prop('disabled', true)
         }
 
-        function setData(change) {
-            $statContainer.data(stat, newStat).trigger({ type: "changeStat", stat, change })
+        function setData() {
+            $statContainer.data(stat, type, newStat).trigger({ 
+                type: type, 
+                stat: stat, 
+                newValue: newStat,
+                
+            })
         }
     }
 })
