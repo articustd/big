@@ -64,7 +64,11 @@ Macro.add('AttributeBuy', {
             .append($buyBtn)
 
         doAfterRender(() => {
-            $('body').on('changeStat', ({ stat, type, newStat }) => {
+            // The first argument of .on(...) is the event name that happens anywhere in the body
+            // This comes from the "type" element on a .trigger(...) and is the event name
+            // In this case from the attributeControls we are expecting either "stat" or "measurement"
+            // Below I set it strictly to listen for "stat", but if set to a consistent event name you could send both
+            $('body').on('stat', ({ stat, type, newStat }) => {
                 /*totalChange += change
                 let statToChange = _.find(statChange, { stat })
                 _.set(statToChange, 'change', statToChange.change += change)*/

@@ -100,6 +100,9 @@ Macro.add('AttributeControls', {
         }
 
         function setData() {
+            // When using .trigger(...) the "type" element is reserved by jquery to name the trigger event
+            // In this case it's going to be either "stat" or "measurement"
+            // Anything listening on the body must listen for "stat" or "measurement"
             $statContainer.data(stat, type, newStat).trigger({ 
                 type: type, 
                 stat: stat, 
