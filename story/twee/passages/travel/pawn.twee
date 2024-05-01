@@ -1,0 +1,14 @@
+:: pawn [noreturn] {"position":"750,125"}
+<<nobr>>
+<h1>Pawn Shop</h1>
+Welcome to the Pawn Shop<br/><br />
+/* <<if def $storeText>><div class="system-message">$storeText</div><br /><br /><</if>> */
+/* <<storeItem $stores[$storeId]>><br /> <br /> */
+<<pawnShopMacro>><br /><br />
+<div class="button-menu">
+    <div>
+        <<iconMacro "back" "inline-icon inline-icon-overlay">>
+         <<link [[Go Back|$return]]>><<unset $storeText>><</link>>
+    </div>
+</div>
+<</nobr>>

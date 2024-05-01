@@ -4,111 +4,127 @@
      "mod": 5,
      "type": "stats",
      "stat": "hlth",
-     "desc": "Restores 5 health"
+     "desc": "Restores 5 health",
+     "basePrice": 10
     },
     {
      "name": "Protein Powder",
      "mod": 3,
      "type": "exp",
      "stat": "muscle",
-     "desc": "Increases muscle experience by 3"
+     "desc": "Increases muscle experience by 3",
+     "basePrice": 100
     },
     {
      "name": "Size Elixir",
      "mod": 10,
      "type": "exp",
      "stat": "size",
-     "desc": "Increases size experience by 3"
+     "desc": "Increases size experience by 3",
+     "basePrice": 100
     },
     {
      "name": "Tub of Grease",
      "mod": 0.01,
      "type": "exp",
      "stat": "fat",
-     "desc": "Increases fat experience by 1%"
+     "desc": "Increases fat experience by 1%",
+     "basePrice": 100
     },
     {
      "name": "Vitamins",
      "mod": 1,
      "type": "stats",
      "stat": "con",
-     "desc": "Increases constitution by 1"
+     "desc": "Increases constitution by 1",
+     "basePrice": 100
     },
     {
      "name": "Blue Pill",
      "mod": 0.02,
      "type": "gender",
      "stat": "penis",
-     "desc": "Increases penis size by 2%"
+     "desc": "Increases penis size by 2%",
+     "basePrice": 100
     },
     {
      "name": "Magnesium Pills",
      "mod": 0.01,
      "type": "gender",
      "stat": "balls",
-     "desc": "Increases ball size by 1%"
+     "desc": "Increases ball size by 1%",
+     "basePrice": 100
     },
     {
      "name": "Injection",
      "mod": 0.01,
      "type": "gender",
      "stat": "breasts",
-     "desc": "Increases breast size by 1%"
+     "desc": "Increases breast size by 1%",
+     "basePrice": 50
     },
     {
      "name": "Health Potion",
      "mod": 25,
      "type": "stats",
      "stat": "hlth",
-     "desc": "Restores 25 health"
+     "desc": "Restores 25 health",
+     "basePrice": 50
     },
     {
      "name": "Muscle Reducer",
      "mod": -3,
      "type": "exp",
      "stat": "muscle",
-     "desc": "Decreases muscle experience by 3"
+     "desc": "Decreases muscle experience by 3",
+     "basePrice": 50
     },
     {
      "name": "Shrink Elixir",
      "mod": -10,
      "type": "exp",
      "stat": "size",
-     "desc": "Decreases size experience by 10"
+     "desc": "Decreases size experience by 10",
+     "basePrice": 50
     },
     {
      "name": "Soybeans",
      "mod": -0.05,
      "type": "exp",
      "stat": "fat",
-     "desc": "Decreases fat experience by 5%"
+     "desc": "Decreases fat experience by 5%",
+     "basePrice": 50
     },
     {
      "name": "Penis Reducer",
      "mod": -0.02,
      "type": "gender",
      "stat": "penis",
-     "desc": "Decreases penis size by 2%"
+     "desc": "Decreases penis size by 2%",
+     "basePrice": 50
     },
     {
      "name": "Heat Pad",
      "mod": -0.01,
      "type": "gender",
      "stat": "balls",
-     "desc": "Decreases ball size by 1%"
+     "desc": "Decreases ball size by 1%",
+     "basePrice": 50
     },
     {
      "name": "Breast Reducer",
      "mod": -0.01,
      "type": "gender",
      "stat": "breasts",
-     "desc": "Decreases breast size by 1%"
+     "desc": "Decreases breast size by 1%",
+     "basePrice": 50
     },
     {
      "name": "Large Health Potion",
      "mod": 50,
      "type": "stats",
      "stat": "hlth",
-     "desc": "Restores 50 health"
+     "desc": "Restores 50 health",
+     "basePrice": 100
     }
    ]

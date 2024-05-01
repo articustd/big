@@ -22,15 +22,22 @@ function itemChance(chance) {
 }
 
 export function addToInventory({ id, qty }) { // FIXME Let me die father...
-	let { player } = variables()
-	let found = _.findIndex(player.inv, { id })
+	let { inv } = variables().player
+	let found = _.findIndex(inv, { id })
 
 	if (found > -1)
-		player.inv[found].qty += qty
+		inv[found].qty += qty
 	else
-		player.inv.push({ id, qty })
+		inv.push({ id, qty })
 
 	return qty
+}
+
+function decreaseInventory(idx, inv) {
+	let { inv } = variables().player
+	inv[idx].qty -= 1
+	if (inv[idx].qty == 0)
+		inv.splice(idx, 1)
 }
 
 function addCredits(credits) {
