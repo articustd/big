@@ -1,41 +1,40 @@
 :: milestones [noreturn] {"position":"275,550","size":"100,100"}
+<<nobr>>
 <h1>$player.name's milestones</h1>
 The more you grow, the more your form bestows you with power. Break these limits to reap the benefits.
-<table>
-    <thead>
-        <tr>
-            <th>Achievement</th>
-            <th>Description</th>
-            <th>Effect</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Ahead of the crowd</td>
-            <td>Become taller than average and reach two meters in height.</td>
-            <td>+5 strength +5 constitution +5 dexterity</td>
-        </tr>
-        <tr>
-            <td>Toned form</td>
-            <td>Grow some muscles on your form by reaching 60 strength.</td>
-            <td>+10 strength</td>
-        </tr>
-        <tr>
-            <td>Trained legs</td>
-            <td>Outrun the micro metro and reach 60 dexterity.</td>
-            <td>+10 dexterity</td>
-        </tr>
-        <tr>
-            <td>Resilient body</td>
-            <td>Train to withstand some blows after reaching 60 constitution.</td>
-            <td>+10 constitution</td>
-        </tr>
-    </tbody>
-</table>
-<<nobr>>
+<div class= "grid achievement-grid">
+    <div  class="grid-header">Achievement</div>
+    <div  class="grid-header">Description</div>
+    <div  class="grid-header">Effect</div>
+
+    <div class="achievement-name">Ahead of the crowd</div>
+    <div class="achievement-description">Become taller than average and reach two meters in height.</div>
+    <div class="achievement-effect">+5 strength +5 constitution +5 dexterity</div>
+
+    <hr />
+
+    <div class="achievement-name">Toned form</div>
+    <div class="achievement-description">Grow some muscles on your form by reaching 60 strength.</div>
+    <div class="achievement-effect">+10 strength</div>
+
+    <hr />
+
+    <div class="achievement-name">Trained legs</div>
+    <div class="achievement-description">Outrun the micro metro and reach 60 dexterity.</div>
+    <div class="achievement-effect">+10 dexterity</div>
+
+    <hr />
+
+    <div class="achievement-name">Resilient body</div>
+    <div class="achievement-description">Train to withstand some blows after reaching 60 constitution.</div>
+    <div class="achievement-effect">+10 constitution</div>
+
+    <hr />
+</div>
+
 <div class="button-menu">
     <div>
-        <<iconMacro "back" "inlince-icon inlince-icon-overlay">>
+        <<iconMacro "back" "inline-icon inline-icon-overlay">>
         <<link "Return" $menuReturn>><<unset $menuReturn>><</link>>
     </div>
 </div>
