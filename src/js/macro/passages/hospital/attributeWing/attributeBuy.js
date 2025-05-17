@@ -5,23 +5,48 @@ import _ from "lodash"
 Macro.add('AttributeBuy', {
     skipArgs: false,
     handler: function () {
-        let totalChange = 0
+
+        /*Currently we set the values hard coded. Values are as follows:
+            type: the first nested property after player e.g. player.STAT
+            stat: The last nested property after type e.g. player.stat.STRG
+            currentValue: Holds the starting value of the stat, i.e. the current strength of the player
+            newValue: Holds the target value of the stat
+            cost: Cost of raising/lowering the stat per point of experience required
+        */
         let statChange = [
-            {stat: 'strg', change: 0}
-            ,{stat: 'con',  change: 0} 
-            ,{stat: 'dex',  change: 0}
-
+            {stat: 'strg', currentValue: 0, newValue: 0, type: 'stat', cost: 10, change: 0}
+            ,{stat: 'con', currentValue: 0, newValue: 0, type: 'stat', cost: 10, change: 0}
+            ,{stat: 'dex', currentValue: 0, newValue: 0, type: 'stat', cost: 10, change: 0}
+            ,{stat: 'height', currentValue: 0, newValue: 0, type: 'measurement', cost: 10, change: 0}
+            ,{stat: 'bodyFat', currentValue: 0, newValue: 0, type: 'measurement', cost: 10, change: 0}
         ]
-        let { cost } = temporary()
-        let { player: { credits, stats } } = variables()
-        let { player } = variables()
 
+        let{player: {credits, stats}} = variables()
+        let { player } = variables()
+       //Fill the stats and set the current values to it as well
+        _.each(statChange, (change) => {
+            if (change.type == 'measurement'){
+                change.currentValue = player.measurements[change.stat]
+                
+                //Bodyfat is a float percentile, make it whole integers like with the exp bars
+                if (change.stat == 'bodyFat'){
+                    change.currentValue = Math.round(change.currentValue * 100, 0)
+                }
+            }
+
+            else{
+                change.currentValue = player.stats[change.stat]
+            }
+            change.newValue = change.currentValue
+        })
+        
         let $total = $('<div/>').text(`Awaiting Changes`)
         let $buyBtn = $('<button/>').wiki('Waiting...').prop('disabled', true).click(() => {
-            _.each(statChange, ({stat, change}) => {
-                stats[stat] += change
+            _.each(statChange, ({change}) => {                
+                    stats[change.stat] = change.newStat                
             })
-            variables().player.credits -= totalCost()
+            
+            variables().player.credits -= getTotalCost()
             
             //From CharacterController, necessary to set the stats to the proper values (currently only health)
             RecalcStats(player)
@@ -33,38 +58,58 @@ Macro.add('AttributeBuy', {
             .append($buyBtn)
 
         doAfterRender(() => {
-            $('body').on('changeStat', ({ stat, change }) => {
-                totalChange += change
+            // The first argument of .on(...) is the event name that happens anywhere in the body
+            // This comes from the "type" element on a .trigger(...) and is the event name
+            // In this case from the attributeControls we are expecting either "stat" or "measurement"
+            // Below I set it strictly to listen for "stat", but if set to a consistent event name you could send both
+            $('body').on('stat', ({ stat, type, newStat }) => {
                 let statToChange = _.find(statChange, { stat })
-                _.set(statToChange, 'change', statToChange.change += change)
+                _.set(statToChange, 'newValue', newStat)
                 checkResequence()
             })
         })
 
         function checkResequence() {
-            $buyBtn.prop('disabled', credits < totalCost() || totalCost() === 0)
-            if (_.some(statChange, ({ change }) => { return change !== 0 })) {
-                if (totalChange > 0)
-                    $total.text(`Cost: ${totalCost()}`)
-                if (totalChange === 0)
-                    $total.text('No Charge')
-                if (totalChange < 0)
-                    $total.text(`Rebate: ${-totalCost()}`)
-                if (totalCost() <= credits) {
+            let CreditCost = getTotalCost()
+
+            $buyBtn.prop('disabled', credits < CreditCost || CreditCost == 0)
+            if (CreditCost != 0 || CreditCost != undefined) {               
+                // set the cost of the change
+                if (CreditCost > 0) $total.text(`Cost: ` + CreditCost)
+                if (CreditCost == 0) $total.text('No Charge')
+                if (CreditCost < 0) $total.text(`Rebate: ` + CreditCost)
+                
+                if (CreditCost <= credits) {
                     $buyBtn.text('Accept Changes')
                     $buyBtn.prop('disabled', false)
-                } else
+                } 
+                
+                else
                     $buyBtn.text('Not Enough Credits')
+
             } else {
                 $total.text('Awaiting Changes')
                 $buyBtn.text('Waiting...')
             }
-
-
         }
 
-        function totalCost() {
-            return totalChange * cost
+        // Cost equals the amount of experience gained/lost per level times the cost
+        function getTotalCost() {
+            let totalCost = 0
+             _.each(statChange, ({currentValue, newValue, cost}) => {
+                if(currentValue < newValue){
+                    for(let x = currentValue; x < (newValue); x++ ){
+                        totalCost += x * cost
+                    }
+                }
+                
+                if(currentValue > newValue){
+                    for(let x = currentValue; x > (newValue); x-- ){
+                        totalCost -= x * cost
+                    }
+                }
+             })
+            return totalCost
         }
     }
 })

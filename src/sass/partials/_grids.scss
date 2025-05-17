@@ -266,3 +266,32 @@
 .credits-grid div:not(.grid-header) {
     padding: 0;
 }
+
+
+.achievement-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+
+    .achievement-name{
+        font-weight: 900;
+    }
+
+    hr {
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
+
+    @media screen and (max-width: var.$mobile) {
+        grid-template-columns: 1fr;
+
+        hr {
+            grid-column-start: 1;
+            grid-column-end: 1;
+        }
+
+        .achievement-effect::before {
+            content: "Effect: ";
+            font-weight: 900;
+        }
+    }
+}
