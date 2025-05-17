@@ -33,12 +33,12 @@ export function addToInventory({ id, qty }) { // FIXME Let me die father...
 	return qty
 }
 
-function decreaseInventory(idx, inv) {
-	let { inv } = variables().player
-	inv[idx].qty -= 1
-	if (inv[idx].qty == 0)
-		inv.splice(idx, 1)
-}
+// function decreaseInventory(idx, inv) {
+// 	let { inv } = variables().player
+// 	inv[idx].qty -= 1
+// 	if (inv[idx].qty == 0)
+// 		inv.splice(idx, 1)
+// }
 
 function addCredits(credits) {
 	variables().player.credits += credits
