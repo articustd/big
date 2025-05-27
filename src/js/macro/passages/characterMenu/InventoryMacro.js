@@ -1,6 +1,6 @@
 import { checkNewCapacity } from "@controller/character/CapacityController";
 import { getMaxHealth, returnStatName } from "@controller/character/CharacterController";
-import { getItemInfoByIndex } from "@controller/character/ItemController"
+import { getItemInfoByIndex, decreaseInventory } from "@controller/character/ItemController"
 
 Macro.add('invMacro', {
     skipArgs: false,
@@ -24,7 +24,7 @@ Macro.add('invMacro', {
                     let invText = ``
                     if(r[1] > 0) { // If the item is in inventory
                         if(useItem(r[0])) {
-                            decreaseInventory(r[2],inventory)
+                            decreaseInventory(r[2],inventory, 1)
                             invText = `Buffed ${returnStatName(r[0].stat)} by ${r[0].mod}`
                         } else
                             invText = `Health is already full`                        
@@ -46,7 +46,7 @@ Macro.add('invMacro', {
                             let ItemUsed = useItem(r[0]);
                             //console.log(ItemUsed)
                             if(ItemUsed) {
-                                decreaseInventory(r[2],inventory);
+                                decreaseInventory(r[2],inventory, r[1]);
                                 SuccessCount++;
                             } 
                         }  
@@ -92,10 +92,4 @@ function useItem(usedItem) {
     player.stats.maxHlth = getMaxHealth(player)
     checkNewCapacity(player)
     return true
-}
-
-function decreaseInventory(idx,inv) {
-    inv[idx].qty -= 1
-    if(inv[idx].qty == 0)
-        inv.splice(idx, 1)
 }

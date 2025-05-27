@@ -20,6 +20,8 @@ sugarcube-2:
       name: combatReset
     storeItem:
       name: storeItem
+    pawnShopMacro:
+      name: pawnShopMacro
     storeWidget:
       name: storeWidget
     invMacro:

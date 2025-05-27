@@ -19,6 +19,9 @@
     <button class="full-width" data-passage="store">
         <<iconMacro "store" "inline-icon">>Store<<set $storeId to 0>>
     </button><br />
+    <button class="full-width" data-passage="pawn">
+        <<iconMacro "store" "inline-icon">>Pawn Shop
+    </button><br />
     <div>
         <<iconMacro "back" "inline-icon inline-icon-overlay">>
         <<timeAction "Go Back to the Station" "travel" 2 0 "Micro Metroplex - Alleyway">><</timeAction>>
