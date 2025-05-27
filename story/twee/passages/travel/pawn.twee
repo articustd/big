@@ -2,8 +2,7 @@
 <<nobr>>
 <h1>Pawn Shop</h1>
 Welcome to the Pawn Shop<br/><br />
-/* <<if def $storeText>><div class="system-message">$storeText</div><br /><br /><</if>> */
-/* <<storeItem $stores[$storeId]>><br /> <br /> */
+<<if def $storeText>><div class="system-message">$storeText</div><br /><br /><</if>>
 <<pawnShopMacro>><br /><br />
 <div class="button-menu">
     <div>
