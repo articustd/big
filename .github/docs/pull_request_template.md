@@ -1,0 +1,3 @@
+- [] CHANGELOG Updated
+- [] JS Docs added to all functions touched
+- [] JS Docs added to all files touched

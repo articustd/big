@@ -4,12 +4,17 @@ import { rollItems } from "@controller/character/ItemController";
 import { skills, species } from "@js/data";
 import { logger } from "@util/Logging";
 
+/**
+ * Macro used to generate an enemy when combat is initiated.
+ * 
+ * @type {Array} [Minimum Size for Enemy, Maximum Size for Enemy, Text for where fight is taking place]
+ */
+
 Macro.add('enemyMacro', {
     skipArgs: false,
     handler: function () {
-        let minSize = this.args[0]
-        let maxSize = this.args[1]
-        variables().fightHeader = this.args[2]
+        let [minSize, maxSize, fightHeader] = this.args
+        variables().fightHeader = fightHeader
         let player = variables().player;
         let enemy = genChar(statPoints(player), random(0, species.length - 1), [minSize, maxSize], [0, 4], random(0, 6));
         variables().combat = true
@@ -18,6 +23,9 @@ Macro.add('enemyMacro', {
     }
 })
 
+/**
+ * @deprecated Old way of checking if an enemy will stay and fight. Needs updating.
+ */
 function checkWilling(playerSkills, enemy) {
     let player = variables().player
     if (checkIntimidation(player, enemy)) {

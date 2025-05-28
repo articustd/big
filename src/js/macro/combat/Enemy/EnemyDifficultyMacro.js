@@ -1,3 +1,11 @@
+/**
+ * Macro used to convey how difficult a fight will be. Uses total stats to determine.
+ * 
+ * v0.12.0 - Right now this is pretty rough, needs refinement. Could change this to per stat for a finer grain estimation.
+ */
+
+import { getStatTotal } from "@controller/character/CharacterController"
+
 Macro.add('enemyDifficultyMacro', {
     skipArgs: false,
     handler: function () {
@@ -18,7 +26,3 @@ Macro.add('enemyDifficultyMacro', {
         $(this.output).wiki(message)
     }
 })
-
-function getStatTotal({ stats: { strg, dex, con } }) {
-    return strg + dex + con
-}

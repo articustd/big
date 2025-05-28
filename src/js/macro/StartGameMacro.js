@@ -3,12 +3,16 @@ import { getPronounId } from '@controller/character/PronounController'
 import { genChar } from '@controller/character/CharacterController'
 import { logger } from '@util/Logging'
 
+/**
+ * Routine used to start the game, providing a new player object in the Twine variables.
+ */
+
 Macro.add('startGameRoutine', {
     skipArgs: true,
     handler: function () {
-        let {player} = variables();
+        let { player } = variables();
         let speciesKey = species.indexOf(player.species)
-        let sizeKey = _.findIndex(measurements.sizes, {'name': player.size})
+        let sizeKey = _.findIndex(measurements.sizes, { 'name': player.size })
         let bodyTypeKey = findObjIdx("Normal", measurements.bodyTypes)
         let pronounKey = getPronounId(player.pronouns)
         let genderKey = findObjIdx(player.gender, genders)
