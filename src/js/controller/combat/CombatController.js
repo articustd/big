@@ -5,7 +5,11 @@ import { attackSkill, statusEffect } from "@js/data";
 import { logger } from "@util/Logging";
 import _ from "lodash";
 
-/* Combat calculations */
+/**
+ * Used to decide turn order, cooldowns, status effects, and do a quick dead check. 
+ *
+ * @param {Object} playerAttack The player's attack
+ */
 export function combatRoll(playerAttack) {
 	// Pull in variables() for Logs
 	if (!variables().playerCombatLog || !variables().enemyCombatLog)
@@ -36,6 +40,7 @@ export function combatRoll(playerAttack) {
 	setCooldown(player, playerAttack)
 	setCooldown(enemy, enemyAttack)
 
+	logger(enemy)
 	if (_.isBoolean(temporary().playerDead)) {
 		if (temporary().playerDead)
 			setState({

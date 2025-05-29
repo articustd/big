@@ -66,6 +66,7 @@ function switchPanels(type) {
     let $statPanel = $('#statPanel')
     let $lootPanel = $('#lootPanel')
 
+    logger('here')
     $statPanel.css({ 'display': 'none' })
     if (type === 'loot') {
         $lootPanel.css({ 'display': 'flex' })
