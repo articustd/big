@@ -7,7 +7,7 @@ import { isOverMaxCapacity } from "@controller/character/CapacityController";
 import { consumeEntity, reducePreyObject } from "@controller/character/ConsumeController";
 
 /**
- * Macro used for how to consume defeated entities by the player.
+ * Macro used for consume options when a player wins combat.
  * 
  * @type {Array} [Entity player is consuming]
  */

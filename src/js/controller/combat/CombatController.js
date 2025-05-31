@@ -343,3 +343,17 @@ function attackTurn(attacker, defender, attack, isPlayer, combatLog, combatMessa
 
 	combatLog.push(buildCombatMessage(combatMessage))
 }
+
+/**
+ * Used to filter skills and attacks from an entity.
+ * 
+ * @param {Boolean} skill Boolean to check for skill (true = skill)
+ * @returns {Array} An array of skills or attacks if any are found
+ */
+export function getAttackSkills(skill, entity) {
+    let { attacks } = entity
+
+    return _.filter(_.map(attacks, ({ id, currCooldown }) => {
+        return { ...attackSkill[id], currCooldown, id }
+    }), { skill })
+}

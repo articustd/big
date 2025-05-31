@@ -339,3 +339,13 @@ export function increaseExp(entity, expType, exp, hyperMod = 4) {
 export function getStatTotal({ stats: { strg, dex, con } }) {
     return strg + dex + con
 }
+
+/**
+ * Used to check if the entity is still alive. Checks for health greater than 0.
+ * 
+ * @param {Object} entity 
+ * @returns {Boolean} True if entity is alive, False if entity is dead
+ */
+export function isAlive({ stats: { hlth } }) {
+    return hlth > 0
+}

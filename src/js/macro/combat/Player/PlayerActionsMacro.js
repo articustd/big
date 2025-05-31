@@ -1,16 +1,18 @@
 import { logger } from "@util/Logging"
-import { attackSkill } from "@js/data"
-import { rest } from "@controller/character/CharacterController"
-import { combatReset, combatRoll, fleeChance, loseExp } from "@controller/combat/CombatController"
+import { isAlive, rest } from "@controller/character/CharacterController"
+import { combatReset, combatRoll, fleeChance, getAttackSkills, loseExp } from "@controller/combat/CombatController"
 import { losePrey } from "@controller/character/CapacityController"
 
+/**
+ * Macro used to display action buttons for the player on the combat screen. Includes Attacks, Skills, Run/Leave.
+ */
 Macro.add('playerActionsMacro', {
     skipArgs: false,
     handler: function () {
         let { player, enemy } = variables()
         let playerAlive = isAlive(player)
         let enemyAlive = isAlive(enemy)
-        let $wrapper = $('<div/>').addClass("combat-actions-wrapper") 
+        let $wrapper = $('<div/>').addClass("combat-actions-wrapper")
 
         let $leaveBtn = $('<button/>').addClass('combat-actions-button combat-actions-leave').click(() => {
             if (playerAlive && enemyAlive && variables().combat) {
@@ -33,13 +35,13 @@ Macro.add('playerActionsMacro', {
             let $atkButton = $('<button/>').addClass('combat-actions-button combat-actions-attack').wiki(`Attacks`).click(function () {
                 switchPanels('attack')
             }).appendTo($wrapper)
-            if (getAttackSkills(false).length === 0)
+            if (getAttackSkills(false, player).length === 0)
                 $atkButton.addClass('disabledAttack').off()
 
             let $skillButton = $('<button/>').addClass('combat-actions-button combat-actions-skills').wiki(`Skills`).click(function () {
                 switchPanels('skill')
             }).appendTo($wrapper)
-            if (getAttackSkills(true).length === 0)
+            if (getAttackSkills(true, player).length === 0)
                 $skillButton.addClass('disabledAttack').off()
 
             $leaveBtn.wiki(`Run`).appendTo($wrapper)
@@ -66,7 +68,6 @@ function switchPanels(type) {
     let $statPanel = $('#statPanel')
     let $lootPanel = $('#lootPanel')
 
-    logger('here')
     $statPanel.css({ 'display': 'none' })
     if (type === 'loot') {
         $lootPanel.css({ 'display': 'flex' })
@@ -89,15 +90,4 @@ function switchPanels(type) {
     $actionPanel.data({ type })
 
     $actionPanel.css({ 'display': 'flex' })
-}
-
-function getAttackSkills(skill) {
-    let { player: { attacks } } = variables()
-    return _.filter(_.map(attacks, ({ id, currCooldown }) => {
-        return { ...attackSkill[id], currCooldown, id }
-    }), { skill })
-}
-
-function isAlive({ stats: { hlth } }) {
-    return hlth > 0
 }
