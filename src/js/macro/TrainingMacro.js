@@ -1,6 +1,13 @@
+import { increaseExp } from "@controller/character/CharacterController";
 import { decreaseCredits } from "@controller/character/ItemController"
 import { advanceTime } from "@controller/TimeController";
 import { logger } from "@util/Logging";
+
+/**
+ * Macro used to provide experience training for the player.
+ * 
+ * @type {Array} [Experience Type, Text for UI for when training is done, Credit cost for training, The amount of experience given for training]
+ */
 
 Macro.add('trainMacro', {
     skipArgs: false,
@@ -14,22 +21,20 @@ Macro.add('trainMacro', {
         // }
         // Args: LevelUp - Boolean, Visible - Boolean
 
-        let expType = this.args[0];
-        let trainText = this.args[1];
-        let cost = this.args[2];
-        let modAmt = this.args[3];
-        let {settings:{tweak:{hyperMode}}} = variables()
-        logger({hyperMode})
-        if(cost <= variables().player.credits) {
-            let mod = modAmt * (hyperMode?4:1)
-            variables().player.exp[expType] += mod;
-            variables().trainText = `${trainText} ${mod} ${expType}!`;
+        let [expType, trainText, cost, modAmt] = this.args
+        let { player } = variables()
+
+        if (cost <= player.credits) {
+            let expIncrease = increaseExp(player, expType, modAmt)
+            setTrainText(`${trainText} ${expIncrease} ${expType}!`)
 
             decreaseCredits(cost);
             advanceTime(true)
         } else {
-            variables().trainText = `You don't have enough credits!`;
+            setTrainText(`You don't have enough credits!`)
             advanceTime(false)
         }
+
+        function setTrainText(text) { variables().trainText = text }
     }
 });

@@ -3,6 +3,10 @@ import { attackSkill } from "@js/data"
 import { logger } from "@util/Logging";
 import _ from "lodash";
 
+/**
+ * THIS APPEARS TO BE DEPRECATED
+ */
+
 Macro.add('attackAction', {
     skipArgs: false,
     handler: function () {

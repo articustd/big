@@ -1,8 +1,17 @@
 import { logger } from "@util/Logging"
 
+/**
+ * Parses the tokens from the lexer to prepare for mathmatical operations of order.
+ * 
+ * @param {Array<JSON>} tokens The array of token objects
+ * @param {Array<JSON>} parseTree The running parse tree array of objects
+ * @returns {Array<JSON} The completed parseTree
+ * @throws Invalid Value or Unexpected Token
+ */
 export function parse(tokens, parseTree = []) {
     let symbols = {}
-    
+    logger("Tokens: ", tokens)
+
     function symbol(id, nud, ldp, led) {
         var sym = symbols[id] || {}
         symbols[id] = {

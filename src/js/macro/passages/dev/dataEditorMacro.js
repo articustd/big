@@ -5,6 +5,7 @@ import _ from "lodash"
 import { getPropMeta } from "@util/DataMapping"
 import { createButton, createDropdown, createEmpty, createField } from "@util/Input"
 import { createTable, updateRow } from "@util/Table"
+import { boolify } from "@util/DataConversion"
 
 Macro.add('dataEditorMacro', {
     skipArgs: false,
@@ -152,10 +153,4 @@ function numify(value) {
     if(isNaN(isNum))
         return value
     return isNum
-}
-
-function boolify(value) {
-    if(value === 'true' || value === 'false')
-        return JSON.parse(value)
-    return value
 }

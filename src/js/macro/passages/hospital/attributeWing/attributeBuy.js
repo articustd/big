@@ -1,5 +1,5 @@
 import { logger } from "@util/Logging"
-import { RecalcStats } from "@controller/character/CharacterController"
+import { recalcStats } from "@controller/character/CharacterController"
 import _ from "lodash"
 
 Macro.add('AttributeBuy', {
@@ -49,7 +49,7 @@ Macro.add('AttributeBuy', {
             variables().player.credits -= getTotalCost()
             
             //From CharacterController, necessary to set the stats to the proper values (currently only health)
-            RecalcStats(player)
+            recalcStats(player)
             Engine.show()
         })
 

@@ -1,26 +1,28 @@
 import { logger } from "@util/Logging"
-import { calcDmgRange, calcHitChance, combatRoll } from "@controller/combat/CombatController";
+import { calcDmgRange, calcHitChance, combatRoll, getAttackSkills } from "@controller/combat/CombatController";
 import { attackSkill } from "@js/data"
 import _ from "lodash"
 import { parseReq } from "@controller/ReqParser";
+import { boolify } from "@util/DataConversion";
 
 Macro.add('playerActionsPanelMacro', {
     skipArgs: false,
     handler: function () {
         let panelType = this.args[0]
+        let { player } = variables()
         let $wrapper = $('<div/>').addClass('combat-actions-panel-wrapper full-width')
         let actions = []
 
         switch (panelType) {
             case 'attack':
-                actions = getAttackSkills(false)
+                actions = getAttackSkills(false, player)
                 if (actions.length > 0)
                     createColumns(actions, $wrapper)
                 else
                     $leftColumn.wiki('No Attacks')
                 break
             case 'skill':
-                actions = getAttackSkills(true)
+                actions = getAttackSkills(true, player)
                 if (actions.length > 0)
                     createColumns(actions, $wrapper)
                 else
@@ -38,13 +40,6 @@ Macro.add('playerActionsPanelMacro', {
         $(this.output).addClass('full-width')
     }
 })
-
-function getAttackSkills(skill) {
-    let { player: { attacks } } = variables()
-    return _.filter(_.map(attacks, ({ id, currCooldown }) => {
-        return { ...attackSkill[id], currCooldown, id }
-    }), { skill })
-}
 
 function createColumns(actions, $wrapper) {
     _.each(actions, (action, key) => {
@@ -93,10 +88,4 @@ function checkDisabled($parent, { requirements: {conditions}, currCooldown, desc
         $parent.addClass('disabledAttack').off()
     else
         $parent.removeClass('disabledAttack')
-}
-
-function boolify(value) {
-    if(value === 'true' || value === 'false')
-        return JSON.parse(value)
-    return value
 }

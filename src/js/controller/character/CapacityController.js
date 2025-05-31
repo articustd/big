@@ -3,9 +3,17 @@ import { logger } from "@util/Logging"
 import _ from "lodash"
 import { getSizeIdx } from "./MeasurementController"
 
-export function collectCapacity({ capacity }, capType, total = 0) {
-    _.each(capacity[capType], (prey) => {
-        total += prey.capacityAmount
+/**
+ * Used to collect the capacity of an entity for a given capacity type.
+ * 
+ * @param {Object} capacity The capacity object of an entity
+ * @param {String} capType Capacity type to check for
+ * @returns {Number} The current total capacity
+ */
+export function collectCapacity({ capacity }, capType) {
+    let total = 0
+    _.each(capacity[capType], (entity) => {
+        total += entity.capacityAmount
     })
     return total
 }
@@ -84,10 +92,10 @@ function returnCapName(cap) {
     }
 }
 
-export function checkCapacity(character, response = false) {
-    let { capacity } = character
+export function checkCapacity(entity, response = false) {
+    let { capacity } = entity
     return _.every(getNonMaxCapacityKeys(capacity), (capKey) => { // Loop through all available character capacities that are NOT the max
-        return collectCapacity(character, capKey) < capacity[`${capKey}Max`]
+        return collectCapacity(entity, capKey) < capacity[`${capKey}Max`]
     })
 }
 
@@ -104,4 +112,27 @@ export function checkNewCapacity(character) {
     }
 
     capacityChange(character.measurements, character.capacity)
+}
+
+/**
+ * Used to increase the capacity of the given area. (Stomach, balls, etc.)
+ * 
+ * @param {Object} hunter The entity consuming
+ * @param {Object} prey The entity being consumed
+ * @param {String} capType The capacity area that is being increased
+ */
+export function addCapacity(hunter, prey, capType) {
+    hunter.capacity[capType].push(prey)
+}
+
+/**
+ * Used to check if an entity is going over capacity for the given capacity area.
+ * 
+ * @param {Object} entity The entity being checked for over capacity
+ * @param {Number} amt The amount being added
+ * @param {String} capType The capacity area to check for being over the allowed amount
+ * @returns 
+ */
+export function isOverMaxCapacity(entity, amt, capType) {
+    return (collectCapacity(entity, capType) + amt) >= entity.capacity[`${capType}Max`]
 }

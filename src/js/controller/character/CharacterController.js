@@ -303,7 +303,49 @@ export function getAttackSkill(id) {
     return attackSkill[id]
 }
 
-//Recalculate health after changing CON. May need to be expanded if other stats don't seem to update either
-export function RecalcStats(player){
+/**
+ * Recalculate health after changing CON. May need to be expanded if other stats don't seem to update either.
+ * 
+ * @param {Object} player Player object entity
+ */
+export function recalcStats(player){
     calcMaxHealth(player)
+}
+
+/**
+ * Increase the given entity's provided experience type by the given amount. If hyper mode is on, use the hyper modifier (default 4).
+ * 
+ * @param {Object} entity The character receiving the increase in experience
+ * @param {Number} expType The type as the index in the character exp array
+ * @param {Number} exp The amount of experience that is gained
+ * @param {Number} hyperMod The hyper modifier if hyper mode is on (default 4)
+ * @returns {Number} The experience amount that was given
+ */
+export function increaseExp(entity, expType, exp, hyperMod = 4) {
+    let { settings: { tweak: { hyperMode } } } = variables()
+
+    exp *= (hyperMode ? hyperMod : 1) // If hyper mode is on, multiply any exp gain by the provided hyper modifier (default 4)
+    entity.exp[expType] += exp
+
+    return exp // Return the exp amount for any text rendering
+}
+
+/**
+ * Gets the total of all stats summed.
+ * 
+ * @param {Object} Entity Entity object that has a child property of "stats"
+ * @returns Total of all stats summed
+ */
+export function getStatTotal({ stats: { strg, dex, con } }) {
+    return strg + dex + con
+}
+
+/**
+ * Used to check if the entity is still alive. Checks for health greater than 0.
+ * 
+ * @param {Object} entity 
+ * @returns {Boolean} True if entity is alive, False if entity is dead
+ */
+export function isAlive({ stats: { hlth } }) {
+    return hlth > 0
 }

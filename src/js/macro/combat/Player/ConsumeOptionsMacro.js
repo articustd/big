@@ -1,10 +1,16 @@
 import { logger } from "@util/Logging"
-import { calcWeight, sizeDiff } from "@controller/character/MeasurementController"
 import { popup } from "@util/ModalPopup";
-import { combatReset, getExpText } from "@controller/combat/CombatController";
+import { combatReset } from "@controller/combat/CombatController";
 import { infoBubble } from "@util/UISugar";
 import _ from "lodash";
-import { collectCapacity } from "@controller/character/CapacityController";
+import { isOverMaxCapacity } from "@controller/character/CapacityController";
+import { consumeEntity, reducePreyObject } from "@controller/character/ConsumeController";
+
+/**
+ * Macro used for consume options when a player wins combat.
+ * 
+ * @type {Array} [Entity player is consuming]
+ */
 
 Macro.add('consumeEnemy', {
     skipArgs: false,
@@ -29,13 +35,13 @@ Macro.add('consumeEnemy', {
                             popup(`Over Capacity`,
                                 `You are about to go over your max capacity. If you continue you will be attacked randomly until you rest at home. <br><br>Do you wish to consume?`,
                                 {
-                                    "Yes": () => { consumeContinue(con, player, prey) },
+                                    "Yes": () => { consumeEntity(con, player, prey) },
                                     "No": false
                                 },
                                 { type: "warning", name: "overConsumeWarning" }
                             )
                         else
-                            consumeContinue(con, player, prey)
+                            consumeEntity(con, player, prey)
                     })                    
                 
                 //Add the exclamation mark to the button, much more user friendly than a popup
@@ -64,52 +70,5 @@ Macro.add('consumeEnemy', {
 
         $(this.output).append($leaveBtn)
         $(this.output).append($fastConsume)
-
-        //$(this.output).addClass('combat-buttons-wrapper')
     }
 })
-
-function reducePreyObject({ name, species, exp, capacityAmount, measurements }) {
-    return { name, species, exp, capacityAmount, measurements }
-}
-
-function calcConsume(prey, response = {}) {
-    for (let points in prey.exp) {
-        let point = randPoints(prey.exp[points])
-        if (point > 0) response[points] = point
-    }
-
-    return response;
-}
-
-function randPoints(range) {
-    return (Array.isArray(range)) ? random(range[0], range[1]) : range
-}
-
-function addCapacity(hunter, prey, capType) {
-    hunter.capacity[capType].push(prey)
-}
-
-function isOverMaxCapacity(player, amt, capType) {
-    return (collectCapacity(player, capType) + amt) >= player.capacity[`${capType}Max`]
-}
-
-function consumeContinue(con, player, prey) {
-    let consumeObj = { consume: con, points: calcConsume(prey), sDiff: sizeDiff(player, prey) }
-
-    // This needs to be here to prevent players from repeatedly getting exp by refreshing
-    addCapacity(player, prey, consumeObj.consume.capacity)
-    variables().consumeObj = consumeObj
-
-    variables().consumeText = _.map(getExpText(consumeObj.points), (text) => {
-        return text
-    })
-
-    // variables().consumeText.push(`Filled your ${con.capacity} by ${prey.capacityAmount} point${prey.capacityAmount > 1 ? 's' : ''}`)
-
-    if (variables().settings.skip.consumeText) {
-        combatReset()
-        Engine.play(variables().return)
-    } else
-        Engine.play("consume")
-}

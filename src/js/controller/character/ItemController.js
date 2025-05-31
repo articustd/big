@@ -9,7 +9,7 @@ export function rollItems({ loot }, credits, text = []) {
 		addToInventory({ id, qty })
 		text.push(`${qty} ${items[id].name}`)
 	})
-	addCredits(credits)
+	addCredits(credits, variables().player)
 	text.push(`${credits} credits`)
 	return text
 }
@@ -37,7 +37,7 @@ export function addToInventory({ id, qty }) { // FIXME Let me die father...
  * Decreases the given entity's inventory. If an item quantity is reduced to 0 or below, it's removed from the entity's inventory array.
  * 
  * @param {Number} idx - Index of the item in the entity's inventory to decrease
- * @param {Array} inv - Entity inventory to decrease item in
+ * @param {Array<Object>} inv - Entity inventory to decrease item in
  * @param {Number} quantity - Number of items to remove from inventory
  */
 export function decreaseInventory(idx, inv, quantity) {
@@ -76,7 +76,7 @@ export function decreaseCredits(amt) {
  * Allows the player to sell items.
  * 
  * @param {number} itemIdx - Item index in the seller's inventory
- * @param {Array} seller - The seller, must have inv as a child property
+ * @param {Array<Object>} seller - The seller, must have inv as a child property
  * @param {number} price - Price seller is selling item for
  * @param {number} quantity - Number to sell, default 1
  * 
