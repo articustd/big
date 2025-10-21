@@ -10,7 +10,8 @@ export let settings = {
         "learnedAttackInfo": true
     },
     "tweak": {
-        "hyperMode": true
+        "hyperMode": true,
+        "replaceVore": false
     },
     "skip": {
         "consumeText": false

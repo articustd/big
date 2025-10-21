@@ -33,11 +33,18 @@ Size effects your starting stats, smaller characters will have a harder time sta
 			<<option "24 Hour" false>>
 		<</listbox>>
 	</div>	
-	<div >Hyper EXP Mode: <<script>>infoBubble("Increases experience gain by 4x from fights.").appendTo(this.output);<</script>></div>
+	<div >Hyper EXP Mode:<br/><span class="explanation">Increases experience gain by 4x from fights</span></div>
 	<div >
 		<<listbox "$settings.tweak.hyperMode" autoselect>>
 			<<option "On" true>>
 			<<option "Off" false>>
+		<</listbox>>
+	</div>
+	<div >Replace vore:<br/><span class="explanation">Replaces vore text with aura draining</span></div>
+	<div >
+		<<listbox "$settings.tweak.replaceVore" autoselect>>
+			<<option "Disabled" false>>
+			<<option "Enabled" true>>
 		<</listbox>>
 	</div>
 </div><br/>

@@ -77,7 +77,7 @@ Macro.add('AttributeBuy', {
                 // set the cost of the change
                 if (CreditCost > 0) $total.text(`Cost: ` + CreditCost)
                 if (CreditCost == 0) $total.text('No Charge')
-                if (CreditCost < 0) $total.text(`Rebate: ` + CreditCost)
+                if (CreditCost < 0) $total.text(`Rebate: +` + Math.abs(CreditCost))
                 
                 if (CreditCost <= credits) {
                     $buyBtn.text('Accept Changes')

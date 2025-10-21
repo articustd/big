@@ -5,7 +5,7 @@ Macro.add('creditMacro', {
     handler: function () {
         //Articus credits
         $image = $('<img/>').addClass('creditImg').attr('src', 'assets/credits/gunpoint.png')
-        $overlay = $('<div/>').addClass('creditOverlay').wiki('Articus/Gunpoint<br />Initial programmer') //Text on hover
+        $overlay = $('<div/>').addClass('creditOverlay').wiki('Articus/Gunpoint<br />Main programmer') //Text on hover
         $wrapper = $('<div/>').addClass('creditWrapper').click(()=>{
             window.location = "https://www.furaffinity.net/user/gunpoint/", "_blank"
         })
@@ -14,7 +14,7 @@ Macro.add('creditMacro', {
 
         //Ruweg credits
         $image = $('<img/>').addClass('creditImg').attr('src', 'assets/credits/ruweg.png')
-        $overlay = $('<div/>').addClass('creditOverlay').wiki('Ruweg<br/>Programmer') //Text on hover
+        $overlay = $('<div/>').addClass('creditOverlay').wiki('Ruweg<br/>Writer/Programmer') //Text on hover
         $wrapper = $('<div/>').addClass('creditWrapper').click(()=>{
             window.location = "https://www.furaffinity.net/user/randomwolfguy/", "_blank"
         })

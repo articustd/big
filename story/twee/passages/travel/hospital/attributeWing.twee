@@ -21,14 +21,14 @@ In the corner of the room you see what can only be descriped as a blood pressure
             <span class="header">Constitution</span>
             <<AttributeControls 'con' 'stat'>>
         </div>   
-        <!--<div class="attribute-container">
+        <div class="attribute-container">
             <span class="header">Height</span>
             <<AttributeControls 'height' 'measurement'>>
         </div>
         <div class="attribute-container">
             <span class="header">Fat</span>
             <<AttributeControls 'bodyFat' 'measurement'>>
-        </div>-->   
+        </div>   
     </div>
     <div class="attribute-buy">
         <<AttributeBuy>>

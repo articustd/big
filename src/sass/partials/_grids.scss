@@ -57,7 +57,7 @@
     }
 
     @media screen and (max-width: var.$tablet) {
-        grid-template-columns: [setting]5em [options]2fr;
+        grid-template-columns: [setting]1fr [options]1fr;
     }
 }
 

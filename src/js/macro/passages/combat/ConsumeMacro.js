@@ -1,7 +1,8 @@
 import { returnStatName } from "@controller/character/CharacterController"
 import { findSize } from "@controller/character/MeasurementController"
 import { getExpText } from "@controller/combat/CombatController"
-import { largerText, muchLargerText, muchSmallerText, sameText, smallerText } from "@js/data/combat/ConsumeTextTable"
+import { getVoreText } from "@js/data/combat/ConsumeTextTable"
+import { getReplaceVoreSetting } from "@controller/character/CharacterController"
 import _ from "lodash"
 
 Macro.add('consumeMacro', {
@@ -13,27 +14,8 @@ Macro.add('consumeMacro', {
         let $exp = $('<span/>')
         temporary().enemyText = { sizeLC: _.lowerFirst(findSize(enemy.measurements.height)) }
 
-        if (consumeObj.consume.method !== 'Eat')
-            $body.wiki(consumeObj.consume.desc)
-        else {
-            switch (consumeObj.sDiff) {
-                case 2:
-                    $body.wiki(muchSmallerText[consumeObj.consume.method])
-                    break
-                case 1:
-                    $body.wiki(smallerText[consumeObj.consume.method])
-                    break
-                case 0:
-                    $body.wiki(sameText[consumeObj.consume.method])
-                    break
-                case -1:
-                    $body.wiki(largerText[consumeObj.consume.method])
-                    break
-                case -2:
-                    $body.wiki(muchLargerText[consumeObj.consume.method])
-                    break
-            }
-        }
+        $body.wiki(getVoreText(consumeObj.sDiff, getReplaceVoreSetting())[consumeObj.consume.method])
+
 
         _.each(consumeText, (text) => {
             $exp.append($('<span/>'))

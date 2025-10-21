@@ -3,6 +3,7 @@ import { calcWeight, sizeDiff } from "@controller/character/MeasurementControlle
 import { popup } from "@util/ModalPopup";
 import { combatReset, getExpText } from "@controller/combat/CombatController";
 import { infoBubble } from "@util/UISugar";
+import { getReplaceVoreSetting } from "@controller/character/CharacterController";
 import _ from "lodash";
 import { collectCapacity } from "@controller/character/CapacityController";
 
@@ -10,13 +11,29 @@ Macro.add('consumeEnemy', {
     skipArgs: false,
     handler: function () {
         let prey = reducePreyObject(this.args[0])
-        let { player, settings: { skip, warning }, return: passageReturn } = variables()
+        let { player, settings: { skip, warning }, return: passageReturn } = variables();
+
+        let EatText = {
+            Eat: 'You shove the enemy down your gullet',
+            Anal: 'You shove the enemy up your hole',
+            Unbirth: 'You shove the enemy up your lady bits.',
+            Urethral: 'You shove the enemy in your man bits',
+        }
+
+        if(getReplaceVoreSetting()){
+            EatText = {
+                Eat: 'You channel the enemy\'s aura into your body',
+                Anal: 'You channel the enemy\'s aura and focus specifically on your ass',
+                Unbirth: 'You channel the enemy\'s aura and focus specifically on your lady bits.',
+                Urethral: 'You channel the enemy\'s aura and focus specifically on your man bits',
+            }
+        }        
 
         let consume = [
-            { method: 'Eat', gen: '', desc: `You shove the enemy down your gullet.`, capacity: 'stomach' },
-            { method: 'Anal', gen: '', desc: `You shove the enemy up your hole`, capacity: 'stomach' },
-            { method: 'Unbirth', gen: 'vagina', desc: `You shove the enemy up your lady bits.`, capacity: 'womb' },
-            { method: 'Urethral', gen: 'penis', desc: `You shove the enemy in your man bits`, capacity: 'testi' }
+            { method: 'Eat', gen: '', desc: EatText.Eat, capacity: 'stomach' },
+            { method: 'Anal', gen: '', desc: EatText.Anal, capacity: 'stomach' },
+            { method: 'Unbirth', gen: 'vagina', desc: EatText.Unbirth, capacity: 'womb' },
+            { method: 'Urethral', gen: 'penis', desc: EatText.Urethral, capacity: 'testi' }
         ]
 
         _.each(consume, (con) => {
