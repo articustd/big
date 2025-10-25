@@ -3,13 +3,23 @@ import { logger } from "@util/Logging"
 import _ from "lodash"
 
 /* Item Logic */
-export function rollItems({ loot }, credits, text = []) {
+
+
+/**
+ * Grants rewards to target entity (the player)
+ * @param {object} loot - Items from the loot pool
+ * @param {int} credits - Amount of credits to be awarded to the entity (player)
+ * @param {object} player - Player entity variable
+ * @param {string} text - Text to be displayed
+ * @returns 
+ */
+export function rollItems({ loot }, credits, player, text = []) {
 	_.each(loot, ({ id, qty }) => {
 		qty = _.random(1, qty)
 		addToInventory({ id, qty })
 		text.push(`${qty} ${items[id].name}`)
 	})
-	addCredits(credits)
+	addCredits(credits, player)
 	text.push(`${credits} credits`)
 	return text
 }

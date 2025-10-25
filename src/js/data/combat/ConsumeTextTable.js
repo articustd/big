@@ -1,7 +1,11 @@
 let voreText
 
-//Gets descriptions of the player voring opponents based on the size difference from ranging -2 (much larger) to 2 (much smaller), and a boolean replacing vore with an alternative
-//Returns an object containing strings with different results: Eat, Anal, Unbirth, Urethral
+/**
+ * Gets descriptions of the player voring opponents based on the size difference 
+ * 
+ * @param {Number} sizeDiff - Size difference, range: -2 (much larger) to 2 (much smaller)
+ * @param {Boolean} replaceVore - Replaces vore text with an alternative
+ */
 export function getVoreText(sizeDiff,  replaceVore){
     let introText
     switch (sizeDiff){

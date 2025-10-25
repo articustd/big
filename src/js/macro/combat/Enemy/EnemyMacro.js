@@ -35,7 +35,7 @@ function checkWilling(playerSkills, enemy) {
         if (rand <= willing) {
             variables().win = true
             variables().combat = false
-            variables().foundItems = rollItems(variables().enemy.loot, variables().enemy.credits)
+            variables().foundItems = rollItems(variables().enemy.loot, variables().enemy.credits, variables().player)
             variables().enemyCombatLog = [`${variables().enemy.name} has submitted and is willing`]
             variables().willing = true
         }

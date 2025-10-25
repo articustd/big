@@ -20,7 +20,7 @@
         <<iconMacro "store" "inline-icon">>Store<<set $storeId to 0>>
     </button><br />
     <button class="full-width" data-passage="pawn">
-        <<iconMacro "store" "inline-icon">>Pawn Shop
+        <<iconMacro "cash" "inline-icon">>Pawn Shop
     </button><br />
     <div>
         <<iconMacro "back" "inline-icon inline-icon-overlay">>

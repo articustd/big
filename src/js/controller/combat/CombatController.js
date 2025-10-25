@@ -43,7 +43,7 @@ export function combatRoll(playerAttack) {
 				combatResults: `You took a blow to the head and begin to pass out. As you pass out, you feel all your experience fading away.`
 			})
 		else
-			setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy, enemy.credits) })
+			setState({ combat: false, win: true, combatResults: `You've knocked out your enemy!`, foundItems: rollItems(enemy, enemy.credits, player) })
 
 		variables().player.statusEffect = []
 	}
